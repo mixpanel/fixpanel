@@ -1,12 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 // import { btnTrack, pageTrack } from "../components/Track";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Modal } from "@/components/Modal";
+// import mixpanel from "mixpanel-browser";
+type Variant = "A" | "B" | "C" | "Control";
+import mixpanel from "mixpanel-browser";
+import { initMixpanel } from "../lib/utils";
+
 import {
   ChartBarIcon,
   ShieldCheckIcon,
@@ -17,6 +23,7 @@ import {
   CookieIcon,
   GemIcon,
   WalletIcon,
+  FlagIcon,
 } from "lucide-react";
 
 import fooImage from "./images/foo.png";
@@ -24,10 +31,13 @@ import barImage from "./images/bar.png";
 import bazImage from "./images/baz.png";
 import heroImage from "./images/hero.png";
 import themImage from "./images/them.png";
+import React from "react";
 
 export default function HomePage() {
   const [fortune, setFortune] = useState("");
   const [tagline, setTagline] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [variant, setVariant] = useState<Variant | null>(null);
 
   const fortunes = [
     "Smart budgeting today leads to a wealthier tomorrow.",
@@ -37,15 +47,83 @@ export default function HomePage() {
     "Your careful analysis will soon lead to significant savings.",
   ];
 
+  //   FEATURE FLAGS ORCHESTRATOR
   useEffect(() => {
-    // pageTrack("home");
+    initMixpanel()
+      .then(() => mixpanel.flags.get_feature_data("rice_food"))
+      .then((flagData) => {
+        console.log("Mixpanel flags data:", flagData);
+        setVariant(flagData as Variant);
+      })
+      .catch((err) => {
+        console.error("Mixpanel flags error:", err);
+        setVariant("Control");
+      });
   }, []);
+
+  //   FEATURE FLAG DATA
+  const modalConfig = useMemo(() => {
+    switch (variant) {
+      case "A":
+        return {
+          headline: "“FixPanel Supercharged My Savings!”",
+          tagline: "— Sarah L., Small Business Owner",
+          copy: "“Thanks to FixPanel’s automated insights, I uncovered $15K in wasted fees last quarter. My bottom line has never looked better.”",
+          color: "#1C782D", // deep green border
+          bgColor: "#E6F9F0", // very light mint
+          copyColor: "#0F2D13", // dark forest text
+          cancelText: "Not Now",
+          confirmText: "Read Sarah’s Story",
+          imgUrl: "/testimonials/sarah.jpg",
+        };
+
+      case "B":
+        return {
+          headline: "“Investment ROI: 3× in 90 Days”",
+          tagline: "— Marco P., Freelance Designer",
+          copy: "“I was skeptical, but FixPanel’s data-driven portfolio suggestions tripled my returns in under three months.”",
+          color: "#7856FF", // purple
+          bgColor: "#F3E8FF", // lavender wash
+          copyColor: "#2E004E", // deep purple text
+          cancelText: "Maybe Later",
+          confirmText: "See Marco’s Portfolio",
+          imgUrl: "/testimonials/marco.jpg",
+        };
+
+      case "C":
+        return {
+          headline: "“Zero Debt in 6 Months”",
+          tagline: "— Priya S., Marketing Manager",
+          copy: "“With FixPanel’s budgeting wizard, I paid off $23K in credit-card debt faster than I ever thought possible.”",
+          color: "#CC332B", // red
+          bgColor: "#FFEFEF", // blush pink
+          copyColor: "#3C0F0A", // dark burgundy text
+          cancelText: "Decline",
+          confirmText: "Learn Priya’s Plan",
+          imgUrl: "/testimonials/priya.jpg",
+        };
+
+      default:
+        // Control
+        return {
+          headline: "“Join Thousands of Success Stories”",
+          tagline: "— Our Community",
+          copy: "“From debt payoff to wealth building, FixPanel’s users are achieving their financial goals at record speed.”",
+          color: "#07B096", // teal
+          bgColor: "#E8FBF7", // seafoam
+          copyColor: "#00332E", // dark teal text
+          cancelText: "Dismiss",
+          confirmText: "Explore Testimonials",
+          imgUrl: "/testimonials/group.jpg",
+        };
+    }
+  }, [variant]);
 
   useEffect(() => {
     const taglines = [
       "Fix Your Finances with Data-Driven Insights.",
       "Track Every Dollar, Analyze Every Decision",
-      "Your Money, Our Insights, Joint control of Financal Flows.",
+      "Your Money, Our Insights, Joint control of Financial Flows.",
       "Credit Lines as a financial Retention Strategy",
       "Convert your Savings into Investments",
     ];
@@ -99,6 +177,28 @@ export default function HomePage() {
                     Member Login
                   </Button>
                 </Link>
+              </div>
+              <div>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-white text-[#CC332B] hover:bg-white/20"                 
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <FlagIcon className="pr-2" />
+                  Customer Stories
+                </Button>
+
+                {/* Modal */}
+                {isModalOpen && (
+                  <Modal
+				  	{...modalConfig}                    
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={() => {
+                      window.location.href = "/products";
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -330,7 +430,7 @@ export default function HomePage() {
                 <Link href="/products">
                   <Button
                     // onClick={btnTrack}
-					id="exploreProducts"
+                    id="exploreProducts"
                     size="lg"
                     variant="outline"
                     className="border-[#07B096] text-[#07B096] hover:bg-[#07B096]/10"
