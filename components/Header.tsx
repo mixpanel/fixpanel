@@ -42,6 +42,20 @@ export function Header() {
           About
         </Link>
         <Link
+          className="text-sm font-medium hover:underline underline-offset-4"
+          href="#"
+          onClick={() => {
+            mixpanel.track("END OF USER");
+            mixpanel.reset();
+            mixpanel.track("NEW USER");
+            window.scrollTo(0, 0);
+            window.location.reload();
+          }}
+        >
+          Reset
+        </Link>
+
+        <Link
           className="text-sm font-medium hover:underline underline-offset-4 text-purple-500"
           href={getMixpanelUrl()}
           target="_blank"

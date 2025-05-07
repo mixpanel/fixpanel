@@ -30,6 +30,7 @@ export function initMixpanel(): Promise<typeof mixpanel> {
 
     mixpanel.init(MIXPANEL_TOKEN, {
       // flags
+	  //@ts-ignore
       flags: {
         context: {
           // default: { distinct_id: mixpanel.get_distinct_id() }
@@ -58,22 +59,22 @@ export function initMixpanel(): Promise<typeof mixpanel> {
       ignore_dnt: true,
       batch_flush_interval_ms: 0,
       api_host: MIXPANEL_PROXY,
-      debug: true,
+      debug: false,
       api_payload_format: "json",
       api_transport: "XHR",
       persistence: "localStorage",
 
       loaded: (mp: any) => {
-        console.log("\nMIXPANEL HATH LOADED\n");
+        console.log("\n[MIXPANEL]: LOADED\n");
         if (typeof window !== "undefined") {
-          console.log("\nMIXPANEL HATH BEEN EXPOSED\n");
+          console.log("\n[MIXPANEL]: EXPOSED GLOBALLY\n");
           // expose for debugging
           // @ts-ignore
           window.mixpanel = mp;
         }
         // @ts-ignore
         window.RESET = function () {
-          console.log("\nMIXPANEL WILL RESET AND PAGE WILL REFRESH\n");
+          console.log("\n[MIXPANEL] RESETTING\n");
           mp.reset();
           window.location.reload();
         };

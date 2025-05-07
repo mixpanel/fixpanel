@@ -54,8 +54,8 @@ export const Modal: React.FC<ModalProps> = ({
           <img
             src={imgUrl}
             alt=""
-            className="mb-4 w-full max-h-48 object-cover rounded"
-          />
+			className="mb-4 w-full max-h-24 max-w-20 object-cover rounded mx-auto"
+			/>
         )}
 
         <p className="text-base mb-6">{copy}</p>
