@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixpanel SDK Demo</title>
+    <style>
+        :root {
+            /* Mixpanel Dark Mode Colors */
+            --bg-primary: #0D1116;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --bg-card: #161B22;
+
+            --text-primary: #F0F6FC;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+
+            --border-primary: #30363D;
+            --border-secondary: #21262D;
+
+            --accent-purple: #8B5CF6;
+            --accent-purple-hover: #7C3AED;
+            --accent-purple-light: #A78BFA;
+
+            --success: #238636;
+            --success-light: #2DA44E;
+            --warning: #D1742F;
+            --error: #DA3633;
+
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+            --font-mono: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            --font-sans: "Apercu Pro", "Helvetica Neue", Helvetica, Tahoma, Geneva, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            margin: 0;
+            padding: 0;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 24px 32px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0 0 8px 0;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header .logo {
+            color: var(--accent-purple);
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        .header p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            min-height: calc(100vh - 120px);
+        }
+
+        .left-panel {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-primary);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .right-panel {
+            background: var(--bg-primary);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .section {
+            margin-bottom: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .section h3 {
+            margin: 0 0 16px 0;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-icon {
+            font-size: 18px;
+        }
+
+        .button {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: var(--font-sans);
+            margin: 4px 4px 4px 0;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .button:hover {
+            background: var(--accent-purple-hover);
+            transform: translateY(-1px);
+        }
+
+        .button.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-primary);
+        }
+
+        .button.secondary:hover {
+            background: var(--border-primary);
+            color: var(--text-primary);
+        }
+
+        .button.danger {
+            background: var(--error);
+            color: white;
+        }
+
+        .button.danger:hover {
+            background: #c53030;
+        }
+
+        .input-group {
+            margin: 16px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: var(--font-sans);
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .status {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.4;
+            border-left: 4px solid;
+        }
+
+        .status.info {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--accent-purple);
+            color: var(--accent-purple-light);
+        }
+
+        .status.success {
+            background: rgba(35, 134, 54, 0.1);
+            border-color: var(--success);
+            color: var(--success-light);
+        }
+
+        .status.warning {
+            background: rgba(209, 116, 47, 0.1);
+            border-color: var(--warning);
+            color: #fb923c;
+        }
+
+        .status.error {
+            background: rgba(218, 54, 51, 0.1);
+            border-color: var(--error);
+            color: #fca5a5;
+        }
+
+        .console-log {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--border-primary);
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 16px 0;
+        }
+
+        .console-log .log-entry {
+            margin: 2px 0;
+            padding: 2px 0;
+        }
+
+        .console-log .log-mixpanel {
+            color: var(--accent-purple-light);
+        }
+
+        .console-log .log-error {
+            color: #fca5a5;
+        }
+
+        .console-log .log-warn {
+            color: #fb923c;
+        }
+
+        .flag-demo {
+            background: var(--bg-card);
+            border: 2px dashed var(--border-primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            text-align: center;
+        }
+
+        .flag-content {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        .variant-a {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: white;
+        }
+
+        .variant-b {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+        }
+
+        .variant-c {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+        }
+
+        .control {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-primary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .left-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--border-primary);
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 16px 20px;
+            }
+
+            .left-panel, .right-panel {
+                padding: 16px;
+            }
+
+            .section {
+                padding: 16px;
+            }
+        }
+    </style>
+
+    <!-- Mixpanel SDK -->
+    <script type="text/javascript">
+        (function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user flags.get_feature_data flags.get_variant_value flags.is_enabled".split(" ");for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="logo">🚩</span>Mixpanel Feature Flags Demo</h1>
+            <p>Interactive playground to learn feature flags, tracking, and user identification</p>
+        </div>
+
+        <div class="content">
+            <div class="left-panel">
+                <!-- SDK Configuration -->
+                <div class="section">
+                    <h3><span class="section-icon">🔧</span>SDK Configuration</h3>
+                    <div class="input-group">
+                        <label for="token">Project Token:</label>
+                        <input type="text" id="token" value="7c02ad22ae575ab4e15cdd052cd730fb" placeholder="Your Mixpanel project token">
+                    </div>
+                    <div class="input-group">
+                        <label for="userId">User ID (distinct_id):</label>
+                        <input type="text" id="userId" value="" placeholder="Enter user ID (optional)">
+                    </div>
+                    <div class="input-group">
+                        <label for="debug">Debug Mode:</label>
+                        <select id="debug">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                    <div class="grid-2">
+                        <button class="button" onclick="initializeMixpanel()">Initialize Mixpanel</button>
+                        <button class="button danger" onclick="resetDemo()">🔄 Reset & Nuke</button>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="section">
+                    <h3><span class="section-icon">👤</span>User Management</h3>
+                    <div class="grid-2">
+                        <button class="button" onclick="identifyUser()">Identify User</button>
+                        <button class="button" onclick="resetUser()">Reset User</button>
+                    </div>
+                    <div class="input-group">
+                        <label for="userProps">User Properties (JSON):</label>
+                        <input type="text" id="userProps" value='{"name": "Demo User", "plan": "premium"}' placeholder='{"key": "value"}'>
+                    </div>
+                    <button class="button" onclick="setUserProperties()">Set User Properties</button>
+                </div>
+
+                <!-- Feature Flag Testing -->
+                <div class="section">
+                    <h3><span class="section-icon">🚩</span>Feature Flag Testing</h3>
+                    <div class="input-group">
+                        <label for="flagKey">Flag Key:</label>
+                        <input type="text" id="flagKey" value="exp_customerStory" placeholder="feature_flag_key">
+                    </div>
+                    <div class="input-group">
+                        <label for="fallbackValue">Fallback Value:</label>
+                        <input type="text" id="fallbackValue" value="control" placeholder="control">
+                    </div>
+                    <div class="grid-2">
+                        <button class="button" onclick="getFeatureFlag()">Get Flag Value</button>
+                        <button class="button" onclick="checkFlagEnabled()">Check If Enabled</button>
+                    </div>
+                    <button class="button" onclick="getAllFeatureData()">Get Flag Data</button>
+                </div>
+
+                <!-- Event Tracking -->
+                <div class="section">
+                    <h3><span class="section-icon">📊</span>Event Tracking</h3>
+                    <div class="input-group">
+                        <label for="eventName">Event Name:</label>
+                        <input type="text" id="eventName" value="Button Clicked" placeholder="Event Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="eventProps">Event Properties (JSON):</label>
+                        <input type="text" id="eventProps" value='{"source": "demo", "variant": "A"}' placeholder='{"key": "value"}'>
+                    </div>
+                    <div class="grid-2">
+                        <button class="button" onclick="trackEvent()">Track Event</button>
+                        <button class="button" onclick="trackPageView()">Track Page View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <!-- Status Display -->
+                <div class="section">
+                    <h3><span class="section-icon">📱</span>Demo Status</h3>
+                    <div id="status-display">
+                        <div class="status info">Ready to initialize Mixpanel SDK... (Completely vanilla state - no auto-tracking)</div>
+                    </div>
+                </div>
+
+                <!-- Feature Flag Demo Content -->
+                <div class="section">
+                    <h3><span class="section-icon">🎨</span>Feature Flag Demo Content</h3>
+                    <div id="flag-demo-area" class="flag-demo">
+                        <div class="flag-content control">
+                            <h4>Default Experience (Control)</h4>
+                            <p>This is what users see when no feature flag is active or when they're in the control group.</p>
+                        </div>
+                    </div>
+                    <button class="button" onclick="updateFlagContent()">Refresh Flag Content</button>
+                </div>
+
+                <!-- Console Output -->
+                <div class="section">
+                    <h3><span class="section-icon">💻</span>Console Output</h3>
+                    <div id="console-output" class="console-log">
+                        <div class="log-entry">Console output will appear here...</div>
+                    </div>
+                    <button class="button secondary" onclick="clearConsole()">Clear Console</button>
+                </div>
+
+                <!-- SDK Methods Demo -->
+                <div class="section">
+                    <h3><span class="section-icon">🛠️</span>Quick Actions</h3>
+                    <div class="grid-3">
+                        <button class="button secondary" onclick="getDistinctId()">Get Distinct ID</button>
+                        <button class="button secondary" onclick="getDeviceId()">Get Device ID</button>
+                        <button class="button secondary" onclick="enableAutoCapture()">Enable Auto-Capture</button>
+                        <button class="button secondary" onclick="startSessionRecording()">Start Recording</button>
+                        <button class="button secondary" onclick="stopSessionRecording()">Stop Recording</button>
+                        <button class="button secondary" onclick="viewAllMethods()">View All Methods</button>
+                    </div>
+                </div>
+
+                <!-- SDK Console -->
+                <div class="section">
+                    <h3><span class="section-icon">💻</span>SDK Console</h3>
+                    <div class="input-group">
+                        <label for="consoleCommand">Execute Mixpanel Command:</label>
+                        <input type="text" id="consoleCommand" placeholder="mixpanel.get_property('$device_id')" autocomplete="off">
+                    </div>
+                    <div class="grid-2">
+                        <button class="button" onclick="executeConsoleCommand()">Execute</button>
+                        <button class="button secondary" onclick="clearCommandHistory()">Clear History</button>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted);">
+                        Examples: <code>mixpanel.get_distinct_id()</code>, <code>mixpanel.get_property('$device_id')</code>, <code>mixpanel.track('test')</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let mixpanelInitialized = false;
+        let autoCaptureEnabled = false;
+        let consoleOutput = document.getElementById('console-output');
+        let statusDisplay = document.getElementById('status-display');
+
+        // Utility functions
+        function logToConsole(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logClass = type === 'error' ? 'log-error' : type === 'warn' ? 'log-warn' : type === 'mixpanel' ? 'log-mixpanel' : '';
+            consoleOutput.innerHTML += `<div class="log-entry ${logClass}">[${timestamp}] ${message}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+
+            // Also log to browser console
+            console.log(`[MIXPANEL DEMO] ${message}`);
+        }
+
+        function updateStatus(message, type = 'info') {
+            statusDisplay.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function parseJSON(str) {
+            try {
+                return JSON.parse(str);
+            } catch (e) {
+                logToConsole(`Invalid JSON: ${e.message}`, 'error');
+                return null;
+            }
+        }
+
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const result = {};
+            for (const [key, value] of params) {
+                result[key] = value;
+            }
+            return result;
+        }
+
+        // Initialize Mixpanel - VANILLA STATE (no auto-tracking by default)
+        function initializeMixpanel() {
+            const token = document.getElementById('token').value;
+            const debug = document.getElementById('debug').value === 'true';
+
+            if (!token) {
+                updateStatus('Please enter a project token', 'error');
+                return;
+            }
+
+            updateStatus('Initializing Mixpanel SDK...', 'info');
+            logToConsole('Starting Mixpanel initialization (vanilla state - no auto-tracking)...', 'mixpanel');
+
+            // Clear any existing Mixpanel data to ensure truly vanilla state
+            try {
+                const mixpanelKeys = Object.keys(localStorage).filter(key => key.startsWith('mp_'));
+                mixpanelKeys.forEach(key => localStorage.removeItem(key));
+                if (mixpanelKeys.length > 0) {
+                    logToConsole(`Cleared ${mixpanelKeys.length} existing Mixpanel localStorage keys for vanilla state`, 'mixpanel');
+                }
+            } catch (e) {
+                logToConsole('Could not clear localStorage (might not be available)', 'warn');
+            }
+
+            try {
+                const config = {
+                    debug: debug,
+
+                    // Enable feature flags but no user context initially (vanilla state)
+                    // This ensures Mixpanel generates a random distinct_id
+                    flags: true,
+
+                    // NO AUTO-CAPTURE by default (vanilla state)
+                    autocapture: false,
+                    record_heatmap_data: false,
+
+                    // NO SESSION REPLAY by default (vanilla state)
+                    record_sessions_percent: 0,
+                    record_inline_images: false,
+                    record_collect_fonts: false,
+
+                    // General settings
+                    ignore_dnt: true,
+                    batch_flush_interval_ms: 0,
+                    api_host: "https://express-proxy-lmozz6xkha-uc.a.run.app",
+                    api_payload_format: "json",
+                    api_transport: "XHR",
+                    persistence: "localStorage",
+
+                    loaded: function(mp) {
+                        mixpanelInitialized = true;
+                        logToConsole('✅ Mixpanel SDK loaded successfully! (Vanilla state)', 'mixpanel');
+                        logToConsole(`Distinct ID: ${mp.get_distinct_id()}`, 'mixpanel');
+                        logToConsole(`Device ID: ${mp.get_property('$device_id')}`, 'mixpanel');
+
+                        updateStatus('✅ Mixpanel initialized successfully! (Vanilla - no auto-tracking)', 'success');
+
+                        // Expose globally for debugging
+                        window.mixpanel = mp;
+
+                        // Monkey patch methods for logging
+                        setupLoggingPatches(mp);
+
+                        // NO auto-tracking or session recording by default
+                        logToConsole('Auto-capture: DISABLED (vanilla state)', 'mixpanel');
+                        logToConsole('Session recording: DISABLED (vanilla state)', 'mixpanel');
+
+                        // VANILLA STATE - no automatic user identification
+                        logToConsole('Vanilla state - completely anonymous user', 'mixpanel');
+                        logToConsole('Use "Identify User" button to manually set user ID', 'mixpanel');
+
+                        // NO auto page load tracking - completely vanilla
+                        logToConsole('No automatic page load tracking (vanilla state)', 'mixpanel');
+
+                        // Update flag content
+                        updateFlagContent();
+                    }
+                };
+
+                mixpanel.init(token, config);
+
+            } catch (error) {
+                updateStatus(`Initialization failed: ${error.message}`, 'error');
+                logToConsole(`Initialization error: ${error.message}`, 'error');
+            }
+        }
+
+        // Setup logging patches
+        function setupLoggingPatches(mp) {
+            // Monkey patch track
+            const originalTrack = mp.track;
+            mp.track = function(event, props) {
+                if (typeof props !== "object" || !props) props = {};
+                if (Object.keys(props).length === 0) {
+                    logToConsole(`📊 EVENT: ${event}`, 'mixpanel');
+                } else {
+                    logToConsole(`📊 EVENT: ${event} | Props: ${JSON.stringify(props)}`, 'mixpanel');
+                }
+                originalTrack.call(mp, event, props);
+            };
+
+            // Monkey patch identify
+            const originalIdentify = mp.identify;
+            mp.identify = function(distinctId) {
+                logToConsole(`👤 IDENTIFY: ${distinctId}`, 'mixpanel');
+                originalIdentify.call(mp, distinctId);
+            };
+
+            // Monkey patch people.set
+            const originalPeopleSet = mp.people.set;
+            mp.people.set = function(props) {
+                if (typeof props !== "object" || !props) props = {};
+                logToConsole(`👥 PEOPLE SET: ${JSON.stringify(props)}`, 'mixpanel');
+                originalPeopleSet.call(mp, props);
+            };
+
+            // Setup global reset function - PROPER NUKE
+            window.RESET = function() {
+                logToConsole('🔄 NUKING Mixpanel (reset + reload)...', 'mixpanel');
+
+                if (window.mixpanel && window.mixpanel.reset) {
+                    // Stop any recording first
+                    try {
+                        window.mixpanel.stop_session_recording();
+                        logToConsole('Session recording stopped', 'mixpanel');
+                    } catch (e) {}
+
+                    // Reset the SDK
+                    window.mixpanel.reset();
+                    logToConsole('Mixpanel reset called', 'mixpanel');
+                }
+
+                // Clear local storage
+                try {
+                    localStorage.clear();
+                    logToConsole('LocalStorage cleared', 'mixpanel');
+                } catch (e) {}
+
+                // Wait and reload
+                setTimeout(() => {
+                    logToConsole('Reloading page...', 'mixpanel');
+                    window.location.reload();
+                }, 1000);
+            };
+        }
+
+        // Enable auto-capture manually
+        function enableAutoCapture() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            if (autoCaptureEnabled) {
+                updateStatus('Auto-capture is already enabled', 'warning');
+                return;
+            }
+
+            // Manually set up auto-capture
+            mixpanel.set_config({
+                autocapture: {
+                    pageview: "full-url",
+                    click: true,
+                    input: true,
+                    scroll: true,
+                    submit: true,
+                    capture_text_content: true,
+                },
+                record_heatmap_data: true
+            });
+
+            autoCaptureEnabled = true;
+            logToConsole('🔥 Auto-capture ENABLED manually', 'mixpanel');
+            updateStatus('Auto-capture enabled! Now tracking clicks, forms, scrolls automatically', 'success');
+        }
+
+        // View all available methods
+        function viewAllMethods() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            logToConsole('🔍 Available Mixpanel methods:', 'mixpanel');
+
+            const methods = [
+                'track', 'track_pageview', 'track_links', 'track_forms',
+                'identify', 'alias', 'register', 'register_once',
+                'people.set', 'people.set_once', 'people.increment', 'people.append',
+                'flags.get_variant_value', 'flags.is_enabled',
+                'start_session_recording', 'stop_session_recording',
+                'get_distinct_id', 'get_property', 'reset', 'opt_in_tracking', 'opt_out_tracking'
+            ];
+
+            methods.forEach(method => {
+                logToConsole(`  • mixpanel.${method}()`, 'mixpanel');
+            });
+
+            updateStatus('All available methods logged to console', 'success');
+        }
+
+        // Feature flag functions
+        async function getFeatureFlag() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const flagKey = document.getElementById('flagKey').value;
+            const fallbackValue = document.getElementById('fallbackValue').value;
+
+            if (!flagKey) {
+                updateStatus('Please enter a flag key', 'warning');
+                return;
+            }
+
+            try {
+                logToConsole(`🚩 Getting flag: ${flagKey}`, 'mixpanel');
+                const variant = await mixpanel.flags.get_variant_value(flagKey, fallbackValue);
+                logToConsole(`🚩 Flag result: ${variant}`, 'mixpanel');
+                updateStatus(`Flag "${flagKey}" returned: ${variant}`, 'success');
+
+                // Update the demo content based on flag
+                updateFlagContentWithVariant(variant);
+
+            } catch (error) {
+                logToConsole(`🚩 Flag error: ${error.message}`, 'error');
+                updateStatus(`Flag error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkFlagEnabled() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const flagKey = document.getElementById('flagKey').value;
+
+            if (!flagKey) {
+                updateStatus('Please enter a flag key', 'warning');
+                return;
+            }
+
+            try {
+                logToConsole(`🚩 Checking if flag enabled: ${flagKey}`, 'mixpanel');
+                const isEnabled = await mixpanel.flags.is_enabled(flagKey);
+                logToConsole(`🚩 Flag enabled: ${isEnabled}`, 'mixpanel');
+                updateStatus(`Flag "${flagKey}" is ${isEnabled ? 'enabled' : 'disabled'}`, isEnabled ? 'success' : 'warning');
+
+            } catch (error) {
+                logToConsole(`🚩 Flag check error: ${error.message}`, 'error');
+                updateStatus(`Flag check error: ${error.message}`, 'error');
+            }
+        }
+
+        async function getAllFeatureData() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            try {
+                logToConsole('🚩 Getting flag data (using get_variant_value)...', 'mixpanel');
+
+                // Since get_feature_data() is deprecated, we'll demonstrate getting specific flags
+                const flagKey = document.getElementById('flagKey').value || 'exp_customerStory';
+                const fallbackValue = document.getElementById('fallbackValue').value || 'control';
+
+                const variant = await mixpanel.flags.get_variant_value(flagKey, fallbackValue);
+
+                logToConsole(`🚩 Flag "${flagKey}": ${variant}`, 'mixpanel');
+                logToConsole('Note: get_feature_data() is deprecated - use get_variant_value() for specific flags', 'warn');
+                updateStatus(`Flag "${flagKey}" retrieved: ${variant}`, 'success');
+
+            } catch (error) {
+                logToConsole(`🚩 Flag error: ${error.message}`, 'error');
+                updateStatus(`Flag error: ${error.message}`, 'error');
+            }
+        }
+
+        // Update flag content based on variant
+        function updateFlagContentWithVariant(variant) {
+            const flagArea = document.getElementById('flag-demo-area');
+            let content = '';
+
+            switch(variant) {
+                case 'sarah story (A)':
+                case 'variant_a':
+                case 'A':
+                    content = `
+                        <div class="flag-content variant-a">
+                            <h4>🌟 Variant A: Sarah's Success Story</h4>
+                            <p>"FixPanel supercharged my savings! Thanks to automated insights, I saved $5,000 in just 3 months!"</p>
+                            <p><strong>- Sarah L., Small Business Owner</strong></p>
+                        </div>
+                    `;
+                    break;
+                case 'marco portfolio (B)':
+                case 'variant_b':
+                case 'B':
+                    content = `
+                        <div class="flag-content variant-b">
+                            <h4>📈 Variant B: Marco's Investment Success</h4>
+                            <p>"Investment ROI: 3× in 90 Days! I was skeptical, but FixPanel's data-driven portfolio recommendations exceeded all expectations."</p>
+                            <p><strong>- Marco P., Freelance Designer</strong></p>
+                        </div>
+                    `;
+                    break;
+                case 'priya debt (C)':
+                case 'variant_c':
+                case 'C':
+                    content = `
+                        <div class="flag-content variant-c">
+                            <h4>💳 Variant C: Priya's Debt Freedom</h4>
+                            <p>"Zero Debt in 6 Months! With FixPanel's budgeting wizard, I paid off $23K and finally achieved financial freedom."</p>
+                            <p><strong>- Priya S., Marketing Manager</strong></p>
+                        </div>
+                    `;
+                    break;
+                default:
+                    content = `
+                        <div class="flag-content control">
+                            <h4>🏠 Control Group: Default Experience</h4>
+                            <p>This is the default experience when no feature flag variant is active or when users are in the control group.</p>
+                            <p><strong>Current variant: ${variant || 'control'}</strong></p>
+                        </div>
+                    `;
+            }
+
+            flagArea.innerHTML = content;
+        }
+
+        // Update flag content
+        async function updateFlagContent() {
+            if (!mixpanelInitialized) {
+                updateFlagContentWithVariant('control');
+                return;
+            }
+
+            const flagKey = document.getElementById('flagKey').value;
+            const fallbackValue = document.getElementById('fallbackValue').value;
+
+            if (flagKey) {
+                try {
+                    const variant = await mixpanel.flags.get_variant_value(flagKey, fallbackValue);
+                    updateFlagContentWithVariant(variant);
+                } catch (error) {
+                    updateFlagContentWithVariant('control');
+                }
+            } else {
+                updateFlagContentWithVariant('control');
+            }
+        }
+
+        // User management functions
+        function identifyUser() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                updateStatus('Please enter a user ID', 'warning');
+                return;
+            }
+
+            mixpanel.identify(userId);
+            updateStatus(`User identified: ${userId}`, 'success');
+        }
+
+        function resetUser() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            mixpanel.reset();
+            logToConsole('🔄 User reset', 'mixpanel');
+            updateStatus('User reset - new anonymous session started', 'success');
+        }
+
+        function setUserProperties() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const propsStr = document.getElementById('userProps').value;
+            const props = parseJSON(propsStr);
+
+            if (!props) {
+                updateStatus('Invalid JSON in user properties', 'error');
+                return;
+            }
+
+            mixpanel.people.set(props);
+            updateStatus('User properties set', 'success');
+        }
+
+        // Event tracking functions
+        function trackEvent() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const eventName = document.getElementById('eventName').value;
+            const propsStr = document.getElementById('eventProps').value;
+
+            if (!eventName) {
+                updateStatus('Please enter an event name', 'warning');
+                return;
+            }
+
+            const props = parseJSON(propsStr) || {};
+            mixpanel.track(eventName, props);
+            updateStatus(`Event tracked: ${eventName}`, 'success');
+        }
+
+        function trackPageView() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            mixpanel.track_pageview({
+                page: 'Feature Flags Demo',
+                url: window.location.href
+            });
+            updateStatus('Page view tracked', 'success');
+        }
+
+        // Utility functions
+        function getDistinctId() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const distinctId = mixpanel.get_distinct_id();
+            logToConsole(`Current distinct_id: ${distinctId}`, 'mixpanel');
+            updateStatus(`Distinct ID: ${distinctId}`, 'info');
+        }
+
+        function getDeviceId() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            const deviceId = mixpanel.get_property('$device_id');
+            logToConsole(`Device ID: ${deviceId}`, 'mixpanel');
+            updateStatus(`Device ID: ${deviceId}`, 'info');
+        }
+
+        function startSessionRecording() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            mixpanel.start_session_recording();
+            logToConsole('📹 Session recording started', 'mixpanel');
+            updateStatus('Session recording started', 'success');
+        }
+
+        function stopSessionRecording() {
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            mixpanel.stop_session_recording();
+            logToConsole('⏹️ Session recording stopped', 'mixpanel');
+            updateStatus('Session recording stopped', 'warning');
+        }
+
+        function clearConsole() {
+            consoleOutput.innerHTML = '<div class="log-entry">Console cleared...</div>';
+        }
+
+        // SDK Console functions
+        function executeConsoleCommand() {
+            const command = document.getElementById('consoleCommand').value.trim();
+
+            if (!command) {
+                updateStatus('Please enter a command', 'warning');
+                return;
+            }
+
+            if (!mixpanelInitialized) {
+                updateStatus('Please initialize Mixpanel first', 'warning');
+                return;
+            }
+
+            logToConsole(`> ${command}`, 'info');
+
+            try {
+                // Safely evaluate the command in the context of window
+                let result;
+
+                // Handle async commands (like flags methods)
+                if (command.includes('flags.') || command.includes('await')) {
+                    // For async commands, we'll use eval but warn about it
+                    (async () => {
+                        try {
+                            const asyncResult = await eval(command);
+                            const resultStr = typeof asyncResult === 'object' ? JSON.stringify(asyncResult, null, 2) : String(asyncResult);
+                            logToConsole(`← ${resultStr}`, 'mixpanel');
+                            updateStatus(`Command executed: ${command}`, 'success');
+                        } catch (error) {
+                            logToConsole(`✗ Error: ${error.message}`, 'error');
+                            updateStatus(`Command failed: ${error.message}`, 'error');
+                        }
+                    })();
+                } else {
+                    // For sync commands
+                    result = eval(command);
+                    const resultStr = typeof result === 'object' ? JSON.stringify(result, null, 2) : String(result);
+                    logToConsole(`← ${resultStr}`, 'mixpanel');
+                    updateStatus(`Command executed: ${command}`, 'success');
+                }
+
+                // Clear the input
+                document.getElementById('consoleCommand').value = '';
+
+            } catch (error) {
+                logToConsole(`✗ Error: ${error.message}`, 'error');
+                updateStatus(`Command failed: ${error.message}`, 'error');
+            }
+        }
+
+        function clearCommandHistory() {
+            // Clear just the command input
+            document.getElementById('consoleCommand').value = '';
+            updateStatus('Command input cleared', 'info');
+        }
+
+        // Add Enter key support for console commands
+        window.addEventListener('load', function() {
+            const commandInput = document.getElementById('consoleCommand');
+            if (commandInput) {
+                commandInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        executeConsoleCommand();
+                    }
+                });
+            }
+        });
+
+        function resetDemo() {
+            if (mixpanelInitialized && window.RESET) {
+                window.RESET();
+            } else {
+                logToConsole('Reloading page (no Mixpanel to reset)...', 'info');
+                window.location.reload();
+            }
+        }
+
+        // Initialize on page load - NO AUTO-INITIALIZATION
+        window.addEventListener('load', function() {
+            // logToConsole('🚀 Mixpanel SDK Demo loaded', 'info');
+            // logToConsole('Mixpanel snippet loaded - window.mixpanel available for console use', 'info');
+            // logToConsole('Click "Initialize Mixpanel" to start the SDK (vanilla state)', 'info');
+
+            // VANILLA STATE - no auto-population of user ID
+            // Users must manually enter user ID if they want to identify
+            const urlParams = getUrlParams();
+            if (urlParams.user) {
+                logToConsole(`URL param 'user=${urlParams.user}' detected but not auto-applied (vanilla state)`, 'info');
+                logToConsole('Manually enter user ID and click "Identify User" if desired', 'info');
+            }
+
+            // Ensure the stub mixpanel is available in console immediately
+            if (window.mixpanel) {
+                // logToConsole('window.mixpanel stub ready for console commands', 'info');
+            }
+        });
+    </script>
+</body>
+</html>

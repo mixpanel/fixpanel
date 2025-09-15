@@ -1,6 +1,34 @@
-# 🔧 FixPanel 
+# 🔧 FixPanel
 
-Welcome to **FixPanel**, a modern, React + Next.js + Tailwind demo site for a fictional finance company. It showcases the power of [Mixpanel’s SDKs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript) and core capabilities implemented in a modern web app. 
+Welcome to **FixPanel**, a modern, React + Next.js + Tailwind demo site for a fictional finance company. It showcases the power of [Mixpanel's SDKs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript) and core capabilities implemented in a modern web app.
+
+## 🚀 Quick Start (Hello World Demo)
+
+**Want to try the Mixpanel SDK instantly?** Skip the full setup and run our simple feature flags demo:
+
+```bash
+# 1. Clone and install
+git clone https://github.com/ak--47/fixpanel.git
+cd fixpanel
+npm install
+
+# 2. Start the hello-world demo (serves on random port)
+npm run hello-world
+```
+
+**That's it!** Open the URL shown in terminal (e.g., `http://localhost:62932`) for an interactive Mixpanel SDK playground.
+
+### What you get:
+- **🚩 Feature Flags Demo** - Test `mixpanel.flags.get_variant_value()` with live variants
+- **📊 Event Tracking** - Track custom events and see them in real-time
+- **👤 User Management** - Practice identify, people properties, and reset
+- **💻 Console Access** - Use `window.mixpanel` commands directly in browser
+- **🌙 Dark Mode UI** - Matches Mixpanel's product design
+- **📝 Live Logging** - See every SDK call with transparent debugging
+
+**Vanilla State**: Starts with zero auto-tracking - manually enable features as needed.
+
+--- 
 
 In particular, Fixpanel can power demos for:
 
