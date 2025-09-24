@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import fooImage from "../images/foo.png";
-import barImage from "../images/bar.png";
-import bazImage from "../images/baz.png";
-import heroImage from "../images/hero.png";
-import themImage from "../images/them.png";
+import fooImage from "../../images/foo.png";
+import barImage from "../../images/bar.png";
+import bazImage from "../../images/baz.png";
+import heroImage from "../../images/hero.png";
+import themImage from "../../images/them.png";
 
 export default function TestimonialsPage() {
   const testimonials = [
