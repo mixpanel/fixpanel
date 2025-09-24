@@ -19,7 +19,7 @@ export function Header() {
   const pathname = usePathname();
 
   // Determine which microsite we're in
-  const isLanding = pathname.startsWith('/landing');
+  const isFinancial = pathname.startsWith('/financial');
   const isCheckout = pathname.startsWith('/checkout');
   const isStreaming = pathname.startsWith('/streaming');
   const isAdmin = pathname.startsWith('/admin');
@@ -28,7 +28,7 @@ export function Header() {
   const isRoot = pathname === '/';
 
   // Get the base path for navigation
-  const basePath = isLanding ? '/landing' :
+  const basePath = isFinancial ? '/financial' :
                    isCheckout ? '/checkout' :
                    isStreaming ? '/streaming' :
                    isAdmin ? '/admin' :
@@ -36,7 +36,7 @@ export function Header() {
                    isWellness ? '/wellness' : '';
 
   // Get site name and logo
-  const siteName = isLanding ? 'FixPanel' :
+  const siteName = isFinancial ? 'FixPanel' :
                    isCheckout ? 'ShopFlow' :
                    isStreaming ? 'StreamVibe' :
                    isAdmin ? 'AdminHub' :
@@ -64,21 +64,21 @@ export function Header() {
             <Link className="text-sm font-medium hover:underline underline-offset-4" href={basePath}>
               Home
             </Link>
-            {isLanding && (
+            {isFinancial && (
               <>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/features">
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/features">
                   Features
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/product">
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/product">
                   Products
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/pricing">
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/pricing">
                   Pricing
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/login">
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/login">
                   Sign In
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/about">
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/about">
                   About
                 </Link>
               </>

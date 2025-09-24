@@ -56,7 +56,7 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Banking, investments, and personal finance management with feature flags, session replay, and conversion tracking
                 </p>
-                <Link href="/landing" className="w-full">
+                <Link href="/financial" className="w-full">
                   <Button className="w-full bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
                     Explore FixPanel
                   </Button>

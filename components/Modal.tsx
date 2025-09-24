@@ -86,8 +86,8 @@ const getModalData = (v?: Variant): ContentProps => {
 export function Modal(props: ModalProps) {
   const { onClose, onConfirm, ...overrides } = props;
   const router = useRouter();
-  // if user didn't supply onConfirm, navigate to /landing/testimonials
-  const handleConfirm = onConfirm ?? (() => router.push("/landing/testimonials"));
+  // if user didn't supply onConfirm, navigate to /financial/testimonials
+  const handleConfirm = onConfirm ?? (() => router.push("/financial/testimonials"));
 
   // start empty
   const [modalData, setModalData] = React.useState<ContentProps>(() => getModalData());

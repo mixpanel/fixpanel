@@ -68,7 +68,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-[#7856FF] text-white">
+        <section className="w-full py-6 md:py-10 lg:py-12 bg-[#7856FF] text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
@@ -78,7 +78,7 @@ export default function HomePage() {
                 <p className="mx-auto max-w-[700px] text-xl md:text-2xl transition-opacity duration-1000 ease-in-out">{tagline}</p>
               </div>
               <div className="space-y-2">
-                <Link href="/landing/signup" className="pr-10">
+                <Link href="/financial/signup" className="pr-10">
                   <Button
                     size="lg"
                     className="bg-white text-[#7856FF]  hover:bg-white/20 hover:text-black"
@@ -88,7 +88,7 @@ export default function HomePage() {
                     Get Started
                   </Button>
                 </Link>
-                <Link href="/landing/login" className="">
+                <Link href="/financial/login" className="">
                   <Button
                     size="lg"
                     variant="outline"
@@ -155,7 +155,7 @@ export default function HomePage() {
                 <p className="text-sm text-gray-500 text-center">
                   Our patented technology turns cents into dollars. It's like magic, but with more spreadsheets.
                 </p>
-                <Link href="/landing/product">
+                <Link href="/financial/product">
                   <Button id="explore" variant="outline" className="mt-4">
                     Explore Product
                   </Button>
@@ -167,7 +167,7 @@ export default function HomePage() {
                 <p className="text-sm text-gray-500 text-center">
                   We guard your money like it's ours. You'll always be able to see it... and we're not giving it back!
                 </p>
-                <Link href="/landing/features">
+                <Link href="/financial/features">
                   <Button id="learnMore" variant="outline" className="mt-4">
                     Learn More
                   </Button>
@@ -179,7 +179,7 @@ export default function HomePage() {
                 <p className="text-sm text-gray-500 text-center">
                   Swipe right to make purchases, swipe left to make debt disappear! It's that easy... or is it?
                 </p>
-                <Link href="/landing/signup">
+                <Link href="/financial/signup">
                   <Button id="findOut" variant="outline" className="mt-4">
                     Find Out
                   </Button>
@@ -208,7 +208,7 @@ export default function HomePage() {
                   "FixPanel is so good, I'm considering using it because my nephew worked really hard on it and I'd like
                   to support him, but honestly I'm not sure."
                 </p>
-                <Link href="/landing/signup">
+                <Link href="/financial/signup">
                   <Button id="joinSue" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90">
                     Join Sue
                   </Button>
@@ -221,7 +221,7 @@ export default function HomePage() {
                   "Meow meow meow. Hiss. Hiss. (Translation: My returns are purrfect thanks to FixPanel! I wish I'd
                   invested sooner.)"
                 </p>
-                <Link href="/landing/product">
+                <Link href="/financial/product">
                   <Button id="purrfectReturns" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90">
                     Get Purrfect Returns
                   </Button>
@@ -234,7 +234,7 @@ export default function HomePage() {
                   "Thank you, past me, for choosing FixPanel! I'm now writing this from my private island! You made some
                   good choices,"
                 </p>
-                <Link href="/landing/signup">
+                <Link href="/financial/signup">
                   <Button id="secureIsland" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90">
                     Secure Your Island
                   </Button>
@@ -278,7 +278,7 @@ export default function HomePage() {
             </div>
 
             <div className="flex justify-center mt-8">
-              <Link href="/landing/about">
+              <Link href="/financial/about">
                 <Button id="greatness" size="lg" className="bg-white text-[#DA6B16] hover:bg-gray-100">
                   Discover Our Greatness
                 </Button>
@@ -353,12 +353,12 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <Link href="/landing/signup">
+                <Link href="/financial/signup">
                   <Button id="journey" size="lg" className="bg-[#07B096] text-white hover:bg-[#07B096]/90">
                     Start Your Journey
                   </Button>
                 </Link>
-                <Link href="/landing/product">
+                <Link href="/financial/product">
                   <Button
                     id="exploreProducts"
                     size="lg"
