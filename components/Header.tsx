@@ -24,6 +24,7 @@ export function Header() {
   const isStreaming = pathname.startsWith('/streaming');
   const isAdmin = pathname.startsWith('/admin');
   const isLifestyle = pathname.startsWith('/lifestyle');
+  const isWellness = pathname.startsWith('/wellness');
   const isRoot = pathname === '/';
 
   // Get the base path for navigation
@@ -31,14 +32,16 @@ export function Header() {
                    isCheckout ? '/checkout' :
                    isStreaming ? '/streaming' :
                    isAdmin ? '/admin' :
-                   isLifestyle ? '/lifestyle' : '';
+                   isLifestyle ? '/lifestyle' :
+                   isWellness ? '/wellness' : '';
 
   // Get site name and logo
   const siteName = isLanding ? 'FixPanel' :
                    isCheckout ? 'ShopFlow' :
                    isStreaming ? 'StreamVibe' :
                    isAdmin ? 'AdminHub' :
-                   isLifestyle ? 'LifeStyle+' : 'FixPanel Demo';
+                   isLifestyle ? 'LifeStyle+' :
+                   isWellness ? 'WellCare+' : 'FixPanel Demo';
 
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center opacity-75 hover:opacity-100">
