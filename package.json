@@ -9,7 +9,7 @@
 	"scripts": {
 		"hello-world": "npx serve ./hello-world/",
 		"dev": "next dev",
-		"build": "next build && cp -r ./metube ./out/metube",
+		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
 		"headless": "node ./scripts/headless.js",

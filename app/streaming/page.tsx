@@ -513,9 +513,17 @@ export default function MeTubeHomePage() {
     const isLiked = likedVideos.has(videoId);
 
     if (isLiked) {
-      setLikedVideos(prev => new Set([...prev].filter(id => id !== videoId)));
+      setLikedVideos(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(videoId);
+        return newSet;
+      });
     } else {
-      setLikedVideos(prev => new Set([...prev, videoId]));
+      setLikedVideos(prev => {
+        const newSet = new Set(prev);
+        newSet.add(videoId);
+        return newSet;
+      });
     }
 
     // Track like action
@@ -556,9 +564,17 @@ export default function MeTubeHomePage() {
 
     // If it works, proceed with subscription
     if (isSubscribed) {
-      setSubscribedChannels(prev => new Set([...prev].filter(c => c !== channel)));
+      setSubscribedChannels(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(channel);
+        return newSet;
+      });
     } else {
-      setSubscribedChannels(prev => new Set([...prev, channel]));
+      setSubscribedChannels(prev => {
+        const newSet = new Set(prev);
+        newSet.add(channel);
+        return newSet;
+      });
     }
 
     // Track successful subscription
