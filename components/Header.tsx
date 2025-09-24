@@ -1,6 +1,8 @@
-// import { linkTrack } from "./Track";
+"use client";
+
 import Link from "next/link";
-import { CreditCardIcon, TrendingUpDownIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { CreditCardIcon, TrendingUpDownIcon, HomeIcon } from "lucide-react";
 //@ts-ignore
 import mixpanel from "mixpanel-browser";
 
@@ -14,38 +16,117 @@ const getMixpanelUrl = () => {
 };
 
 export function Header() {
+  const pathname = usePathname();
+
+  // Determine which microsite we're in
+  const isFinancial = pathname.startsWith('/financial');
+  const isCheckout = pathname.startsWith('/checkout');
+  const isStreaming = pathname.startsWith('/streaming');
+  const isAdmin = pathname.startsWith('/admin');
+  const isLifestyle = pathname.startsWith('/lifestyle');
+  const isWellness = pathname.startsWith('/wellness');
+  const isRoot = pathname === '/';
+
+  // Get the base path for navigation
+  const basePath = isFinancial ? '/financial' :
+                   isCheckout ? '/checkout' :
+                   isStreaming ? '/streaming' :
+                   isAdmin ? '/admin' :
+                   isLifestyle ? '/lifestyle' :
+                   isWellness ? '/wellness' : '';
+
+  // Get site name and logo
+  const siteName = isFinancial ? 'FixPanel' :
+                   isCheckout ? 'CheapStuff' :
+                   isStreaming ? 'meTube' :
+                   isAdmin ? 'AdminHub' :
+                   isLifestyle ? 'LifeStyle+' :
+                   isWellness ? 'WellCare+' : 'Mixpanel Demos';
+
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center opacity-75 hover:opacity-100">
-      <Link className="flex items-center justify-center" href="/">
-        <TrendingUpDownIcon className="h-10 w-10" />
-        <span className="ml-2 text-lg font-semibold">
-          FixPanel <span className="invisible">logo</span>
-        </span>
-      </Link>
+      <div className="flex items-center gap-1">
+        <Link className="flex items-center justify-center" href={isRoot ? "/" : basePath}>
+          <TrendingUpDownIcon className="h-10 w-10" />
+          <span className="ml-2 text-lg font-semibold">
+            {siteName} <span className="invisible">logo</span>
+          </span>
+        </Link>
+
+        {/* All Demos button moved to left next to logo */}
+        {!isRoot && (
+          <Link className="text-sm font-medium hover:underline underline-offset-4 text-blue-600" href="/">
+            <HomeIcon className="h-4 w-4 inline mr-1" />
+            All Demos
+          </Link>
+        )}
+      </div>
+
       <nav className="ml-auto flex gap-4 sm:gap-6">
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-          Home
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/features">
-          Features
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/product">
-          Products
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
-          Pricing
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
-          Sign In
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
-          About
-        </Link>
+
+        {/* Show microsite-specific navigation */}
+        {!isRoot && (
+          <>
+            <Link className="text-sm font-medium hover:underline underline-offset-4" href={basePath}>
+              Home
+            </Link>
+            {isFinancial && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/features">
+                  Features
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/product">
+                  Products
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/pricing">
+                  Pricing
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/login">
+                  Sign In
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/about">
+                  About
+                </Link>
+              </>
+            )}
+            {isStreaming && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/trending">
+                  Trending
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/subscriptions">
+                  Subscriptions
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/history">
+                  History
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/account">
+                  Account
+                </Link>
+              </>
+            )}
+            {isCheckout && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/deals">
+                  Daily Deals
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/support">
+                  Support
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/account">
+                  My Account
+                </Link>
+              </>
+            )}
+          </>
+        )}
+
+        {/* Always show Reset and Mixpanel links */}
         <Link
           className="text-sm font-medium hover:underline underline-offset-4 text-red-500"
           href="#"
           onClick={() => {
-            if (window.RESET && typeof window.RESET === "function") {
+            if (typeof window !== 'undefined' && window.RESET && typeof window.RESET === "function") {
               window.RESET();
             }
           }}
@@ -58,7 +139,7 @@ export function Header() {
           href={getMixpanelUrl()}
           target="_blank"
         >
-          MIXPANEL PROJECT
+          MIXPANEL
         </Link>
       </nav>
     </header>
