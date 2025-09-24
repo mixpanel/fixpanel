@@ -1,6 +1,8 @@
-// import { linkTrack } from "./Track";
+"use client";
+
 import Link from "next/link";
-import { CreditCardIcon, TrendingUpDownIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { CreditCardIcon, TrendingUpDownIcon, HomeIcon } from "lucide-react";
 //@ts-ignore
 import mixpanel from "mixpanel-browser";
 
@@ -14,38 +16,79 @@ const getMixpanelUrl = () => {
 };
 
 export function Header() {
+  const pathname = usePathname();
+
+  // Determine which microsite we're in
+  const isLanding = pathname.startsWith('/landing');
+  const isCheckout = pathname.startsWith('/checkout');
+  const isStreaming = pathname.startsWith('/streaming');
+  const isAdmin = pathname.startsWith('/admin');
+  const isLifestyle = pathname.startsWith('/lifestyle');
+  const isRoot = pathname === '/';
+
+  // Get the base path for navigation
+  const basePath = isLanding ? '/landing' :
+                   isCheckout ? '/checkout' :
+                   isStreaming ? '/streaming' :
+                   isAdmin ? '/admin' :
+                   isLifestyle ? '/lifestyle' : '';
+
+  // Get site name and logo
+  const siteName = isLanding ? 'FixPanel' :
+                   isCheckout ? 'ShopFlow' :
+                   isStreaming ? 'StreamVibe' :
+                   isAdmin ? 'AdminHub' :
+                   isLifestyle ? 'LifeStyle+' : 'FixPanel Demo';
+
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center opacity-75 hover:opacity-100">
-      <Link className="flex items-center justify-center" href="/">
+      <Link className="flex items-center justify-center" href={isRoot ? "/" : basePath}>
         <TrendingUpDownIcon className="h-10 w-10" />
         <span className="ml-2 text-lg font-semibold">
-          FixPanel <span className="invisible">logo</span>
+          {siteName} <span className="invisible">logo</span>
         </span>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6">
+        {/* Always show Home link to main landing page */}
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-          Home
+          <HomeIcon className="h-4 w-4 inline mr-1" />
+          All Demos
         </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/features">
-          Features
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/product">
-          Products
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/pricing">
-          Pricing
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
-          Sign In
-        </Link>
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/about">
-          About
-        </Link>
+
+        {/* Show microsite-specific navigation */}
+        {!isRoot && (
+          <>
+            <Link className="text-sm font-medium hover:underline underline-offset-4" href={basePath}>
+              Home
+            </Link>
+            {isLanding && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/features">
+                  Features
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/product">
+                  Products
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/pricing">
+                  Pricing
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/login">
+                  Sign In
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/landing/about">
+                  About
+                </Link>
+              </>
+            )}
+          </>
+        )}
+
+        {/* Always show Reset and Mixpanel links */}
         <Link
           className="text-sm font-medium hover:underline underline-offset-4 text-red-500"
           href="#"
           onClick={() => {
-            if (window.RESET && typeof window.RESET === "function") {
+            if (typeof window !== 'undefined' && window.RESET && typeof window.RESET === "function") {
               window.RESET();
             }
           }}
@@ -58,7 +101,7 @@ export function Header() {
           href={getMixpanelUrl()}
           target="_blank"
         >
-          MIXPANEL PROJECT
+          MIXPANEL
         </Link>
       </nav>
     </header>

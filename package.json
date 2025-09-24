@@ -15,7 +15,8 @@
 		"headless": "node ./scripts/headless.js",
 		"sanity": "npx serve ./dev/",
 		"sanity:prod": "npx serve ./out/",
-		"metube": "npx serve ./metube/"
+		"metube": "npx serve ./metube/",
+		"prune": "rm -rf ./out/*"
 	},
 	"dependencies": {
 		"@google-cloud/storage": "^7.12.1",
