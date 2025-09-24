@@ -24,10 +24,10 @@ export default function LandingPage() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  FixPanel Demo Scenarios
+                  Demo Scenarios
                 </h1>
                 <p className="mx-auto max-w-[700px] text-lg md:text-xl">
-                  Explore real-world Mixpanel implementations across different industries and use cases
+                  try autocapture, session replay, feature flags, and other fantastic tools across different industries and use cases!
                 </p>
               </div>
             </div>
@@ -54,7 +54,7 @@ export default function LandingPage() {
                 <CreditCardIcon className="h-16 w-16 text-[#7856FF]" />
                 <h3 className="text-2xl font-bold">Financial Services</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  Banking, investments, and personal finance management with feature flags, session replay, and conversion tracking
+                  traditional marketing landing for fintech with an experiment on customer testimonials!
                 </p>
                 <Link href="/financial" className="w-full">
                   <Button className="w-full bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
@@ -68,11 +68,11 @@ export default function LandingPage() {
                 <ShoppingCartIcon className="h-16 w-16 text-[#07B096]" />
                 <h3 className="text-2xl font-bold">Ecommerce + Checkout</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  Product discovery, cart optimization, and checkout funnel analysis with real-time personalization
+                  classic e-commerce checkout flow with coupon friction!
                 </p>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
-                    Coming Soon
+                    Explore CheapStuff
                   </Button>
                 </Link>
               </div>
@@ -82,55 +82,49 @@ export default function LandingPage() {
                 <PlayIcon className="h-16 w-16 text-[#CC332B]" />
                 <h3 className="text-2xl font-bold">Media + Streaming</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  Content engagement, viewing patterns, and subscription optimization for video platforms
+                  video streaming with dynamic content and personalized recommendations with issues in the subscription flow!
                 </p>
                 <Link href="/streaming" className="w-full">
                   <Button className="w-full bg-[#CC332B] text-white hover:bg-[#CC332B]/90">
-                    Coming Soon
+                    Explore meTube
                   </Button>
                 </Link>
               </div>
 
-              {/* SaaS B2B */}
-              <div className="flex flex-col items-center space-y-3 border border-[#DA6B16] p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <BuildingIcon className="h-16 w-16 text-[#DA6B16]" />
-                <h3 className="text-2xl font-bold">SaaS + Admin Apps</h3>
-                <p className="text-sm text-gray-500 text-center flex-1">
+              {/* SaaS B2B - INACTIVE */}
+              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
+                <BuildingIcon className="h-16 w-16 text-gray-400" />
+                <h3 className="text-2xl font-bold text-gray-600">SaaS + Admin Apps</h3>
+                <p className="text-sm text-gray-400 text-center flex-1">
                   B2B admin dashboards, feature adoption, and user journey optimization for business tools
                 </p>
-                <Link href="/admin" className="w-full">
-                  <Button className="w-full bg-[#DA6B16] text-white hover:bg-[#DA6B16]/90">
-                    Coming Soon
-                  </Button>
-                </Link>
+                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
+                  Coming Soon
+                </Button>
               </div>
 
-              {/* Healthcare & Wellness */}
-              <div className="flex flex-col items-center space-y-3 border border-[#1C782D] p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <HeartIcon className="h-16 w-16 text-[#1C782D]" />
-                <h3 className="text-2xl font-bold">Healthcare + Wellness</h3>
-                <p className="text-sm text-gray-500 text-center flex-1">
+              {/* Healthcare & Wellness - INACTIVE */}
+              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
+                <HeartIcon className="h-16 w-16 text-gray-400" />
+                <h3 className="text-2xl font-bold text-gray-600">Healthcare + Wellness</h3>
+                <p className="text-sm text-gray-400 text-center flex-1">
                   Patient engagement, health tracking, and wellness program optimization with privacy-first analytics
                 </p>
-                <Link href="/wellness" className="w-full">
-                  <Button className="w-full bg-[#1C782D] text-white hover:bg-[#1C782D]/90">
-                    Coming Soon
-                  </Button>
-                </Link>
+                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
+                  Coming Soon
+                </Button>
               </div>
 
-              {/* Subscription B2C */}
-              <div className="flex flex-col items-center space-y-3 border border-[#0D7377] p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <SmartphoneIcon className="h-16 w-16 text-[#0D7377]" />
-                <h3 className="text-2xl font-bold">Subscription + Lifestyle</h3>
-                <p className="text-sm text-gray-500 text-center flex-1">
+              {/* Subscription B2C - INACTIVE */}
+              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
+                <SmartphoneIcon className="h-16 w-16 text-gray-400" />
+                <h3 className="text-2xl font-bold text-gray-600">Subscription + Lifestyle</h3>
+                <p className="text-sm text-gray-400 text-center flex-1">
                   Consumer apps, subscription management, and lifestyle product engagement tracking
                 </p>
-                <Link href="/lifestyle" className="w-full">
-                  <Button className="w-full bg-[#0D7377] text-white hover:bg-[#0D7377]/90">
-                    Coming Soon
-                  </Button>
-                </Link>
+                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
+                  Coming Soon
+                </Button>
               </div>
             </div>
 

@@ -37,26 +37,32 @@ export function Header() {
 
   // Get site name and logo
   const siteName = isFinancial ? 'FixPanel' :
-                   isCheckout ? 'ShopFlow' :
-                   isStreaming ? 'StreamVibe' :
+                   isCheckout ? 'CheapStuff' :
+                   isStreaming ? 'meTube' :
                    isAdmin ? 'AdminHub' :
                    isLifestyle ? 'LifeStyle+' :
-                   isWellness ? 'WellCare+' : 'FixPanel Demo';
+                   isWellness ? 'WellCare+' : 'Mixpanel Demos';
 
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center opacity-75 hover:opacity-100">
-      <Link className="flex items-center justify-center" href={isRoot ? "/" : basePath}>
-        <TrendingUpDownIcon className="h-10 w-10" />
-        <span className="ml-2 text-lg font-semibold">
-          {siteName} <span className="invisible">logo</span>
-        </span>
-      </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
-        {/* Always show Home link to main landing page */}
-        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/">
-          <HomeIcon className="h-4 w-4 inline mr-1" />
-          All Demos
+      <div className="flex items-center gap-1">
+        <Link className="flex items-center justify-center" href={isRoot ? "/" : basePath}>
+          <TrendingUpDownIcon className="h-10 w-10" />
+          <span className="ml-2 text-lg font-semibold">
+            {siteName} <span className="invisible">logo</span>
+          </span>
         </Link>
+
+        {/* All Demos button moved to left next to logo */}
+        {!isRoot && (
+          <Link className="text-sm font-medium hover:underline underline-offset-4 text-blue-600" href="/">
+            <HomeIcon className="h-4 w-4 inline mr-1" />
+            All Demos
+          </Link>
+        )}
+      </div>
+
+      <nav className="ml-auto flex gap-4 sm:gap-6">
 
         {/* Show microsite-specific navigation */}
         {!isRoot && (
@@ -80,6 +86,35 @@ export function Header() {
                 </Link>
                 <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/about">
                   About
+                </Link>
+              </>
+            )}
+            {isStreaming && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/trending">
+                  Trending
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/subscriptions">
+                  Subscriptions
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/history">
+                  History
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/account">
+                  Account
+                </Link>
+              </>
+            )}
+            {isCheckout && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/deals">
+                  Daily Deals
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/support">
+                  Support
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/account">
+                  My Account
                 </Link>
               </>
             )}
