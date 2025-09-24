@@ -217,7 +217,7 @@ export default function DealsPage() {
         cart_items: getCartItemCount()
       });
     }
-  }, []);
+  }, [getCartItemCount]);
 
   return (
     <div className="flex flex-col min-h-screen">

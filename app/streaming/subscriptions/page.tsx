@@ -133,7 +133,7 @@ export default function SubscriptionsPage() {
         notifications_enabled: Object.values(notifications).filter(Boolean).length
       });
     }
-  }, []);
+  }, [notifications]);
 
   return (
     <div className="flex flex-col min-h-screen">

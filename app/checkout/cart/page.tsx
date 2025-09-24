@@ -236,7 +236,7 @@ export default function CartPage() {
         cart_value: subtotal
       });
     }
-  }, []);
+  }, [cartItems.length, subtotal]);
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -190,7 +190,7 @@ export default function HistoryPage() {
         completed_videos: history.filter(v => v.percentage === 100).length
       });
     }
-  }, []);
+  }, [history]);
 
   return (
     <div className="flex flex-col min-h-screen">

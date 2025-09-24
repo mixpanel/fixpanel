@@ -479,7 +479,7 @@ const featuredVideos = [
 
 const categories = ["All", "Technology", "Cooking", "Fitness", "Music", "Travel", "Gaming", "Education", "Entertainment", "Lifestyle"];
 
-export default function meTubeHomePage() {
+export default function MeTubeHomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
