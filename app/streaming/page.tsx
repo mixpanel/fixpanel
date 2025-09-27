@@ -13,8 +13,16 @@ import {
   ShareIcon,
   UserPlusIcon,
   ClockIcon,
-  EyeIcon
+  EyeIcon,
+  HomeIcon,
+  TrendingUpIcon,
+  HistoryIcon,
+  PlaySquareIcon,
+  ListMusicIcon,
+  VideoIcon,
+  MenuIcon
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Mock video data - Expanded catalog for better demo
 const featuredVideos = [
@@ -484,6 +492,7 @@ export default function MeTubeHomePage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
   const [subscribedChannels, setSubscribedChannels] = useState<Set<string>>(new Set());
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const filteredVideos = featuredVideos.filter(video => {
     const matchesSearch = video.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -595,197 +604,252 @@ export default function MeTubeHomePage() {
   }, [selectedCategory]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="w-full py-6 md:py-10 lg:py-12 bg-[#CC332B] text-white">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  meTube
-                </h1>
-                <p className="mx-auto max-w-[700px] text-lg md:text-xl">
-                  Discover amazing videos from creators around the world
-                </p>
-              </div>
+
+      {/* YouTube-style Top Navigation */}
+      <div className="sticky top-0 z-40 bg-white border-b border-gray-200">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="p-2"
+            >
+              <MenuIcon className="h-5 w-5" />
+            </Button>
+            <div className="flex items-center gap-2">
+              <VideoIcon className="h-6 w-6 text-[#CC332B]" />
+              <span className="text-xl font-bold">meTube</span>
             </div>
           </div>
-        </section>
 
-        {/* Search and Categories */}
-        <section className="w-full py-6 bg-gray-50">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
-              <div className="flex-1 max-w-md">
-                <div className="relative">
-                  <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input
-                    placeholder="Search videos..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
-              </div>
+          <div className="flex-1 max-w-2xl mx-4">
+            <div className="relative">
+              <Input
+                placeholder="Search videos..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pr-12 border-gray-300 focus:border-[#CC332B] rounded-full"
+              />
+              <Button
+                size="sm"
+                className="absolute right-0 top-0 h-full px-4 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-r-full border-l"
+              >
+                <SearchIcon className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-sm text-gray-600">
+            {filteredVideos.length} videos
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-1">
+
+        {/* YouTube-style Sidebar */}
+        <motion.aside
+          className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-white border-r border-gray-200 transition-all duration-300 sticky top-[73px] h-[calc(100vh-73px)] overflow-y-auto`}
+          initial={false}
+          animate={{ width: sidebarCollapsed ? 64 : 256 }}
+        >
+          <div className="p-3 space-y-1">
+            {/* Main Navigation */}
+            <div className="space-y-1">
+              <motion.div
+                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                whileHover={{ backgroundColor: "#f3f4f6" }}
+              >
+                <HomeIcon className="h-5 w-5" />
+                {!sidebarCollapsed && <span className="text-sm font-medium">Home</span>}
+              </motion.div>
+              <motion.div
+                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                whileHover={{ backgroundColor: "#f3f4f6" }}
+              >
+                <TrendingUpIcon className="h-5 w-5" />
+                {!sidebarCollapsed && <span className="text-sm font-medium">Trending</span>}
+              </motion.div>
+              <motion.div
+                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                whileHover={{ backgroundColor: "#f3f4f6" }}
+              >
+                <HistoryIcon className="h-5 w-5" />
+                {!sidebarCollapsed && <span className="text-sm font-medium">History</span>}
+              </motion.div>
             </div>
 
-            {/* Category Tabs */}
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {categories.map(category => (
-                <Button
+            {!sidebarCollapsed && (
+              <>
+                <hr className="my-3" />
+
+                {/* Categories */}
+                <div className="space-y-1">
+                  <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Categories
+                  </h3>
+                  {categories.slice(1).map(category => (
+                    <motion.div
+                      key={category}
+                      className={`flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer ${
+                        selectedCategory === category ? 'bg-red-50 text-[#CC332B]' : ''
+                      }`}
+                      onClick={() => setSelectedCategory(category)}
+                      whileHover={{ backgroundColor: selectedCategory === category ? "#fef2f2" : "#f3f4f6" }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="text-lg">
+                        {category === 'Technology' && '💻'}
+                        {category === 'Cooking' && '🍳'}
+                        {category === 'Fitness' && '💪'}
+                        {category === 'Music' && '🎵'}
+                        {category === 'Travel' && '✈️'}
+                        {category === 'Gaming' && '🎮'}
+                        {category === 'Education' && '📚'}
+                        {category === 'Entertainment' && '🎭'}
+                        {category === 'Lifestyle' && '🌟'}
+                      </div>
+                      <span className="text-sm">{category}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </motion.aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 bg-gray-50">
+          {/* Category Chips */}
+          <div className="sticky top-[73px] bg-white border-b border-gray-200 z-30">
+            <div className="flex gap-2 overflow-x-auto px-6 py-3">
+              <motion.button
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  selectedCategory === 'All'
+                    ? 'bg-black text-white'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                }`}
+                onClick={() => setSelectedCategory('All')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                All
+              </motion.button>
+              {categories.slice(1).map(category => (
+                <motion.button
                   key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  size="sm"
+                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                    selectedCategory === category
+                      ? 'bg-black text-white'
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  }`}
                   onClick={() => setSelectedCategory(category)}
-                  className={`transition-all ${selectedCategory === category ? "bg-[#CC332B] hover:bg-[#CC332B]/90 shadow-md" : "hover:bg-[#CC332B] hover:text-white"}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   {category}
-                  {selectedCategory === category && (
-                    <span className="ml-1 text-xs opacity-75">
-                      ({filteredVideos.length})
-                    </span>
-                  )}
-                </Button>
+                </motion.button>
               ))}
             </div>
           </div>
-        </section>
 
-        {/* Featured Videos Grid */}
-        <section className="w-full py-8 bg-white">
-          <div className="container px-4 md:px-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">
-                {selectedCategory === "All" ? "Featured Videos" : `${selectedCategory} Videos`}
-              </h2>
-              <p className="text-gray-600">
-                {filteredVideos.length} video{filteredVideos.length !== 1 ? 's' : ''} found
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredVideos.map(video => (
-                <div key={video.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          {/* Videos Grid */}
+          <div className="p-6">
+            <div className={`grid gap-4 ${
+              sidebarCollapsed
+                ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
+                : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+            }`}>
+              {filteredVideos.map((video, index) => (
+                <motion.div
+                  key={video.id}
+                  className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  whileHover={{ y: -2 }}
+                  onClick={() => handleVideoClick(video.id)}
+                >
                   {/* Video Thumbnail */}
-                  <div
-                    className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-lg cursor-pointer overflow-hidden"
-                    onClick={() => handleVideoClick(video.id)}
-                  >
-                    <div className="flex items-center justify-center h-full text-8xl">
+                  <div className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                    <div className="flex items-center justify-center h-full text-6xl">
                       {video.thumbnail}
                     </div>
-                    <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors flex items-center justify-center">
-                      <PlayIcon className="h-12 w-12 text-white/80 opacity-0 hover:opacity-100 transition-opacity" />
-                    </div>
-                    <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+                    <motion.div
+                      className="absolute inset-0 bg-black/0 flex items-center justify-center"
+                      whileHover={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileHover={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <PlayIcon className="h-12 w-12 text-white drop-shadow-lg" />
+                      </motion.div>
+                    </motion.div>
+                    <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded font-medium">
                       {video.duration}
                     </div>
                   </div>
 
                   {/* Video Info */}
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">{video.title}</h3>
+                  <div className="p-3">
+                    <h3 className="font-medium text-sm mb-2 line-clamp-2 leading-tight">{video.title}</h3>
 
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-[#CC332B] font-medium">{video.channel}</p>
-                      {/* THE PROBLEMATIC SUBSCRIBE BUTTON */}
-                      <Button
-                        size="sm"
-                        variant={subscribedChannels.has(video.channel) ? "default" : "outline"}
-                        onClick={() => handleSubscribe(video.channel)}
-                        className={`transition-all ${
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-gray-600 text-xs mb-1 truncate">{video.channel}</p>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span>{video.views} views</span>
+                          <span>•</span>
+                          <span>{video.uploadTime}</span>
+                        </div>
+                      </div>
+
+                      {/* Compact Subscribe Button */}
+                      <motion.button
+                        className={`text-xs px-2 py-1 rounded-full font-medium transition-all ${
                           subscribedChannels.has(video.channel)
-                            ? "bg-[#CC332B] hover:bg-[#CC332B]/90"
-                            : "hover:bg-[#CC332B] hover:text-white"
+                            ? 'bg-gray-200 text-gray-700'
+                            : 'bg-[#CC332B] text-white hover:bg-[#CC332B]/90'
                         }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSubscribe(video.channel);
+                        }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         style={{
                           // THE DRIFTING EFFECT! Button sometimes moves slightly
                           transform: Math.random() > 0.7 ? `translateX(${Math.random() * 4 - 2}px)` : 'none'
                         }}
                       >
-                        <UserPlusIcon className="h-4 w-4 mr-1" />
-                        {subscribedChannels.has(video.channel) ? "Subscribed" : "Subscribe"}
-                      </Button>
-                    </div>
-
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                      <div className="flex items-center gap-1">
-                        <EyeIcon className="h-4 w-4" />
-                        {video.views} views
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <ClockIcon className="h-4 w-4" />
-                        {video.uploadTime}
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleLike(video.id)}
-                        className={likedVideos.has(video.id) ? "text-[#CC332B]" : ""}
-                      >
-                        <ThumbsUpIcon className="h-4 w-4 mr-1" />
-                        Like
-                      </Button>
-                      <Button size="sm" variant="ghost">
-                        <ShareIcon className="h-4 w-4 mr-1" />
-                        Share
-                      </Button>
+                        {subscribedChannels.has(video.channel) ? '✓' : '+'}
+                      </motion.button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             {filteredVideos.length === 0 && (
-              <div className="text-center py-12">
+              <div className="col-span-full text-center py-12">
                 <p className="text-gray-500">No videos found matching your search.</p>
               </div>
             )}
-
-            {/* UX Issue Explanation */}
-            <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-sm text-yellow-800">
-                💡 <strong>Demo Note:</strong> The subscribe buttons on this page only work 10% of the time and sometimes drift position - this demonstrates subscription conversion issues that can be tracked with Mixpanel!
-              </p>
-            </div>
           </div>
-        </section>
 
-        {/* Trending Section */}
-        <section className="w-full py-12 bg-gray-50">
-          <div className="container px-4 md:px-6">
-            <h2 className="text-2xl font-bold mb-6">Trending Topics</h2>
-            <div className="grid md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-white rounded-lg">
-                <div className="text-3xl mb-2">🎮</div>
-                <h3 className="font-semibold">Gaming</h3>
-                <p className="text-sm text-gray-600">1.2M videos</p>
-              </div>
-              <div className="text-center p-4 bg-white rounded-lg">
-                <div className="text-3xl mb-2">🎵</div>
-                <h3 className="font-semibold">Music</h3>
-                <p className="text-sm text-gray-600">890K videos</p>
-              </div>
-              <div className="text-center p-4 bg-white rounded-lg">
-                <div className="text-3xl mb-2">📚</div>
-                <h3 className="font-semibold">Education</h3>
-                <p className="text-sm text-gray-600">650K videos</p>
-              </div>
-              <div className="text-center p-4 bg-white rounded-lg">
-                <div className="text-3xl mb-2">🎭</div>
-                <h3 className="font-semibold">Entertainment</h3>
-                <p className="text-sm text-gray-600">2.1M videos</p>
-              </div>
-            </div>
+          {/* UX Issue Explanation */}
+          <div className="mx-6 mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <p className="text-sm text-yellow-800">
+              💡 <strong>Demo Note:</strong> The subscribe buttons only work 10% of the time and sometimes drift position - this demonstrates subscription conversion issues that can be tracked with Mixpanel!
+            </p>
           </div>
-        </section>
-      </main>
+        </main>
+      </div>
       <Footer />
     </div>
   );

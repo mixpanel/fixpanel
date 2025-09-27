@@ -2,15 +2,24 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 //@ts-ignore
 import mixpanel from "mixpanel-browser";
+import { ExternalLinkIcon } from "lucide-react";
 
 export function Footer() {
+  const getMixpanelProjectUrl = () => {
+    if (typeof window !== 'undefined' && window.mixpanel) {
+      const deviceId = window.mixpanel.get_distinct_id();
+      return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=${deviceId}`;
+    }
+    return "https://mixpanel.com/project/3276012/view/3782804/app/profile";
+  };
+
   return (
     <footer className="flex flex-col sm:flex-row py-6 w-full items-center justify-between px-4 md:px-6 border-t">
       <div className="w-1/3">
         <p className="text-xs text-gray-500">© FixPanel since 2025. All hail the thief.</p>
       </div>
 
-      <div className="w-1/3 flex justify-center">
+      <div className="w-1/3 flex justify-center gap-2">
         <Button
           id="theResetButton"
           onClick={() => {
@@ -20,6 +29,16 @@ export function Footer() {
           }}
         >
           reset mixpanel
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            window.open(getMixpanelProjectUrl(), '_blank');
+          }}
+          className="flex items-center gap-1"
+        >
+          <ExternalLinkIcon className="h-3 w-3" />
+          mixpanel project
         </Button>
       </div>
 

@@ -12,8 +12,10 @@ import {
   FilterIcon,
   StarIcon,
   HeartIcon,
-  TruckIcon
+  TruckIcon,
+  XIcon
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Mock product data - Expanded catalog for better demo
 const products = [
@@ -394,6 +396,7 @@ export default function CheapStuffHomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState<Array<{id: number, quantity: number}>>([]);
+  const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -453,6 +456,24 @@ export default function CheapStuffHomePage() {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
+  const openProductModal = (product: typeof products[0]) => {
+    setSelectedProduct(product);
+
+    // Track product view
+    if (typeof window !== 'undefined' && window.mixpanel) {
+      window.mixpanel.track('Product Viewed', {
+        product_id: product.id,
+        product_name: product.name,
+        product_price: product.price,
+        product_category: product.category
+      });
+    }
+  };
+
+  const closeProductModal = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -461,20 +482,43 @@ export default function CheapStuffHomePage() {
         <section className="w-full py-6 md:py-10 lg:py-12 bg-[#07B096] text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+              <motion.div
+                className="space-y-2"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6 }}
+              >
+                <motion.h1
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none"
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   CheapStuff
-                </h1>
-                <p className="mx-auto max-w-[700px] text-lg md:text-xl">
+                </motion.h1>
+                <motion.p
+                  className="mx-auto max-w-[700px] text-lg md:text-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
                   Your favorite products, delivered fast. Discover amazing deals today!
-                </p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-4 py-2">
+                </motion.p>
+              </motion.div>
+              <motion.div
+                className="flex items-center space-x-4"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <motion.div
+                  className="flex items-center space-x-2 bg-white/10 rounded-lg px-4 py-2"
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
+                >
                   <TruckIcon className="h-5 w-5" />
                   <span className="text-sm">Free shipping on orders $50+</span>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -486,21 +530,25 @@ export default function CheapStuffHomePage() {
               <div className="flex-1 max-w-md">
                 <div className="relative">
                   <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input
-                    placeholder="Search products..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
+                  <motion.div whileFocus={{ scale: 1.01 }}>
+                    <Input
+                      placeholder="Search products..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </motion.div>
                 </div>
               </div>
 
               <div className="flex gap-2 items-center">
                 <FilterIcon className="h-4 w-4 text-gray-600" />
-                <select
+                <motion.select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="px-3 py-2 border rounded-md text-sm"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {categories.map(category => {
                     const count = category === "All" ? products.length : products.filter(p => p.category === category).length;
@@ -510,14 +558,16 @@ export default function CheapStuffHomePage() {
                       </option>
                     );
                   })}
-                </select>
+                </motion.select>
               </div>
 
               <Link href="/checkout/cart">
-                <Button className="bg-[#07B096] hover:bg-[#07B096]/90">
-                  <ShoppingCartIcon className="h-4 w-4 mr-2" />
-                  Cart ({getCartItemCount()})
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button className="bg-[#07B096] hover:bg-[#07B096]/90">
+                    <ShoppingCartIcon className="h-4 w-4 mr-2" />
+                    Cart ({getCartItemCount()})
+                  </Button>
+                </motion.div>
               </Link>
             </div>
           </div>
@@ -536,7 +586,13 @@ export default function CheapStuffHomePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map(product => (
-                <div key={product.id} className="border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <motion.div
+                  key={product.id}
+                  className="border rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => openProductModal(product)}
+                >
                   <div className="text-center">
                     <div className="text-6xl mb-4">{product.image}</div>
                     <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
@@ -544,34 +600,61 @@ export default function CheapStuffHomePage() {
 
                     <div className="flex items-center justify-center gap-1 mb-2">
                       {[...Array(5)].map((_, i) => (
-                        <StarIcon
+                        <motion.div
                           key={i}
-                          className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-                        />
+                          whileHover={{ scale: 1.3, rotate: 360 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <StarIcon
+                            className={`h-4 w-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                          />
+                        </motion.div>
                       ))}
                       <span className="text-sm text-gray-600 ml-1">
                         {product.rating} ({product.reviews} reviews)
                       </span>
                     </div>
 
-                    <div className="text-2xl font-bold text-[#07B096] mb-4">
+                    <motion.div
+                      className="text-2xl font-bold text-[#07B096] mb-4"
+                      whileHover={{ scale: 1.1, color: "#059669" }}
+                      transition={{ duration: 0.2 }}
+                    >
                       ${product.price}
-                    </div>
+                    </motion.div>
 
                     <div className="flex gap-2">
-                      <Button
-                        onClick={() => addToCart(product.id)}
-                        className="flex-1 bg-[#07B096] hover:bg-[#07B096]/90"
+                      <motion.div
+                        className="flex-1"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
-                        <ShoppingCartIcon className="h-4 w-4 mr-2" />
-                        Add to Cart
-                      </Button>
-                      <Button variant="outline" size="icon">
-                        <HeartIcon className="h-4 w-4" />
-                      </Button>
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(product.id);
+                          }}
+                          className="w-full bg-[#07B096] hover:bg-[#07B096]/90"
+                        >
+                          <ShoppingCartIcon className="h-4 w-4 mr-2" />
+                          Add to Cart
+                        </Button>
+                      </motion.div>
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <HeartIcon className="h-4 w-4" />
+                        </Button>
+                      </motion.div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -587,26 +670,181 @@ export default function CheapStuffHomePage() {
         <section className="w-full py-12 bg-gray-50">
           <div className="container px-4 md:px-6">
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <TruckIcon className="h-12 w-12 text-[#07B096] mx-auto mb-4" />
+              <motion.div
+                className="text-center"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                whileHover={{ y: -5 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 360 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <TruckIcon className="h-12 w-12 text-[#07B096] mx-auto mb-4" />
+                </motion.div>
                 <h3 className="font-semibold mb-2">Fast Delivery</h3>
                 <p className="text-gray-600 text-sm">Free shipping on orders over $50</p>
-              </div>
-              <div className="text-center">
-                <ShoppingCartIcon className="h-12 w-12 text-[#07B096] mx-auto mb-4" />
+              </motion.div>
+              <motion.div
+                className="text-center"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                whileHover={{ y: -5 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 360 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ShoppingCartIcon className="h-12 w-12 text-[#07B096] mx-auto mb-4" />
+                </motion.div>
                 <h3 className="font-semibold mb-2">Easy Returns</h3>
                 <p className="text-gray-600 text-sm">30-day return policy</p>
-              </div>
-              <div className="text-center">
-                <StarIcon className="h-12 w-12 text-[#07B096] mx-auto mb-4" />
+              </motion.div>
+              <motion.div
+                className="text-center"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                whileHover={{ y: -5 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 360 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <StarIcon className="h-12 w-12 text-[#07B096] mx-auto mb-4" />
+                </motion.div>
                 <h3 className="font-semibold mb-2">Quality Products</h3>
                 <p className="text-gray-600 text-sm">Curated selection of top-rated items</p>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
       </main>
       <Footer />
+
+      {/* Product Modal */}
+      <AnimatePresence>
+        {selectedProduct && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeProductModal}
+          >
+            <motion.div
+              className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <h2 className="text-2xl font-bold">{selectedProduct.name}</h2>
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={closeProductModal}
+                      className="hover:bg-gray-100"
+                    >
+                      <XIcon className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="text-center">
+                    <div className="text-[200px] mb-4">{selectedProduct.image}</div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <span className="inline-block bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full">
+                        {selectedProduct.category}
+                      </span>
+                    </div>
+
+                    <p className="text-gray-600 text-lg">{selectedProduct.description}</p>
+
+                    <div className="flex items-center gap-2">
+                      {[...Array(5)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          whileHover={{ scale: 1.2, rotate: 360 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <StarIcon
+                            className={`h-5 w-5 ${
+                              i < Math.floor(selectedProduct.rating)
+                                ? 'text-yellow-400 fill-current'
+                                : 'text-gray-300'
+                            }`}
+                          />
+                        </motion.div>
+                      ))}
+                      <span className="text-gray-600 ml-2">
+                        {selectedProduct.rating} ({selectedProduct.reviews} reviews)
+                      </span>
+                    </div>
+
+                    <motion.div
+                      className="text-3xl font-bold text-[#07B096] mb-4"
+                      whileHover={{ scale: 1.1, color: "#059669" }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      ${selectedProduct.price}
+                    </motion.div>
+
+                    <div className="flex gap-3">
+                      <motion.div
+                        className="flex-1"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Button
+                          onClick={() => addToCart(selectedProduct.id)}
+                          className="w-full bg-[#07B096] hover:bg-[#07B096]/90 text-lg py-3"
+                        >
+                          <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                          Add to Cart
+                        </Button>
+                      </motion.div>
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          variant="outline"
+                          size="lg"
+                        >
+                          <HeartIcon className="h-5 w-5" />
+                        </Button>
+                      </motion.div>
+                    </div>
+
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-2">Product Features:</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• High quality materials</li>
+                        <li>• Fast shipping available</li>
+                        <li>• 30-day return policy</li>
+                        <li>• Customer satisfaction guaranteed</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
