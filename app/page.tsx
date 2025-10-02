@@ -43,7 +43,7 @@ export default function LandingPage() {
                   Choose Your Industry
                 </h2>
                 <p className="max-w-[900px] text-gray-500 md:text-lg/relaxed">
-                  Each demo showcases Mixpanel's capabilities in a realistic industry context
+                  Each demo showcases Mixpanel's capabilities in a realistic industry context; also each app has some UX "problems" to find and fix using Mixpanel!
                 </p>
               </div>
             </div>
@@ -54,7 +54,7 @@ export default function LandingPage() {
                 <CreditCardIcon className="h-16 w-16 text-[#7856FF]" />
                 <h3 className="text-2xl font-bold">Financial Services</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  traditional marketing landing for fintech with an experiment on customer testimonials!
+                  marketing/landing for fintech; experiment on customer testimonials; friction with KYC flow!
                 </p>
                 <Link href="/financial" className="w-full">
                   <Button className="w-full bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
@@ -68,7 +68,7 @@ export default function LandingPage() {
                 <ShoppingCartIcon className="h-16 w-16 text-[#07B096]" />
                 <h3 className="text-2xl font-bold">Ecommerce + Checkout</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  classic e-commerce checkout flow with coupon friction!
+                  e-commerce  app for product discovery, cart management and checkout flows; friction with the coupon code!
                 </p>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
@@ -82,7 +82,7 @@ export default function LandingPage() {
                 <PlayIcon className="h-16 w-16 text-[#CC332B]" />
                 <h3 className="text-2xl font-bold">Media + Streaming</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  video streaming with dynamic content and personalized recommendations with issues in the subscription flow!
+                  video streaming with dynamic content and personalized recommendations; friction with the 'like' and 'subscribe' buttons.
                 </p>
                 <Link href="/streaming" className="w-full">
                   <Button className="w-full bg-[#CC332B] text-white hover:bg-[#CC332B]/90">
@@ -135,15 +135,15 @@ export default function LandingPage() {
                 <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-600">
                   <div>
                     <h4 className="font-semibold mb-2">Real-time Analytics</h4>
-                    <p>See events tracked live in your browser console and Mixpanel project</p>
+                    <p>See events tracked live in your browser console and Mixpanel project... click the "MIXPANEL" link in the top right or bottom of the page to explore</p>
                   </div>
                   <div>
                     <h4 className="font-semibold mb-2">Feature Flags</h4>
-                    <p>Experience dynamic content and A/B testing in action</p>
+                    <p>Experience dynamic content and A/B testing in action... click the "RESET" button to reload your identity as a new user!</p>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-2">Session Replay</h4>
-                    <p>Watch recorded user sessions to understand behavior patterns</p>
+                    <h4 className="font-semibold mb-2">Busted Broken Pages</h4>
+                    <p>these apps are absolutely riddled with problems and frustration UX patterns; can you catch them all?</p>
                   </div>
                 </div>
               </div>
