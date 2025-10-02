@@ -26,16 +26,22 @@ export default function SignUpPage() {
     riskTolerance: "",
   });
 
-  // 20% success rate for radio button clicks
+  // 20% success rate for radio button clicks (only on step 3)
   const handleRadioClick = (name: string, value: string) => {
-    const successRate = 0.2; // 20% success rate
-    const random = Math.random();
+    // Only apply the faulty behavior on step 3
+    if (step === 3) {
+      const successRate = 0.2; // 20% success rate
+      const random = Math.random();
 
-    if (random < successRate) {
-      // Success! Update the form
+      if (random < successRate) {
+        // Success! Update the form
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+      }
+      // Otherwise, do nothing (80% of the time)
+    } else {
+      // Steps 1 and 2 work normally
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
-    // Otherwise, do nothing (80% of the time)
   };
 
   const isStepValid = () => {
@@ -381,7 +387,7 @@ export default function SignUpPage() {
                     className="ml-auto bg-[#07B096] hover:bg-[#07B096]/90"
                     size="lg"
                   >
-                    Get Started
+                    Complete KYC
                   </Button>
                 )}
               </div>
