@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -16,6 +17,10 @@ import {
 } from "lucide-react";
 
 export default function AdminLanding() {
+  useEffect(() => {
+    document.title = "youAdmin";
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50">
       <Header />

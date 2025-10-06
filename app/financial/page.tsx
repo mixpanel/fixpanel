@@ -44,6 +44,8 @@ export default function HomePage() {
   ];
 
   useEffect(() => {
+    document.title = "FixPanel";
+
     const taglines = [
       "Fix Your Finances with Data-Driven Insights.",
       "Track Every Dollar, Analyze Every Decision",

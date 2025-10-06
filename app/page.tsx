@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
+import { useEffect } from "react";
 import {
   CreditCardIcon,
   ShoppingCartIcon,
@@ -14,6 +15,10 @@ import {
 } from "lucide-react";
 
 export default function LandingPage() {
+  useEffect(() => {
+    document.title = "Demo Sites";
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -73,7 +78,7 @@ export default function LandingPage() {
                 </p>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
-                    Explore CheapStuff
+                    Explore iBuy
                   </Button>
                 </Link>
               </div>
@@ -105,7 +110,7 @@ export default function LandingPage() {
                   </Button>
                 </Link> */}
                 <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                  Coming Soon
+                  youAdmin - Coming Soon
                 </Button>
               </div>
 
@@ -122,7 +127,7 @@ export default function LandingPage() {
                   </Button>
                 </Link> */}
                 <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                  Coming Soon
+                  ourHeart - Coming Soon
                 </Button>
               </div>
 
@@ -139,7 +144,7 @@ export default function LandingPage() {
                   </Button>
                 </Link> */}
                 <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                  Coming Soon
+                  weRead - Coming Soon
                 </Button>
               </div>
             </div>

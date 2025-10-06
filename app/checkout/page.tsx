@@ -392,7 +392,7 @@ const products = [
   }
 ];
 
-export default function CheapStuffHomePage() {
+export default function IBuyHomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState<Array<{id: number, quantity: number}>>([]);
@@ -400,8 +400,10 @@ export default function CheapStuffHomePage() {
 
   // Load cart from localStorage on mount
   useEffect(() => {
+    document.title = "iBuy";
+
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('cheapstuff_cart');
+      const savedCart = localStorage.getItem('ibuy_cart');
       if (savedCart) {
         try {
           setCart(JSON.parse(savedCart));
@@ -415,7 +417,7 @@ export default function CheapStuffHomePage() {
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('cheapstuff_cart', JSON.stringify(cart));
+      localStorage.setItem('ibuy_cart', JSON.stringify(cart));
     }
   }, [cart]);
 
@@ -494,7 +496,7 @@ export default function CheapStuffHomePage() {
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  CheapStuff
+                  iBuy
                 </motion.h1>
                 <motion.p
                   className="mx-auto max-w-[700px] text-lg md:text-xl"

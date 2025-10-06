@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -15,6 +16,10 @@ import {
 } from "lucide-react";
 
 export default function WellnessLanding() {
+  useEffect(() => {
+    document.title = "ourHeart";
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-teal-50 to-white">
       <Header />

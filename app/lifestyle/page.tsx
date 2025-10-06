@@ -314,6 +314,8 @@ export default function LifestyleLanding() {
   const [votedPosts, setVotedPosts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
+    document.title = "weRead";
+
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Lifestyle Landing Viewed");
     }

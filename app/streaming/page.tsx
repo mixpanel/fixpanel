@@ -494,6 +494,10 @@ export default function MeTubeHomePage() {
   const [subscribedChannels, setSubscribedChannels] = useState<Set<string>>(new Set());
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  useEffect(() => {
+    document.title = "meTube";
+  }, []);
+
   const filteredVideos = featuredVideos.filter(video => {
     const matchesSearch = video.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "All" || video.category === selectedCategory;

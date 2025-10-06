@@ -3,7 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { CreditCardIcon, TrendingUpDownIcon, HomeIcon } from "lucide-react";
+import {
+  CreditCardIcon,
+  TrendingUpDownIcon,
+  HomeIcon,
+  ShoppingBagIcon,
+  PlayCircleIcon,
+  LayoutDashboardIcon,
+  BookOpenIcon,
+  HeartPulseIcon
+} from "lucide-react";
 //@ts-ignore
 import mixpanel from "mixpanel-browser";
 
@@ -43,17 +52,33 @@ export function Header() {
 
   // Get site name and logo
   const siteName = isFinancial ? 'FixPanel' :
-                   isCheckout ? 'CheapStuff' :
+                   isCheckout ? 'iBuy' :
                    isStreaming ? 'meTube' :
                    isAdmin ? 'youAdmin' :
                    isLifestyle ? 'weRead' :
                    isWellness ? 'ourHeart' : 'Mixpanel Demos';
 
+  // Get the appropriate icon component for each site
+  const SiteIcon = isFinancial ? CreditCardIcon :
+                   isCheckout ? ShoppingBagIcon :
+                   isStreaming ? PlayCircleIcon :
+                   isAdmin ? LayoutDashboardIcon :
+                   isLifestyle ? BookOpenIcon :
+                   isWellness ? HeartPulseIcon : TrendingUpDownIcon;
+
+  // Get color for each site
+  const iconColor = isFinancial ? 'text-[#7856FF]' :
+                    isCheckout ? 'text-[#07B096]' :
+                    isStreaming ? 'text-[#CC332B]' :
+                    isAdmin ? 'text-[#1E3A8A]' :
+                    isLifestyle ? 'text-[#F59E0B]' :
+                    isWellness ? 'text-[#14B8A6]' : 'text-gray-900';
+
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center opacity-75 hover:opacity-100">
       <div className="flex items-center gap-1">
         <Link className="flex items-center justify-center" href={isRoot ? "/" : basePath}>
-          <TrendingUpDownIcon className="h-10 w-10" />
+          <SiteIcon className={`h-10 w-10 ${iconColor}`} />
           <span className="ml-2 text-lg font-semibold">
             {siteName} <span className="invisible">logo</span>
           </span>

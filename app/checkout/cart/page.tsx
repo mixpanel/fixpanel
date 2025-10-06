@@ -87,7 +87,7 @@ export default function CartPage() {
   // Load cart from localStorage and convert to full product data
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('cheapstuff_cart');
+      const savedCart = localStorage.getItem('ibuy_cart');
       if (savedCart) {
         try {
           const cartData = JSON.parse(savedCart);
@@ -119,7 +119,7 @@ export default function CartPage() {
   // Update localStorage when cart changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('cheapstuff_cart', JSON.stringify(cartData));
+      localStorage.setItem('ibuy_cart', JSON.stringify(cartData));
     }
   }, [cartData]);
   const [couponCode, setCouponCode] = useState("");
