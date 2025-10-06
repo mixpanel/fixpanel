@@ -110,25 +110,6 @@ export function initMixpanel(): Promise<typeof mixpanel> {
             originalIdentify.call(mp, distinctId);
           };
 
-          //   monkey patch people.set to log to the console
-          const originalPeopleSet = mp.people.set;
-          mp.people.set = function (props: any) {
-            if (typeof props !== "object" || !props) props = {};
-            if (Object.keys(props).length === 0) console.log(`[MIXPANEL]: PEOPLE SET`);
-            else console.log(`[MIXPANEL]: PEOPLE SET`, props);
-            originalPeopleSet.call(mp, props);
-          };
-
-          //   monkey patch people.increment to log to the console
-          //   const originalPeopleIncrement = mp.people.increment;
-          //   mp.people.increment = function (props: string) {
-          //     if (typeof props !== "string" || !props) return;
-          //     if (Object.keys(props).length === 0) console.log(`[MIXPANEL]: PEOPLE INCREMENT`);
-          //     else console.log(`[MIXPANEL]: PEOPLE INCREMENT`, props);
-
-          //     originalPeopleIncrement.call(mp, props, 1);
-          //   };
-
           if (user) {
             console.log(`[MIXPANEL]: FOUND USER ${user}`);
             mp.identify(user);

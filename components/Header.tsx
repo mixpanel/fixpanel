@@ -39,9 +39,9 @@ export function Header() {
   const siteName = isFinancial ? 'FixPanel' :
                    isCheckout ? 'CheapStuff' :
                    isStreaming ? 'meTube' :
-                   isAdmin ? 'AdminHub' :
-                   isLifestyle ? 'LifeStyle+' :
-                   isWellness ? 'WellCare+' : 'Mixpanel Demos';
+                   isAdmin ? 'youAdmin' :
+                   isLifestyle ? 'weRead' :
+                   isWellness ? 'ourHeart' : 'Mixpanel Demos';
 
   return (
     <header className="px-4 lg:px-6 h-14 flex items-center opacity-75 hover:opacity-100">
@@ -115,6 +115,45 @@ export function Header() {
                 </Link>
                 <Link className="text-sm font-medium hover:underline underline-offset-4" href="/checkout/account">
                   My Account
+                </Link>
+              </>
+            )}
+            {isAdmin && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/admin/dashboard">
+                  Dashboard
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/admin/employees">
+                  Employees
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/admin/access">
+                  Access Control
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/admin/analytics">
+                  Analytics
+                </Link>
+              </>
+            )}
+            {isWellness && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/wellness/vote">
+                  Vote
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/wellness/chat">
+                  AI Doctor
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/wellness/submit">
+                  Submit Case
+                </Link>
+              </>
+            )}
+            {isLifestyle && (
+              <>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/lifestyle/feed">
+                  Feed
+                </Link>
+                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/lifestyle/submit">
+                  Submit Post
                 </Link>
               </>
             )}
