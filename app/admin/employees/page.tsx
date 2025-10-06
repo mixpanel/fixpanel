@@ -300,7 +300,7 @@ export default function EmployeesPage() {
     }
   }, []);
 
-  const departments = ["all", ...new Set(employees.map((emp) => emp.department))];
+  const departments = ["all", ...Array.from(new Set(employees.map((emp) => emp.department)))];
 
   const filteredEmployees = employees.filter((emp) => {
     const matchesSearch =

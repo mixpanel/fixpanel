@@ -7,7 +7,17 @@ import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import { ThumbsUpIcon, ArrowRightIcon, CheckCircleIcon } from "lucide-react";
 
-const initialMedicalCases = [
+type MedicalCase = {
+  id: number;
+  username: string;
+  symptoms: string;
+  age: string;
+  duration: string;
+  postedAt: string;
+  votes: Record<string, number>;
+};
+
+const initialMedicalCases: MedicalCase[] = [
   {
     id: 1,
     username: "SneezMaster3000",
@@ -108,7 +118,7 @@ export default function VotePage() {
         )
       );
 
-      setVotedOn(prev => new Set([...prev, currentCaseData.id]));
+      setVotedOn(prev => new Set([...Array.from(prev), currentCaseData.id]));
       setIsAnimating(false);
     }, 800);
   };

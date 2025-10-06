@@ -93,45 +93,54 @@ export default function LandingPage() {
               </div>
 
               {/* SaaS B2B */}
-              <div className="flex flex-col items-center space-y-3 border border-[#1E3A8A] p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <BuildingIcon className="h-16 w-16 text-[#1E3A8A]" />
-                <h3 className="text-2xl font-bold">SaaS + Admin Apps</h3>
+              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
+                <BuildingIcon className="h-16 w-16 text-gray-400" />
+                <h3 className="text-2xl font-bold text-gray-600">SaaS + Admin Apps</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   ERP-style admin dashboard for people ops, IT management, identity access control, and analytics
                 </p>
-                <Link href="/admin" className="w-full">
+                {/* <Link href="/admin" className="w-full">
                   <Button className="w-full bg-[#1E3A8A] text-white hover:bg-[#1E3A8A]/90">
                     Explore youAdmin
                   </Button>
-                </Link>
+                </Link> */}
+                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
+                  Coming Soon
+                </Button>
               </div>
 
               {/* Healthcare & Wellness */}
-              <div className="flex flex-col items-center space-y-3 border border-[#14B8A6] p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <HeartIcon className="h-16 w-16 text-[#14B8A6]" />
-                <h3 className="text-2xl font-bold">Healthcare + Wellness</h3>
+              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
+                <HeartIcon className="h-16 w-16 text-gray-400" />
+                <h3 className="text-2xl font-bold text-gray-600">Healthcare + Wellness</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   crowdsourced medical advice platform with AI doctor chat and community voting on diagnoses
                 </p>
-                <Link href="/wellness" className="w-full">
+                {/* <Link href="/wellness" className="w-full">
                   <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
                     Explore ourHeart
                   </Button>
-                </Link>
+                </Link> */}
+                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
+                  Coming Soon
+                </Button>
               </div>
 
               {/* Subscription B2C */}
-              <div className="flex flex-col items-center space-y-3 border border-[#F59E0B] p-6 rounded-lg hover:shadow-lg transition-shadow">
-                <SmartphoneIcon className="h-16 w-16 text-[#F59E0B]" />
-                <h3 className="text-2xl font-bold">Subscription + Lifestyle</h3>
+              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
+                <SmartphoneIcon className="h-16 w-16 text-gray-400" />
+                <h3 className="text-2xl font-bold text-gray-600">Subscription + Lifestyle</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   existentialist reddit-style forum with unique sorting by "likely to agree" or "likely to disagree"
                 </p>
-                <Link href="/lifestyle" className="w-full">
+                {/* <Link href="/lifestyle" className="w-full">
                   <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
                     Explore weRead
                   </Button>
-                </Link>
+                </Link> */}
+                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
+                  Coming Soon
+                </Button>
               </div>
             </div>
 

@@ -329,7 +329,7 @@ export default function LifestyleLanding() {
           : post
       )
     );
-    setVotedPosts(prev => new Set([...prev, postId]));
+    setVotedPosts(prev => new Set([...Array.from(prev), postId]));
 
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Lifestyle Post Upvoted", {
@@ -349,7 +349,7 @@ export default function LifestyleLanding() {
           : post
       )
     );
-    setVotedPosts(prev => new Set([...prev, postId]));
+    setVotedPosts(prev => new Set([...Array.from(prev), postId]));
 
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Lifestyle Post Downvoted", {

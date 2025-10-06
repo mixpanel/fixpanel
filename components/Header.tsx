@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { CreditCardIcon, TrendingUpDownIcon, HomeIcon } from "lucide-react";
 //@ts-ignore
 import mixpanel from "mixpanel-browser";
@@ -17,6 +18,11 @@ const getMixpanelUrl = () => {
 
 export function Header() {
   const pathname = usePathname();
+  const [mixpanelUrl, setMixpanelUrl] = useState(getMixpanelUrl());
+
+  const handleMixpanelHover = () => {
+    setMixpanelUrl(getMixpanelUrl());
+  };
 
   // Determine which microsite we're in
   const isFinancial = pathname.startsWith('/financial');
@@ -175,8 +181,9 @@ export function Header() {
 
         <Link
           className="text-sm font-medium hover:underline underline-offset-4 text-purple-500"
-          href={getMixpanelUrl()}
+          href={mixpanelUrl}
           target="_blank"
+          onMouseEnter={handleMixpanelHover}
         >
           MIXPANEL
         </Link>

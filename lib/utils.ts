@@ -84,7 +84,16 @@ export function initMixpanel(): Promise<typeof mixpanel> {
       persistence: "localStorage",
 
       loaded: (mp: any) => {
-        console.log("[MIXPANEL]: LOADED");
+		console.log("[MIXPANEL]: LOADED");
+		// on pagedepth = 1 RESET
+		const pageDepth = document.location.pathname.split("/").filter(a=>a).length;
+		if (pageDepth === 1) {
+			mp.stop_session_recording();
+			mp.reset();
+			console.log("[MIXPANEL]: PAGEDEPTH RESET");
+			mp.track_pageview();
+		}
+        
         console.log(`[MIXPANEL]: DISTINCT_ID: ${mp.get_distinct_id()}\n`);
         if (typeof window !== "undefined") {
           console.log("[MIXPANEL]: EXPOSED GLOBALLY");

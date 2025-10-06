@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 //@ts-ignore
 import mixpanel from "mixpanel-browser";
 import { ExternalLinkIcon } from "lucide-react";
@@ -11,6 +14,12 @@ export function Footer() {
       return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=${deviceId}`;
     }
     return "https://mixpanel.com/project/3276012/view/3782804/app/profile";
+  };
+
+  const [mixpanelUrl, setMixpanelUrl] = useState(getMixpanelProjectUrl());
+
+  const handleMixpanelHover = () => {
+    setMixpanelUrl(getMixpanelProjectUrl());
   };
 
   return (
@@ -33,8 +42,9 @@ export function Footer() {
         <Button
           variant="outline"
           onClick={() => {
-            window.open(getMixpanelProjectUrl(), '_blank');
+            window.open(mixpanelUrl, '_blank');
           }}
+          onMouseEnter={handleMixpanelHover}
           className="flex items-center gap-1"
         >
           <ExternalLinkIcon className="h-3 w-3" />
