@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useRouter } from "next/navigation";
-import { SendIcon, CheckCircleIcon } from "lucide-react";
+import { SendIcon, CheckCircleIcon, Loader2Icon } from "lucide-react";
 
 export default function SubmitPage() {
   const router = useRouter();
@@ -16,6 +16,7 @@ export default function SubmitPage() {
   const [duration, setDuration] = useState("");
   const [symptoms, setSymptoms] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -25,6 +26,7 @@ export default function SubmitPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Wellness Case Submitted", {
@@ -35,8 +37,11 @@ export default function SubmitPage() {
       });
     }
 
-    setSubmitted(true);
-    setTimeout(() => router.push("/wellness/vote"), 2000);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      setTimeout(() => router.push("/wellness/vote"), 2000);
+    }, 1000);
   };
 
   if (submitted) {
@@ -123,9 +128,23 @@ export default function SubmitPage() {
                 </p>
               </div>
 
-              <Button type="submit" className="w-full bg-teal-600 text-white hover:bg-teal-700" size="lg">
-                <SendIcon className="h-4 w-4 mr-2" />
-                Submit Case
+              <Button
+                type="submit"
+                className="w-full bg-teal-600 text-white hover:bg-teal-700"
+                size="lg"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2Icon className="h-4 w-4 mr-2 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <SendIcon className="h-4 w-4 mr-2" />
+                    Submit Case
+                  </>
+                )}
               </Button>
             </form>
           </div>

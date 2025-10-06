@@ -5,16 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import Link from "next/link";
 import {
   UsersIcon,
   SearchIcon,
-  FilterIcon,
   MailIcon,
   PhoneIcon,
   MapPinIcon,
+  XIcon,
+  CheckCircleIcon,
+  CalendarIcon,
   BriefcaseIcon,
-  MoreVerticalIcon,
 } from "lucide-react";
 
 // Extensive mock employee data
@@ -29,6 +29,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 123-4567",
     startDate: "2021-03-15",
+    manager: "David Kim",
+    salary: "$145,000",
   },
   {
     id: 2,
@@ -40,6 +42,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 234-5678",
     startDate: "2020-07-22",
+    manager: "Thomas Anderson",
+    salary: "$135,000",
   },
   {
     id: 3,
@@ -51,6 +55,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 345-6789",
     startDate: "2019-11-08",
+    manager: "Nina Kowalski",
+    salary: "$128,000",
   },
   {
     id: 4,
@@ -62,6 +68,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 456-7890",
     startDate: "2022-01-10",
+    manager: "David Kim",
+    salary: "$132,000",
   },
   {
     id: 5,
@@ -73,6 +81,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 567-8901",
     startDate: "2021-09-05",
+    manager: "Thomas Anderson",
+    salary: "$115,000",
   },
   {
     id: 6,
@@ -84,6 +94,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 678-9012",
     startDate: "2018-05-20",
+    manager: "Lisa Tanaka",
+    salary: "$165,000",
   },
   {
     id: 7,
@@ -95,6 +107,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 789-0123",
     startDate: "2020-12-15",
+    manager: "Thomas Anderson",
+    salary: "$125,000",
   },
   {
     id: 8,
@@ -106,6 +120,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 890-1234",
     startDate: "2022-06-01",
+    manager: "David Kim",
+    salary: "$122,000",
   },
   {
     id: 9,
@@ -117,6 +133,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 901-2345",
     startDate: "2019-08-12",
+    manager: "Lisa Tanaka",
+    salary: "$118,000",
   },
   {
     id: 10,
@@ -128,6 +146,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 012-3456",
     startDate: "2021-02-28",
+    manager: "Lisa Tanaka",
+    salary: "$108,000",
   },
   {
     id: 11,
@@ -139,6 +159,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 123-5678",
     startDate: "2022-03-14",
+    manager: "David Kim",
+    salary: "$128,000",
   },
   {
     id: 12,
@@ -150,6 +172,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 234-6789",
     startDate: "2020-10-05",
+    manager: "Thomas Anderson",
+    salary: "$112,000",
   },
   {
     id: 13,
@@ -161,6 +185,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 345-7890",
     startDate: "2021-07-19",
+    manager: "David Kim",
+    salary: "$142,000",
   },
   {
     id: 14,
@@ -172,6 +198,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 456-8901",
     startDate: "2017-04-03",
+    manager: "Lisa Tanaka",
+    salary: "$185,000",
   },
   {
     id: 15,
@@ -183,6 +211,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 567-9012",
     startDate: "2020-11-22",
+    manager: "Thomas Anderson",
+    salary: "$138,000",
   },
   {
     id: 16,
@@ -194,6 +224,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 678-0123",
     startDate: "2022-08-30",
+    manager: "David Kim",
+    salary: "$126,000",
   },
   {
     id: 17,
@@ -205,6 +237,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 789-1234",
     startDate: "2021-05-17",
+    manager: "Nina Kowalski",
+    salary: "$115,000",
   },
   {
     id: 18,
@@ -216,6 +250,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 890-2345",
     startDate: "2019-12-09",
+    manager: "David Kim",
+    salary: "$148,000",
   },
   {
     id: 19,
@@ -227,6 +263,8 @@ const employees = [
     status: "active",
     phone: "+1 (555) 901-3456",
     startDate: "2018-09-24",
+    manager: "CEO",
+    salary: "$195,000",
   },
   {
     id: 20,
@@ -238,12 +276,23 @@ const employees = [
     status: "active",
     phone: "+1 (555) 012-4567",
     startDate: "2020-03-11",
+    manager: "Lisa Tanaka",
+    salary: "$120,000",
   },
 ];
 
 export default function EmployeesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("all");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState<typeof employees[0] | null>(null);
+  const [newEmployee, setNewEmployee] = useState({
+    name: "",
+    email: "",
+    department: "Engineering",
+    role: "",
+    location: "",
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -262,6 +311,16 @@ export default function EmployeesPage() {
     return matchesSearch && matchesDepartment;
   });
 
+  const handleAddEmployee = () => {
+    if (typeof window !== "undefined" && window.mixpanel) {
+      window.mixpanel.track("Employee Added", newEmployee);
+    }
+    setShowAddModal(false);
+    setNewEmployee({ name: "", email: "", department: "Engineering", role: "", location: "" });
+    // Show success message
+    alert(`✅ ${newEmployee.name} has been added to the system!`);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50">
       <Header />
@@ -277,8 +336,9 @@ export default function EmployeesPage() {
               <Button
                 className="bg-blue-600 text-white hover:bg-blue-700"
                 onClick={() => {
+                  setShowAddModal(true);
                   if (typeof window !== "undefined" && window.mixpanel) {
-                    window.mixpanel.track("Add Employee Clicked");
+                    window.mixpanel.track("Add Employee Modal Opened");
                   }
                 }}
               >
@@ -395,23 +455,22 @@ export default function EmployeesPage() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <Link href={`/admin/employee/${employee.id}`}>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                if (typeof window !== "undefined" && window.mixpanel) {
-                                  window.mixpanel.track("View Employee Profile", {
-                                    employee_id: employee.id,
-                                    employee_name: employee.name,
-                                    department: employee.department,
-                                  });
-                                }
-                              }}
-                            >
-                              View Details
-                            </Button>
-                          </Link>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedEmployee(employee);
+                              if (typeof window !== "undefined" && window.mixpanel) {
+                                window.mixpanel.track("View Employee Profile", {
+                                  employee_id: employee.id,
+                                  employee_name: employee.name,
+                                  department: employee.department,
+                                });
+                              }
+                            }}
+                          >
+                            View Details
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -421,6 +480,173 @@ export default function EmployeesPage() {
             </div>
           </div>
         </section>
+
+        {/* Add Employee Modal */}
+        {showAddModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-slate-200 flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-slate-900">Add New Employee</h2>
+                <button
+                  onClick={() => setShowAddModal(false)}
+                  className="text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  <XIcon className="h-6 w-6" />
+                </button>
+              </div>
+              <div className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                  <Input
+                    value={newEmployee.name}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, name: e.target.value })}
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                  <Input
+                    type="email"
+                    value={newEmployee.email}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, email: e.target.value })}
+                    placeholder="john.doe@company.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Department</label>
+                  <select
+                    value={newEmployee.department}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, department: e.target.value })}
+                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {departments.filter((d) => d !== "all").map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Role</label>
+                  <Input
+                    value={newEmployee.role}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, role: e.target.value })}
+                    placeholder="Software Engineer"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Location</label>
+                  <Input
+                    value={newEmployee.location}
+                    onChange={(e) => setNewEmployee({ ...newEmployee, location: e.target.value })}
+                    placeholder="San Francisco, CA"
+                  />
+                </div>
+              </div>
+              <div className="p-6 border-t border-slate-200 flex justify-end gap-3">
+                <Button variant="outline" onClick={() => setShowAddModal(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  className="bg-blue-600 text-white hover:bg-blue-700"
+                  onClick={handleAddEmployee}
+                  disabled={!newEmployee.name || !newEmployee.email}
+                >
+                  <CheckCircleIcon className="h-4 w-4 mr-2" />
+                  Add Employee
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Employee Detail Modal */}
+        {selectedEmployee && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full">
+              <div className="p-6 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="h-16 w-16 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-2xl font-bold">
+                    {selectedEmployee.name.split(" ").map((n) => n[0]).join("")}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold">{selectedEmployee.name}</h2>
+                    <p className="text-blue-100">{selectedEmployee.role}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedEmployee(null)}
+                  className="text-white hover:text-blue-200 transition-colors"
+                >
+                  <XIcon className="h-6 w-6" />
+                </button>
+              </div>
+              <div className="p-6 grid grid-cols-2 gap-6">
+                <div>
+                  <div className="flex items-center text-sm text-slate-600 mb-1">
+                    <MailIcon className="h-4 w-4 mr-2" />
+                    Email
+                  </div>
+                  <div className="text-slate-900 font-medium">{selectedEmployee.email}</div>
+                </div>
+                <div>
+                  <div className="flex items-center text-sm text-slate-600 mb-1">
+                    <PhoneIcon className="h-4 w-4 mr-2" />
+                    Phone
+                  </div>
+                  <div className="text-slate-900 font-medium">{selectedEmployee.phone}</div>
+                </div>
+                <div>
+                  <div className="flex items-center text-sm text-slate-600 mb-1">
+                    <BriefcaseIcon className="h-4 w-4 mr-2" />
+                    Department
+                  </div>
+                  <div className="text-slate-900 font-medium">{selectedEmployee.department}</div>
+                </div>
+                <div>
+                  <div className="flex items-center text-sm text-slate-600 mb-1">
+                    <MapPinIcon className="h-4 w-4 mr-2" />
+                    Location
+                  </div>
+                  <div className="text-slate-900 font-medium">{selectedEmployee.location}</div>
+                </div>
+                <div>
+                  <div className="flex items-center text-sm text-slate-600 mb-1">
+                    <CalendarIcon className="h-4 w-4 mr-2" />
+                    Start Date
+                  </div>
+                  <div className="text-slate-900 font-medium">{selectedEmployee.startDate}</div>
+                </div>
+                <div>
+                  <div className="flex items-center text-sm text-slate-600 mb-1">
+                    <UsersIcon className="h-4 w-4 mr-2" />
+                    Manager
+                  </div>
+                  <div className="text-slate-900 font-medium">{selectedEmployee.manager}</div>
+                </div>
+              </div>
+              <div className="p-6 border-t border-slate-200 bg-slate-50 rounded-b-lg">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="text-sm text-slate-600">Annual Salary</div>
+                    <div className="text-2xl font-bold text-slate-900">{selectedEmployee.salary}</div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
+                      if (typeof window !== "undefined" && window.mixpanel) {
+                        window.mixpanel.track("Employee Edit Rickrolled");
+                      }
+                    }}
+                  >
+                    Edit Profile
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>

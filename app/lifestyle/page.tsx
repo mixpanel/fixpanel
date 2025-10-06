@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 // Extensive mock data for posts
-const posts = [
+const initialPosts = [
   {
     id: 1,
     author: "Sisyphus_Reborn",
@@ -114,16 +114,266 @@ const posts = [
     tags: ["de-beauvoir", "feminism", "capitalism", "burnout"],
     postedAt: "6 days ago",
   },
+  {
+    id: 9,
+    author: "Dialectical_Dave",
+    title: "Work is Just Performative Existence",
+    content:
+      "I show up, I perform tasks, I get paid. But what am I actually doing? Creating value? For whom? The whole structure feels like an elaborate performance where we pretend our labor has inherent meaning. Maybe Baudrillard was right—it's all simulation now.",
+    upvotes: 892,
+    downvotes: 203,
+    comments: 156,
+    tags: ["work", "capitalism", "baudrillard", "simulation"],
+    postedAt: "7 days ago",
+  },
+  {
+    id: 10,
+    author: "Eternal_Return",
+    title: "What If This Moment Has Happened Before?",
+    content:
+      "Nietzsche's eternal recurrence haunts me. What if you had to live this exact life, this exact moment, infinite times? Would you change anything? I think about this every time I'm stuck in traffic or scrolling mindlessly. Is this really how I want to spend eternity?",
+    upvotes: 1247,
+    downvotes: 89,
+    comments: 234,
+    tags: ["nietzsche", "eternal-recurrence", "existentialism"],
+    postedAt: "1 week ago",
+  },
+  {
+    id: 11,
+    author: "Phenomenological_Phil",
+    title: "On the Violence of Normalcy",
+    content:
+      "Society enforces 'normal' with surgical precision. Wake at 7, work 9-5, marry by 30, retire at 65. But who decided this? Foucault showed us how power operates through norms, not force. Every time someone asks 'what do you do?' they're really asking 'have you conformed yet?'",
+    upvotes: 723,
+    downvotes: 441,
+    comments: 189,
+    tags: ["foucault", "power", "society", "conformity"],
+    postedAt: "1 week ago",
+  },
+  {
+    id: 12,
+    author: "Becoming_Being",
+    title: "You're Not Finding Yourself, You're Creating Yourself",
+    content:
+      "The idea that we need to 'find ourselves' implies there's a fixed self somewhere waiting to be discovered. But Sartre had it right—existence precedes essence. You're not finding anything. You're making choices, and those choices are making you. Stop searching. Start building.",
+    upvotes: 2103,
+    downvotes: 127,
+    comments: 312,
+    tags: ["sartre", "self", "identity", "choice"],
+    postedAt: "1 week ago",
+  },
+  {
+    id: 13,
+    author: "Transcendent_Tara",
+    title: "The Anxiety of Being Perceived",
+    content:
+      "Sartre's 'hell is other people' makes more sense every day. The moment someone looks at me, I become an object in their world. Their gaze fixes me, defines me, limits me. Social media has weaponized this—we're all objects now, curated and consumable. How do we reclaim our subjectivity?",
+    upvotes: 1456,
+    downvotes: 178,
+    comments: 267,
+    tags: ["sartre", "social-media", "authenticity", "the-gaze"],
+    postedAt: "1 week ago",
+  },
+  {
+    id: 14,
+    author: "Hegelian_Hangover",
+    title: "Every Conversation is a Power Struggle",
+    content:
+      "You ever notice how conversations are just people taking turns trying to assert dominance? Someone shares a story, you one-up them. Someone makes a point, you counter. Even agreement is strategic. We're all just fighting for recognition in an endless dialectic.",
+    upvotes: 634,
+    downvotes: 389,
+    comments: 201,
+    tags: ["hegel", "conversation", "power", "recognition"],
+    postedAt: "1 week ago",
+  },
+  {
+    id: 15,
+    author: "Quantum_Kierkegaard",
+    title: "The Dread of Infinite Possibility",
+    content:
+      "Kierkegaard called it anxiety—the vertigo of freedom. When everything is possible, nothing feels certain. I can be anyone, go anywhere, do anything. And that terrifies me. How do you choose when every choice forecloses infinite other lives? Maybe limitation is freedom.",
+    upvotes: 1089,
+    downvotes: 234,
+    comments: 178,
+    tags: ["kierkegaard", "anxiety", "freedom", "choice"],
+    postedAt: "2 weeks ago",
+  },
+  {
+    id: 16,
+    author: "Simulated_Socrates",
+    title: "Are We Just NPCs in Someone's Simulation?",
+    content:
+      "If we're in a simulation (Bostrom says 50/50 odds), then our choices might be predetermined. But does that even matter? If the experience feels real, if suffering feels real, doesn't that make it real? Descartes said 'I think therefore I am.' I'd add: 'I suffer therefore it matters.'",
+    upvotes: 978,
+    downvotes: 412,
+    comments: 298,
+    tags: ["simulation", "bostrom", "descartes", "reality"],
+    postedAt: "2 weeks ago",
+  },
+  {
+    id: 17,
+    author: "Dasein_Dealer",
+    title: "Authenticity is Exhausting",
+    content:
+      "Heidegger wants us to live authentically, but have you tried it? It's relentless. Every choice matters. Every moment demands presence. Sometimes I just want to scroll TikTok and exist inauthentically for a bit. Is that so wrong?",
+    upvotes: 1834,
+    downvotes: 156,
+    comments: 289,
+    tags: ["heidegger", "authenticity", "dasein", "burnout"],
+    postedAt: "2 weeks ago",
+  },
+  {
+    id: 18,
+    author: "Absurdist_Alex",
+    title: "Embrace the Meaninglessness",
+    content:
+      "Nothing matters. Your job doesn't matter. Your achievements don't matter. The heat death of the universe will erase it all. But here's the thing—that's liberating. If nothing matters, then you're free to create your own meaning. Camus was onto something with that whole Sisyphus thing.",
+    upvotes: 2456,
+    downvotes: 203,
+    comments: 401,
+    tags: ["camus", "absurdism", "meaning", "nihilism"],
+    postedAt: "2 weeks ago",
+  },
+  {
+    id: 19,
+    author: "Liminal_Lauren",
+    title: "We Live in the Gaps Between Certainties",
+    content:
+      "I used to think adulthood meant having answers. But I'm realizing life is just moving from one uncertainty to another. We exist in liminal spaces—between jobs, between relationships, between versions of ourselves. Maybe that's not a bug. Maybe that's the point.",
+    upvotes: 1567,
+    downvotes: 112,
+    comments: 234,
+    tags: ["liminal", "uncertainty", "adulthood", "identity"],
+    postedAt: "3 weeks ago",
+  },
+  {
+    id: 20,
+    author: "Hermeneutic_Hank",
+    title: "Language is a Cage We Built for Ourselves",
+    content:
+      "Wittgenstein said the limits of my language are the limits of my world. I think about this constantly. How many thoughts can't I think because I don't have words for them? How many realities are invisible because our language doesn't acknowledge them? We're trapped in a linguistic prison of our own making.",
+    upvotes: 823,
+    downvotes: 267,
+    comments: 167,
+    tags: ["wittgenstein", "language", "limits", "philosophy-of-language"],
+    postedAt: "3 weeks ago",
+  },
+  {
+    id: 21,
+    author: "Stoic_Struggler",
+    title: "Control What You Can, Release What You Can't",
+    content:
+      "Marcus Aurelius said you have power over your mind, not outside events. Realize this and you find strength. I spent years raging at things I couldn't change. Now I'm learning to let go. It's not apathy—it's wisdom. Focus on the radius of your agency and let the rest burn.",
+    upvotes: 2789,
+    downvotes: 134,
+    comments: 423,
+    tags: ["stoicism", "marcus-aurelius", "control", "acceptance"],
+    postedAt: "3 weeks ago",
+  },
+  {
+    id: 22,
+    author: "Genealogical_Gwen",
+    title: "Every Belief You Hold Was Given to You",
+    content:
+      "Nietzsche's genealogy is terrifying once you get it. Your morals, your values, your sense of right and wrong—none of it is yours. It's cultural inheritance. You're performing a script written centuries ago. The question is: do you have the courage to rewrite it?",
+    upvotes: 1456,
+    downvotes: 534,
+    comments: 312,
+    tags: ["nietzsche", "genealogy", "morality", "culture"],
+    postedAt: "3 weeks ago",
+  },
+  {
+    id: 23,
+    author: "Panopticon_Pete",
+    title: "We're All Surveilling Each Other Now",
+    content:
+      "Foucault's panopticon is real, but we built it ourselves. Ring doorbells, Instagram stories, Slack status indicators—we've normalized constant surveillance. And the worst part? We police ourselves. I catch myself performing for an imaginary audience even when I'm alone.",
+    upvotes: 1678,
+    downvotes: 289,
+    comments: 267,
+    tags: ["foucault", "surveillance", "panopticon", "technology"],
+    postedAt: "4 weeks ago",
+  },
+  {
+    id: 24,
+    author: "Ontological_Olivia",
+    title: "Being and Time and Being Out of Time",
+    content:
+      "Heidegger talks about Dasein's relationship to time, but I think we've broken that relationship. We're always late, always rushing, always 'running out of time.' But time isn't running. We are. What would it mean to simply... be... in time rather than against it?",
+    upvotes: 934,
+    downvotes: 156,
+    comments: 198,
+    tags: ["heidegger", "time", "dasein", "modernity"],
+    postedAt: "4 weeks ago",
+  },
 ];
 
 export default function LifestyleLanding() {
   const [sortBy, setSortBy] = useState<"popular" | "agree" | "disagree">("popular");
+  const [posts, setPosts] = useState(initialPosts);
+  const [votedPosts, setVotedPosts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Lifestyle Landing Viewed");
     }
   }, []);
+
+  const handleUpvote = (postId: number) => {
+    if (votedPosts.has(postId)) return;
+
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === postId
+          ? { ...post, upvotes: post.upvotes + 1 }
+          : post
+      )
+    );
+    setVotedPosts(prev => new Set([...prev, postId]));
+
+    if (typeof window !== "undefined" && window.mixpanel) {
+      window.mixpanel.track("Lifestyle Post Upvoted", {
+        post_id: postId,
+        post_title: posts.find(p => p.id === postId)?.title,
+      });
+    }
+  };
+
+  const handleDownvote = (postId: number) => {
+    if (votedPosts.has(postId)) return;
+
+    setPosts(prevPosts =>
+      prevPosts.map(post =>
+        post.id === postId
+          ? { ...post, downvotes: post.downvotes + 1 }
+          : post
+      )
+    );
+    setVotedPosts(prev => new Set([...prev, postId]));
+
+    if (typeof window !== "undefined" && window.mixpanel) {
+      window.mixpanel.track("Lifestyle Post Downvoted", {
+        post_id: postId,
+        post_title: posts.find(p => p.id === postId)?.title,
+      });
+    }
+  };
+
+  const getSortedPosts = () => {
+    const sorted = [...posts];
+    if (sortBy === "popular") {
+      return sorted.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes));
+    } else if (sortBy === "agree") {
+      // Shuffle for "likely to agree" - random order each time
+      return sorted.sort(() => Math.random() - 0.5);
+    } else if (sortBy === "disagree") {
+      // Shuffle for "likely to disagree" - different random order
+      return sorted.sort(() => 0.5 - Math.random());
+    }
+    return sorted;
+  };
+
+  const sortedPosts = getSortedPosts();
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-900 text-zinc-100">
@@ -258,7 +508,7 @@ export default function LifestyleLanding() {
         <section className="w-full py-8 bg-zinc-900">
           <div className="container px-4 md:px-6 max-w-5xl">
             <div className="space-y-4">
-              {posts.map((post) => (
+              {sortedPosts.map((post) => (
                 <div
                   key={post.id}
                   className="bg-zinc-800 border border-zinc-700 rounded-lg p-6 hover:border-amber-600 transition-colors"
@@ -267,28 +517,29 @@ export default function LifestyleLanding() {
                     {/* Vote Section */}
                     <div className="flex flex-col items-center space-y-2 pt-1">
                       <button
-                        onClick={() => {
-                          if (typeof window !== "undefined" && window.mixpanel) {
-                            window.mixpanel.track("Lifestyle Post Upvoted", { post_id: post.id, post_title: post.title });
-                          }
-                        }}
-                        className="text-zinc-500 hover:text-amber-500 transition-colors"
+                        onClick={() => handleUpvote(post.id)}
+                        className={`transition-all ${
+                          votedPosts.has(post.id)
+                            ? "text-amber-500 cursor-not-allowed"
+                            : "text-zinc-500 hover:text-amber-500 hover:scale-110"
+                        }`}
+                        disabled={votedPosts.has(post.id)}
                       >
                         <ArrowUpIcon className="h-6 w-6" />
                       </button>
-                      <span className="text-lg font-bold text-zinc-300">
+                      <span className={`text-lg font-bold transition-colors ${
+                        votedPosts.has(post.id) ? "text-amber-500" : "text-zinc-300"
+                      }`}>
                         {(post.upvotes - post.downvotes).toLocaleString()}
                       </span>
                       <button
-                        onClick={() => {
-                          if (typeof window !== "undefined" && window.mixpanel) {
-                            window.mixpanel.track("Lifestyle Post Downvoted", {
-                              post_id: post.id,
-                              post_title: post.title,
-                            });
-                          }
-                        }}
-                        className="text-zinc-500 hover:text-blue-500 transition-colors"
+                        onClick={() => handleDownvote(post.id)}
+                        className={`transition-all ${
+                          votedPosts.has(post.id)
+                            ? "text-blue-500 cursor-not-allowed"
+                            : "text-zinc-500 hover:text-blue-500 hover:scale-110"
+                        }`}
+                        disabled={votedPosts.has(post.id)}
                       >
                         <ArrowDownIcon className="h-6 w-6" />
                       </button>
@@ -306,18 +557,32 @@ export default function LifestyleLanding() {
                       <div className="flex items-center space-x-4">
                         <div className="flex flex-wrap gap-2">
                           {post.tags.map((tag) => (
-                            <span
+                            <button
                               key={tag}
-                              className="px-2 py-1 bg-zinc-700 text-zinc-300 text-xs rounded-full border border-zinc-600"
+                              onClick={() => {
+                                if (typeof window !== "undefined" && window.mixpanel) {
+                                  window.mixpanel.track("Lifestyle Tag Clicked", { tag });
+                                }
+                                window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
+                              }}
+                              className="px-2 py-1 bg-zinc-700 text-zinc-300 text-xs rounded-full border border-zinc-600 hover:bg-amber-600 hover:text-zinc-900 hover:border-amber-500 transition-colors cursor-pointer"
                             >
                               #{tag}
-                            </span>
+                            </button>
                           ))}
                         </div>
-                        <div className="flex items-center text-zinc-500 text-sm ml-auto">
+                        <button
+                          onClick={() => {
+                            if (typeof window !== "undefined" && window.mixpanel) {
+                              window.mixpanel.track("Lifestyle Comments Clicked", { post_id: post.id });
+                            }
+                            window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
+                          }}
+                          className="flex items-center text-zinc-500 text-sm ml-auto hover:text-amber-500 transition-colors cursor-pointer"
+                        >
                           <MessageSquareIcon className="h-4 w-4 mr-1" />
                           {post.comments} comments
-                        </div>
+                        </button>
                       </div>
                     </div>
                   </div>

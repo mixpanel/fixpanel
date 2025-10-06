@@ -6,34 +6,31 @@ import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useRouter } from "next/navigation";
-import { LockIcon, MailIcon, ShieldCheckIcon } from "lucide-react";
+import { LockIcon, MailIcon, ShieldCheckIcon, Loader2Icon } from "lucide-react";
 
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Show loader
+    setIsLoading(true);
 
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Admin Login Submitted", {
         email_domain: email.split("@")[1] || "unknown",
         has_password: password.length > 0,
       });
-
-      // Set user profile for demo
-      window.mixpanel.identify(email || "admin@youadmin.demo");
-      window.mixpanel.people.set({
-        $email: email || "admin@youadmin.demo",
-        $name: email.split("@")[0] || "Admin User",
-        role: "Administrator",
-        vertical: "SaaS B2B",
-      });
     }
 
-    // Accept any credentials and redirect to dashboard
-    router.push("/admin/dashboard");
+    // Simulate auth with loader then redirect to dashboard
+    setTimeout(() => {
+      router.push("/admin/dashboard");
+    }, 1500);
   };
 
   return (
@@ -69,6 +66,7 @@ export default function AdminLogin() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -87,6 +85,7 @@ export default function AdminLogin() {
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -97,6 +96,7 @@ export default function AdminLogin() {
                     id="remember"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
+                    disabled={isLoading}
                   />
                   <label htmlFor="remember" className="ml-2 block text-sm text-slate-700">
                     Remember me
@@ -112,8 +112,16 @@ export default function AdminLogin() {
                 className="w-full bg-blue-600 text-white hover:bg-blue-700"
                 size="lg"
                 id="signInButton"
+                disabled={isLoading}
               >
-                Sign In
+                {isLoading ? (
+                  <>
+                    <Loader2Icon className="mr-2 h-5 w-5 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             </form>
 
@@ -130,11 +138,13 @@ export default function AdminLogin() {
               <Button
                 variant="outline"
                 className="w-full"
+                disabled={isLoading}
                 onClick={() => {
                   if (typeof window !== "undefined" && window.mixpanel) {
                     window.mixpanel.track("Admin SSO Clicked", { provider: "Google" });
                   }
-                  router.push("/admin/dashboard");
+                  setIsLoading(true);
+                  setTimeout(() => router.push("/admin/dashboard"), 1500);
                 }}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -160,11 +170,13 @@ export default function AdminLogin() {
               <Button
                 variant="outline"
                 className="w-full"
+                disabled={isLoading}
                 onClick={() => {
                   if (typeof window !== "undefined" && window.mixpanel) {
                     window.mixpanel.track("Admin SSO Clicked", { provider: "Microsoft" });
                   }
-                  router.push("/admin/dashboard");
+                  setIsLoading(true);
+                  setTimeout(() => router.push("/admin/dashboard"), 1500);
                 }}
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

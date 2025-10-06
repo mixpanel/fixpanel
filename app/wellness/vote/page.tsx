@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
-import { ThumbsUpIcon, ThumbsDownIcon, EyeIcon, TrendingUpIcon } from "lucide-react";
+import { ThumbsUpIcon, ArrowRightIcon, CheckCircleIcon } from "lucide-react";
 
-const medicalCases = [
+const initialMedicalCases = [
   {
     id: 1,
     username: "SneezMaster3000",
@@ -66,7 +66,10 @@ const medicalCases = [
 
 export default function VotePage() {
   const [currentCase, setCurrentCase] = useState(0);
-  const [votedOn, setVotedOn] = useState<number[]>([]);
+  const [votedOn, setVotedOn] = useState<Set<number>>(new Set());
+  const [cases, setCases] = useState(initialMedicalCases);
+  const [selectedVote, setSelectedVote] = useState<string | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -74,22 +77,55 @@ export default function VotePage() {
     }
   }, []);
 
-  const handleVote = (caseId: number, diagnosis: string, votes: number) => {
+  const currentCaseData = cases[currentCase];
+  const hasVoted = votedOn.has(currentCaseData?.id);
+
+  const handleVote = (diagnosis: string) => {
+    setIsAnimating(true);
+    setSelectedVote(diagnosis);
+
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Wellness Case Vote", {
-        case_id: caseId,
+        case_id: currentCaseData.id,
         diagnosis: diagnosis,
-        current_votes: votes,
+        username: currentCaseData.username,
       });
     }
-    setVotedOn([...votedOn, caseId]);
-    if (currentCase < medicalCases.length - 1) {
+
+    // Update vote count for this diagnosis
+    setTimeout(() => {
+      setCases(prevCases =>
+        prevCases.map(c =>
+          c.id === currentCaseData.id
+            ? {
+                ...c,
+                votes: {
+                  ...c.votes,
+                  [diagnosis]: c.votes[diagnosis as keyof typeof c.votes] + 1
+                }
+              }
+            : c
+        )
+      );
+
+      setVotedOn(prev => new Set([...prev, currentCaseData.id]));
+      setIsAnimating(false);
+    }, 800);
+  };
+
+  const goToNext = () => {
+    if (currentCase < cases.length - 1) {
       setCurrentCase(currentCase + 1);
+      setSelectedVote(null);
     }
   };
 
-  const currentCaseData = medicalCases[currentCase];
-  const hasVoted = votedOn.includes(currentCaseData?.id);
+  const goToPrevious = () => {
+    if (currentCase > 0) {
+      setCurrentCase(currentCase - 1);
+      setSelectedVote(null);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-orange-50 to-white">
@@ -104,12 +140,12 @@ export default function VotePage() {
               </div>
               <div className="mt-4 md:mt-0">
                 <div className="text-sm text-slate-600">
-                  Case {currentCase + 1} of {medicalCases.length}
+                  Case {currentCase + 1} of {cases.length}
                 </div>
                 <div className="w-64 bg-slate-200 rounded-full h-2 mt-2">
                   <div
-                    className="bg-orange-600 h-2 rounded-full transition-all"
-                    style={{ width: `${((currentCase + 1) / medicalCases.length) * 100}%` }}
+                    className="bg-orange-600 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${((currentCase + 1) / cases.length) * 100}%` }}
                   ></div>
                 </div>
               </div>
@@ -120,7 +156,7 @@ export default function VotePage() {
         {currentCaseData && (
           <section className="w-full py-12">
             <div className="container px-4 md:px-6 max-w-4xl">
-              <div className="bg-white rounded-lg border-2 border-orange-200 shadow-xl p-8">
+              <div className={`bg-white rounded-lg border-2 border-orange-200 shadow-xl p-8 transition-all ${isAnimating ? 'scale-[0.98]' : ''}`}>
                 {/* Case Header */}
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center space-x-3">
@@ -150,63 +186,78 @@ export default function VotePage() {
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 mb-4">What do you think it is?</h3>
                   <div className="grid gap-3 md:grid-cols-2">
-                    {Object.entries(currentCaseData.votes).map(([diagnosis, votes]) => (
-                      <button
-                        key={diagnosis}
-                        onClick={() => handleVote(currentCaseData.id, diagnosis, votes as number)}
-                        disabled={hasVoted}
-                        className={`p-4 rounded-lg border-2 transition-all text-left ${
-                          hasVoted
-                            ? "border-slate-200 bg-slate-50 cursor-not-allowed"
-                            : "border-orange-200 hover:border-orange-400 hover:bg-orange-50 cursor-pointer"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium text-slate-900 capitalize">
-                            {diagnosis.replace(/([A-Z])/g, " $1").trim()}
-                          </span>
-                          <span className="text-sm text-slate-500">{votes} votes</span>
-                        </div>
-                        <div className="w-full bg-slate-200 rounded-full h-2">
-                          <div
-                            className="bg-orange-600 h-2 rounded-full transition-all"
-                            style={{
-                              width: `${
-                                (votes / Object.values(currentCaseData.votes).reduce((a, b) => a + b, 0)) * 100
-                              }%`,
-                            }}
-                          ></div>
-                        </div>
-                      </button>
-                    ))}
+                    {Object.entries(currentCaseData.votes).map(([diagnosis, votes]) => {
+                      const totalVotes = Object.values(currentCaseData.votes).reduce((a, b) => a + b, 0);
+                      const percentage = (votes / totalVotes) * 100;
+                      const isSelected = selectedVote === diagnosis;
+                      const wasVoted = hasVoted && isSelected;
+
+                      return (
+                        <button
+                          key={diagnosis}
+                          onClick={() => !hasVoted && handleVote(diagnosis)}
+                          disabled={hasVoted}
+                          className={`p-4 rounded-lg border-2 transition-all text-left relative overflow-hidden ${
+                            wasVoted
+                              ? "border-green-400 bg-green-50 ring-2 ring-green-200"
+                              : hasVoted
+                              ? "border-slate-200 bg-slate-50 cursor-not-allowed opacity-70"
+                              : "border-orange-200 hover:border-orange-400 hover:bg-orange-50 cursor-pointer hover:scale-105"
+                          }`}
+                        >
+                          {wasVoted && (
+                            <div className="absolute top-2 right-2">
+                              <CheckCircleIcon className="h-6 w-6 text-green-600 animate-bounce" />
+                            </div>
+                          )}
+                          <div className="flex items-center justify-between mb-2 relative z-10">
+                            <span className="font-medium text-slate-900 capitalize">
+                              {diagnosis.replace(/([A-Z])/g, " $1").trim()}
+                            </span>
+                            <span className={`text-sm font-bold ${wasVoted ? 'text-green-600' : 'text-slate-500'}`}>
+                              {votes} votes
+                            </span>
+                          </div>
+                          <div className="w-full bg-slate-200 rounded-full h-2 relative z-10">
+                            <div
+                              className={`h-2 rounded-full transition-all duration-500 ${
+                                wasVoted ? 'bg-green-600' : 'bg-orange-600'
+                              }`}
+                              style={{ width: `${percentage}%` }}
+                            ></div>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Navigation */}
                 <div className="mt-8 flex justify-between items-center pt-6 border-t border-slate-200">
                   <Button
-                    variant="ghost"
-                    onClick={() => setCurrentCase(Math.max(0, currentCase - 1))}
+                    variant="outline"
+                    onClick={goToPrevious}
                     disabled={currentCase === 0}
                   >
                     Previous Case
                   </Button>
                   {hasVoted && (
-                    <div className="flex items-center text-green-600">
-                      <ThumbsUpIcon className="h-5 w-5 mr-2" />
+                    <div className="flex items-center text-green-600 bg-green-50 px-4 py-2 rounded-lg">
+                      <CheckCircleIcon className="h-5 w-5 mr-2" />
                       <span className="font-medium">Vote Recorded!</span>
                     </div>
                   )}
                   <Button
                     className="bg-orange-600 text-white hover:bg-orange-700"
-                    onClick={() => {
-                      if (currentCase < medicalCases.length - 1) {
-                        setCurrentCase(currentCase + 1);
-                      }
-                    }}
-                    disabled={currentCase === medicalCases.length - 1}
+                    onClick={goToNext}
+                    disabled={currentCase === cases.length - 1}
                   >
-                    {currentCase === medicalCases.length - 1 ? "All Done!" : "Next Case"}
+                    {currentCase === cases.length - 1 ? "All Done!" : (
+                      <>
+                        Next Case
+                        <ArrowRightIcon className="h-4 w-4 ml-2" />
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -214,7 +265,7 @@ export default function VotePage() {
               {/* Stats */}
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 <div className="bg-white rounded-lg border border-slate-200 p-6 text-center">
-                  <div className="text-3xl font-bold text-orange-600">{votedOn.length}</div>
+                  <div className="text-3xl font-bold text-orange-600">{votedOn.size}</div>
                   <div className="text-sm text-slate-600 mt-1">Cases Voted On</div>
                 </div>
                 <div className="bg-white rounded-lg border border-slate-200 p-6 text-center">
@@ -225,7 +276,7 @@ export default function VotePage() {
                   <div className="text-xs text-slate-400">(Completely made up)</div>
                 </div>
                 <div className="bg-white rounded-lg border border-slate-200 p-6 text-center">
-                  <div className="text-3xl font-bold text-purple-600">{medicalCases.length - currentCase - 1}</div>
+                  <div className="text-3xl font-bold text-purple-600">{cases.length - currentCase - 1}</div>
                   <div className="text-sm text-slate-600 mt-1">Cases Remaining</div>
                 </div>
               </div>

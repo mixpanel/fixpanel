@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { BrainIcon, SendIcon, Share2Icon } from "lucide-react";
+import { BrainIcon, SendIcon, Share2Icon, Loader2Icon, CheckCircleIcon } from "lucide-react";
 
 const aiResponses = [
   "Based on your symptoms, I'm diagnosing you with a severe case of 'Being Human.' Treatment: 8 hours of sleep and maybe some vegetables.",
@@ -23,12 +23,18 @@ export default function ChatPage() {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [shared, setShared] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Wellness AI Chat Viewed");
     }
   }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isTyping]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -59,6 +65,8 @@ export default function ChatPage() {
         message_count: messages.length,
       });
     }
+    setShared(true);
+    setTimeout(() => setShared(false), 3000);
   };
 
   return (
@@ -117,6 +125,7 @@ export default function ChatPage() {
                     </div>
                   </div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
 
               {/* Input */}
@@ -125,12 +134,21 @@ export default function ChatPage() {
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                    onKeyPress={(e) => e.key === "Enter" && !isTyping && handleSend()}
                     placeholder="Describe your symptoms..."
                     className="flex-1 bg-white"
+                    disabled={isTyping}
                   />
-                  <Button onClick={handleSend} className="bg-purple-600 text-white hover:bg-purple-700">
-                    <SendIcon className="h-4 w-4" />
+                  <Button
+                    onClick={handleSend}
+                    className="bg-purple-600 text-white hover:bg-purple-700"
+                    disabled={isTyping || !input.trim()}
+                  >
+                    {isTyping ? (
+                      <Loader2Icon className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <SendIcon className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -142,13 +160,25 @@ export default function ChatPage() {
                 <Button
                   onClick={handleShare}
                   variant="outline"
-                  className="border-purple-200 text-purple-700 hover:bg-purple-50"
+                  className={`border-purple-200 hover:bg-purple-50 transition-all ${
+                    shared ? "bg-green-50 border-green-400 text-green-700" : "text-purple-700"
+                  }`}
+                  disabled={shared}
                 >
-                  <Share2Icon className="h-4 w-4 mr-2" />
-                  Share This Diagnosis with Community
+                  {shared ? (
+                    <>
+                      <CheckCircleIcon className="h-4 w-4 mr-2" />
+                      Shared with Community!
+                    </>
+                  ) : (
+                    <>
+                      <Share2Icon className="h-4 w-4 mr-2" />
+                      Share This Diagnosis with Community
+                    </>
+                  )}
                 </Button>
                 <p className="text-sm text-slate-500 mt-2">
-                  Let others vote on how accurate the AI doctor was!
+                  {shared ? "Your conversation is now available for community voting!" : "Let others vote on how accurate the AI doctor was!"}
                 </p>
               </div>
             )}

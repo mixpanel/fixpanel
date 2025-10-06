@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { ShieldCheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon } from "lucide-react";
+import { ShieldCheckIcon, CheckCircleIcon, XCircleIcon, ClockIcon, Loader2Icon } from "lucide-react";
 
-const accessRequests = [
+const initialAccessRequests = [
   { id: 1, user: "Alex Martinez", service: "Salesforce", role: "Sales User", status: "pending", requestedAt: "2 hours ago" },
   { id: 2, user: "Emily Wong", service: "GitHub Enterprise", role: "Developer", status: "pending", requestedAt: "4 hours ago" },
   { id: 3, user: "Ryan O'Connor", service: "Jira", role: "Project Admin", status: "pending", requestedAt: "1 day ago" },
@@ -41,6 +41,8 @@ const teams = [
 
 export default function AccessControlPage() {
   const [selectedTab, setSelectedTab] = useState("requests");
+  const [accessRequests, setAccessRequests] = useState(initialAccessRequests);
+  const [processingId, setProcessingId] = useState<number | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -48,7 +50,9 @@ export default function AccessControlPage() {
     }
   }, []);
 
-  const handleApprove = (request: typeof accessRequests[0]) => {
+  const handleApprove = (request: typeof initialAccessRequests[0]) => {
+    setProcessingId(request.id);
+
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Access Request Approved", {
         user: request.user,
@@ -56,9 +60,21 @@ export default function AccessControlPage() {
         role: request.role,
       });
     }
+
+    // Simulate API call with animation
+    setTimeout(() => {
+      setAccessRequests(prev =>
+        prev.map(req =>
+          req.id === request.id ? { ...req, status: "approved" } : req
+        )
+      );
+      setProcessingId(null);
+    }, 1000);
   };
 
-  const handleReject = (request: typeof accessRequests[0]) => {
+  const handleReject = (request: typeof initialAccessRequests[0]) => {
+    setProcessingId(request.id);
+
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Access Request Rejected", {
         user: request.user,
@@ -66,6 +82,16 @@ export default function AccessControlPage() {
         role: request.role,
       });
     }
+
+    // Simulate API call with animation
+    setTimeout(() => {
+      setAccessRequests(prev =>
+        prev.map(req =>
+          req.id === request.id ? { ...req, status: "rejected" } : req
+        )
+      );
+      setProcessingId(null);
+    }, 1000);
   };
 
   return (
@@ -80,7 +106,12 @@ export default function AccessControlPage() {
                 <h1 className="text-3xl font-bold text-slate-900">Access Control</h1>
                 <p className="text-slate-600 mt-1">Manage user access and permissions across all services</p>
               </div>
-              <Button className="bg-purple-600 text-white hover:bg-purple-700 mt-4 md:mt-0">
+              <Button className="bg-purple-600 text-white hover:bg-purple-700 mt-4 md:mt-0" onClick={() => {
+                window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
+                if (typeof window !== "undefined" && window.mixpanel) {
+                  window.mixpanel.track("Bulk Provision Rickrolled");
+                }
+              }}>
                 <ShieldCheckIcon className="h-4 w-4 mr-2" />
                 Bulk Provision
               </Button>
@@ -100,7 +131,7 @@ export default function AccessControlPage() {
                     : "border-transparent text-slate-500 hover:text-slate-700"
                 }`}
               >
-                Pending Requests (3)
+                Pending Requests ({accessRequests.filter(r => r.status === "pending").length})
               </button>
               <button
                 onClick={() => setSelectedTab("services")}
@@ -134,7 +165,9 @@ export default function AccessControlPage() {
                 {accessRequests.map((request) => (
                   <div
                     key={request.id}
-                    className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-md transition-shadow"
+                    className={`bg-white rounded-lg border border-slate-200 p-6 hover:shadow-md transition-all ${
+                      processingId === request.id ? "scale-[0.99] opacity-70" : ""
+                    }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -159,7 +192,12 @@ export default function AccessControlPage() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 ml-4">
-                        {request.status === "pending" && (
+                        {processingId === request.id ? (
+                          <div className="flex items-center space-x-2 text-purple-600">
+                            <Loader2Icon className="h-5 w-5 animate-spin" />
+                            <span className="text-sm">Processing...</span>
+                          </div>
+                        ) : request.status === "pending" ? (
                           <>
                             <Button
                               variant="outline"
@@ -177,15 +215,13 @@ export default function AccessControlPage() {
                               Approve
                             </Button>
                           </>
-                        )}
-                        {request.status === "approved" && (
-                          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                            Approved
+                        ) : request.status === "approved" ? (
+                          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium animate-pulse">
+                            ✓ Approved
                           </span>
-                        )}
-                        {request.status === "rejected" && (
+                        ) : (
                           <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
-                            Rejected
+                            ✗ Rejected
                           </span>
                         )}
                       </div>
@@ -221,8 +257,9 @@ export default function AccessControlPage() {
                       variant="outline"
                       className="w-full mt-4"
                       onClick={() => {
+                        window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                         if (typeof window !== "undefined" && window.mixpanel) {
-                          window.mixpanel.track("Manage Service Access Clicked", { service: service.service });
+                          window.mixpanel.track("Manage Service Access Rickrolled", { service: service.service });
                         }
                       }}
                     >
@@ -255,8 +292,9 @@ export default function AccessControlPage() {
                       variant="outline"
                       className="w-full mt-4"
                       onClick={() => {
+                        window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                         if (typeof window !== "undefined" && window.mixpanel) {
-                          window.mixpanel.track("Manage Team Access Clicked", { team: team.name });
+                          window.mixpanel.track("Manage Team Access Rickrolled", { team: team.name });
                         }
                       }}
                     >
