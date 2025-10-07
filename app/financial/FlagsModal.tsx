@@ -26,7 +26,8 @@ export interface FlagsModalProps extends Partial<ContentProps> {
 }
 
 const experimentId = "exp_customerStory"; //? https://bit.ly/43siFeM (Mixpanel Flag Key!)
-type Variant = "no story (D)" | "sarah story (A)" | "marco portfolio (B)" | "priya debt (C)"; // ? mixpanel flag values
+type Variant = "no story (D)" | "sarah story (A)" | "marco portfolio (B)" | "priya debt (C)" ; // ? mixpanel flag values
+const fallbackVariant: Variant = "no story (D)";
 
 const getModalData = (v?: Variant): ContentProps => {
   switch (v) {
@@ -94,7 +95,7 @@ export function FlagsModal(props: FlagsModalProps) {
 
   React.useEffect(() => {
     mixpanel.flags
-      .get_variant_value(experimentId) // ! look for a feature flag for the experiment + user
+      .get_variant_value(experimentId, fallbackVariant) // ! look for a feature flag for the experiment + user
       .then((returnedVariant: unknown) => {
         let variant = returnedVariant as Variant;
         if (!variant || typeof variant !== "string") variant = "no story (D)";
