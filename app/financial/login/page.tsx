@@ -30,7 +30,7 @@ export default function Component() {
       <header className="px-4 lg:px-6 h-14 flex items-center">
         <Link className="flex items-center justify-center" href="/">
           <CreditCardIcon className="h-6 w-6" />
-          <span className="sr-only">FixPanel</span>
+          <span className="sr-only">iBank</span>
         </Link>
       </header>
       <main className="flex-1 flex items-center justify-center">

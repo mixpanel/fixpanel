@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Modal } from "@/components/Modal";
+import { FlagsModal } from "./FlagsModal";
 
 
 import {
@@ -44,7 +44,7 @@ export default function HomePage() {
   ];
 
   useEffect(() => {
-    document.title = "FixPanel";
+    document.title = "iBank";
 
     const taglines = [
       "Fix Your Finances with Data-Driven Insights.",
@@ -75,7 +75,7 @@ export default function HomePage() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none">
-                  Welcome to FixPanel
+                  Welcome to iBank
                 </h1>
                 <p className="mx-auto max-w-[700px] text-xl md:text-2xl transition-opacity duration-1000 ease-in-out">{tagline}</p>
               </div>
@@ -127,7 +127,7 @@ export default function HomePage() {
 
                 {/* Modal */}
                 {isModalOpen && (
-                  <Modal
+                  <FlagsModal
                     onClose={() => {
                       setIsModalOpen(false);
                     }}
@@ -159,7 +159,7 @@ export default function HomePage() {
                 </p>
                 <Link href="/financial/product">
                   <Button id="explore" variant="outline" className="mt-4">
-                    Explore Product
+                    Invest today
                   </Button>
                 </Link>
               </div>
@@ -171,7 +171,7 @@ export default function HomePage() {
                 </p>
                 <Link href="/financial/features">
                   <Button id="learnMore" variant="outline" className="mt-4">
-                    Learn More
+                    Protect your wealth
                   </Button>
                 </Link>
               </div>
@@ -183,7 +183,7 @@ export default function HomePage() {
                 </p>
                 <Link href="/financial/signup">
                   <Button id="findOut" variant="outline" className="mt-4">
-                    Find Out
+                    Apply now
                   </Button>
                 </Link>
               </div>
@@ -195,7 +195,7 @@ export default function HomePage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Why FixPanel? Why Not FixPanel!</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Why iBank? Why Not iBank!</h2>
                 <p className="max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   You don't need to take our word for it; here are some completely unbiased and totally real customer
                   testimonials!
@@ -207,7 +207,7 @@ export default function HomePage() {
                 <img src={fooImage.src} alt="Happy Customer" className="rounded-full" />
                 <h3 className="text-xl font-bold">My Aunt Sue</h3>
                 <p className="text-sm text-gray-500 text-center italic">
-                  "FixPanel is so good, I'm considering using it because my nephew worked really hard on it and I'd like
+                  "iBank is so good, I'm considering using it because my nephew worked really hard on it and I'd like
                   to support him, but honestly I'm not sure."
                 </p>
                 <Link href="/financial/signup">
@@ -220,7 +220,7 @@ export default function HomePage() {
                 <img src={barImage.src} alt="Satisfied Customer" className="rounded-full" />
                 <h3 className="text-xl font-bold">My Neighbor's Cat</h3>
                 <p className="text-sm text-gray-500 text-center italic">
-                  "Meow meow meow. Hiss. Hiss. (Translation: My returns are purrfect thanks to FixPanel! I wish I'd
+                  "Meow meow meow. Hiss. Hiss. (Translation: My returns are purrfect thanks to iBank! I wish I'd
                   invested sooner.)"
                 </p>
                 <Link href="/financial/product">
@@ -233,7 +233,7 @@ export default function HomePage() {
                 <img src={bazImage.src} alt="Ecstatic Customer" className="rounded-full" />
                 <h3 className="text-xl font-bold">Your Future Self</h3>
                 <p className="text-sm text-gray-500 text-center italic">
-                  "Thank you, past me, for choosing FixPanel! I'm now writing this from my private island! You made some
+                  "Thank you, past me, for choosing iBank! I'm now writing this from my private island! You made some
                   good choices,"
                 </p>
                 <Link href="/financial/signup">

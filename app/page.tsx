@@ -4,19 +4,29 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   CreditCardIcon,
   ShoppingCartIcon,
   PlayIcon,
   BuildingIcon,
   SmartphoneIcon,
-  HeartIcon
+  HeartIcon,
+  MessageSquarePlusIcon
 } from "lucide-react";
 
 export default function LandingPage() {
+  const [showSuggestionButton, setShowSuggestionButton] = useState(false);
+
   useEffect(() => {
     document.title = "Demo Sites";
+
+    // Show suggestion button after a delay
+    const timer = setTimeout(() => {
+      setShowSuggestionButton(true);
+    }, 1500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -64,7 +74,7 @@ export default function LandingPage() {
                 </p>
                 <Link href="/financial" className="w-full">
                   <Button className="w-full bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
-                    Explore FixPanel
+                    Explore iBank
                   </Button>
                 </Link>
               </div>
@@ -78,7 +88,7 @@ export default function LandingPage() {
                 </p>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
-                    Explore iBuy
+                    Explore theyBuy
                   </Button>
                 </Link>
               </div>
@@ -173,6 +183,27 @@ export default function LandingPage() {
         </section>
       </main>
       <Footer />
+
+      {/* Floating Suggestion Button */}
+      {showSuggestionButton && (
+        <a
+          href="https://forms.gle/DZCMVsmNC2XMxt8y8"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bottom-6 right-6 z-50"
+        >
+          <Button
+            size="lg"
+            className="bg-[#7856FF] text-white hover:bg-[#7856FF]/90 shadow-lg animate-bounce"
+            style={{
+              animation: "bounce 1s infinite",
+            }}
+          >
+            <MessageSquarePlusIcon className="mr-2 h-5 w-5" />
+            Suggestions?
+          </Button>
+        </a>
+      )}
     </div>
   );
 }

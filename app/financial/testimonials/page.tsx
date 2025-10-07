@@ -17,7 +17,7 @@ export default function TestimonialsPage() {
       img: fooImage.src,
       name: "Dr. Penny Stocks",
       quote:
-        "I turned my pocket lint into a private island with FixPanel’s micro-investing magic—my butler thanks you!",
+        "I turned my pocket lint into a private island with iBank's micro-investing magic—my butler thanks you!",
       border: "border-[#7856FF]",
     },
     {
@@ -38,7 +38,7 @@ export default function TestimonialsPage() {
       img: themImage.src,
       name: "The Invisible Investor",
       quote:
-        "FixPanel’s ghost-mode trading made my portfolio invisible to taxes—and visible to glory!",
+        "iBank's ghost-mode trading made my portfolio invisible to taxes—and visible to glory!",
       border: "border-[#DA6B16]",
     },
   ];
@@ -54,7 +54,7 @@ export default function TestimonialsPage() {
               Ridiculously Outlandish Testimonials
             </h1>
             <p className="mt-4 max-w-2xl mx-auto text-xl">
-              They said it couldn’t be done… until FixPanel made the impossible laughable!
+              They said it couldn't be done… until iBank made the impossible laughable!
             </p>
           </div>
         </section>

@@ -4,9 +4,9 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import mixpanel from "mixpanel-browser";
-import fooImage from "../app/images/foo.png";
-import barImage from "../app/images/bar.png";
-import bazImage from "../app/images/baz.png";
+import fooImage from "../images/foo.png";
+import barImage from "../images/bar.png";
+import bazImage from "../images/baz.png";
 
 interface ContentProps {
   headline?: string;
@@ -20,7 +20,7 @@ interface ContentProps {
   imgUrl?: string;
 }
 
-export interface ModalProps extends Partial<ContentProps> {
+export interface FlagsModalProps extends Partial<ContentProps> {
   onClose?: () => void;
   onConfirm?: () => void;
 }
@@ -32,45 +32,45 @@ const getModalData = (v?: Variant): ContentProps => {
   switch (v) {
     case "sarah story (A)":
       return {
-        headline: "“FixPanel Supercharged My Savings!”",
+        headline: "iBank Supercharged My Savings!",
         tagline: "— Sarah L., Small Business Owner [Variant A]",
-        copy: "“Thanks to FixPanel’s automated insights…”",
+        copy: "Thanks to iBank's automated insights…",
         color: "#1C782D",
         bgColor: "#E6F9F0",
         copyColor: "#0F2D13",
         cancelText: "Not Now",
-        confirmText: "Read Sarah’s Story",
+        confirmText: "Read Sarah's Story",
         imgUrl: fooImage.src,
       };
     case "marco portfolio (B)":
       return {
-        headline: "“Investment ROI: 3× in 90 Days”",
+        headline: "Investment ROI: 3× in 90 Days",
         tagline: "— Marco P., Freelance Designer [Variant B]",
-        copy: "“I was skeptical, but FixPanel’s data-driven portfolio…”",
+        copy: "I was skeptical, but iBank's data-driven portfolio…",
         color: "#7856FF",
         bgColor: "#F3E8FF",
         copyColor: "#2E004E",
         cancelText: "Maybe Later",
-        confirmText: "See Marco’s Portfolio",
+        confirmText: "See Marco's Portfolio",
         imgUrl: barImage.src,
       };
     case "priya debt (C)":
       return {
-        headline: "“Zero Debt in 6 Months”",
+        headline: 'Zero Debt in 6 Months',
         tagline: "— Priya S., Marketing Manager [Variant C]",
-        copy: "“With FixPanel’s budgeting wizard, I paid off $23K…”",
+        copy: "With iBank's budgeting wizard, I paid off $23K…",
         color: "#CC332B",
         bgColor: "#FFEFEF",
         copyColor: "#3C0F0A",
         cancelText: "Decline",
-        confirmText: "Learn Priya’s Plan",
+        confirmText: "Learn Priya's Plan",
         imgUrl: bazImage.src,
       };
     case "no story (D)":
       return {
-        headline: "“Join Thousands of Success Stories”",
+        headline: 'Join Thousands of Success Stories',
         tagline: "— Our Community [Variant D]",
-        copy: "“From debt payoff to wealth building…”",
+        copy: 'From debt payoff to wealth building…',
         color: "#07B096",
         bgColor: "#E8FBF7",
         copyColor: "#00332E",
@@ -78,12 +78,12 @@ const getModalData = (v?: Variant): ContentProps => {
         confirmText: "Explore Testimonials",
       };
     default:
-      // empty until we’ve fetched
+      // empty until we've fetched
       return {};
   }
 };
 
-export function Modal(props: ModalProps) {
+export function FlagsModal(props: FlagsModalProps) {
   const { onClose, onConfirm, ...overrides } = props;
   const router = useRouter();
   // if user didn't supply onConfirm, navigate to /financial/testimonials

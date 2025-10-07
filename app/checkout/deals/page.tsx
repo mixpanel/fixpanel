@@ -149,7 +149,7 @@ export default function DealsPage() {
   // Load cart from localStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('ibuy_cart');
+      const savedCart = localStorage.getItem('theybuy_cart');
       if (savedCart) {
         try {
           setCart(JSON.parse(savedCart));
@@ -187,7 +187,7 @@ export default function DealsPage() {
 
     // Save to localStorage
     if (typeof window !== 'undefined') {
-      localStorage.setItem('ibuy_cart', JSON.stringify(newCart));
+      localStorage.setItem('theybuy_cart', JSON.stringify(newCart));
     }
 
     // Track add to cart from deals

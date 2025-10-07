@@ -392,7 +392,7 @@ const products = [
   }
 ];
 
-export default function IBuyHomePage() {
+export default function TheyBuyHomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState<Array<{id: number, quantity: number}>>([]);
@@ -400,10 +400,10 @@ export default function IBuyHomePage() {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    document.title = "iBuy";
+    document.title = "theyBuy";
 
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('ibuy_cart');
+      const savedCart = localStorage.getItem('theybuy_cart');
       if (savedCart) {
         try {
           setCart(JSON.parse(savedCart));
@@ -417,7 +417,7 @@ export default function IBuyHomePage() {
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('ibuy_cart', JSON.stringify(cart));
+      localStorage.setItem('theybuy_cart', JSON.stringify(cart));
     }
   }, [cart]);
 
@@ -496,7 +496,7 @@ export default function IBuyHomePage() {
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  iBuy
+                  theyBuy
                 </motion.h1>
                 <motion.p
                   className="mx-auto max-w-[700px] text-lg md:text-xl"

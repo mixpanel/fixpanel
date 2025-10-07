@@ -51,8 +51,8 @@ export function Header() {
                    isWellness ? '/wellness' : '';
 
   // Get site name and logo
-  const siteName = isFinancial ? 'FixPanel' :
-                   isCheckout ? 'iBuy' :
+  const siteName = isFinancial ? 'iBank' :
+                   isCheckout ? 'theyBuy' :
                    isStreaming ? 'meTube' :
                    isAdmin ? 'youAdmin' :
                    isLifestyle ? 'weRead' :

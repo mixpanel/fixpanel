@@ -20,7 +20,7 @@ export default function AboutPage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">About FixPanel</h1>
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">About iBank</h1>
                 <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
                   Empowering individuals and businesses to achieve financial success through innovative technology.
                 </p>
@@ -37,7 +37,7 @@ export default function AboutPage() {
               <div className="flex flex-col justify-center space-y-4">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Our Mission</h2>
                 <p className="text-gray-500 dark:text-gray-400">
-                  At FixPanel, we believe that financial freedom should be accessible to everyone. Our mission is to
+                  At iBank, we believe that financial freedom should be accessible to everyone. Our mission is to
                   provide cutting-edge financial tools and insights that empower individuals and businesses to make
                   informed decisions, achieve their financial goals, and secure their financial future.
                 </p>
@@ -68,7 +68,7 @@ export default function AboutPage() {
             </div>
             <div className="flex justify-center">
               <Link href="/signup">
-                <Button size="lg" id="join">Join FixPanel Today</Button>
+                <Button size="lg" id="join">Join iBank Today</Button>
               </Link>
             </div>
           </div>

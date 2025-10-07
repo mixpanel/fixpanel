@@ -85,15 +85,35 @@ export function initMixpanel(): Promise<typeof mixpanel> {
 
       loaded: (mp: any) => {
 		console.log("[MIXPANEL]: LOADED");
-		// on pagedepth = 1 RESET
+
+		// RESETTING MIXPANEL AND STARTING A NEW SESSION
+		// WE ONLY WANT TO RESET MIXPANEL IF WE JUST LANDED ON a "top level" PAGE
+		// ^ the use case we expect is users starts on / (no tracking) then goes to /financial and we should reset
+		// the top level paths are: /financial /checkout /admin /lifestyle /streaming /wellness
+		// IMPORTANTLY we DON'T want to reset if we're on a "sub page" like
+		// /financial/testimonials or /checkout/cart etc
+		// we ALSO don't want to reset if we navigated from a "sub page" back to a "top level" page
+		// so /financial → /financial/testimonials → /financial should NOT reset
+
 		const pageDepth = document.location.pathname.split("/").filter(a=>a).length;
-		if (pageDepth === 1) {
+		const topLevelPaths = ['financial', 'checkout', 'admin', 'lifestyle', 'streaming', 'wellness'];
+		const currentTopLevel = document.location.pathname.split("/").filter(a=>a)[0];
+		const isTopLevelPage = pageDepth === 1 && topLevelPaths.includes(currentTopLevel);
+
+		// Check if we have an active session marker in sessionStorage
+		// sessionStorage persists across page navigations but is cleared when tab/window closes
+		const hasActiveSession = sessionStorage.getItem('mixpanel_active_session') === 'true';
+
+		if (isTopLevelPage && !hasActiveSession) {
+			// This is a fresh landing on a top-level page - reset and start new session
+			console.log("[MIXPANEL]: FRESH LANDING - RESETTING");
 			mp.stop_session_recording();
 			mp.reset();
-			console.log("[MIXPANEL]: PAGEDEPTH RESET");
+			sessionStorage.setItem('mixpanel_active_session', 'true');
+			mp.track("START OF USER");
 			mp.track_pageview();
 		}
-        
+
         console.log(`[MIXPANEL]: DISTINCT_ID: ${mp.get_distinct_id()}\n`);
         if (typeof window !== "undefined") {
           console.log("[MIXPANEL]: EXPOSED GLOBALLY");
@@ -133,6 +153,7 @@ export function initMixpanel(): Promise<typeof mixpanel> {
                 console.log("[MIXPANEL]: STOP SESSION RECORDING");
                 mp.stop_session_recording();
                 mp.reset();
+                sessionStorage.removeItem('mixpanel_active_session');
                 console.log("[MIXPANEL]: RESET");
                 setTimeout(() => {
                   window.location.reload();
