@@ -9,7 +9,7 @@ import { ArrowRightIcon, ArrowLeftIcon, Wand2Icon, FlagIcon } from "lucide-react
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { KYCAutoFillModal } from "../KYCAutoFillModal";
-import mixpanel from "mixpanel-browser";
+import { initMixpanel } from "@/lib/analytics";
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1);

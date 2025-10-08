@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import mixpanel from "mixpanel-browser";
+import { initMixpanel } from "@/lib/analytics";
 import { ThumbsUpIcon, ThumbsDownIcon, SendIcon, XIcon, FlagIcon } from "lucide-react";
 
 const experimentId = "you-admin-helper-bot";

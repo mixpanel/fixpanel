@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import mixpanel from "mixpanel-browser";
+import { initMixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, ActivityIcon, RotateCwIcon } from "lucide-react";
 
 const experimentId = "our-heart-wheel-of-symptoms";
@@ -122,8 +122,8 @@ export function SymptomWheelModal(props: SymptomWheelModalProps) {
 
     setTimeout(() => {
       const randomSymptom = symptoms[Math.floor(Math.random() * symptoms.length)];
-      const prognoses = prognoses[randomSymptom] || ["Consult a healthcare professional"];
-      const randomPrognosis = prognoses[Math.floor(Math.random() * prognoses.length)];
+      const prognosesForSymptom = prognoses[randomSymptom] || ["Consult a healthcare professional"];
+      const randomPrognosis = prognosesForSymptom[Math.floor(Math.random() * prognosesForSymptom.length)];
 
       setResult({ symptom: randomSymptom, prognosis: randomPrognosis });
       setIsSpinning(false);

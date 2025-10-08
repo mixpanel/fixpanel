@@ -296,3 +296,4 @@ export default function WellnessLanding() {
       {showWheel && <SymptomWheelModal onClose={() => setShowWheel(false)} />}
     </div>
   );
+}

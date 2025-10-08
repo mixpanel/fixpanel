@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import mixpanel from "mixpanel-browser";
+import { initMixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, BrainIcon, SparklesIcon, BookOpenIcon } from "lucide-react";
 
 const experimentId = "we-read-post-analyzer";

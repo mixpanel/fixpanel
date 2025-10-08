@@ -77,7 +77,7 @@ export function initMixpanel(): Promise<typeof mixpanel> {
       // favorites
       ignore_dnt: true,
       batch_flush_interval_ms: 0,
-      api_host: MIXPANEL_PROXY,
+    //   api_host: MIXPANEL_PROXY,
       debug: false,
       api_payload_format: "json",
       api_transport: "XHR",

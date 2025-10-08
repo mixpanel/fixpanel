@@ -763,7 +763,7 @@ export default function MeTubeHomePage() {
               ))}
               {/* Just For You Button */}
               <motion.button
-                className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-[#CC332B] text-white hover:bg-[#CC332B]/90 relative"
+                className="ml-auto px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-[#CC332B] text-white hover:bg-[#CC332B]/90 relative"
                 onClick={() => {
                   setShowRecommender(true);
                   if (typeof window !== 'undefined' && window.mixpanel) {
