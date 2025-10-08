@@ -12,7 +12,10 @@ import {
   BuildingIcon,
   SmartphoneIcon,
   HeartIcon,
-  MessageSquarePlusIcon
+  MessageSquarePlusIcon,
+  ActivityIcon,
+  FlagIcon,
+  BugIcon
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -72,6 +75,18 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   marketing/landing for fintech; experiment on customer testimonials; friction with KYC flow!
                 </p>
+                <div className="w-full p-2 bg-purple-50 border border-purple-200 rounded text-xs text-purple-800 flex items-center justify-between">
+                  <span><strong>🚩 Flags:</strong> Customer stories modal (homepage), KYC auto-fill (signup)</span>
+                  <a
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/7a8e2371-37ab-4e57-9f34-6f5ea0f9ad9b"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 hover:text-purple-800 transition-colors ml-2"
+                    title="View flag in Mixpanel"
+                  >
+                    ⚙️
+                  </a>
+                </div>
                 <Link href="/financial" className="w-full">
                   <Button className="w-full bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
                     Explore iBank
@@ -86,6 +101,18 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   e-commerce  app for product discovery, cart management and checkout flows; friction with the coupon code!
                 </p>
+                <div className="w-full p-2 bg-green-50 border border-green-200 rounded text-xs text-green-800 flex items-center justify-between">
+                  <span><strong>🚩 Flag:</strong> Color scheme switcher (dark/chaos/light modes)</span>
+                  <a
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-600 hover:text-green-800 transition-colors ml-2"
+                    title="View flag in Mixpanel"
+                  >
+                    ⚙️
+                  </a>
+                </div>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
                     Explore theyBuy
@@ -100,6 +127,18 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   video streaming with dynamic content and personalized recommendations; friction with the 'like' and 'subscribe' buttons.
                 </p>
+                <div className="w-full p-2 bg-red-50 border border-red-200 rounded text-xs text-red-800 flex items-center justify-between">
+                  <span><strong>🚩 Flag:</strong> "Just For You" video recommender (category bar)</span>
+                  <a
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/ddf7f839-1579-4e15-9dc2-a6f030a3770e"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-red-600 hover:text-red-800 transition-colors ml-2"
+                    title="View flag in Mixpanel"
+                  >
+                    ⚙️
+                  </a>
+                </div>
                 <Link href="/streaming" className="w-full">
                   <Button className="w-full bg-[#CC332B] text-white hover:bg-[#CC332B]/90">
                     Explore meTube
@@ -114,11 +153,18 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   ERP-style admin dashboard for people ops, IT management, identity access control, and analytics
                 </p>
-                {/* <Link href="/admin" className="w-full">
-                  <Button className="w-full bg-[#1E3A8A] text-white hover:bg-[#1E3A8A]/90">
-                    Explore youAdmin
-                  </Button>
-                </Link> */}
+                <div className="w-full p-2 bg-blue-50 border border-blue-200 rounded text-xs text-blue-800 flex items-center justify-between">
+                  <span><strong>🚩 Flag:</strong> Integration chatbot helper (lower right button)</span>
+                  <a
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 transition-colors ml-2"
+                    title="View flag in Mixpanel"
+                  >
+                    ⚙️
+                  </a>
+                </div>
                 <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
                   youAdmin - Coming Soon
                 </Button>
@@ -131,11 +177,18 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   crowdsourced medical advice platform with AI doctor chat and community voting on diagnoses
                 </p>
-                {/* <Link href="/wellness" className="w-full">
-                  <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
-                    Explore ourHeart
-                  </Button>
-                </Link> */}
+                <div className="w-full p-2 bg-teal-50 border border-teal-200 rounded text-xs text-teal-800 flex items-center justify-between">
+                  <span><strong>🚩 Flag:</strong> Wheel of Symptoms spinner (lower left button)</span>
+                  <a
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/293d35aa-b171-41a9-b64e-1dfb7d4eb6b6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-teal-600 hover:text-teal-800 transition-colors ml-2"
+                    title="View flag in Mixpanel"
+                  >
+                    ⚙️
+                  </a>
+                </div>
                 <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
                   ourHeart - Coming Soon
                 </Button>
@@ -148,33 +201,62 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   existentialist reddit-style forum with unique sorting by "likely to agree" or "likely to disagree"
                 </p>
-                {/* <Link href="/lifestyle" className="w-full">
-                  <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
-                    Explore weRead
-                  </Button>
-                </Link> */}
+                <div className="w-full p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800 flex items-center justify-between">
+                  <span><strong>🚩 Flag:</strong> Post analyzer for bias/AI detection (hero button)</span>
+                  <a
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/a759f0e5-cd4e-4458-b24c-a786a045cf12"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-amber-600 hover:text-amber-800 transition-colors ml-2"
+                    title="View flag in Mixpanel"
+                  >
+                    ⚙️
+                  </a>
+                </div>
                 <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
                   weRead - Coming Soon
                 </Button>
               </div>
             </div>
 
-            {/* Additional Info */}
-            <div className="mt-8 text-center">
-              <div className="max-w-3xl mx-auto">
-                <h3 className="text-lg font-semibold text-[#7856FF] mb-3">What You'll Experience</h3>
-                <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-600">
-                  <div>
-                    <h4 className="font-semibold mb-2">Real-time Analytics</h4>
-                    <p>see events tracked live in your browser console and Mixpanel project...</p>
+            {/* What You'll Experience - Enhanced */}
+            <div className="mt-16 mb-8">
+              <div className="max-w-6xl mx-auto">
+                <h3 className="text-3xl md:text-4xl font-bold text-center text-[#7856FF] mb-12">
+                  What You'll Experience
+                </h3>
+                <div className="grid md:grid-cols-3 gap-8">
+                  {/* Real-time Analytics */}
+                  <div className="flex flex-col items-center text-center space-y-4 p-8 rounded-xl bg-gradient-to-br from-purple-50 to-white border-2 border-purple-100 hover:border-purple-300 transition-all hover:shadow-xl">
+                    <div className="p-4 bg-purple-100 rounded-full">
+                      <ActivityIcon className="h-12 w-12 text-[#7856FF]" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-gray-900">Real-time Analytics</h4>
+                    <p className="text-base text-gray-600 leading-relaxed">
+                      See events tracked live in your browser console and Mixpanel project as you interact with the demos
+                    </p>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Feature Flags</h4>
-                    <p>experience dynamic content and A/B testing in action... </p>
+
+                  {/* Feature Flags */}
+                  <div className="flex flex-col items-center text-center space-y-4 p-8 rounded-xl bg-gradient-to-br from-green-50 to-white border-2 border-green-100 hover:border-green-300 transition-all hover:shadow-xl">
+                    <div className="p-4 bg-green-100 rounded-full">
+                      <FlagIcon className="h-12 w-12 text-[#07B096]" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-gray-900">Feature Flags</h4>
+                    <p className="text-base text-gray-600 leading-relaxed">
+                      Experience dynamic content and A/B testing in action—toggle flags and watch the UI update instantly
+                    </p>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Busted Broken Pages</h4>
-                    <p>these apps are absolutely riddled with problems and frustration UX patterns; can you catch them all?</p>
+
+                  {/* Busted Broken Pages */}
+                  <div className="flex flex-col items-center text-center space-y-4 p-8 rounded-xl bg-gradient-to-br from-red-50 to-white border-2 border-red-100 hover:border-red-300 transition-all hover:shadow-xl">
+                    <div className="p-4 bg-red-100 rounded-full">
+                      <BugIcon className="h-12 w-12 text-[#CC332B]" />
+                    </div>
+                    <h4 className="text-2xl font-bold text-gray-900">Busted Broken Pages</h4>
+                    <p className="text-base text-gray-600 leading-relaxed">
+                      These apps are riddled with problems and frustrating UX patterns—can you catch them all?
+                    </p>
                   </div>
                 </div>
               </div>

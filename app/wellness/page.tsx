@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SymptomWheelModal } from "./SymptomWheelModal";
 import Link from "next/link";
 import {
   HeartIcon,
@@ -13,11 +14,21 @@ import {
   TrendingUpIcon,
   UsersIcon,
   SparklesIcon,
+  ActivityIcon,
+  FlagIcon,
 } from "lucide-react";
 
 export default function WellnessLanding() {
+  const [showWheel, setShowWheel] = useState(false);
+  const [wheelButtonVisible, setWheelButtonVisible] = useState(false);
+
   useEffect(() => {
     document.title = "ourHeart";
+
+    // Fade in the wheel button after page loads
+    setTimeout(() => {
+      setWheelButtonVisible(true);
+    }, 1000);
   }, []);
 
   return (
@@ -256,6 +267,33 @@ export default function WellnessLanding() {
         </section>
       </main>
       <Footer />
+
+      {/* Symptom Wheel Button - Lower Left */}
+      {wheelButtonVisible && !showWheel && (
+        <button
+          onClick={() => {
+            setShowWheel(true);
+            if (typeof window !== "undefined" && window.mixpanel) {
+              window.mixpanel.track("Symptom Wheel Opened");
+            }
+          }}
+          className="fixed bottom-6 left-6 z-40 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 group animate-fade-in"
+          style={{
+            animation: 'fadeIn 0.5s ease-in',
+          }}
+        >
+          <ActivityIcon className="h-6 w-6" />
+          <div className="absolute -top-2 -right-2 bg-orange-500 rounded-full p-1">
+            <FlagIcon className="h-3 w-3" />
+          </div>
+          <div className="absolute bottom-full left-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-xs rounded px-3 py-1 whitespace-nowrap">
+            Spin the Wheel of Symptoms
+          </div>
+        </button>
+      )}
+
+      {/* Symptom Wheel Modal */}
+      {showWheel && <SymptomWheelModal onClose={() => setShowWheel(false)} />}
     </div>
   );
 }

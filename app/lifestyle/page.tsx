@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PostAnalyzerModal } from "./PostAnalyzerModal";
 import Link from "next/link";
 import {
   BookOpenIcon,
@@ -14,6 +15,7 @@ import {
   BrainIcon,
   FilterIcon,
   PlusIcon,
+  FlagIcon,
 } from "lucide-react";
 
 // Extensive mock data for posts
@@ -312,6 +314,7 @@ export default function LifestyleLanding() {
   const [sortBy, setSortBy] = useState<"popular" | "agree" | "disagree">("popular");
   const [posts, setPosts] = useState(initialPosts);
   const [votedPosts, setVotedPosts] = useState<Set<number>>(new Set());
+  const [showAnalyzer, setShowAnalyzer] = useState(false);
 
   useEffect(() => {
     document.title = "weRead";
@@ -427,6 +430,21 @@ export default function LifestyleLanding() {
                     Browse Feed
                   </Button>
                 </Link>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-transparent border-2 border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-zinc-900 relative"
+                  onClick={() => {
+                    setShowAnalyzer(true);
+                    if (typeof window !== "undefined" && window.mixpanel) {
+                      window.mixpanel.track("Post Analyzer Opened");
+                    }
+                  }}
+                >
+                  <BrainIcon className="mr-2 h-5 w-5" />
+                  Analyze Post
+                  <FlagIcon className="absolute -top-2 -right-2 h-4 w-4" />
+                </Button>
               </div>
             </div>
           </div>
@@ -647,6 +665,9 @@ export default function LifestyleLanding() {
         </section>
       </main>
       <Footer />
+
+      {/* Post Analyzer Modal */}
+      {showAnalyzer && <PostAnalyzerModal onClose={() => setShowAnalyzer(false)} />}
     </div>
   );
 }

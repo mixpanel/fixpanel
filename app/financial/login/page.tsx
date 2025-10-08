@@ -67,7 +67,7 @@ export default function Component() {
           </form>
           <div className="mt-4 text-center text-sm">
             Don't have an account?{" "}
-            <Link className="underline" href="/signup">
+            <Link className="underline" href="/financial/signup">
               Sign up
             </Link>
           </div>

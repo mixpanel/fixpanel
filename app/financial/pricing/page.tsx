@@ -76,7 +76,9 @@ export default function PricingPage() {
                     </li>
                   </ul>
                 </div>
-                <Button id="trial" className="mt-6">Start Free Trial</Button>
+                <Link href="/financial/signup">
+                  <Button id="trial" className="mt-6">Start Free Trial</Button>
+                </Link>
               </div>
               <div className="flex flex-col justify-between p-6 bg-white shadow-lg rounded-lg dark:bg-gray-800">
                 <div>

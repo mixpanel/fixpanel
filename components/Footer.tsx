@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-//@ts-ignore
-import mixpanel from "mixpanel-browser";
+import { initMixpanel } from "@/lib/analytics";
 import { ExternalLinkIcon } from "lucide-react";
 
 export function Footer() {

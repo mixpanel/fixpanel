@@ -70,7 +70,7 @@ export default function FeaturesPage() {
               </div>
             </div>
             <div className="flex justify-center">
-              <Link href="/signup">
+              <Link href="/financial/signup">
                 <Button size="lg" id="trial">Start Your Free Trial</Button>
               </Link>
             </div>
