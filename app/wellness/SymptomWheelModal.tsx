@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, ActivityIcon, RotateCwIcon } from "lucide-react";
 
 const experimentId = "our-heart-wheel-of-symptoms";
@@ -77,6 +77,7 @@ export function SymptomWheelModal(props: SymptomWheelModalProps) {
   const [rotation, setRotation] = React.useState(0);
 
   React.useEffect(() => {
+    initMixpanelOnce();
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
       .then((returnedVariant: unknown) => {

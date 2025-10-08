@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 
 const experimentId = "they-buy-color-schemes";
 type Variant = "dark mode (A)" | "chaos mode (B)" | "control (C)";
@@ -77,30 +77,29 @@ export function ColorSchemeProvider({ children }: { children: React.ReactNode })
   const [showFlagLink, setShowFlagLink] = React.useState(false);
 
   React.useEffect(() => {
-    initMixpanel().then((mixpanel) => {
-      mixpanel.flags
-        .get_variant_value(experimentId, fallbackVariant)
-        .then((returnedVariant: unknown) => {
-          let v = returnedVariant as Variant;
-          if (!v || typeof v !== "string") v = fallbackVariant;
-          console.log("[MIXPANEL]: GOT FLAG (Color Scheme)", v);
-          setVariant(v);
+    initMixpanelOnce();
+    mixpanel.flags
+      .get_variant_value(experimentId, fallbackVariant)
+      .then((returnedVariant: unknown) => {
+        let v = returnedVariant as Variant;
+        if (!v || typeof v !== "string") v = fallbackVariant;
+        console.log("[MIXPANEL]: GOT FLAG (Color Scheme)", v);
+        setVariant(v);
 
-          // Set colors based on variant
-          if (v === "dark mode (A)") {
-            setColors(darkModeColors);
-          } else if (v === "chaos mode (B)") {
-            setColors(generateChaosColors());
-          } else {
-            setColors(lightModeColors); // control
-          }
+        // Set colors based on variant
+        if (v === "dark mode (A)") {
+          setColors(darkModeColors);
+        } else if (v === "chaos mode (B)") {
+          setColors(generateChaosColors());
+        } else {
+          setColors(lightModeColors); // control
+        }
 
-          mixpanel.track("Checkout Color Scheme Loaded", { variant: v });
+        mixpanel.track("Checkout Color Scheme Loaded", { variant: v });
 
-          // Show flag link after a delay
-          setTimeout(() => setShowFlagLink(true), 2000);
-        });
-    });
+        // Show flag link after a delay
+        setTimeout(() => setShowFlagLink(true), 2000);
+      });
   }, []);
 
   // Apply colors to CSS variables

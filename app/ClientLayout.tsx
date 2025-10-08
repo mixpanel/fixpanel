@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { initMixpanel } from '../lib/analytics';
+import { initMixpanelOnce } from '../lib/analytics';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -10,7 +10,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   useEffect(() => {
     // Don't initialize Mixpanel on the landing page
     if (pathname !== '/') {
-      initMixpanel();
+      initMixpanelOnce();
     }
   }, [pathname]);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -9,11 +9,16 @@ import { ArrowRightIcon, ArrowLeftIcon, Wand2Icon, FlagIcon } from "lucide-react
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { KYCAutoFillModal } from "../KYCAutoFillModal";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1);
   const [showAutoFillModal, setShowAutoFillModal] = useState(false);
+
+  useEffect(() => {
+    initMixpanelOnce();
+  }, []);
+
   const [formData, setFormData] = useState({
     // Page 1: Identity Verification
     citizenshipStatus: "",

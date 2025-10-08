@@ -13,7 +13,7 @@ import {
   BookOpenIcon,
   HeartPulseIcon
 } from "lucide-react";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 
 const getMixpanelUrl = () => {
   try {

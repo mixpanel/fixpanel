@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, BrainIcon, SparklesIcon, BookOpenIcon } from "lucide-react";
 
 const experimentId = "we-read-post-analyzer";
@@ -73,6 +73,7 @@ export function PostAnalyzerModal(props: PostAnalyzerModalProps) {
   const [results, setResults] = React.useState<any>(null);
 
   React.useEffect(() => {
+    initMixpanelOnce();
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
       .then((returnedVariant: unknown) => {

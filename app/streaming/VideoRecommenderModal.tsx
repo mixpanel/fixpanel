@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, PlayIcon, SparklesIcon, TrendingUpIcon, ClockIcon } from "lucide-react";
 
 const experimentId = "me-tube-video-recommender";
@@ -86,6 +86,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
   const [demographicProfile, setDemographicProfile] = React.useState<any>(null);
 
   React.useEffect(() => {
+    initMixpanelOnce();
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
       .then((returnedVariant: unknown) => {

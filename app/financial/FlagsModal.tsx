@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import fooImage from "../images/foo.png";
 import barImage from "../images/bar.png";
 import bazImage from "../images/baz.png";

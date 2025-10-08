@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, QrCodeIcon, DatabaseIcon, CameraIcon, AlertCircleIcon } from "lucide-react";
 
 const experimentId = "i-bank-kyc-flow";
@@ -20,6 +20,7 @@ export function KYCAutoFillModal(props: KYCAutoFillModalProps) {
   const [isProcessing, setIsProcessing] = React.useState(false);
 
   React.useEffect(() => {
+    initMixpanelOnce();
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
       .then((returnedVariant: unknown) => {

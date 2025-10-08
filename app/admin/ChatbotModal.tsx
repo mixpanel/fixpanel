@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { ThumbsUpIcon, ThumbsDownIcon, SendIcon, XIcon, FlagIcon } from "lucide-react";
 
 const experimentId = "you-admin-helper-bot";
@@ -93,6 +93,7 @@ export function ChatbotModal(props: ChatbotModalProps) {
   const [hasVoted, setHasVoted] = React.useState(false);
 
   React.useEffect(() => {
+    initMixpanelOnce();
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
       .then((returnedVariant: unknown) => {

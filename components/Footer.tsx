@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { initMixpanel } from "@/lib/analytics";
+import { initMixpanelOnce } from "@/lib/analytics";
 import { ExternalLinkIcon } from "lucide-react";
 
 export function Footer() {
