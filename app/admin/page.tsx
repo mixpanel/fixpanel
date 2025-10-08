@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ChatbotModal } from "./ChatbotModal";
 import Link from "next/link";
 import {
   UsersIcon,
@@ -14,9 +15,13 @@ import {
   TrendingUpIcon,
   LockIcon,
   BarChartIcon,
+  MessageCircleIcon,
+  FlagIcon,
 } from "lucide-react";
 
 export default function AdminLanding() {
+  const [showChatbot, setShowChatbot] = useState(false);
+
   useEffect(() => {
     document.title = "youAdmin";
   }, []);
@@ -244,6 +249,25 @@ export default function AdminLanding() {
         </section>
       </main>
       <Footer />
+
+      {/* Chatbot Toggle Button - Lower Right */}
+      {!showChatbot && (
+        <button
+          onClick={() => setShowChatbot(true)}
+          className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 group"
+        >
+          <MessageCircleIcon className="h-6 w-6" />
+          <div className="absolute -top-2 -right-2 bg-orange-500 rounded-full p-1">
+            <FlagIcon className="h-3 w-3" />
+          </div>
+          <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-xs rounded px-3 py-1 whitespace-nowrap">
+            Ask about integrations
+          </div>
+        </button>
+      )}
+
+      {/* Chatbot Modal */}
+      {showChatbot && <ChatbotModal onClose={() => setShowChatbot(false)} />}
     </div>
   );
 }

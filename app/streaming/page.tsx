@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { VideoRecommenderModal } from "./VideoRecommenderModal";
 import Link from "next/link";
 import {
   PlayIcon,
@@ -20,7 +21,9 @@ import {
   PlaySquareIcon,
   ListMusicIcon,
   VideoIcon,
-  MenuIcon
+  MenuIcon,
+  SparklesIcon,
+  FlagIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -493,6 +496,7 @@ export default function MeTubeHomePage() {
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
   const [subscribedChannels, setSubscribedChannels] = useState<Set<string>>(new Set());
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showRecommender, setShowRecommender] = useState(false);
 
   useEffect(() => {
     document.title = "meTube";
@@ -757,6 +761,22 @@ export default function MeTubeHomePage() {
                   {category}
                 </motion.button>
               ))}
+              {/* Just For You Button */}
+              <motion.button
+                className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all bg-[#CC332B] text-white hover:bg-[#CC332B]/90 relative"
+                onClick={() => {
+                  setShowRecommender(true);
+                  if (typeof window !== 'undefined' && window.mixpanel) {
+                    window.mixpanel.track('Video Recommender Opened');
+                  }
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <SparklesIcon className="inline h-4 w-4 mr-1" />
+                Just For You
+                <FlagIcon className="absolute -top-1 -right-1 h-3 w-3" />
+              </motion.button>
             </div>
           </div>
 
@@ -855,6 +875,9 @@ export default function MeTubeHomePage() {
         </main>
       </div>
       <Footer />
+
+      {/* Video Recommender Modal */}
+      {showRecommender && <VideoRecommenderModal onClose={() => setShowRecommender(false)} />}
     </div>
   );
 }

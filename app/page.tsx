@@ -72,6 +72,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   marketing/landing for fintech; experiment on customer testimonials; friction with KYC flow!
                 </p>
+                <div className="w-full p-2 bg-purple-50 border border-purple-200 rounded text-xs text-purple-800">
+                  <strong>🚩 Flags:</strong> Customer stories modal (homepage), KYC auto-fill (signup)
+                </div>
                 <Link href="/financial" className="w-full">
                   <Button className="w-full bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
                     Explore iBank
@@ -86,6 +89,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   e-commerce  app for product discovery, cart management and checkout flows; friction with the coupon code!
                 </p>
+                <div className="w-full p-2 bg-green-50 border border-green-200 rounded text-xs text-green-800">
+                  <strong>🚩 Flag:</strong> Color scheme switcher (dark/chaos/light modes)
+                </div>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
                     Explore theyBuy
@@ -100,6 +106,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   video streaming with dynamic content and personalized recommendations; friction with the 'like' and 'subscribe' buttons.
                 </p>
+                <div className="w-full p-2 bg-red-50 border border-red-200 rounded text-xs text-red-800">
+                  <strong>🚩 Flag:</strong> "Just For You" video recommender (category bar)
+                </div>
                 <Link href="/streaming" className="w-full">
                   <Button className="w-full bg-[#CC332B] text-white hover:bg-[#CC332B]/90">
                     Explore meTube
@@ -108,54 +117,54 @@ export default function LandingPage() {
               </div>
 
               {/* SaaS B2B */}
-              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
-                <BuildingIcon className="h-16 w-16 text-gray-400" />
-                <h3 className="text-2xl font-bold text-gray-600">SaaS + Admin Apps</h3>
+              <div className="flex flex-col items-center space-y-3 border border-[#1E3A8A] p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <BuildingIcon className="h-16 w-16 text-[#1E3A8A]" />
+                <h3 className="text-2xl font-bold">SaaS + Admin Apps</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   ERP-style admin dashboard for people ops, IT management, identity access control, and analytics
                 </p>
-                {/* <Link href="/admin" className="w-full">
+                <div className="w-full p-2 bg-blue-50 border border-blue-200 rounded text-xs text-blue-800">
+                  <strong>🚩 Flag:</strong> Integration chatbot helper (lower right button)
+                </div>
+                <Link href="/admin" className="w-full">
                   <Button className="w-full bg-[#1E3A8A] text-white hover:bg-[#1E3A8A]/90">
                     Explore youAdmin
                   </Button>
-                </Link> */}
-                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                  youAdmin - Coming Soon
-                </Button>
+                </Link>
               </div>
 
               {/* Healthcare & Wellness */}
-              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
-                <HeartIcon className="h-16 w-16 text-gray-400" />
-                <h3 className="text-2xl font-bold text-gray-600">Healthcare + Wellness</h3>
+              <div className="flex flex-col items-center space-y-3 border border-[#14B8A6] p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <HeartIcon className="h-16 w-16 text-[#14B8A6]" />
+                <h3 className="text-2xl font-bold">Healthcare + Wellness</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   crowdsourced medical advice platform with AI doctor chat and community voting on diagnoses
                 </p>
-                {/* <Link href="/wellness" className="w-full">
+                <div className="w-full p-2 bg-teal-50 border border-teal-200 rounded text-xs text-teal-800">
+                  <strong>🚩 Flag:</strong> Wheel of Symptoms spinner (lower left button)
+                </div>
+                <Link href="/wellness" className="w-full">
                   <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
                     Explore ourHeart
                   </Button>
-                </Link> */}
-                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                  ourHeart - Coming Soon
-                </Button>
+                </Link>
               </div>
 
               {/* Subscription B2C */}
-              <div className="flex flex-col items-center space-y-3 border border-gray-300 p-6 rounded-lg opacity-60">
-                <SmartphoneIcon className="h-16 w-16 text-gray-400" />
-                <h3 className="text-2xl font-bold text-gray-600">Subscription + Lifestyle</h3>
+              <div className="flex flex-col items-center space-y-3 border border-[#F59E0B] p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <SmartphoneIcon className="h-16 w-16 text-[#F59E0B]" />
+                <h3 className="text-2xl font-bold">Subscription + Lifestyle</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   existentialist reddit-style forum with unique sorting by "likely to agree" or "likely to disagree"
                 </p>
-                {/* <Link href="/lifestyle" className="w-full">
+                <div className="w-full p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800">
+                  <strong>🚩 Flag:</strong> Post analyzer for bias/AI detection (hero button)
+                </div>
+                <Link href="/lifestyle" className="w-full">
                   <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
                     Explore weRead
                   </Button>
-                </Link> */}
-                <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                  weRead - Coming Soon
-                </Button>
+                </Link>
               </div>
             </div>
 

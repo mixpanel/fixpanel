@@ -5,13 +5,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowRightIcon, ArrowLeftIcon } from "lucide-react";
+import { ArrowRightIcon, ArrowLeftIcon, Wand2Icon, FlagIcon } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { KYCAutoFillModal } from "../KYCAutoFillModal";
 import mixpanel from "mixpanel-browser";
 
 export default function SignUpPage() {
   const [step, setStep] = useState(1);
+  const [showAutoFillModal, setShowAutoFillModal] = useState(false);
   const [formData, setFormData] = useState({
     // Page 1: Identity Verification
     citizenshipStatus: "",
@@ -85,6 +87,27 @@ export default function SignUpPage() {
           </div>
 
           <div className="bg-white rounded-lg shadow-lg p-8">
+            {/* Auto-Fill Button */}
+            <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <FlagIcon className="h-4 w-4 text-purple-600" />
+                    <h3 className="font-semibold text-gray-900">Auto-Fill KYC Details</h3>
+                  </div>
+                  <p className="text-sm text-gray-600">Save time by automatically filling out your information</p>
+                </div>
+                <Button
+                  type="button"
+                  onClick={() => setShowAutoFillModal(true)}
+                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  <Wand2Icon className="mr-2 h-4 w-4" />
+                  Auto-Fill
+                </Button>
+              </div>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-8">
               {step === 1 && (
                 <div className="space-y-8">
@@ -403,6 +426,17 @@ export default function SignUpPage() {
         </div>
       </main>
       <Footer />
+
+      {/* KYC Auto-Fill Modal */}
+      {showAutoFillModal && (
+        <KYCAutoFillModal
+          onClose={() => setShowAutoFillModal(false)}
+          onComplete={() => {
+            setShowAutoFillModal(false);
+            // Could auto-fill form here
+          }}
+        />
+      )}
     </div>
   );
 }
