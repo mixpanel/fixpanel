@@ -39,12 +39,12 @@ const darkModeColors: ColorScheme = {
   primary: "#10b981", // emerald-500
   secondary: "#6366f1", // indigo-500
   accent: "#f59e0b", // amber-500
-  background: "#111827", // gray-900
-  text: "#f9fafb", // gray-50
-  cardBg: "#1f2937", // gray-800
+  background: "#111827", // gray-900 - DARK background
+  text: "#f9fafb", // gray-50 - LIGHT text
+  cardBg: "#1f2937", // gray-800 - darker cards
   border: "#374151", // gray-700
   buttonBg: "#10b981", // emerald-500
-  buttonText: "#111827", // gray-900
+  buttonText: "#ffffff", // white text on buttons
 };
 
 const lightModeColors: ColorScheme = {
@@ -84,14 +84,20 @@ export function ColorSchemeProvider({ children }: { children: React.ReactNode })
         let v = returnedVariant as Variant;
         if (!v || typeof v !== "string") v = fallbackVariant;
         console.log("[MIXPANEL]: GOT FLAG (Color Scheme)", v);
+        console.log("[DEBUG]: Variant type:", typeof v, "| Variant value:", JSON.stringify(v));
         setVariant(v);
 
-        // Set colors based on variant
-        if (v === "dark mode (A)") {
+        // Set colors based on variant - use includes() for more flexible matching
+        const variantStr = String(v).toLowerCase();
+        if (variantStr.includes("dark")) {
+          console.log("[COLOR SCHEME]: Setting dark mode colors", darkModeColors);
           setColors(darkModeColors);
-        } else if (v === "chaos mode (B)") {
-          setColors(generateChaosColors());
+        } else if (variantStr.includes("chaos")) {
+          const chaosColors = generateChaosColors();
+          console.log("[COLOR SCHEME]: Setting chaos mode colors", chaosColors);
+          setColors(chaosColors);
         } else {
+          console.log("[COLOR SCHEME]: Setting light mode colors (control)", lightModeColors);
           setColors(lightModeColors); // control
         }
 
@@ -102,7 +108,7 @@ export function ColorSchemeProvider({ children }: { children: React.ReactNode })
       });
   }, []);
 
-  // Apply colors to CSS variables
+  // Apply colors to CSS variables and body
   React.useEffect(() => {
     if (variant && typeof document !== "undefined") {
       const root = document.documentElement;
@@ -115,23 +121,16 @@ export function ColorSchemeProvider({ children }: { children: React.ReactNode })
       root.style.setProperty("--color-border", colors.border);
       root.style.setProperty("--color-button-bg", colors.buttonBg);
       root.style.setProperty("--color-button-text", colors.buttonText);
+
+      // Apply background and text colors to body
+      document.body.style.backgroundColor = colors.background;
+      document.body.style.color = colors.text;
     }
   }, [variant, colors]);
 
   return (
     <ColorSchemeContext.Provider value={{ variant, colors }}>
       {children}
-      {showFlagLink && variant && variant !== "control (C)" && (
-        <a
-          href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed top-20 right-4 z-50 text-xs bg-white/90 backdrop-blur px-3 py-1 rounded-full shadow-lg hover:shadow-xl transition-all opacity-70 hover:opacity-100"
-          style={{ color: colors.primary }}
-        >
-          ⚙️ View flag config
-        </a>
-      )}
     </ColorSchemeContext.Provider>
   );
 }

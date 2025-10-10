@@ -12,8 +12,16 @@ import {
   ShieldCheckIcon,
   CheckCircleIcon
 } from "lucide-react";
+import { useColorScheme } from "../ColorSchemeProvider";
 
 export default function CheckoutPage() {
+  const { colors } = useColorScheme();
+
+  // Debug: log colors when they change
+  useEffect(() => {
+    console.log("[PAYMENT PAGE]: Received colors", colors);
+  }, [colors]);
+
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
@@ -145,7 +153,7 @@ export default function CheckoutPage() {
               </div>
             </div>
             <Link href="/checkout">
-              <Button className="bg-[#07B096] hover:bg-[#07B096]/90">
+              <Button style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
                 Continue Shopping
               </Button>
             </Link>
@@ -162,7 +170,7 @@ export default function CheckoutPage() {
       <main className="flex-1 py-8">
         <div className="container px-4 md:px-6 max-w-4xl mx-auto">
           <div className="mb-6">
-            <Link href="/checkout/cart" className="flex items-center text-[#07B096] hover:underline">
+            <Link href="/checkout/cart" className="flex items-center hover:underline" style={{ color: colors.primary }}>
               <ArrowLeftIcon className="h-4 w-4 mr-2" />
               Back to Cart
             </Link>
@@ -173,19 +181,19 @@ export default function CheckoutPage() {
           {/* Progress Steps */}
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center space-x-4">
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-[#07B096] text-white' : 'bg-gray-200'}`}>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? '' : 'bg-gray-200'}`} style={currentStep >= 1 ? { backgroundColor: colors.buttonBg, color: colors.buttonText } : {}}>
                 1
               </div>
               <div className="w-12 h-1 bg-gray-200">
-                <div className={`h-full bg-[#07B096] transition-all ${currentStep >= 2 ? 'w-full' : 'w-0'}`}></div>
+                <div className="h-full transition-all" style={{ backgroundColor: colors.buttonBg, width: currentStep >= 2 ? '100%' : '0' }}></div>
               </div>
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-[#07B096] text-white' : 'bg-gray-200'}`}>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? '' : 'bg-gray-200'}`} style={currentStep >= 2 ? { backgroundColor: colors.buttonBg, color: colors.buttonText } : {}}>
                 2
               </div>
               <div className="w-12 h-1 bg-gray-200">
-                <div className={`h-full bg-[#07B096] transition-all ${currentStep >= 3 ? 'w-full' : 'w-0'}`}></div>
+                <div className="h-full transition-all" style={{ backgroundColor: colors.buttonBg, width: currentStep >= 3 ? '100%' : '0' }}></div>
               </div>
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-[#07B096] text-white' : 'bg-gray-200'}`}>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? '' : 'bg-gray-200'}`} style={currentStep >= 3 ? { backgroundColor: colors.buttonBg, color: colors.buttonText } : {}}>
                 3
               </div>
             </div>
@@ -218,7 +226,7 @@ export default function CheckoutPage() {
                   <Button
                     onClick={() => setCurrentStep(2)}
                     disabled={!firstName || !lastName || !email}
-                    className="bg-[#07B096] hover:bg-[#07B096]/90"
+                    style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
                   >
                     Continue to Shipping
                   </Button>
@@ -256,7 +264,7 @@ export default function CheckoutPage() {
                     <Button
                       onClick={() => setCurrentStep(3)}
                       disabled={!address || !city || !zipCode}
-                      className="bg-[#07B096] hover:bg-[#07B096]/90"
+                      style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
                     >
                       Continue to Payment
                     </Button>
@@ -323,7 +331,8 @@ export default function CheckoutPage() {
                       <Button
                         onClick={handleSubmitPayment}
                         disabled={!cardNumber || !expiryDate || !cvv || isProcessing}
-                        className="bg-[#07B096] hover:bg-[#07B096]/90 shadow-lg"
+                        className="shadow-lg"
+                        style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
                       >
                         <CreditCardIcon className="h-4 w-4 mr-2" />
                         {isProcessing ? "Processing..." : `Complete Order ($${orderTotal.toFixed(2)})`}
@@ -343,7 +352,7 @@ export default function CheckoutPage() {
 
             {/* Order Summary Sidebar */}
             <div className="lg:col-span-1">
-              <div className="border rounded-lg p-6 sticky top-6">
+              <div className="border rounded-lg p-6 sticky top-6" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                 <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
                 <div className="space-y-3 mb-4">
                   {orderItems.map((item, index) => (

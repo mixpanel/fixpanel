@@ -15,6 +15,7 @@ import {
   TimerIcon,
   GiftIcon
 } from "lucide-react";
+import { useColorScheme } from "../ColorSchemeProvider";
 
 // Daily deals with flash sale mechanics
 const dailyDeals = [
@@ -111,6 +112,7 @@ const dailyDeals = [
 ];
 
 export default function DealsPage() {
+  const { colors } = useColorScheme();
   const [cart, setCart] = useState<Array<{id: number, quantity: number}>>([]);
   const [timers, setTimers] = useState<{[key: number]: number}>({});
   const [flashingDeals, setFlashingDeals] = useState<{[key: number]: boolean}>({});
@@ -254,7 +256,7 @@ export default function DealsPage() {
                 ⏰ Flash Deals End Soon!
               </div>
               <Link href="/checkout/cart">
-                <Button className="bg-[#07B096] hover:bg-[#07B096]/90">
+                <Button style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
                   <ShoppingCartIcon className="h-4 w-4 mr-2" />
                   Cart ({getCartItemCount()})
                 </Button>
@@ -318,7 +320,7 @@ export default function DealsPage() {
 
                       {/* Pricing */}
                       <div className="mb-4">
-                        <div className="text-3xl font-bold text-[#07B096] mb-2">
+                        <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>
                           ${deal.salePrice}
                         </div>
                         <div className="text-lg text-gray-500 line-through">
@@ -372,13 +374,14 @@ export default function DealsPage() {
                     <Button
                       onClick={() => addToCart(deal.id)}
                       disabled={timeRemaining <= 0}
-                      className={`w-full ${
+                      className="w-full"
+                      style={
                         timeRemaining <= 0
-                          ? 'bg-gray-400 cursor-not-allowed'
+                          ? { backgroundColor: '#9ca3af', cursor: 'not-allowed' }
                           : isUrgent
-                          ? 'bg-red-600 hover:bg-red-700 animate-pulse'
-                          : 'bg-[#07B096] hover:bg-[#07B096]/90'
-                      }`}
+                          ? { backgroundColor: '#dc2626', color: 'white' }
+                          : { backgroundColor: colors.buttonBg, color: colors.buttonText }
+                      }
                     >
                       {timeRemaining <= 0 ? (
                         "Deal Expired"
