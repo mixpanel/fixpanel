@@ -130,9 +130,6 @@ export function Header() {
                 <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/history">
                   History
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/streaming/account">
-                  Account
-                </Link>
               </>
             )}
             {isCheckout && (

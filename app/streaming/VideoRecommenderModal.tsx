@@ -133,18 +133,45 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
 
   if (!variant || !recommendation) return null;
 
+  // Different styles for each variant
+  const variantStyles = {
+    "meme engine (A)": {
+      modalBg: "bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50",
+      border: "border-4 border-purple-500",
+      accentColor: "#9333ea", // purple-600
+      badgeBg: "bg-purple-500 text-white",
+      buttonBg: "bg-purple-600 hover:bg-purple-700",
+    },
+    "demographics (B)": {
+      modalBg: "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50",
+      border: "border-4 border-blue-500",
+      accentColor: "#2563eb", // blue-600
+      badgeBg: "bg-blue-500 text-white",
+      buttonBg: "bg-blue-600 hover:bg-blue-700",
+    },
+    "control (C)": {
+      modalBg: "bg-white",
+      border: "border-2 border-gray-300",
+      accentColor: "#CC332B",
+      badgeBg: "bg-gray-500 text-white",
+      buttonBg: "bg-[#CC332B] hover:bg-[#CC332B]/90",
+    },
+  };
+
+  const style = variantStyles[variant];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black opacity-60" onClick={handleClose} />
 
       {/* Modal */}
-      <div className="relative z-10 bg-white rounded-lg shadow-2xl w-11/12 max-w-lg p-6 border-2 border-[#CC332B]">
+      <div className={`relative z-10 ${style.modalBg} rounded-lg shadow-2xl w-11/12 max-w-lg p-6 ${style.border}`}>
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-2">
-            <FlagIcon className="h-5 w-5 text-[#CC332B]" />
-            <SparklesIcon className="h-5 w-5 text-[#CC332B]" />
+            <FlagIcon className="h-5 w-5" style={{ color: style.accentColor }} />
+            <SparklesIcon className="h-5 w-5" style={{ color: style.accentColor }} />
             <h2 className="text-2xl font-bold text-gray-900">Just For You</h2>
           </div>
           <Button variant="ghost" size="icon" onClick={handleClose}>
@@ -152,31 +179,40 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
           </Button>
         </div>
 
-        {/* Recommendation Type Badge */}
+        {/* Recommendation Type Badge with Variant Name */}
         <div className="mb-4">
           {variant === "meme engine (A)" && (
-            <span className="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-semibold">
-              🎭 Meme-Powered Recommendation
-            </span>
+            <div className="space-y-2">
+              <span className={`inline-block px-4 py-2 ${style.badgeBg} rounded-full text-sm font-bold shadow-lg`}>
+                🎭 VARIANT A: Meme-Powered Engine
+              </span>
+              <p className="text-xs text-purple-700 font-semibold">Silly, zany, and probably not what you asked for!</p>
+            </div>
           )}
           {variant === "demographics (B)" && (
-            <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
-              📊 Demographic-Based Recommendation
-            </span>
+            <div className="space-y-2">
+              <span className={`inline-block px-4 py-2 ${style.badgeBg} rounded-full text-sm font-bold shadow-lg`}>
+                📊 VARIANT B: Demographics-Based
+              </span>
+              <p className="text-xs text-blue-700 font-semibold">Recommendations based on your demographic profile</p>
+            </div>
           )}
           {variant === "control (C)" && (
-            <span className="inline-block px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-semibold">
-              <ClockIcon className="inline h-3 w-3 mr-1" />
-              Latest Upload Recommendation
-            </span>
+            <div className="space-y-2">
+              <span className={`inline-block px-4 py-2 ${style.badgeBg} rounded-full text-sm font-bold shadow-lg`}>
+                <ClockIcon className="inline h-3 w-3 mr-1" />
+                CONTROL (C): Latest Uploads
+              </span>
+              <p className="text-xs text-gray-600 font-semibold">Simple chronological recommendations</p>
+            </div>
           )}
         </div>
 
         {/* Demographic Profile (for variant B) */}
         {variant === "demographics (B)" && demographicProfile && (
-          <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-            <p className="text-sm text-blue-900">
-              <strong>Your Profile:</strong> {demographicProfile.gender}, {demographicProfile.age} years old, {demographicProfile.location}
+          <div className="mb-4 p-4 bg-blue-100 rounded-lg border-2 border-blue-400">
+            <p className="text-sm text-blue-900 font-semibold">
+              👤 <strong>Your Profile:</strong> {demographicProfile.gender}, {demographicProfile.age} years old, {demographicProfile.location}
             </p>
           </div>
         )}
@@ -195,9 +231,12 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
         <h3 className="text-xl font-bold text-gray-900 mb-3">{recommendation.title}</h3>
 
         {/* Recommendation Reason */}
-        <div className="bg-[#FFF5F5] border-l-4 border-[#CC332B] p-4 rounded mb-4">
+        <div className="border-l-4 p-4 rounded mb-4" style={{
+          backgroundColor: variant === "meme engine (A)" ? "#faf5ff" : variant === "demographics (B)" ? "#eff6ff" : "#FFF5F5",
+          borderColor: style.accentColor
+        }}>
           <p className="text-sm text-gray-700">
-            <strong className="text-[#CC332B]">Why we're recommending this:</strong><br/>
+            <strong style={{ color: style.accentColor }}>Why we're recommending this:</strong><br/>
             {recommendation.reason}
           </p>
         </div>
@@ -206,7 +245,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
         <div className="flex gap-3">
           <Button
             onClick={handleWatchVideo}
-            className="flex-1 bg-[#CC332B] hover:bg-[#CC332B]/90 text-white"
+            className={`flex-1 ${style.buttonBg} text-white`}
           >
             <PlayIcon className="mr-2 h-5 w-5" />
             Watch Now
@@ -221,8 +260,14 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
         </div>
 
         {variant === "meme engine (A)" && (
-          <p className="text-xs text-gray-500 text-center mt-4 italic">
-            * Meme-powered AI may or may not understand what you actually want to watch
+          <p className="text-xs text-purple-600 text-center mt-4 italic font-semibold">
+            ⚠️ Meme-powered AI may or may not understand what you actually want to watch
+          </p>
+        )}
+
+        {variant === "demographics (B)" && (
+          <p className="text-xs text-blue-600 text-center mt-4 italic font-semibold">
+            📊 Based on aggregated data from users similar to you
           </p>
         )}
 
@@ -230,7 +275,8 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
           href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/ddf7f839-1579-4e15-9dc2-a6f030a3770e"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-gray-400 hover:text-[#CC332B] mt-3 block text-center transition-colors"
+          className="text-xs hover:opacity-80 mt-3 block text-center transition-colors"
+          style={{ color: style.accentColor }}
         >
           ⚙️ View flag in Mixpanel
         </a>
