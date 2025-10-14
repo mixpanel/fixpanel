@@ -1,339 +1,547 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PayFlow - Send Money Instantly</title>
-    <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0">
+	<title>PayFlow - Send Money Instantly</title>
+	<link rel="stylesheet"
+		href="styles.css">
+
 </head>
+
 <body>
-    <div class="app-container">
-        <!-- Added proper PayFlow logo with icon -->
-        <header class="header">
-            <div class="logo">
-                <svg class="logo-icon" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <path d="M14 2L2 8v8c0 7.5 5.2 14.5 12 16 6.8-1.5 12-8.5 12-16V8L14 2z" fill="url(#logoGradient)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    <path d="M10 14l3 3 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <defs>
-                        <linearGradient id="logoGradient" x1="2" y1="2" x2="26" y2="26" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#0066ff"/>
-                            <stop offset="1" stop-color="#0052cc"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <span>PayFlow</span>
-            </div>
-            <button class="close-btn" onclick="showExitModal()" id="closeBtn">×</button>
-        </header>
+	<div class="app-container">
+		<!-- Added proper PayFlow logo with icon -->
+		<header class="header">
+			<div class="logo">
+				<svg class="logo-icon"
+					width="28"
+					height="28"
+					viewBox="0 0 28 28"
+					fill="none">
+					<path d="M14 2L2 8v8c0 7.5 5.2 14.5 12 16 6.8-1.5 12-8.5 12-16V8L14 2z"
+						fill="url(#logoGradient)"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linejoin="round" />
+					<path d="M10 14l3 3 6-6"
+						stroke="white"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round" />
+					<defs>
+						<linearGradient id="logoGradient"
+							x1="2"
+							y1="2"
+							x2="26"
+							y2="26"
+							gradientUnits="userSpaceOnUse">
+							<stop stop-color="#0066ff" />
+							<stop offset="1"
+								stop-color="#0052cc" />
+						</linearGradient>
+					</defs>
+				</svg>
+				<span>PayFlow</span>
+			</div>
+			<button class="close-btn"
+				onclick="showExitModal()"
+				id="closeBtn">×</button>
+		</header>
 
-        <!-- Removed debug labels from progress bar -->
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+		<!-- Removed debug labels from progress bar -->
+		<div class="progress-container"
+			id="progressContainer">
+			<div class="progress-bar"
+				id="progressBar"></div>
+		</div>
 
-        <!-- Removed debug labels from step indicators -->
-        <div class="step-indicators" id="stepIndicators">
-            <div class="step-indicator active" data-step="1">
-                <div class="step-circle">1</div>
-                <span>Recipient</span>
-            </div>
-            <div class="step-indicator" data-step="2">
-                <div class="step-circle">2</div>
-                <span>Amount</span>
-            </div>
-            <div class="step-indicator" data-step="3">
-                <div class="step-circle">3</div>
-                <span>Review</span>
-            </div>
-            <div class="step-indicator" data-step="4">
-                <div class="step-circle">4</div>
-                <span>Confirm</span>
-            </div>
-            <div class="step-indicator" data-step="5">
-                <div class="step-circle">5</div>
-                <span>Success</span>
-            </div>
-        </div>
+		<!-- Removed debug labels from step indicators -->
+		<div class="step-indicators"
+			id="stepIndicators">
+			<div class="step-indicator active"
+				data-step="1">
+				<div class="step-circle">1</div>
+				<span>Recipient</span>
+			</div>
+			<div class="step-indicator"
+				data-step="2">
+				<div class="step-circle">2</div>
+				<span>Amount</span>
+			</div>
+			<div class="step-indicator"
+				data-step="3">
+				<div class="step-circle">3</div>
+				<span>Review</span>
+			</div>
+			<div class="step-indicator"
+				data-step="4">
+				<div class="step-circle">4</div>
+				<span>Confirm</span>
+			</div>
+			<div class="step-indicator"
+				data-step="5">
+				<div class="step-circle">5</div>
+				<span>Success</span>
+			</div>
+		</div>
 
-        <!-- Removed debug labels from main content -->
-        <main class="main-content">
-            <!-- Removed step comments that mentioned friction -->
-            <div class="step-content active" id="step1">
-                <h1 class="step-title">Who are you sending to?</h1>
-                <p class="step-subtitle">Search for a friend or enter their details</p>
-                
-                <div class="search-box">
-                    <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <input type="text" id="recipientSearch" placeholder="Search by name, email, or phone" autocomplete="off">
-                </div>
+		<!-- Removed debug labels from main content -->
+		<main class="main-content">
+			<!-- Removed step comments that mentioned friction -->
+			<div class="step-content active"
+				id="step1">
+				<h1 class="step-title">Who are you sending to?</h1>
+				<p class="step-subtitle">Search for a friend or enter their details</p>
 
-                <div class="recent-contacts">
-                    <h3>Recent</h3>
-                    <div class="contact-list">
-                        <div class="contact-item" onclick="selectRecipient('Sarah Chen', '@sarahc')">
-                            <div class="contact-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">SC</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Sarah Chen</div>
-                                <div class="contact-username">@sarahc</div>
-                            </div>
-                        </div>
-                        <div class="contact-item" onclick="selectRecipient('Marcus Johnson', '@marcusj')">
-                            <div class="contact-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">MJ</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Marcus Johnson</div>
-                                <div class="contact-username">@marcusj</div>
-                            </div>
-                        </div>
-                        <div class="contact-item" onclick="selectRecipient('Emma Rodriguez', '@emmar')">
-                            <div class="contact-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">ER</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Emma Rodriguez</div>
-                                <div class="contact-username">@emmar</div>
-                            </div>
-                        </div>
-                        <div class="contact-item" onclick="selectRecipient('Alex Kim', '@alexk')">
-                            <div class="contact-avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">AK</div>
-                            <div class="contact-info">
-                                <div class="contact-name">Alex Kim</div>
-                                <div class="contact-username">@alexk</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+				<div class="search-box">
+					<svg class="search-icon"
+						width="20"
+						height="20"
+						viewBox="0 0 20 20"
+						fill="none">
+						<path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round" />
+					</svg>
+					<input type="text"
+						id="recipientSearch"
+						placeholder="Search by name, email, or phone"
+						autocomplete="off">
+				</div>
 
-            <div class="step-content" id="step2">
-                <h1 class="step-title">How much?</h1>
-                <p class="step-subtitle">Enter the amount you want to send</p>
-                
-                <div class="amount-input-container">
-                    <span class="currency-symbol">$</span>
-                    <input type="text" id="amountInput" class="amount-input" placeholder="0" maxlength="10" autocomplete="off">
-                </div>
+				<div class="recent-contacts">
+					<h3>Recent</h3>
+					<div class="contact-list">
+						<div class="contact-item"
+							onclick="selectRecipient('Sarah Chen', '@sarahc')">
+							<div class="contact-avatar"
+								style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">SC</div>
+							<div class="contact-info">
+								<div class="contact-name">Sarah Chen</div>
+								<div class="contact-username">@sarahc</div>
+							</div>
+						</div>
+						<div class="contact-item"
+							onclick="selectRecipient('Marcus Johnson', '@marcusj')">
+							<div class="contact-avatar"
+								style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">MJ</div>
+							<div class="contact-info">
+								<div class="contact-name">Marcus Johnson</div>
+								<div class="contact-username">@marcusj</div>
+							</div>
+						</div>
+						<div class="contact-item"
+							onclick="selectRecipient('Emma Rodriguez', '@emmar')">
+							<div class="contact-avatar"
+								style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">ER</div>
+							<div class="contact-info">
+								<div class="contact-name">Emma Rodriguez</div>
+								<div class="contact-username">@emmar</div>
+							</div>
+						</div>
+						<div class="contact-item"
+							onclick="selectRecipient('Alex Kim', '@alexk')">
+							<div class="contact-avatar"
+								style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">AK</div>
+							<div class="contact-info">
+								<div class="contact-name">Alex Kim</div>
+								<div class="contact-username">@alexk</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                <div class="quick-amounts">
-                    <button class="quick-amount-btn" onclick="setAmount('10')">$10</button>
-                    <button class="quick-amount-btn" onclick="setAmount('25')">$25</button>
-                    <button class="quick-amount-btn" onclick="setAmount('50')">$50</button>
-                    <button class="quick-amount-btn" onclick="setAmount('100')">$100</button>
-                </div>
+			<div class="step-content"
+				id="step2">
+				<h1 class="step-title">How much?</h1>
+				<p class="step-subtitle">Enter the amount you want to send</p>
 
-                <div class="note-section">
-                    <label for="noteInput">Add a note (optional)</label>
-                    <input type="text" id="noteInput" placeholder="What's this for?" maxlength="50">
-                </div>
+				<div class="amount-input-container">
+					<span class="currency-symbol">$</span>
+					<input type="text"
+						id="amountInput"
+						class="amount-input"
+						placeholder="0"
+						maxlength="10"
+						autocomplete="off">
+				</div>
 
-                <div class="balance-info">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14z" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M8 8V4M8 11h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    Available balance: $1,247.50
-                </div>
-            </div>
+				<div class="quick-amounts">
+					<button class="quick-amount-btn"
+						onclick="setAmount('10')">$10</button>
+					<button class="quick-amount-btn"
+						onclick="setAmount('25')">$25</button>
+					<button class="quick-amount-btn"
+						onclick="setAmount('50')">$50</button>
+					<button class="quick-amount-btn"
+						onclick="setAmount('100')">$100</button>
+				</div>
 
-            <div class="step-content" id="step3">
-                <h1 class="step-title">Review your payment</h1>
-                <p class="step-subtitle">Make sure everything looks correct</p>
+				<div class="note-section">
+					<label for="noteInput">Add a note (optional)</label>
+					<input type="text"
+						id="noteInput"
+						placeholder="What's this for?"
+						maxlength="50">
+				</div>
 
-                <div class="review-card">
-                    <div class="review-section">
-                        <div class="review-label">Sending to</div>
-                        <div class="review-recipient">
-                            <div class="review-avatar" id="reviewAvatar"></div>
-                            <div>
-                                <div class="review-name" id="reviewName"></div>
-                                <div class="review-username" id="reviewUsername"></div>
-                            </div>
-                        </div>
-                    </div>
+				<div class="balance-info">
+					<svg width="16"
+						height="16"
+						viewBox="0 0 16 16"
+						fill="none">
+						<path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14z"
+							stroke="currentColor"
+							stroke-width="1.5" />
+						<path d="M8 8V4M8 11h.01"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round" />
+					</svg>
+					Available balance: $1,247.50
+				</div>
+			</div>
 
-                    <div class="review-divider"></div>
+			<div class="step-content"
+				id="step3">
+				<h1 class="step-title">Review your payment</h1>
+				<p class="step-subtitle">Make sure everything looks correct</p>
 
-                    <div class="review-section">
-                        <div class="review-label">Amount</div>
-                        <div class="review-amount" id="reviewAmount"></div>
-                    </div>
+				<div class="review-card">
+					<div class="review-section">
+						<div class="review-label">Sending to</div>
+						<div class="review-recipient">
+							<div class="review-avatar"
+								id="reviewAvatar"></div>
+							<div>
+								<div class="review-name"
+									id="reviewName"></div>
+								<div class="review-username"
+									id="reviewUsername"></div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="review-section" id="reviewNoteSection" style="display: none;">
-                        <div class="review-label">Note</div>
-                        <div class="review-note" id="reviewNote"></div>
-                    </div>
+					<div class="review-divider"></div>
 
-                    <div class="review-divider"></div>
+					<div class="review-section">
+						<div class="review-label">Amount</div>
+						<div class="review-amount"
+							id="reviewAmount"></div>
+					</div>
 
-                    <div class="review-section">
-                        <div class="review-row">
-                            <span>Transfer fee</span>
-                            <span class="review-fee">$0.00</span>
-                        </div>
-                        <div class="review-row">
-                            <span class="review-total-label">Total</span>
-                            <span class="review-total" id="reviewTotal"></span>
-                        </div>
-                    </div>
-                </div>
+					<div class="review-section"
+						id="reviewNoteSection"
+						style="display: none;">
+						<div class="review-label">Note</div>
+						<div class="review-note"
+							id="reviewNote"></div>
+					</div>
 
-                <div class="info-banner">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M10 10V6M10 14h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    <span>This payment will arrive instantly</span>
-                </div>
-            </div>
+					<div class="review-divider"></div>
 
-            <div class="step-content" id="step4">
-                <h1 class="step-title">Confirm your payment</h1>
-                <p class="step-subtitle">Enter your PIN to complete the transaction</p>
+					<div class="review-section">
+						<div class="review-row">
+							<span>Transfer fee</span>
+							<span class="review-fee">$0.00</span>
+						</div>
+						<div class="review-row">
+							<span class="review-total-label">Total</span>
+							<span class="review-total"
+								id="reviewTotal"></span>
+						</div>
+					</div>
+				</div>
 
-                <div class="security-badge">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>Secure payment</span>
-                </div>
+				<div class="info-banner">
+					<svg width="20"
+						height="20"
+						viewBox="0 0 20 20"
+						fill="none">
+						<path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"
+							stroke="currentColor"
+							stroke-width="1.5" />
+						<path d="M10 10V6M10 14h.01"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round" />
+					</svg>
+					<span>This payment will arrive instantly</span>
+				</div>
+			</div>
 
-                <div class="pin-input-container">
-                    <input type="password" class="pin-digit" maxlength="1" id="pin1" autocomplete="off">
-                    <input type="password" class="pin-digit" maxlength="1" id="pin2" autocomplete="off">
-                    <input type="password" class="pin-digit" maxlength="1" id="pin3" autocomplete="off">
-                    <input type="password" class="pin-digit" maxlength="1" id="pin4" autocomplete="off">
-                </div>
+			<div class="step-content"
+				id="step4">
+				<h1 class="step-title">Confirm your payment</h1>
+				<p class="step-subtitle">Enter your PIN to complete the transaction</p>
 
-                <div class="final-review">
-                    <div class="final-review-row">
-                        <span>Recipient</span>
-                        <span id="finalRecipient"></span>
-                    </div>
-                    <div class="final-review-row">
-                        <span>Amount</span>
-                        <span id="finalAmount" class="final-amount"></span>
-                    </div>
-                </div>
+				<div class="security-badge">
+					<svg width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none">
+						<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round" />
+					</svg>
+					<span>Secure payment</span>
+				</div>
 
-                <!-- Removed comment about intentional friction -->
-                <div class="friction-container">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="termsCheck">
-                        <span>I agree to the <a href="#" onclick="event.preventDefault()">Terms of Service</a> and <a href="#" onclick="event.preventDefault()">Privacy Policy</a></span>
-                    </label>
+				<div class="pin-input-container">
+					<input type="password"
+						class="pin-digit"
+						maxlength="1"
+						id="pin1"
+						autocomplete="off">
+					<input type="password"
+						class="pin-digit"
+						maxlength="1"
+						id="pin2"
+						autocomplete="off">
+					<input type="password"
+						class="pin-digit"
+						maxlength="1"
+						id="pin3"
+						autocomplete="off">
+					<input type="password"
+						class="pin-digit"
+						maxlength="1"
+						id="pin4"
+						autocomplete="off">
+				</div>
 
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="confirmCheck">
-                        <span>I confirm this payment is correct and cannot be reversed</span>
-                    </label>
+				<div class="final-review">
+					<div class="final-review-row">
+						<span>Recipient</span>
+						<span id="finalRecipient"></span>
+					</div>
+					<div class="final-review-row">
+						<span>Amount</span>
+						<span id="finalAmount"
+							class="final-amount"></span>
+					</div>
+				</div>
 
-                    <div class="captcha-box" id="captchaBox">
-                        <label class="checkbox-label captcha-check">
-                            <input type="checkbox" id="captchaCheck">
-                            <span>I'm not a robot</span>
-                        </label>
-                        <div class="captcha-logo">reCAPTCHA</div>
-                    </div>
-                </div>
-            </div>
+				<!-- Removed comment about intentional friction -->
+				<div class="friction-container">
+					<label class="checkbox-label">
+						<input type="checkbox"
+							id="termsCheck">
+						<span>I agree to the <a href="#"
+								onclick="event.preventDefault()">Terms of Service</a> and <a href="#"
+								onclick="event.preventDefault()">Privacy Policy</a></span>
+					</label>
 
-            <!-- Added success page (Step 5) -->
-            <div class="step-content" id="step5">
-                <div class="success-container">
-                    <div class="success-icon">
-                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                            <circle cx="40" cy="40" r="38" stroke="#10b981" stroke-width="4"/>
-                            <path d="M25 40l10 10 20-20" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h1 class="success-title">Payment Sent!</h1>
-                    <p class="success-subtitle">Your payment was successful</p>
+					<label class="checkbox-label">
+						<input type="checkbox"
+							id="confirmCheck">
+						<span>I confirm this payment is correct and cannot be reversed</span>
+					</label>
 
-                    <div class="success-details">
-                        <div class="success-amount" id="successAmount"></div>
-                        <div class="success-recipient">
-                            <span>to</span>
-                            <div class="success-recipient-info">
-                                <div class="success-avatar" id="successAvatar"></div>
-                                <div>
-                                    <div class="success-name" id="successName"></div>
-                                    <div class="success-username" id="successUsername"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+					<div class="captcha-box"
+						id="captchaBox">
+						<label class="checkbox-label captcha-check">
+							<input type="checkbox"
+								id="captchaCheck">
+							<span>I'm not a robot</span>
+						</label>
+						<div class="captcha-logo">reCAPTCHA</div>
+					</div>
+				</div>
+			</div>
 
-                    <div class="success-info">
-                        <div class="success-info-row">
-                            <span>Transaction ID</span>
-                            <span id="transactionId"></span>
-                        </div>
-                        <div class="success-info-row">
-                            <span>Date</span>
-                            <span id="transactionDate"></span>
-                        </div>
-                        <div class="success-info-row">
-                            <span>Status</span>
-                            <span class="status-badge">Completed</span>
-                        </div>
-                    </div>
+			<!-- Added success page (Step 5) -->
+			<div class="step-content"
+				id="step5">
+				<div class="success-container">
+					<div class="success-icon">
+						<svg width="80"
+							height="80"
+							viewBox="0 0 80 80"
+							fill="none">
+							<circle cx="40"
+								cy="40"
+								r="38"
+								stroke="#10b981"
+								stroke-width="4" />
+							<path d="M25 40l10 10 20-20"
+								stroke="#10b981"
+								stroke-width="4"
+								stroke-linecap="round"
+								stroke-linejoin="round" />
+						</svg>
+					</div>
+					<h1 class="success-title">Payment Sent!</h1>
+					<p class="success-subtitle">Your payment was successful</p>
 
-                    <button class="btn btn-primary" onclick="resetFlow()" style="width: 100%; margin-top: 32px;">
-                        Send Another Payment
-                    </button>
-                </div>
-            </div>
-        </main>
+					<div class="success-details">
+						<div class="success-amount"
+							id="successAmount"></div>
+						<div class="success-recipient">
+							<span>to</span>
+							<div class="success-recipient-info">
+								<div class="success-avatar"
+									id="successAvatar"></div>
+								<div>
+									<div class="success-name"
+										id="successName"></div>
+									<div class="success-username"
+										id="successUsername"></div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-        <!-- Removed debug label from navigation buttons -->
-        <div class="nav-buttons" id="navButtons">
-            <button class="btn btn-secondary" id="backBtn" onclick="previousStep()" style="display: none;">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M12 16l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Back
-            </button>
-            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()" disabled>
-                Continue
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-    </div>
+					<div class="success-info">
+						<div class="success-info-row">
+							<span>Transaction ID</span>
+							<span id="transactionId"></span>
+						</div>
+						<div class="success-info-row">
+							<span>Date</span>
+							<span id="transactionDate"></span>
+						</div>
+						<div class="success-info-row">
+							<span>Status</span>
+							<span class="status-badge">Completed</span>
+						</div>
+					</div>
 
-    <!-- Fixed toast notification structure -->
-    <div class="toast" id="toast">
-        <div class="toast-icon" id="toastIcon"></div>
-        <div class="toast-content">
-            <div class="toast-title" id="toastTitle"></div>
-            <div class="toast-message" id="toastMessage"></div>
-        </div>
-        <button class="toast-close" onclick="hideToast()">×</button>
-    </div>
+					<button class="btn btn-primary"
+						onclick="resetFlow()"
+						style="width: 100%; margin-top: 32px;">
+						Send Another Payment
+					</button>
+				</div>
+			</div>
+		</main>
 
-    <!-- Fixed loading overlay structure -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Processing payment...</div>
-    </div>
+		<!-- Removed debug label from navigation buttons -->
+		<div class="nav-buttons"
+			id="navButtons">
+			<button class="btn btn-secondary"
+				id="backBtn"
+				onclick="previousStep()"
+				style="display: none;">
+				<svg width="20"
+					height="20"
+					viewBox="0 0 20 20"
+					fill="none">
+					<path d="M12 16l-6-6 6-6"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round" />
+				</svg>
+				Back
+			</button>
+			<button class="btn btn-primary"
+				id="nextBtn"
+				onclick="nextStep()"
+				disabled>
+				Continue
+				<svg width="20"
+					height="20"
+					viewBox="0 0 20 20"
+					fill="none">
+					<path d="M8 4l6 6-6 6"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round" />
+				</svg>
+			</button>
+		</div>
+	</div>
 
-    <!-- Added proper exit confirmation modal -->
-    <div class="modal-overlay" id="exitModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2>Cancel Payment?</h2>
-                <button class="modal-close" onclick="hideExitModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to cancel this payment? All entered information will be lost.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="hideExitModal()">Continue Payment</button>
-                <button class="btn btn-danger" onclick="confirmExit()">Yes, Cancel</button>
-            </div>
-        </div>
-    </div>
+	<!-- Fixed toast notification structure -->
+	<div class="toast"
+		id="toast">
+		<div class="toast-icon"
+			id="toastIcon"></div>
+		<div class="toast-content">
+			<div class="toast-title"
+				id="toastTitle"></div>
+			<div class="toast-message"
+				id="toastMessage"></div>
+		</div>
+		<button class="toast-close"
+			onclick="hideToast()">×</button>
+	</div>
 
-    <script src="script.js"></script>
+	<!-- Fixed loading overlay structure -->
+	<div class="loading-overlay"
+		id="loadingOverlay">
+		<div class="loading-spinner"></div>
+		<div class="loading-text">Processing payment...</div>
+	</div>
+
+	<!-- Added proper exit confirmation modal -->
+	<div class="modal-overlay"
+		id="exitModal">
+		<div class="modal">
+			<div class="modal-header">
+				<h2>Cancel Payment?</h2>
+				<button class="modal-close"
+					onclick="hideExitModal()">×</button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to cancel this payment? All entered information will be lost.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary"
+					onclick="hideExitModal()">Continue Payment</button>
+				<button class="btn btn-danger"
+					onclick="confirmExit()">Yes, Cancel</button>
+			</div>
+		</div>
+	</div>
+	<script>
+		const MIXPANEL_TOKEN = "945aa091867cec089e6d26a9d51e86fe";
+		const MIXPANEL_PROXY = `https://express-proxy-lmozz6xkha-uc.a.run.app`;
+		const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/lib.min.js`;
+
+		(function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+
+		mixpanel.init(MIXPANEL_TOKEN, {
+			api_host: MIXPANEL_PROXY,
+			debug: true,
+			ignore_dnt: true,
+			flags: {},
+			autocapture: {
+				pageview: "full-url",
+				click: true,
+				input: true,
+				scroll: true,
+				submit: true,
+				capture_text_content: true,
+			},
+			record_heatmap_data: true,
+			record_inline_images: true,
+			record_collect_fonts: true,
+			record_mask_text_selector: "nope",
+			record_block_selector: "nope",
+			record_block_class: "nope",
+			ignore_dnt: true,
+			batch_flush_interval_ms: 0,
+			api_payload_format: "json",
+			api_transport: "XHR",
+			persistence: "localStorage",
+			loaded: function (mixpanel) {
+				mixpanel.start_session_recording();
+				console.log("MIXPANEL LOADED", mixpanel);
+				// debugger;
+			},
+		});
+	</script>
+	<script src="script.js"></script>
 </body>
+
 </html>
