@@ -7,15 +7,15 @@
 	"docs": "https://www.notion.so/mxpnl/Fixpanel-1ece0ba9256280b9b10ad1ad09b80bca",
 	"author": "ak--47",
 	"scripts": {
-		"hello-world": "npx serve ./hello-world/",
 		"dev": "next dev",
 		"build": "next build",
+		"postbuild": "node ./scripts/copy-oneoffs.js",
 		"start": "next start",
 		"lint": "next lint",
 		"headless": "node ./scripts/headless.js",
 		"sanity": "npx serve ./dev/",
 		"sanity:prod": "npx serve ./out/",
-		"metube": "npx serve ./metube/",
+		"oneoffs": "npx serve ./oneoffs/",
 		"prune": "rm -rf ./out/*"
 	},
 	"dependencies": {
