@@ -6,8 +6,8 @@ import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, PlayIcon, SparklesIcon, TrendingUpIcon, ClockIcon } from "lucide-react";
 
 const experimentId = "me-tube-video-recommender";
-type Variant = "meme engine (A)" | "demographics (B)" | "control (C)";
-const fallbackVariant: Variant = "control (C)";
+type Variant = "A (meme engine)" | "B (demographics)" | "C (control)";
+const fallbackVariant: Variant = "C (control)";
 
 // Meme Engine - silly/zany videos
 const memeRecommendations = [
@@ -87,6 +87,8 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
 
   React.useEffect(() => {
     initMixpanelOnce();
+
+    // Add error handling for feature flag fetch
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
       .then((returnedVariant: unknown) => {
@@ -96,10 +98,10 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
         setVariant(v);
 
         // Generate recommendation based on variant
-        if (v === "meme engine (A)") {
+        if (v === "A (meme engine)") {
           const randomRec = memeRecommendations[Math.floor(Math.random() * memeRecommendations.length)];
           setRecommendation(randomRec);
-        } else if (v === "demographics (B)") {
+        } else if (v === "B (demographics)") {
           const randomProfile = demographicsProfiles[Math.floor(Math.random() * demographicsProfiles.length)];
           const randomRec = randomProfile.recommendations[Math.floor(Math.random() * randomProfile.recommendations.length)];
           setDemographicProfile(randomProfile);
@@ -110,6 +112,15 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
         }
 
         mixpanel.track("Video Recommender Opened", { variant: v });
+      })
+      .catch((error: Error) => {
+        console.error("[MIXPANEL]: Error fetching feature flag:", error);
+        // Fallback to control variant on error
+        const v = fallbackVariant;
+        setVariant(v);
+        const randomRec = controlRecommendations[Math.floor(Math.random() * controlRecommendations.length)];
+        setRecommendation(randomRec);
+        mixpanel.track("Video Recommender Opened", { variant: v, error: "flag_fetch_failed" });
       });
   }, []);
 
@@ -127,29 +138,50 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
   };
 
   const handleClose = () => {
-    mixpanel.track("Video Recommender Closed", { variant });
+    if (variant) {
+      mixpanel.track("Video Recommender Closed", { variant });
+    }
     onClose?.();
   };
 
-  if (!variant || !recommendation) return null;
+  // Show loading state while fetching flag
+  if (!variant || !recommendation) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black opacity-60" onClick={handleClose} />
+        <div className="relative z-10 bg-white rounded-lg shadow-2xl w-11/12 max-w-lg p-6">
+          <div className="flex items-center justify-center py-8">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CC332B]"></div>
+          </div>
+          <p className="text-center text-gray-600 text-sm">Loading recommendation...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Different styles for each variant
-  const variantStyles = {
-    "meme engine (A)": {
+  const variantStyles: Record<Variant, {
+    modalBg: string;
+    border: string;
+    accentColor: string;
+    badgeBg: string;
+    buttonBg: string;
+  }> = {
+    "A (meme engine)": {
       modalBg: "bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50",
       border: "border-4 border-purple-500",
       accentColor: "#9333ea", // purple-600
       badgeBg: "bg-purple-500 text-white",
       buttonBg: "bg-purple-600 hover:bg-purple-700",
     },
-    "demographics (B)": {
+    "B (demographics)": {
       modalBg: "bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50",
       border: "border-4 border-blue-500",
       accentColor: "#2563eb", // blue-600
       badgeBg: "bg-blue-500 text-white",
       buttonBg: "bg-blue-600 hover:bg-blue-700",
     },
-    "control (C)": {
+    "C (control)": {
       modalBg: "bg-white",
       border: "border-2 border-gray-300",
       accentColor: "#CC332B",
@@ -158,7 +190,14 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
     },
   };
 
-  const style = variantStyles[variant];
+  // At this point, variant is guaranteed to be non-null due to early return above
+  const style = variantStyles[variant as Variant];
+
+  // Double check that style exists (should never happen due to early return, but TypeScript safety)
+  if (!style) {
+    console.error("[VideoRecommenderModal]: style is undefined for variant:", variant);
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -181,7 +220,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
 
         {/* Recommendation Type Badge with Variant Name */}
         <div className="mb-4">
-          {variant === "meme engine (A)" && (
+          {variant === "A (meme engine)" && (
             <div className="space-y-2">
               <span className={`inline-block px-4 py-2 ${style.badgeBg} rounded-full text-sm font-bold shadow-lg`}>
                 🎭 VARIANT A: Meme-Powered Engine
@@ -189,7 +228,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
               <p className="text-xs text-purple-700 font-semibold">Silly, zany, and probably not what you asked for!</p>
             </div>
           )}
-          {variant === "demographics (B)" && (
+          {variant === "B (demographics)" && (
             <div className="space-y-2">
               <span className={`inline-block px-4 py-2 ${style.badgeBg} rounded-full text-sm font-bold shadow-lg`}>
                 📊 VARIANT B: Demographics-Based
@@ -197,7 +236,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
               <p className="text-xs text-blue-700 font-semibold">Recommendations based on your demographic profile</p>
             </div>
           )}
-          {variant === "control (C)" && (
+          {variant === "C (control)" && (
             <div className="space-y-2">
               <span className={`inline-block px-4 py-2 ${style.badgeBg} rounded-full text-sm font-bold shadow-lg`}>
                 <ClockIcon className="inline h-3 w-3 mr-1" />
@@ -209,7 +248,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
         </div>
 
         {/* Demographic Profile (for variant B) */}
-        {variant === "demographics (B)" && demographicProfile && (
+        {variant === "B (demographics)" && demographicProfile && (
           <div className="mb-4 p-4 bg-blue-100 rounded-lg border-2 border-blue-400">
             <p className="text-sm text-blue-900 font-semibold">
               👤 <strong>Your Profile:</strong> {demographicProfile.gender}, {demographicProfile.age} years old, {demographicProfile.location}
@@ -232,7 +271,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
 
         {/* Recommendation Reason */}
         <div className="border-l-4 p-4 rounded mb-4" style={{
-          backgroundColor: variant === "meme engine (A)" ? "#faf5ff" : variant === "demographics (B)" ? "#eff6ff" : "#FFF5F5",
+          backgroundColor: variant === "A (meme engine)" ? "#faf5ff" : variant === "B (demographics)" ? "#eff6ff" : "#FFF5F5",
           borderColor: style.accentColor
         }}>
           <p className="text-sm text-gray-700">
@@ -259,13 +298,13 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
           </Button>
         </div>
 
-        {variant === "meme engine (A)" && (
+        {variant === "A (meme engine)" && (
           <p className="text-xs text-purple-600 text-center mt-4 italic font-semibold">
             ⚠️ Meme-powered AI may or may not understand what you actually want to watch
           </p>
         )}
 
-        {variant === "demographics (B)" && (
+        {variant === "B (demographics)" && (
           <p className="text-xs text-blue-600 text-center mt-4 italic font-semibold">
             📊 Based on aggregated data from users similar to you
           </p>
