@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FixPanel",
-  description: "the real fake finance app!",
+  description: "real fake demo apps for fun and profit!",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
