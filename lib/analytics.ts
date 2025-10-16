@@ -75,22 +75,29 @@ export function initMixpanelOnce() {
       // we ALSO don't want to reset if we navigated from a "sub page" back to a "top level" page
       // so /financial → /financial/testimonials → /financial should NOT reset
 
-      const pageDepth = document.location.pathname.split("/").filter(a=>a).length;
-      const topLevelPaths = ['financial', 'checkout', 'admin', 'lifestyle', 'streaming', 'wellness'];
-      const currentTopLevel = document.location.pathname.split("/").filter(a=>a)[0];
+      const pageDepth = document.location.pathname.split("/").filter((a) => a).length;
+      const topLevelPaths = ["financial", "checkout", "admin", "lifestyle", "streaming", "wellness"];
+      const currentTopLevel = document.location.pathname.split("/").filter((a) => a)[0];
       const isTopLevelPage = pageDepth === 1 && topLevelPaths.includes(currentTopLevel);
+      const isRootPage = document.location.pathname === "/fixpanel/" || document.location.pathname === "/";
+
+      if (isRootPage) {
+        mixpanel.reset();
+        sessionStorage.removeItem("mixpanel_active_session");
+        console.log("[MIXPANEL]: ROOT PAGE - RESETTING");
+      }
 
       // Check if we have an active session marker in sessionStorage
       // sessionStorage persists across page navigations but is cleared when tab/window closes
-      const hasActiveSession = sessionStorage.getItem('mixpanel_active_session') === 'true';
+      const hasActiveSession = sessionStorage.getItem("mixpanel_active_session") === "true";
 
       if (isTopLevelPage && !hasActiveSession) {
         // This is a fresh landing on a top-level page - reset and start new session
         console.log("[MIXPANEL]: FRESH LANDING - RESETTING");
         mp.stop_session_recording();
         mp.reset();
-        sessionStorage.setItem('mixpanel_active_session', 'true');
-        mp.track("START OF USER");
+        sessionStorage.setItem("mixpanel_active_session", "true");
+        mp.track(`START ${currentTopLevel}`);
         mp.track_pageview();
       }
 
@@ -135,7 +142,7 @@ export function initMixpanelOnce() {
               console.log("[MIXPANEL]: STOP SESSION RECORDING");
               mp.stop_session_recording();
               mp.reset();
-              sessionStorage.removeItem('mixpanel_active_session');
+              sessionStorage.removeItem("mixpanel_active_session");
               console.log("[MIXPANEL]: RESET");
               setTimeout(() => {
                 window.location.reload();
