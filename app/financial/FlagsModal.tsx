@@ -101,6 +101,10 @@ export function FlagsModal(props: FlagsModalProps) {
         if (!variant || typeof variant !== "string") variant = "no story (D)";
         console.log("[MIXPANEL]: GOT FLAG", variant);
         if (variant) setModalData(getModalData(variant)); // ! use the variant to the app
+      })
+      .catch((error: Error) => {
+        console.error("[MIXPANEL]: Error fetching flag, using fallback", error);
+        setModalData(getModalData(fallbackVariant));
       });
   }, []);
 
