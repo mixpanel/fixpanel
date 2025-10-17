@@ -14,6 +14,7 @@ interface OfferConfig {
   code: string;
   title: string;
   description: string;
+  longDescription: string;
   discount: string;
   color: string;
   bgGradient: string;
@@ -26,6 +27,7 @@ const offerConfigs: Record<string, OfferConfig> = {
     code: "SAVE10",
     title: "Welcome Offer!",
     description: "Get 10% off your entire order",
+    longDescription: "Apply this coupon code at checkout to receive 10% off your entire purchase. No minimum order required. Valid on all items in your cart. This offer cannot be combined with other promotions.",
     discount: "10% OFF",
     color: "text-purple-600",
     bgGradient: "from-purple-500 to-indigo-600",
@@ -36,6 +38,7 @@ const offerConfigs: Record<string, OfferConfig> = {
     code: "ODD13",
     title: "Lucky Letters!",
     description: "13% off items with odd # of letters",
+    longDescription: "Get 13% off any products whose names have an odd number of letters! For example: 'Hat' (3 letters), 'Shirt' (5 letters), or 'Jacket' (6 letters - wait, that's even, never mind!). The discount applies automatically to qualifying items at checkout.",
     discount: "13% OFF",
     color: "text-orange-600",
     bgGradient: "from-orange-500 to-red-600",
@@ -46,6 +49,7 @@ const offerConfigs: Record<string, OfferConfig> = {
     code: "QUEST15",
     title: "Quest for Q!",
     description: "15% off items containing the letter 'q'",
+    longDescription: "Enjoy 15% off on any item that contains the letter 'Q' in its name! That means products like 'Quilted jacket', 'Turquoise scarf', or 'Boutique handbag' all qualify. The more Q's in your cart, the more you save!",
     discount: "15% OFF",
     color: "text-teal-600",
     bgGradient: "from-teal-500 to-cyan-600",
@@ -56,6 +60,7 @@ const offerConfigs: Record<string, OfferConfig> = {
     code: "PLURAL12",
     title: "Plural Power!",
     description: "12% off all plural items (socks, gloves, etc.)",
+    longDescription: "Save 12% on items that come in pairs or sets! This includes socks, gloves, shoes, earrings, bookends, and any other products with plural names. Perfect for stocking up on essentials that you always need two (or more) of!",
     discount: "12% OFF",
     color: "text-blue-600",
     bgGradient: "from-blue-500 to-indigo-600",
@@ -66,6 +71,7 @@ const offerConfigs: Record<string, OfferConfig> = {
     code: "RHYME25",
     title: "Rhyme Time!",
     description: "25% off items that rhyme with each other",
+    longDescription: "Unlock a massive 25% discount when you buy items with names that rhyme! Mix and match products like 'Hat' & 'Mat', 'Sock' & 'Clock', or 'Shoes' & 'Blues'. The more rhyming items in your cart, the bigger your savings!",
     discount: "25% OFF",
     color: "text-pink-600",
     bgGradient: "from-pink-500 to-rose-600",
@@ -76,6 +82,7 @@ const offerConfigs: Record<string, OfferConfig> = {
 
 export function CouponDrawer() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isDismissed, setIsDismissed] = React.useState(false);
   const [isRevealed, setIsRevealed] = React.useState(false);
   const [isCopied, setIsCopied] = React.useState(false);
   const [variant, setVariant] = React.useState<Variant | null>(null);
@@ -147,8 +154,19 @@ export function CouponDrawer() {
 
   const handleClose = () => {
     setIsOpen(false);
+    setIsDismissed(true);
     if (variant && typeof window !== 'undefined' && window.mixpanel) {
       window.mixpanel.track('Coupon Drawer Closed', {
+        variant,
+        was_revealed: isRevealed,
+      });
+    }
+  };
+
+  const handleReopen = () => {
+    setIsOpen(true);
+    if (variant && typeof window !== 'undefined' && window.mixpanel) {
+      window.mixpanel.track('Coupon Drawer Reopened', {
         variant,
         was_revealed: isRevealed,
       });
@@ -158,26 +176,27 @@ export function CouponDrawer() {
   const Icon = offer.icon;
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            className="fixed inset-0 bg-black/20 z-40"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleClose}
-          />
+    <>
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 bg-black/20 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleClose}
+            />
 
-          {/* Drawer */}
-          <motion.div
-            className="fixed left-0 top-0 h-full w-80 bg-white shadow-2xl z-50 flex flex-col"
-            initial={{ x: -320 }}
-            animate={{ x: 0 }}
-            exit={{ x: -320 }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          >
+            {/* Drawer */}
+            <motion.div
+              className="fixed left-0 top-0 h-full w-80 bg-white shadow-2xl z-50 flex flex-col"
+              initial={{ x: -320 }}
+              animate={{ x: 0 }}
+              exit={{ x: -320 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            >
             {/* Header */}
             <div className={`bg-gradient-to-r ${offer.bgGradient} p-4 text-white relative overflow-hidden`}>
               <motion.div
@@ -237,9 +256,12 @@ export function CouponDrawer() {
                   </motion.div>
 
                   <h3 className="text-2xl font-bold mb-2">You've Got a Deal!</h3>
-                  <p className="text-gray-600 mb-6">
-                    Click below to reveal your exclusive coupon code
-                  </p>
+
+                  <div className="mb-6 px-4">
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {offer.longDescription}
+                    </p>
+                  </div>
 
                   <Button
                     onClick={handleReveal}
@@ -263,6 +285,12 @@ export function CouponDrawer() {
                       {offer.discount}
                     </div>
                   </motion.div>
+
+                  <div className="mb-4 px-2">
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      {offer.longDescription}
+                    </p>
+                  </div>
 
                   <div className={`border-2 ${offer.accentColor} rounded-lg p-4 mb-4`}>
                     <div className="text-sm text-gray-600 mb-1">Your Code:</div>
@@ -312,5 +340,28 @@ export function CouponDrawer() {
         </>
       )}
     </AnimatePresence>
+
+    {/* Reopen Button - Shows when drawer is dismissed */}
+    <AnimatePresence>
+      {isDismissed && !isOpen && (
+        <motion.button
+          onClick={handleReopen}
+          className={`fixed left-0 top-1/2 -translate-y-1/2 bg-gradient-to-r ${offer.bgGradient} text-white px-3 py-6 rounded-r-lg shadow-lg z-40 flex flex-col items-center gap-2 hover:px-4 transition-all`}
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -100, opacity: 0 }}
+          transition={{ type: "spring", damping: 20, stiffness: 200, delay: 0.5 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Icon className="h-5 w-5" />
+          <div className="text-xs font-semibold writing-mode-vertical transform -rotate-180">
+            {offer.discount}
+          </div>
+          <Tag className="h-4 w-4" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  </>
   );
 }

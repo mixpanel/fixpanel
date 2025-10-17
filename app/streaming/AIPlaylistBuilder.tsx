@@ -252,7 +252,7 @@ export function AIPlaylistBuilder() {
 
             {/* Modal Content */}
             <motion.div
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] md:w-full max-w-4xl max-h-[90vh] bg-white rounded-lg shadow-2xl z-[101] flex flex-col"
+              className="fixed top-[5vh] left-[50%] -translate-x-1/2 w-[90vw] max-w-4xl max-h-[90vh] bg-white rounded-lg shadow-2xl z-[101] flex flex-col overflow-hidden"
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
