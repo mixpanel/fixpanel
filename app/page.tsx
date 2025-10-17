@@ -249,6 +249,30 @@ export default function LandingPage() {
               </div>
             </div>
 
+            {/* Oneoff Microsites */}
+            <div className="mt-12 mb-8">
+              <div className="max-w-4xl mx-auto text-center">
+                <p className="text-sm text-gray-500 mb-3">Additional standalone demos:</p>
+                <div className="flex flex-wrap justify-center gap-4 text-sm">
+                  <Link href="/payments" className="text-blue-600 hover:underline">
+                    PayFlow (payments)
+                  </Link>
+                  <span className="text-gray-300">•</span>
+                  <Link href="/dev" className="text-blue-600 hover:underline">
+                    Developer Demo
+                  </Link>
+                  <span className="text-gray-300">•</span>
+                  <Link href="/hud" className="text-blue-600 hover:underline">
+                    HUD Interface
+                  </Link>
+                  <span className="text-gray-300">•</span>
+                  <Link href="/metube" className="text-blue-600 hover:underline">
+                    MeTube Video
+                  </Link>
+                </div>
+              </div>
+            </div>
+
             {/* What You'll Experience - Enhanced */}
             <div className="mt-16 mb-8">
               <div className="max-w-6xl mx-auto">

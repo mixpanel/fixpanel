@@ -136,6 +136,27 @@ export function initMixpanelOnce() {
 
         // @ts-ignore
         window.RESET = function () {
+          // Create fade overlay element
+          const overlay = document.createElement('div');
+          overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            z-index: 9999;
+            pointer-events: none;
+          `;
+          document.body.appendChild(overlay);
+
+          // Trigger fade in
+          requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+          });
+
           setTimeout(() => {
             mp.track("END OF USER");
             setTimeout(() => {
@@ -146,8 +167,8 @@ export function initMixpanelOnce() {
               console.log("[MIXPANEL]: RESET");
               setTimeout(() => {
                 window.location.reload();
-              }, 500);
-            }, 500);
+              }, 200);
+            }, 300);
           }, 500);
         };
       }

@@ -3,16 +3,24 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { initMixpanelOnce } from "@/lib/analytics";
 import { ExternalLinkIcon } from "lucide-react";
 
 export function Footer() {
+  const pathname = usePathname();
+
   const getMixpanelProjectUrl = () => {
+    // On root page, users don't have distinct_id yet, so link to generic events page
+    if (pathname === '/') {
+      return "https://mixpanel.com/project/3276012/view/3782804/app/events";
+    }
+
     if (typeof window !== 'undefined' && window.mixpanel) {
       const deviceId = window.mixpanel.get_distinct_id();
       return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=${deviceId}`;
     }
-    return "https://mixpanel.com/project/3276012/view/3782804/app/profile";
+    return "https://mixpanel.com/project/3276012/view/3782804/app/events";
   };
 
   const [mixpanelUrl, setMixpanelUrl] = useState(getMixpanelProjectUrl());

@@ -15,7 +15,12 @@ import {
 } from "lucide-react";
 import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 
-const getMixpanelUrl = () => {
+const getMixpanelUrl = (pathname: string) => {
+  // On root page, users don't have distinct_id yet, so link to generic events page
+  if (pathname === '/') {
+    return "https://mixpanel.com/project/3276012/view/3782804/app/events";
+  }
+
   try {
     const deviceId = mixpanel.get_property("$device_id");
     return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=%24device%3A${deviceId}`;
@@ -26,10 +31,10 @@ const getMixpanelUrl = () => {
 
 export function Header() {
   const pathname = usePathname();
-  const [mixpanelUrl, setMixpanelUrl] = useState(getMixpanelUrl());
+  const [mixpanelUrl, setMixpanelUrl] = useState(() => getMixpanelUrl(pathname));
 
   const handleMixpanelHover = () => {
-    setMixpanelUrl(getMixpanelUrl());
+    setMixpanelUrl(getMixpanelUrl(pathname));
   };
 
   // Determine which microsite we're in

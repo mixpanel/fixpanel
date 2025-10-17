@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //MIXPANEL
 // CUSTOMIZE THESE:
-var MIXPANEL_TOKEN = `32fd7149e2ac0cc030bda4c4b839b813`; // you MUST set this to your project token: https://bit.ly/42HC8I8
+var MIXPANEL_TOKEN = `7c02ad22ae575ab4e15cdd052cd730fb`; // you MUST set this to your project token: https://bit.ly/42HC8I8
 var MIXPANEL_PROXY = `https://express-proxy-lmozz6xkha-uc.a.run.app`; // you SHOULD use a proxy; use mine or set your own: https://bit.ly/3GDWzgx
 var MIXPANEL_DEBUG = true; // set to true to see debug messages in the console
 
