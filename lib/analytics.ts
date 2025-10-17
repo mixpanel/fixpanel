@@ -11,6 +11,12 @@ const MIXPANEL_PROXY = `https://express-proxy-lmozz6xkha-uc.a.run.app`;
 
 let initialized = false;
 
+// Reset the initialized flag to allow re-initialization
+export function resetInitialized() {
+  initialized = false;
+  console.log("[MIXPANEL]: RESET INITIALIZED FLAG");
+}
+
 // parse a query-string safely
 function qsToObj(queryString: string) {
   try {
@@ -79,13 +85,6 @@ export function initMixpanelOnce() {
       const topLevelPaths = ["financial", "checkout", "admin", "lifestyle", "streaming", "wellness"];
       const currentTopLevel = document.location.pathname.split("/").filter((a) => a)[0];
       const isTopLevelPage = pageDepth === 1 && topLevelPaths.includes(currentTopLevel);
-      const isRootPage = document.location.pathname === "/fixpanel/" || document.location.pathname === "/";
-
-      if (isRootPage) {
-        mixpanel.reset();
-        sessionStorage.removeItem("mixpanel_active_session");
-        console.log("[MIXPANEL]: ROOT PAGE - RESETTING");
-      }
 
       // Check if we have an active session marker in sessionStorage
       // sessionStorage persists across page navigations but is cleared when tab/window closes
@@ -164,7 +163,8 @@ export function initMixpanelOnce() {
               mp.stop_session_recording();
               mp.reset();
               sessionStorage.removeItem("mixpanel_active_session");
-              console.log("[MIXPANEL]: RESET");
+              localStorage.clear();
+              console.log("[MIXPANEL]: RESET + CLEARED LOCALSTORAGE");
               setTimeout(() => {
                 window.location.reload();
               }, 200);

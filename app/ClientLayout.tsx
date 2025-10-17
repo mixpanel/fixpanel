@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { initMixpanelOnce } from "../lib/analytics";
+import { initMixpanelOnce, resetInitialized } from "../lib/analytics";
 import mixpanel from "mixpanel-browser";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -14,11 +14,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       initMixpanelOnce();
     }
     if (pathname === "/") {
-      //reset mixpanel if it exists
-      if (typeof window !== "undefined") {
+      // Reset mixpanel if it exists
+      if (typeof window !== "undefined" && window.mixpanel) {
         if (window?.mixpanel) {
           try {
-            console.log("[MIXPANEL]: ATTEMPTING RESET");
+            console.log("[MIXPANEL]: ATTEMPTING FULL RESET ON LANDING PAGE");
             if (window.mixpanel?.reset) mixpanel.reset();
             if (window.mixpanel?.stop_session_recording) mixpanel.stop_session_recording();
             sessionStorage.removeItem("mixpanel_active_session");
@@ -28,23 +28,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           }
         }
       }
-      // completely nuke MixPanel persistent data on landing page
-      try {
-        const keysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith("mp_")) {
-            keysToRemove.push(key);
-          }
-        }
-        keysToRemove.forEach((key) => {
-          localStorage.removeItem(key);
-          console.log("removed localStorage key:", key);
-        });
-        console.log(`cleared ${keysToRemove.length} localStorage items`);
-      } catch (error) {
-        console.error("error stopping session replay:", error);
-      }
+
+      // Reset the initialized flag so Mixpanel can be re-initialized fresh on next vertical
+      resetInitialized();
+
+      // Completely nuke localStorage persistent data on landing page
+      console.log("[MIXPANEL]: NUKING LOCALSTORAGE");
+      localStorage.clear();
     }
   }, [pathname]);
 
