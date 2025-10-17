@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { XIcon, FlagIcon, PlayIcon, SparklesIcon, TrendingUpIcon, ClockIcon } from "lucide-react";
@@ -81,6 +82,7 @@ export interface VideoRecommenderModalProps {
 
 export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
   const { onClose } = props;
+  const router = useRouter();
   const [variant, setVariant] = React.useState<Variant | null>(null);
   const [recommendation, setRecommendation] = React.useState<any>(null);
   const [demographicProfile, setDemographicProfile] = React.useState<any>(null);
@@ -134,7 +136,7 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
     });
 
     // Navigate to video (all play Rick Roll)
-    window.location.href = '/streaming/watch';
+    router.push('/streaming/watch');
   };
 
   const handleClose = () => {

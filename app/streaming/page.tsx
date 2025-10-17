@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
@@ -492,6 +493,7 @@ const featuredVideos = [
 const categories = ["All", "Technology", "Cooking", "Fitness", "Music", "Travel", "Gaming", "Education", "Entertainment", "Lifestyle"];
 
 export default function MeTubeHomePage() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
@@ -523,7 +525,7 @@ export default function MeTubeHomePage() {
     }
 
     // Navigate to video player (all videos play the same Rick Roll!)
-    window.location.href = '/streaming/watch';
+    router.push('/streaming/watch');
   };
 
   const handleLike = (videoId: number) => {

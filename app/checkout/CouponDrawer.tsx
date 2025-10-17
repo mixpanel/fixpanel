@@ -355,7 +355,7 @@ export function CouponDrawer() {
           whileTap={{ scale: 0.95 }}
         >
           <Icon className="h-5 w-5" />
-          <div className="text-xs font-semibold writing-mode-vertical transform -rotate-180">
+          <div className="text-xs font-semibold transform rotate-180" style={{ writingMode: 'vertical-rl' }}>
             {offer.discount}
           </div>
           <Tag className="h-4 w-4" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -76,6 +77,7 @@ const trendingVideos = [
 ];
 
 export default function TrendingPage() {
+  const router = useRouter();
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
   const [subscribedChannels, setSubscribedChannels] = useState<Set<string>>(new Set());
   const [clickCount, setClickCount] = useState(0);
@@ -91,7 +93,7 @@ export default function TrendingPage() {
     }
 
     // Redirect to watch page (they'll all be Rick Roll!)
-    window.location.href = `/streaming/watch?v=${videoId}`;
+    router.push(`/streaming/watch?v=${videoId}`);
   };
 
   const handleLike = (videoId: number, event: React.MouseEvent) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -99,6 +100,7 @@ const watchHistory = [
 ];
 
 export default function HistoryPage() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [history, setHistory] = useState(watchHistory);
@@ -117,7 +119,7 @@ export default function HistoryPage() {
     }
 
     // Redirect to watch page
-    window.location.href = `/streaming/watch?v=${videoId}`;
+    router.push(`/streaming/watch?v=${videoId}`);
   };
 
   const handleRemoveFromHistory = (videoId: number, event: React.MouseEvent) => {

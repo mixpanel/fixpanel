@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Download, Share2, Sparkles, ListVideo, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -53,6 +54,7 @@ const personalities: Record<string, AIPersonality> = {
 };
 
 export function AIPlaylistBuilder() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
   const [variant, setVariant] = React.useState<Variant | null>(null);
   const [personality, setPersonality] = React.useState<AIPersonality>(personalities.control);
@@ -217,7 +219,7 @@ export function AIPlaylistBuilder() {
     }
 
     // Redirect to Rick Roll (every video!)
-    window.location.href = `/streaming/watch?v=rickroll`;
+    router.push(`/streaming/watch?v=rickroll`);
   };
 
   return (
@@ -252,7 +254,7 @@ export function AIPlaylistBuilder() {
 
             {/* Modal Content */}
             <motion.div
-              className="fixed top-[5vh] left-[50%] -translate-x-1/2 w-[90vw] max-w-4xl max-h-[90vh] bg-white rounded-lg shadow-2xl z-[101] flex flex-col overflow-hidden"
+              className="fixed inset-0 m-auto w-[90vw] max-w-4xl h-fit max-h-[90vh] bg-white rounded-lg shadow-2xl z-[101] flex flex-col overflow-hidden"
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
