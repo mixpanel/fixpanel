@@ -1,220 +1,175 @@
-# 🔧 FixPanel
+# FixPanel
 
-Welcome to **FixPanel**, a modern, React + Next.js + Tailwind demo site for a fictional finance company. It showcases the power of [Mixpanel's SDKs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript) and core capabilities implemented in a modern web app.
+Welcome to [FixPanel](https://ak--47.github.io/fixpanel/), a modern, React + Next.js + Tailwind series of demo sites for [6 different industry use cases](https://ak--47.github.io/fixpanel/). It showcases the power of [Mixpanel's SDKs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript) and how its core capabilities might be implemented in a modern web app.
 
-## 🚀 Quick Start (Hello World Demo)
+## Running Locally
 
-**Want to try the Mixpanel SDK instantly?** Skip the full setup and run our simple feature flags demo:
+### Prerequisites
+- Node.js (v16 or later)
+- npm
+
+### Quick Start
 
 ```bash
-# 1. Clone and install
 git clone https://github.com/ak--47/fixpanel.git
 cd fixpanel
 npm install
-
-# 2. Start the hello-world demo (serves on random port)
-npm run hello-world
+npm run dev
 ```
 
-**That's it!** Open the URL shown in terminal (e.g., `http://localhost:62932`) for an interactive Mixpanel SDK playground.
+Open [http://localhost:3000](http://localhost:3000) to view the landing page.
 
-### What you get:
-- **🚩 Feature Flags Demo** - Test `mixpanel.flags.get_variant_value()` with live variants
-- **📊 Event Tracking** - Track custom events and see them in real-time
-- **👤 User Management** - Practice identify, people properties, and reset
-- **💻 Console Access** - Use `window.mixpanel` commands directly in browser
-- **🌙 Dark Mode UI** - Matches Mixpanel's product design
-- **📝 Live Logging** - See every SDK call with transparent debugging
+### Available Commands
 
-**Vanilla State**: Starts with zero auto-tracking - manually enable features as needed.
+```bash
+npm run dev              # Start development server
+npm run build            # Build for production (includes copying oneoffs)
+npm start                # Start production server
+npm run lint             # Run ESLint
 
---- 
+npm run hello-world      # Serve standalone hello-world demo
+npm run sanity           # Serve dev build locally
+npm run sanity:prod      # Serve production build locally
+npm run oneoffs          # Serve oneoffs directory standalone
+```
 
-In particular, Fixpanel can power demos for:
+### Configuration
 
-- **Auto-capture**: track clicks, page views, and form interactions out-of-the-box.
-- **Feature flagging**: roll out, test, and target content variants in real time.
-- **Session replay**: record user sessions and replay to understand user behavior.
-- **Custom event tracking**: fire manual events + profile updates, and A/B test experiments.
-- **Console debug messages**: Beginner-friendly prompts in the browser console guiding you through Mixpanel features.
+The app is pre-configured to send data to the [demo Mixpanel project](https://mixpanel.com/project/3276012/view/3782804/app/home).
 
-You can run Fixpanel on your local, or use the hosted version:
+To use your own Mixpanel project, create a `.env` file:
+
+```bash
+REACT_APP_MIXPANEL_TOKEN=your_token_here
+```
+
+## Codebase Layout
+
+### Directory Structure
+
+```
+fixpanel/
+├── app/                    # Next.js app router pages
+│   ├── page.tsx           # Landing page (vertical selector)
+│   ├── financial/         # Financial services demo (fully built)
+│   ├── checkout/          # Ecommerce demo (scaffolded)
+│   ├── streaming/         # Media & streaming demo (scaffolded)
+│   ├── admin/             # SaaS B2B demo (scaffolded)
+│   ├── lifestyle/         # Subscription B2C demo (scaffolded)
+│   └── wellness/          # Healthcare demo (scaffolded)
+│
+├── components/            # React components
+│   ├── ui/               # shadcn/ui components (Button, Card, etc.)
+│   ├── Header.tsx        # Context-aware navigation header
+│   ├── Modal.tsx         # Feature flag demo (exp_customerStory)
+│   └── ...
+│
+├── lib/                   # Utilities
+│   ├── analytics.ts      # Mixpanel initialization and config
+│   └── utils.ts          # Tailwind class merging utilities
+│
+├── oneoffs/               # Standalone microsites (copied to build)
+│   ├── payments/         # PayFlow payment demo (vanilla HTML/CSS/JS)
+│   ├── dev/              # Developer demo microsite
+│   ├── hud/              # HUD demo microsite
+│   └── metube/           # YouTube-like demo
+│
+├── scripts/              # Build and automation
+│   ├── copy-oneoffs.js   # Postbuild script (copies oneoffs to out/)
+│   └── headless.js       # Headless automation script
+│
+├── public/               # Static assets
+├── out/                  # Production build output (Next.js + oneoffs)
+└── dev/                  # Development assets
+```
+
+### Key Files
+
+- `app/ClientLayout.tsx` - Mixpanel initialization via `initMixpanel()`
+- `lib/analytics.ts` - Mixpanel SDK setup (auto-capture, session replay, feature flags)
+- `components/Modal.tsx` - Feature flagging example using `mixpanel.flags.get_variant_value()`
+- `tailwind.config.js` - Custom color palette and theme configuration
+- `scripts/copy-oneoffs.js` - Copies standalone demos from `./oneoffs/` to `./out/` during build
+
+### Architecture Notes
+
+- **Client-side only**: Next.js configured for static export (`output: "export"`), all components use `"use client"`
+- **Mixpanel integration**: Initialized in `ClientLayout.tsx`, exposes `window.mixpanel` and `window.RESET()` globally
+- **Feature flags**: Demo experiment `exp_customerStory` controls homepage modal variants
+- **Styling**: Tailwind CSS with custom brand colors (primary purple: `#7856FF`)
+- **Components**: shadcn/ui library with Radix UI primitives
+
+## Demo Structure
+
+### Main Microsites (Next.js)
+- `/` - Landing page with industry vertical selection
+- `/financial/*` - Complete FixPanel financial services demo
+- `/checkout/*` - Ecommerce demo (scaffolded)
+- `/streaming/*` - Media & streaming demo (scaffolded)
+- `/admin/*` - SaaS B2B demo (scaffolded)
+- `/lifestyle/*` - Subscription B2C demo (scaffolded)
+
+### Oneoff Microsites (Standalone)
+- `/payments/` - PayFlow payment demo
+- `/dev/` - Developer demo
+- `/hud/` - HUD interface demo
+- `/metube/` - Video platform demo
+
+Oneoffs are automatically copied to the build output during `npm run build` via the postbuild script.
+
+## Contributing
+
+### Adding a New Vertical
+
+1. Create a new directory under `app/` (e.g., `app/travel/`)
+2. Add a `page.tsx` with `"use client"` directive
+3. Import and use Mixpanel tracking from `lib/analytics.ts`
+4. Update the landing page (`app/page.tsx`) to include your new vertical
+
+### Adding a New Oneoff Microsite
+
+1. Create a new directory in `./oneoffs/` (e.g., `./oneoffs/mynewdemo/`)
+2. Add an `index.html` file with your demo
+3. Run `npm run build` - the postbuild script automatically copies it to `./out/mynewdemo/`
+4. Access at `/mynewdemo/` in production
+
+### Tracking Custom Events
+
+```typescript
+import mixpanel from 'mixpanel-browser';
+
+// Track event
+mixpanel.track('Button Clicked', { button_name: 'Submit' });
+
+// Set user properties
+mixpanel.people.set({ plan_type: 'Premium' });
+
+// Identify user
+mixpanel.identify('user_123');
+```
+
+### Using Feature Flags
+
+```typescript
+const variant = mixpanel.flags.get_variant_value('exp_flag_name');
+
+if (variant === 'control') {
+  // Show control experience
+} else if (variant === 'test') {
+  // Show test experience
+}
+```
+
+### Style Guidelines
+
+- Use Tailwind utility classes
+- Follow existing component patterns from `components/ui/`
+- Brand colors defined in `tailwind.config.js`
+- Prettier configured for 120 character line width
+
+## Resources
 
 - [Live Site](https://ak--47.github.io/fixpanel/)
 - [Mixpanel Project](https://mixpanel.com/project/3276012/view/3782804/app/events)
 - [Internal Docs](https://www.notion.so/mxpnl/Fixpanel-1ece0ba9256280b9b10ad1ad09b80bca)
-
----
-
-## Prerequisites
-
-Before you begin, make sure you have:
-
-- [**Node.js**](https://nodejs.org/en/download) (v16 or later) and **npm** installed on your machine.
-- Access to this [**Mixpanel project**](https://mixpanel.com/project/3276012/view/3782804/app/home)
-
----
-
-## Getting Started
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/ak--47/fixpanel.git
-cd fixpanel
-```
-
-### Install Dependencies
-
-```bash
-npm install
-```
-
-This will install all necessary packages, including Next.js, React, and the Mixpanel browser SDK.
-
-### Configure Mixpanel (optional)
-
-This app is automatically configured to send data to [this Mixpanel project](https://mixpanel.com/project/3276012/view/3782804/app/home)
-
-To set up your own Mixpanel project, follow these steps:
-
-1. Create a .env file in the root of the project:
-
-   ```bash
-   touch .env
-   ```
-
-2. Open `.env` and add the following: 
-
-   ```dotenv
-   REACT_APP_MIXPANEL_TOKEN=YOUR_MIXPANEL_TOKEN
-   ```
-   replacing `YOUR_MIXPANEL_TOKEN` with your Mixpanel project token. You can find this in your Mixpanel project settings.
-
-
-### Run the Dev Server
-
-```bash
-npm run dev
-```
-
-Now open [http://localhost:3000](http://localhost:3000) in your browser. 
-
-You should see the FixPanel homepage.
-
----
-
-## Building for Production
-
-To create an optimized production build and start the app:
-
-```bash
-npm run build
-npm start
-```
-
-By default, Next.js serves a static shell; all routing and tracking happen client-side.
-
----
-
-## Feature Walkthrough
-
-### Auto-Capture
-
-- Out-of-the-box, clicks, form submissions, and page views are logged to Mixpanel automatically.
-- Inspect your DevTools console: you’ll see helper messages and event names as you interact.
-
-### Feature Flags
-
-- The homepage banner is controlled by a Mixpanel feature flag (`exp_customerStory`).
-- Code lives in `components/Modal.tsx` showing how to fetch and apply flag data.
-
-### Session Replay
-
-- Enable session replay in your Mixpanel project settings.
-- All user sessions on this demo site will be recorded (respecting GDPR/consent if configured).
-- Replay sessions directly in the Mixpanel UI to watch user journeys.
-
-
-### Console Helpers
-
-- The app logs useful tips in `console.info()` and `console.warn()` to guide non-developers through the code.
-- Look for messages like `"[MIXPANEL]: <<something happened>>` to confirm your setup.
-
----
-
-## Client-Side Routing
-
-This is a Next.js client-component-only shell. All navigation is handled via `next/link` and the `useRouter` hook:
-
-```tsx
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
-// Example Link:
-<Link href="/about">About Us</Link>
-
-// Programmatic navigation:
-const router = useRouter();
-router.push('/testimonials');
-```
-
-Since the site is prebuilt as a static shell, page loads are near-instant.
-
----
-
-## Customizing the Demo
-
-- **Swap themes**: Edit Tailwind colors in `tailwind.config.js`.
-- **Add new flags**: Define new experiments in Mixpanel and fetch via `mixpanel.flags.get_feature_data()`.
-- **Track new events**: Use `mixpanel.track('Event Name', { property: 'value' });` anywhere in the code.
-- **Add pages**: Create new files under `/app` to expand navigation.
-
-
----
-
-
-## Feature Flagging Architecture
-
-
-
-This is the typical flow of data from a client application to Mixpanel's APIs, database, and analytical reports:
-
-<div style="text-align: center;">	
-
-```mermaid
-flowchart LR
-
-    subgraph " Normal Mixpanel "
-        B[Client App]
-        B -->|triggers events| C[MP API]
-        C -->|ingests| D[MP Db]
-        D -->|insights| E[MP Reports]
-        E -->|queries| D
-    end
-```
-</div>
-
-Feature-flagging significantly extends this pattern by allowing Mixpanel to supply bespoke configuration data back to the client app. Configuration data is used to control the behavior of the client app, (such as which features are enabled or disabled for a given user), and also is pushed back into Mixpanel for analysis in all core reports as well as a (new!) experiments report:
-
-<div style="text-align: center;">	
-
-```mermaid
-flowchart LR
-    
-    subgraph " Mixpanel w/Flagging "
-        A[Client App]
-        A -->|triggers events| G[MP API]
-        G -->|fetches flags| H[MP Flags]
-        G -->|ingests| I[MP Db]
-        J[MP Reports] -->|queries| I
-        I -->|insights| J
-        H -->|experiment data| I
-        H -->|returns config| A
-        J <-->|analysis| K[MP Experiments]
-    end
-    
-```
-</div>
-
-[docs](https://www.notion.so/mxpnl/Feature-Flagging-Beta-Documentation-1e0e0ba925628046a590ff15a351e74b?pvs=26&qid=)
+- [Mixpanel JavaScript SDK Docs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript)
