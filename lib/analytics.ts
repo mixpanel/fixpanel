@@ -69,6 +69,31 @@ export function initMixpanelOnce() {
     api_payload_format: "json",
     api_transport: "XHR",
     persistence: "localStorage",
+    hooks: {
+      before_send_events: function (row: any) {
+        const { event = "", properties = {} } = row;
+        const ignoreEventsAndPages = [
+          {
+            event: "$mp_page_leave",
+            pages: ["https://ak--47.github.io/fixpanel", "http://localhost"],
+          },
+        ];
+        for (let i = 0; i < ignoreEventsAndPages.length; i++) {
+          const ignore = ignoreEventsAndPages[i];
+          if (event === ignore.event) {
+            const currentPage = properties["$current_url"] || "";
+            for (let j = 0; j < ignore.pages.length; j++) {
+              const pageToIgnore = ignore.pages[j];
+              if (currentPage.startsWith(pageToIgnore)) {
+                // console.log(`[MIXPANEL]: IGNORING EVENT ${event} ON PAGE ${currentPage}`);
+                row = {};
+                return row;
+              }
+            }
+          }
+        }
+      },
+    },
     loaded: (mp: any) => {
       console.log("[MIXPANEL]: LOADED");
 
@@ -87,7 +112,7 @@ export function initMixpanelOnce() {
       const isTopLevelPage = pageDepth === 1 && topLevelPaths.includes(currentTopLevel);
 
       // Check if we have an active session marker in sessionStorage
-      // sessionStorage persists across page navigations but is cleared when tab/window closes
+      // sessionStorage persists across page navigation but is cleared when tab/window closes
       const hasActiveSession = sessionStorage.getItem("mixpanel_active_session") === "true";
 
       if (isTopLevelPage && !hasActiveSession) {
@@ -136,7 +161,7 @@ export function initMixpanelOnce() {
         // @ts-ignore
         window.RESET = function () {
           // Create fade overlay element
-          const overlay = document.createElement('div');
+          const overlay = document.createElement("div");
           overlay.style.cssText = `
             position: fixed;
             top: 0;
@@ -153,7 +178,7 @@ export function initMixpanelOnce() {
 
           // Trigger fade in
           requestAnimationFrame(() => {
-            overlay.style.opacity = '1';
+            overlay.style.opacity = "1";
           });
 
           setTimeout(() => {
