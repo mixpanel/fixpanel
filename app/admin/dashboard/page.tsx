@@ -79,6 +79,7 @@ export default function AdminDashboard() {
               <div className="flex gap-3">
                 <Button
                   variant="outline"
+                  className="hover:bg-opacity-90 active:scale-95 transition-all"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
                       window.mixpanel.track("Dashboard Quick Action", { action: "Search" });
@@ -90,7 +91,7 @@ export default function AdminDashboard() {
                 </Button>
                 <Link href="/admin/employees">
                   <Button
-                    className="bg-blue-600 text-white hover:bg-blue-700"
+                    className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
                         window.mixpanel.track("Dashboard Quick Action", { action: "Add Employee" });
@@ -111,7 +112,7 @@ export default function AdminDashboard() {
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {/* Total Employees */}
-              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-600">Total Employees</p>
@@ -128,7 +129,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Pending Actions */}
-              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-600">Pending Actions</p>
@@ -145,7 +146,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Active Devices */}
-              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-600">Active Devices</p>
@@ -162,7 +163,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Service Utilization */}
-              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow">
+              <div className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-slate-600">Avg Utilization</p>
@@ -190,7 +191,7 @@ export default function AdminDashboard() {
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-slate-900">Recent Activity</h2>
                   <Link href="/admin/analytics">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" className="hover:bg-opacity-90 active:scale-95 transition-all">
                       View All
                     </Button>
                   </Link>
@@ -199,7 +200,7 @@ export default function AdminDashboard() {
                   {recentActivities.map((activity, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start space-x-4 p-3 rounded-lg hover:bg-slate-50 transition-colors"
+                      className="flex items-start space-x-4 p-3 rounded-lg hover:bg-slate-50 hover:scale-[1.01] active:scale-[0.99] transition-all"
                     >
                       <div
                         className={`p-2 rounded-full ${
@@ -231,7 +232,7 @@ export default function AdminDashboard() {
                   {pendingActions.map((action, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-blue-300 transition-colors cursor-pointer"
+                      className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-blue-300 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                       onClick={() => {
                         if (typeof window !== "undefined" && window.mixpanel) {
                           window.mixpanel.track("Pending Action Clicked", {
@@ -267,14 +268,14 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-slate-900">Top Services by Usage</h2>
                 <Link href="/admin/analytics">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="hover:bg-opacity-90 active:scale-95 transition-all">
                     Full Report
                   </Button>
                 </Link>
               </div>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {topServices.map((service, idx) => (
-                  <div key={idx} className="p-4 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
+                  <div key={idx} className="p-4 rounded-lg border border-slate-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="font-medium text-slate-900">{service.name}</h3>
                       <span className="text-sm font-medium text-blue-600">{service.utilization}%</span>
@@ -297,7 +298,7 @@ export default function AdminDashboard() {
             <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Link href="/admin/employees" className="block">
                 <div
-                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
                       window.mixpanel.track("Quick Action Clicked", { action: "Manage Employees" });
@@ -312,7 +313,7 @@ export default function AdminDashboard() {
 
               <Link href="/admin/access" className="block">
                 <div
-                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
                       window.mixpanel.track("Quick Action Clicked", { action: "Access Control" });
@@ -327,7 +328,7 @@ export default function AdminDashboard() {
 
               <Link href="/admin/email" className="block">
                 <div
-                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
                       window.mixpanel.track("Quick Action Clicked", { action: "Email Setup" });
@@ -342,7 +343,7 @@ export default function AdminDashboard() {
 
               <Link href="/admin/analytics" className="block">
                 <div
-                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                  className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
                       window.mixpanel.track("Quick Action Clicked", { action: "Analytics" });

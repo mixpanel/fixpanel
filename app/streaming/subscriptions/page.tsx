@@ -188,7 +188,7 @@ export default function SubscriptionsPage() {
               {filteredChannels.map(channel => (
                 <div
                   key={channel.id}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border p-6 cursor-pointer"
+                  className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all border p-6 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
                   onClick={() => handleChannelClick(channel.id)}
                 >
                   {/* Channel Header */}
@@ -209,7 +209,7 @@ export default function SubscriptionsPage() {
                         e.stopPropagation();
                         toggleNotifications(channel.id);
                       }}
-                      className={`p-2 ${bellAnimations[channel.id] ? 'animate-bounce' : ''}`}
+                      className={`p-2 ${bellAnimations[channel.id] ? 'animate-bounce' : ''} hover:bg-opacity-90 active:scale-95 transition-all`}
                     >
                       <BellIcon
                         className={`h-5 w-5 ${
@@ -248,7 +248,20 @@ export default function SubscriptionsPage() {
                     }`}>
                       {notifications[channel.id] ? '🔔 Notifications ON' : '🔕 Notifications OFF'}
                     </div>
-                    <Button size="sm" variant="outline" className="text-xs">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs hover:bg-[#CC332B] hover:text-white hover:border-[#CC332B] transition-all active:scale-95"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (typeof window !== 'undefined' && window.mixpanel) {
+                          window.mixpanel.track('View Channel Button Click', {
+                            channel_id: channel.id,
+                            channel_name: channel.name
+                          });
+                        }
+                      }}
+                    >
                       View Channel
                     </Button>
                   </div>

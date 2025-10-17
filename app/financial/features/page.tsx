@@ -71,7 +71,22 @@ export default function FeaturesPage() {
             </div>
             <div className="flex justify-center">
               <Link href="/financial/signup">
-                <Button size="lg" id="trial">Start Your Free Trial</Button>
+                <Button
+                  size="lg"
+                  id="trial"
+                  className="hover:bg-opacity-90 active:scale-95 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (typeof window !== 'undefined' && window.mixpanel) {
+                      window.mixpanel.track('Button Clicked', {
+                        button_name: 'start_trial_features',
+                        page: 'features'
+                      });
+                    }
+                  }}
+                >
+                  Start Your Free Trial
+                </Button>
               </Link>
             </div>
           </div>

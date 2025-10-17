@@ -141,7 +141,7 @@ export default function ChatPage() {
                   />
                   <Button
                     onClick={handleSend}
-                    className="bg-purple-600 text-white hover:bg-purple-700"
+                    className="bg-purple-600 text-white hover:bg-purple-700 hover:bg-opacity-90 active:scale-95 transition-all"
                     disabled={isTyping || !input.trim()}
                   >
                     {isTyping ? (
@@ -160,7 +160,7 @@ export default function ChatPage() {
                 <Button
                   onClick={handleShare}
                   variant="outline"
-                  className={`border-purple-200 hover:bg-purple-50 transition-all ${
+                  className={`border-purple-200 hover:bg-purple-50 active:scale-95 transition-all ${
                     shared ? "bg-green-50 border-green-400 text-green-700" : "text-purple-700"
                   }`}
                   disabled={shared}
@@ -196,7 +196,7 @@ export default function ChatPage() {
                   <button
                     key={idx}
                     onClick={() => setInput(prompt)}
-                    className="p-3 text-left border-2 border-purple-200 rounded-lg hover:bg-purple-50 transition-colors text-sm text-slate-700"
+                    className="p-3 text-left border-2 border-purple-200 rounded-lg hover:bg-purple-50 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm text-slate-700"
                   >
                     {prompt}
                   </button>

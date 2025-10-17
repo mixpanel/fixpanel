@@ -334,7 +334,7 @@ export default function EmployeesPage() {
                 <p className="text-slate-600 mt-1">{filteredEmployees.length} total employees</p>
               </div>
               <Button
-                className="bg-blue-600 text-white hover:bg-blue-700"
+                className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                 onClick={() => {
                   setShowAddModal(true);
                   if (typeof window !== "undefined" && window.mixpanel) {
@@ -422,7 +422,7 @@ export default function EmployeesPage() {
                   </thead>
                   <tbody className="divide-y divide-slate-200">
                     {filteredEmployees.map((employee) => (
-                      <tr key={employee.id} className="hover:bg-slate-50 transition-colors">
+                      <tr key={employee.id} className="hover:bg-slate-50 transition-all">
                         <td className="px-6 py-4">
                           <div className="flex items-center">
                             <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium">
@@ -458,6 +458,7 @@ export default function EmployeesPage() {
                           <Button
                             variant="ghost"
                             size="sm"
+                            className="hover:bg-opacity-90 active:scale-95 transition-all"
                             onClick={() => {
                               setSelectedEmployee(employee);
                               if (typeof window !== "undefined" && window.mixpanel) {
@@ -489,7 +490,7 @@ export default function EmployeesPage() {
                 <h2 className="text-2xl font-bold text-slate-900">Add New Employee</h2>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="text-slate-400 hover:text-slate-600 transition-colors"
+                  className="text-slate-400 hover:text-slate-600 hover:scale-110 active:scale-95 transition-all"
                 >
                   <XIcon className="h-6 w-6" />
                 </button>
@@ -544,11 +545,11 @@ export default function EmployeesPage() {
                 </div>
               </div>
               <div className="p-6 border-t border-slate-200 flex justify-end gap-3">
-                <Button variant="outline" onClick={() => setShowAddModal(false)}>
+                <Button variant="outline" onClick={() => setShowAddModal(false)} className="hover:bg-opacity-90 active:scale-95 transition-all">
                   Cancel
                 </Button>
                 <Button
-                  className="bg-blue-600 text-white hover:bg-blue-700"
+                  className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                   onClick={handleAddEmployee}
                   disabled={!newEmployee.name || !newEmployee.email}
                 >
@@ -576,7 +577,7 @@ export default function EmployeesPage() {
                 </div>
                 <button
                   onClick={() => setSelectedEmployee(null)}
-                  className="text-white hover:text-blue-200 transition-colors"
+                  className="text-white hover:text-blue-200 hover:scale-110 active:scale-95 transition-all"
                 >
                   <XIcon className="h-6 w-6" />
                 </button>
@@ -633,6 +634,7 @@ export default function EmployeesPage() {
                   </div>
                   <Button
                     variant="outline"
+                    className="hover:bg-opacity-90 active:scale-95 transition-all"
                     onClick={() => {
                       window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                       if (typeof window !== "undefined" && window.mixpanel) {

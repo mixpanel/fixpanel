@@ -218,7 +218,7 @@ export default function SupportPage() {
                 <p className="text-gray-600 text-sm mb-4">Chat with our AI assistant</p>
                 <Button
                   onClick={() => setIsChatOpen(!isChatOpen)}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-blue-600 hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                 >
                   Start Chat
                 </Button>
@@ -253,7 +253,7 @@ export default function SupportPage() {
                     size="sm"
                     variant="ghost"
                     onClick={() => setIsChatOpen(false)}
-                    className="text-white hover:bg-blue-700"
+                    className="text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     ✕
                   </Button>
@@ -302,7 +302,7 @@ export default function SupportPage() {
                       placeholder="Type your message..."
                       className="flex-1"
                     />
-                    <Button type="submit" size="sm">
+                    <Button type="submit" size="sm" className="hover:bg-opacity-90 active:scale-95 transition-all">
                       <SendIcon className="h-4 w-4" />
                     </Button>
                   </div>
@@ -359,7 +359,7 @@ export default function SupportPage() {
                         size="sm"
                         variant="outline"
                         onClick={() => handleHelpfulVote(faq.id, true)}
-                        className={`flex items-center gap-1 ${
+                        className={`flex items-center gap-1 hover:bg-opacity-90 active:scale-95 transition-all ${
                           helpfulVotes[faq.id] === true ? 'bg-green-100 border-green-300' : ''
                         }`}
                       >
@@ -370,7 +370,7 @@ export default function SupportPage() {
                         size="sm"
                         variant="outline"
                         onClick={() => handleHelpfulVote(faq.id, false)}
-                        className={`flex items-center gap-1 ${
+                        className={`flex items-center gap-1 hover:bg-opacity-90 active:scale-95 transition-all ${
                           helpfulVotes[faq.id] === false ? 'bg-red-100 border-red-300' : ''
                         }`}
                       >
@@ -428,7 +428,7 @@ export default function SupportPage() {
                     rows={6}
                     required
                   />
-                  <Button type="submit" className="w-full" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+                  <Button type="submit" className="w-full hover:bg-opacity-90 active:scale-95 transition-all" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
                     Send Message
                   </Button>
                 </form>

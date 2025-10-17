@@ -109,7 +109,7 @@ export default function AdminLogin() {
 
               <Button
                 type="submit"
-                className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                className="w-full bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                 size="lg"
                 id="signInButton"
                 disabled={isLoading}
@@ -137,7 +137,7 @@ export default function AdminLogin() {
             <div className="grid grid-cols-2 gap-4">
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover:bg-opacity-90 active:scale-95 transition-all"
                 disabled={isLoading}
                 onClick={() => {
                   if (typeof window !== "undefined" && window.mixpanel) {
@@ -169,7 +169,7 @@ export default function AdminLogin() {
               </Button>
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full hover:bg-opacity-90 active:scale-95 transition-all"
                 disabled={isLoading}
                 onClick={() => {
                   if (typeof window !== "undefined" && window.mixpanel) {

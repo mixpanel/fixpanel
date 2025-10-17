@@ -130,7 +130,7 @@ export default function SubmitPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-teal-600 text-white hover:bg-teal-700"
+                className="w-full bg-teal-600 text-white hover:bg-teal-700 hover:bg-opacity-90 active:scale-95 transition-all"
                 size="lg"
                 disabled={isSubmitting}
               >

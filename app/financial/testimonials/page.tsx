@@ -94,7 +94,19 @@ export default function TestimonialsPage() {
             </p>
             <div className="mt-8">
               <Link href="/signup">
-                <Button size="lg" className="bg-white text-[#07B096] hover:bg-white/90">
+                <Button
+                  size="lg"
+                  className="bg-white text-[#07B096] hover:bg-white/90 hover:bg-opacity-90 active:scale-95 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (typeof window !== 'undefined' && window.mixpanel) {
+                      window.mixpanel.track('Button Clicked', {
+                        button_name: 'start_saga',
+                        page: 'testimonials'
+                      });
+                    }
+                  }}
+                >
                   Start Your Saga
                 </Button>
               </Link>

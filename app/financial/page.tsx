@@ -83,7 +83,7 @@ export default function HomePage() {
                 <Link href="/financial/signup" className="pr-10">
                   <Button
                     size="lg"
-                    className="bg-white text-[#7856FF]  hover:bg-white/20 hover:text-black"
+                    className="bg-white text-[#7856FF]  hover:bg-white/20 hover:text-black active:scale-95 transition-all"
                     id="getStarted"
                   >
                     <GemIcon className="pr-2" />
@@ -94,7 +94,7 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-white text-[#1c782d] hover:bg-white/20"
+                    className="bg-white text-[#1c782d] hover:bg-white/20 active:scale-95 transition-all"
                     id="memberLogin"
                   >
                     <WalletIcon className="pr-2" />
@@ -115,7 +115,7 @@ export default function HomePage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="bg-white text-[#CC332B] hover:bg-white/20"
+                  className="bg-white text-[#CC332B] hover:bg-white/20 active:scale-95 transition-all"
 				  id="customerStories"
                   onClick={() => {
                     setIsModalOpen(true);
@@ -158,7 +158,7 @@ export default function HomePage() {
                   Our patented technology turns cents into dollars. It's like magic, but with more spreadsheets.
                 </p>
                 <Link href="/financial/product">
-                  <Button id="explore" variant="outline" className="mt-4">
+                  <Button id="explore" variant="outline" className="mt-4 hover:bg-opacity-90 active:scale-95 transition-all">
                     Invest today
                   </Button>
                 </Link>
@@ -170,7 +170,7 @@ export default function HomePage() {
                   We guard your money like it's ours. You'll always be able to see it... and we're not giving it back!
                 </p>
                 <Link href="/financial/features">
-                  <Button id="learnMore" variant="outline" className="mt-4">
+                  <Button id="learnMore" variant="outline" className="mt-4 hover:bg-opacity-90 active:scale-95 transition-all">
                     Protect your wealth
                   </Button>
                 </Link>
@@ -182,7 +182,7 @@ export default function HomePage() {
                   Swipe right to make purchases, swipe left to make debt disappear! It's that easy... or is it?
                 </p>
                 <Link href="/financial/signup">
-                  <Button id="findOut" variant="outline" className="mt-4">
+                  <Button id="findOut" variant="outline" className="mt-4 hover:bg-opacity-90 active:scale-95 transition-all">
                     Apply now
                   </Button>
                 </Link>
@@ -211,7 +211,7 @@ export default function HomePage() {
                   to support him, but honestly I'm not sure."
                 </p>
                 <Link href="/financial/signup">
-                  <Button id="joinSue" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90">
+                  <Button id="joinSue" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90 active:scale-95 transition-all">
                     Join Sue
                   </Button>
                 </Link>
@@ -224,7 +224,7 @@ export default function HomePage() {
                   invested sooner.)"
                 </p>
                 <Link href="/financial/product">
-                  <Button id="purrfectReturns" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90">
+                  <Button id="purrfectReturns" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90 active:scale-95 transition-all">
                     Get Purrfect Returns
                   </Button>
                 </Link>
@@ -237,7 +237,7 @@ export default function HomePage() {
                   good choices,"
                 </p>
                 <Link href="/financial/signup">
-                  <Button id="secureIsland" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90">
+                  <Button id="secureIsland" className="mt-4 bg-[#07B096] text-white hover:bg-[#07B096]/90 active:scale-95 transition-all">
                     Secure Your Island
                   </Button>
                 </Link>
@@ -281,7 +281,7 @@ export default function HomePage() {
 
             <div className="flex justify-center mt-8">
               <Link href="/financial/about">
-                <Button id="greatness" size="lg" className="bg-white text-[#DA6B16] hover:bg-gray-100">
+                <Button id="greatness" size="lg" className="bg-white text-[#DA6B16] hover:bg-gray-100 active:scale-95 transition-all">
                   Discover Our Greatness
                 </Button>
               </Link>
@@ -305,7 +305,7 @@ export default function HomePage() {
                   onClick={(e) => {
                     getFinancialFortune();
                   }}
-                  className="w-full bg-white text-[#CC332B] hover:bg-gray-100"
+                  className="w-full bg-white text-[#CC332B] hover:bg-gray-100 active:scale-95 transition-all"
                 >
                   <CookieIcon className="mr-2 h-4 w-4" />
                   Get Your Financial Fortune
@@ -343,7 +343,7 @@ export default function HomePage() {
               <div className="w-full max-w-sm space-y-2 p-5">
                 <form className="flex space-x-2">
                   <Input className="max-w-lg flex-1" placeholder="" type="email" />
-                  <Button id="subscribe" type="submit" className="bg-[#7856FF] text-white hover:bg-[#7856FF]/90">
+                  <Button id="subscribe" type="submit" className="bg-[#7856FF] text-white hover:bg-[#7856FF]/90 active:scale-95 transition-all">
                     Subscribe
                   </Button>
                 </form>
@@ -356,7 +356,7 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
                 <Link href="/financial/signup">
-                  <Button id="journey" size="lg" className="bg-[#07B096] text-white hover:bg-[#07B096]/90">
+                  <Button id="journey" size="lg" className="bg-[#07B096] text-white hover:bg-[#07B096]/90 active:scale-95 transition-all">
                     Start Your Journey
                   </Button>
                 </Link>
@@ -365,7 +365,7 @@ export default function HomePage() {
                     id="exploreProducts"
                     size="lg"
                     variant="outline"
-                    className="border-[#07B096] text-[#07B096] hover:bg-[#07B096]/10"
+                    className="border-[#07B096] text-[#07B096] hover:bg-[#07B096]/10 active:scale-95 transition-all"
                   >
                     Explore Our Products
                   </Button>

@@ -148,9 +148,10 @@ export default function ProductsPage() {
                     id="rebalance"
                     onClick={(e) => {
                       rebalancePortfolio();
-                      
+
                     }}
                     size="sm"
+                    className="hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     <RefreshCcwIcon className="mr-2 h-4 w-4" />
                     Rebalance

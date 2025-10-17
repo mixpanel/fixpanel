@@ -61,7 +61,11 @@ export default function Component() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button id="logIn" className="w-full" type="submit">
+            <Button
+              id="logIn"
+              className="w-full hover:bg-opacity-90 active:scale-95 transition-all"
+              type="submit"
+            >
               Log In
             </Button>
           </form>

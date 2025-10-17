@@ -256,7 +256,10 @@ export default function DealsPage() {
                 ⏰ Flash Deals End Soon!
               </div>
               <Link href="/checkout/cart">
-                <Button style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+                <Button
+                  style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                  className="hover:bg-opacity-90 active:scale-95 transition-all"
+                >
                   <ShoppingCartIcon className="h-4 w-4 mr-2" />
                   Cart ({getCartItemCount()})
                 </Button>
@@ -374,7 +377,7 @@ export default function DealsPage() {
                     <Button
                       onClick={() => addToCart(deal.id)}
                       disabled={timeRemaining <= 0}
-                      className="w-full"
+                      className="w-full hover:bg-opacity-90 active:scale-95 transition-all"
                       style={
                         timeRemaining <= 0
                           ? { backgroundColor: '#9ca3af', cursor: 'not-allowed' }

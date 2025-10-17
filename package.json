@@ -12,6 +12,7 @@
 		"postbuild": "node ./scripts/copy-oneoffs.js",
 		"start": "next start",
 		"lint": "next lint",
+		"typecheck": "tsc --noEmit",
 		"headless": "node ./scripts/headless.js",
 		"sanity": "npx serve ./dev/",
 		"sanity:prod": "npx serve ./out/",

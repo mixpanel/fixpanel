@@ -1,0 +1,316 @@
+"use client";
+
+import * as React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Copy, Check, Gift, Sparkles, Tag, Star, Zap, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
+
+const experimentId = "they-buy-coupon-offer";
+type Variant = "Control (10% off)" | "A (13% odd # letters)" | "B (15% items with q)" | "C (12% off plurals)" | "D (25% off rhymes)";
+const fallbackVariant: Variant = "Control (10% off)";
+
+interface OfferConfig {
+  code: string;
+  title: string;
+  description: string;
+  discount: string;
+  color: string;
+  bgGradient: string;
+  icon: React.ComponentType<{ className?: string }>;
+  accentColor: string;
+}
+
+const offerConfigs: Record<string, OfferConfig> = {
+  "control": {
+    code: "SAVE10",
+    title: "Welcome Offer!",
+    description: "Get 10% off your entire order",
+    discount: "10% OFF",
+    color: "text-purple-600",
+    bgGradient: "from-purple-500 to-indigo-600",
+    icon: Gift,
+    accentColor: "bg-purple-100 border-purple-300",
+  },
+  "a": {
+    code: "ODD13",
+    title: "Lucky Letters!",
+    description: "13% off items with odd # of letters",
+    discount: "13% OFF",
+    color: "text-orange-600",
+    bgGradient: "from-orange-500 to-red-600",
+    icon: Sparkles,
+    accentColor: "bg-orange-100 border-orange-300",
+  },
+  "b": {
+    code: "QUEST15",
+    title: "Quest for Q!",
+    description: "15% off items containing the letter 'q'",
+    discount: "15% OFF",
+    color: "text-teal-600",
+    bgGradient: "from-teal-500 to-cyan-600",
+    icon: Tag,
+    accentColor: "bg-teal-100 border-teal-300",
+  },
+  "c": {
+    code: "PLURAL12",
+    title: "Plural Power!",
+    description: "12% off all plural items (socks, gloves, etc.)",
+    discount: "12% OFF",
+    color: "text-blue-600",
+    bgGradient: "from-blue-500 to-indigo-600",
+    icon: Star,
+    accentColor: "bg-blue-100 border-blue-300",
+  },
+  "d": {
+    code: "RHYME25",
+    title: "Rhyme Time!",
+    description: "25% off items that rhyme with each other",
+    discount: "25% OFF",
+    color: "text-pink-600",
+    bgGradient: "from-pink-500 to-rose-600",
+    icon: Zap,
+    accentColor: "bg-pink-100 border-pink-300",
+  },
+};
+
+export function CouponDrawer() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isRevealed, setIsRevealed] = React.useState(false);
+  const [isCopied, setIsCopied] = React.useState(false);
+  const [variant, setVariant] = React.useState<Variant | null>(null);
+  const [offer, setOffer] = React.useState<OfferConfig>(offerConfigs.control);
+
+  React.useEffect(() => {
+    initMixpanelOnce();
+
+    // Delay drawer open for dramatic effect
+    const openTimer = setTimeout(() => setIsOpen(true), 2000);
+
+    mixpanel.flags
+      .get_variant_value(experimentId, fallbackVariant)
+      .then((returnedVariant: unknown) => {
+        let v = returnedVariant as Variant;
+        if (!v || typeof v !== "string") v = fallbackVariant;
+
+        console.log("[MIXPANEL]: GOT FLAG (Coupon Offer)", v);
+        setVariant(v);
+
+        // Map variant to offer config
+        const variantStr = String(v).toLowerCase();
+        if (variantStr.includes("13%") || variantStr.includes("odd")) {
+          setOffer(offerConfigs.a);
+        } else if (variantStr.includes("15%") || variantStr.includes("q")) {
+          setOffer(offerConfigs.b);
+        } else if (variantStr.includes("12%") || variantStr.includes("plural")) {
+          setOffer(offerConfigs.c);
+        } else if (variantStr.includes("25%") || variantStr.includes("rhyme")) {
+          setOffer(offerConfigs.d);
+        } else {
+          setOffer(offerConfigs.control);
+        }
+
+        mixpanel.track("Coupon Offer Loaded", { variant: v });
+      });
+
+    return () => clearTimeout(openTimer);
+  }, []);
+
+  const handleReveal = () => {
+    setIsRevealed(true);
+    if (variant && typeof window !== 'undefined' && window.mixpanel) {
+      window.mixpanel.track('Coupon Revealed', {
+        variant,
+        offer_code: offer.code,
+        discount: offer.discount,
+      });
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(offer.code);
+      setIsCopied(true);
+
+      if (variant && typeof window !== 'undefined' && window.mixpanel) {
+        window.mixpanel.track('Coupon Copied', {
+          variant,
+          offer_code: offer.code,
+        });
+      }
+
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    if (variant && typeof window !== 'undefined' && window.mixpanel) {
+      window.mixpanel.track('Coupon Drawer Closed', {
+        variant,
+        was_revealed: isRevealed,
+      });
+    }
+  };
+
+  const Icon = offer.icon;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 bg-black/20 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+          />
+
+          {/* Drawer */}
+          <motion.div
+            className="fixed left-0 top-0 h-full w-80 bg-white shadow-2xl z-50 flex flex-col"
+            initial={{ x: -320 }}
+            animate={{ x: 0 }}
+            exit={{ x: -320 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+          >
+            {/* Header */}
+            <div className={`bg-gradient-to-r ${offer.bgGradient} p-4 text-white relative overflow-hidden`}>
+              <motion.div
+                className="absolute inset-0 opacity-20"
+                animate={{
+                  backgroundImage: [
+                    'radial-gradient(circle at 20% 50%, white 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 50%, white 0%, transparent 50%)',
+                    'radial-gradient(circle at 20% 50%, white 0%, transparent 50%)',
+                  ],
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+              <button
+                onClick={handleClose}
+                className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <motion.div
+                className="flex items-center gap-3 mb-2"
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Icon className="h-8 w-8" />
+                <div>
+                  <h2 className="text-xl font-bold">{offer.title}</h2>
+                  <p className="text-sm text-white/90">{offer.description}</p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 p-6 flex flex-col items-center justify-center">
+              {!isRevealed ? (
+                <motion.div
+                  className="text-center"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <motion.div
+                    className={`w-32 h-32 mx-auto mb-6 bg-gradient-to-br ${offer.bgGradient} rounded-full flex items-center justify-center shadow-lg`}
+                    whileHover={{ scale: 1.05 }}
+                    animate={{
+                      boxShadow: [
+                        '0 10px 30px rgba(0,0,0,0.2)',
+                        '0 10px 40px rgba(0,0,0,0.3)',
+                        '0 10px 30px rgba(0,0,0,0.2)',
+                      ],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Gift className="h-16 w-16 text-white" />
+                  </motion.div>
+
+                  <h3 className="text-2xl font-bold mb-2">You've Got a Deal!</h3>
+                  <p className="text-gray-600 mb-6">
+                    Click below to reveal your exclusive coupon code
+                  </p>
+
+                  <Button
+                    onClick={handleReveal}
+                    className={`bg-gradient-to-r ${offer.bgGradient} text-white hover:opacity-90 text-lg px-8 py-6`}
+                  >
+                    Reveal My Coupon
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  className="text-center w-full"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                >
+                  <motion.div
+                    initial={{ rotateY: 0 }}
+                    animate={{ rotateY: 360 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <div className={`text-5xl font-bold ${offer.color} mb-4`}>
+                      {offer.discount}
+                    </div>
+                  </motion.div>
+
+                  <div className={`border-2 ${offer.accentColor} rounded-lg p-4 mb-4`}>
+                    <div className="text-sm text-gray-600 mb-1">Your Code:</div>
+                    <div className={`text-3xl font-mono font-bold ${offer.color} tracking-wider`}>
+                      {offer.code}
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleCopy}
+                    variant="outline"
+                    className={`w-full ${isCopied ? 'bg-green-50 border-green-300' : ''}`}
+                  >
+                    {isCopied ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2 text-green-600" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy Code
+                      </>
+                    )}
+                  </Button>
+
+                  <p className="text-xs text-gray-500 mt-4">
+                    Use this code at checkout to get your discount!
+                  </p>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-gray-200">
+              <a
+                href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/2318d3c5-497a-43d7-adec-67cc000b7f8d#HHn6n2M9ujQu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <span>Powered by feature flags</span>
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}

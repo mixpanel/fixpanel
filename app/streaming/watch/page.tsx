@@ -322,7 +322,7 @@ export default function VideoWatchPage() {
                         onClick={handleLike}
                         className={`${isLiked ? "bg-[#CC332B] text-white" : ""} ${
                           likeButtonState === 'failed' ? 'border-red-500 border-2' : ''
-                        } ${likeButtonState === 'success' ? 'border-green-500 border-2' : ''}`}
+                        } ${likeButtonState === 'success' ? 'border-green-500 border-2' : ''} hover:bg-opacity-90 active:scale-95 transition-all`}
                       >
                         <ThumbsUpIcon className="h-4 w-4 mr-1" />
                         {likes}
@@ -345,14 +345,14 @@ export default function VideoWatchPage() {
                         onClick={handleDislike}
                         className={`${isDisliked ? "bg-gray-600 text-white" : ""} ${
                           dislikeButtonState === 'failed' ? 'border-red-500 border-2' : ''
-                        } ${dislikeButtonState === 'success' ? 'border-green-500 border-2' : ''}`}
+                        } ${dislikeButtonState === 'success' ? 'border-green-500 border-2' : ''} hover:bg-opacity-90 active:scale-95 transition-all`}
                       >
                         <ThumbsDownIcon className="h-4 w-4 mr-1" />
                         {dislikes}
                       </Button>
                     </motion.div>
 
-                    <Button variant="outline" size="sm" onClick={handleShare}>
+                    <Button variant="outline" size="sm" onClick={handleShare} className="hover:bg-opacity-90 active:scale-95 transition-all">
                       <ShareIcon className="h-4 w-4 mr-1" />
                       Share
                     </Button>
@@ -385,7 +385,7 @@ export default function VideoWatchPage() {
                     <Button
                       onClick={handleSubscribe}
                       variant={isSubscribed ? "default" : "outline"}
-                      className={`transition-all ${
+                      className={`transition-all active:scale-95 ${
                         isSubscribed
                           ? "bg-[#CC332B] hover:bg-[#CC332B]/90"
                           : "hover:bg-[#CC332B] hover:text-white"
@@ -426,7 +426,7 @@ export default function VideoWatchPage() {
                   { title: "Even More Videos", thumbnail: "🍕", duration: "8:15" },
                   { title: "Endless Content", thumbnail: "🚀", duration: "15:20" }
                 ].map((video, index) => (
-                  <Link key={index} href="/streaming/watch" className="flex gap-3 hover:bg-gray-50 p-2 rounded">
+                  <Link key={index} href="/streaming/watch" className="flex gap-3 hover:bg-gray-50 active:scale-[0.98] p-2 rounded transition-all">
                     <div className="w-24 h-16 bg-gray-200 rounded flex items-center justify-center text-2xl">
                       {video.thumbnail}
                     </div>
@@ -468,7 +468,7 @@ export default function VideoWatchPage() {
               {/* Close Button */}
               <button
                 onClick={() => setIsShareModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 active:scale-95 transition-all"
               >
                 <XIcon className="h-5 w-5" />
               </button>
@@ -493,7 +493,7 @@ export default function VideoWatchPage() {
                       copyLinkSuccess
                         ? 'bg-green-500 hover:bg-green-600'
                         : 'bg-[#CC332B] hover:bg-[#CC332B]/90'
-                    }`}
+                    } active:scale-95 transition-all`}
                   >
                     {copyLinkSuccess ? (
                       <>
@@ -516,28 +516,28 @@ export default function VideoWatchPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={() => handleSocialShare('twitter')}
-                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] transition-colors"
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#1DA1F2] text-white rounded-lg hover:bg-[#1a8cd8] active:scale-95 transition-all"
                   >
                     <span className="text-xl">𝕏</span>
                     <span className="font-medium">Twitter</span>
                   </button>
                   <button
                     onClick={() => handleSocialShare('facebook')}
-                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#1877F2] text-white rounded-lg hover:bg-[#166fe5] transition-colors"
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#1877F2] text-white rounded-lg hover:bg-[#166fe5] active:scale-95 transition-all"
                   >
                     <span className="text-xl">f</span>
                     <span className="font-medium">Facebook</span>
                   </button>
                   <button
                     onClick={() => handleSocialShare('linkedin')}
-                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#0A66C2] text-white rounded-lg hover:bg-[#095196] transition-colors"
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#0A66C2] text-white rounded-lg hover:bg-[#095196] active:scale-95 transition-all"
                   >
                     <span className="text-xl">in</span>
                     <span className="font-medium">LinkedIn</span>
                   </button>
                   <button
                     onClick={() => handleSocialShare('reddit')}
-                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#FF4500] text-white rounded-lg hover:bg-[#e03d00] transition-colors"
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-[#FF4500] text-white rounded-lg hover:bg-[#e03d00] active:scale-95 transition-all"
                   >
                     <span className="text-xl">󠀠󠀠</span>
                     <span className="font-medium">Reddit</span>

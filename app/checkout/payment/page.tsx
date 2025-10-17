@@ -153,7 +153,10 @@ export default function CheckoutPage() {
               </div>
             </div>
             <Link href="/checkout">
-              <Button style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+              <Button
+                style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                className="hover:bg-opacity-90 active:scale-95 transition-all"
+              >
                 Continue Shopping
               </Button>
             </Link>
@@ -227,6 +230,7 @@ export default function CheckoutPage() {
                     onClick={() => setCurrentStep(2)}
                     disabled={!firstName || !lastName || !email}
                     style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                    className="hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     Continue to Shipping
                   </Button>
@@ -258,6 +262,7 @@ export default function CheckoutPage() {
                     <Button
                       variant="outline"
                       onClick={() => setCurrentStep(1)}
+                      className="hover:bg-opacity-90 active:scale-95 transition-all"
                     >
                       Back
                     </Button>
@@ -265,6 +270,7 @@ export default function CheckoutPage() {
                       onClick={() => setCurrentStep(3)}
                       disabled={!address || !city || !zipCode}
                       style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                      className="hover:bg-opacity-90 active:scale-95 transition-all"
                     >
                       Continue to Payment
                     </Button>
@@ -304,6 +310,7 @@ export default function CheckoutPage() {
                       variant="outline"
                       onClick={() => setCurrentStep(2)}
                       disabled={isProcessing}
+                      className="hover:bg-opacity-90 active:scale-95 transition-all"
                     >
                       Back
                     </Button>
@@ -331,7 +338,7 @@ export default function CheckoutPage() {
                       <Button
                         onClick={handleSubmitPayment}
                         disabled={!cardNumber || !expiryDate || !cvv || isProcessing}
-                        className="shadow-lg"
+                        className="shadow-lg hover:bg-opacity-90 active:scale-95 transition-all"
                         style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
                       >
                         <CreditCardIcon className="h-4 w-4 mr-2" />

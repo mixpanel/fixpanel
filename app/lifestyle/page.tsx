@@ -406,7 +406,7 @@ export default function LifestyleLanding() {
                 <Link href="/lifestyle/submit">
                   <Button
                     size="lg"
-                    className="bg-amber-600 text-zinc-900 hover:bg-amber-500 font-semibold"
+                    className="bg-amber-600 text-zinc-900 hover:bg-amber-500 font-semibold hover:bg-opacity-90 active:scale-95 transition-all"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
                         window.mixpanel.track("Lifestyle CTA Clicked", {
@@ -424,7 +424,7 @@ export default function LifestyleLanding() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent border-2 border-zinc-700 text-zinc-200 hover:bg-zinc-800"
+                    className="bg-transparent border-2 border-zinc-700 text-zinc-200 hover:bg-zinc-800 hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     <BookOpenIcon className="mr-2 h-5 w-5" />
                     Browse Feed
@@ -433,7 +433,7 @@ export default function LifestyleLanding() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="bg-transparent border-2 border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-zinc-900 relative"
+                  className="bg-transparent border-2 border-amber-600 text-amber-400 hover:bg-amber-600 hover:text-zinc-900 hover:bg-opacity-90 active:scale-95 transition-all relative"
                   onClick={() => {
                     setShowAnalyzer(true);
                     if (typeof window !== "undefined" && window.mixpanel) {
@@ -461,11 +461,11 @@ export default function LifestyleLanding() {
               <div className="flex gap-3">
                 <Button
                   variant={sortBy === "popular" ? "default" : "outline"}
-                  className={
+                  className={`hover:bg-opacity-90 active:scale-95 transition-all ${
                     sortBy === "popular"
                       ? "bg-amber-600 text-zinc-900 hover:bg-amber-500"
                       : "bg-transparent border-zinc-700 text-zinc-400 hover:bg-zinc-800"
-                  }
+                  }`}
                   onClick={() => {
                     setSortBy("popular");
                     if (typeof window !== "undefined" && window.mixpanel) {
@@ -478,11 +478,11 @@ export default function LifestyleLanding() {
                 </Button>
                 <Button
                   variant={sortBy === "agree" ? "default" : "outline"}
-                  className={
+                  className={`hover:bg-opacity-90 active:scale-95 transition-all ${
                     sortBy === "agree"
                       ? "bg-green-600 text-white hover:bg-green-500"
                       : "bg-transparent border-zinc-700 text-zinc-400 hover:bg-zinc-800"
-                  }
+                  }`}
                   onClick={() => {
                     setSortBy("agree");
                     if (typeof window !== "undefined" && window.mixpanel) {
@@ -495,11 +495,11 @@ export default function LifestyleLanding() {
                 </Button>
                 <Button
                   variant={sortBy === "disagree" ? "default" : "outline"}
-                  className={
+                  className={`hover:bg-opacity-90 active:scale-95 transition-all ${
                     sortBy === "disagree"
                       ? "bg-red-600 text-white hover:bg-red-500"
                       : "bg-transparent border-zinc-700 text-zinc-400 hover:bg-zinc-800"
-                  }
+                  }`}
                   onClick={() => {
                     setSortBy("disagree");
                     if (typeof window !== "undefined" && window.mixpanel) {
@@ -651,7 +651,7 @@ export default function LifestyleLanding() {
             <Link href="/lifestyle/submit">
               <Button
                 size="lg"
-                className="bg-amber-600 text-zinc-900 hover:bg-amber-500 font-semibold"
+                className="bg-amber-600 text-zinc-900 hover:bg-amber-500 font-semibold hover:bg-opacity-90 active:scale-95 transition-all"
                 onClick={() => {
                   if (typeof window !== "undefined" && window.mixpanel) {
                     window.mixpanel.track("Lifestyle CTA Clicked", { cta: "Start Posting", location: "bottom_cta" });

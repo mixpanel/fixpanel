@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { VideoRecommenderModal } from "./VideoRecommenderModal";
+import { AIPlaylistBuilder } from "./AIPlaylistBuilder";
 import Link from "next/link";
 import {
   PlayIcon,
@@ -623,7 +624,7 @@ export default function MeTubeHomePage() {
               variant="ghost"
               size="sm"
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-2"
+              className="p-2 hover:bg-opacity-90 active:scale-95 transition-all"
             >
               <MenuIcon className="h-5 w-5" />
             </Button>
@@ -643,7 +644,16 @@ export default function MeTubeHomePage() {
               />
               <Button
                 size="sm"
-                className="absolute right-0 top-0 h-full px-4 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-r-full border-l"
+                className="absolute right-0 top-0 h-full px-4 bg-gray-100 hover:bg-gray-200 active:scale-95 text-gray-600 rounded-r-full border-l transition-all"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (typeof window !== 'undefined' && window.mixpanel) {
+                    window.mixpanel.track('Button Clicked', {
+                      button_name: 'Search',
+                      page: 'meTube Home'
+                    });
+                  }
+                }}
               >
                 <SearchIcon className="h-4 w-4" />
               </Button>
@@ -668,22 +678,46 @@ export default function MeTubeHomePage() {
             {/* Main Navigation */}
             <div className="space-y-1">
               <motion.div
-                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all"
                 whileHover={{ backgroundColor: "#f3f4f6" }}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.mixpanel) {
+                    window.mixpanel.track('Navigation Clicked', {
+                      nav_item: 'Home',
+                      page: 'meTube Home'
+                    });
+                  }
+                }}
               >
                 <HomeIcon className="h-5 w-5" />
                 {!sidebarCollapsed && <span className="text-sm font-medium">Home</span>}
               </motion.div>
               <motion.div
-                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all"
                 whileHover={{ backgroundColor: "#f3f4f6" }}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.mixpanel) {
+                    window.mixpanel.track('Navigation Clicked', {
+                      nav_item: 'Trending',
+                      page: 'meTube Home'
+                    });
+                  }
+                }}
               >
                 <TrendingUpIcon className="h-5 w-5" />
                 {!sidebarCollapsed && <span className="text-sm font-medium">Trending</span>}
               </motion.div>
               <motion.div
-                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                className="flex items-center gap-6 px-3 py-2 hover:bg-gray-100 rounded-lg cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all"
                 whileHover={{ backgroundColor: "#f3f4f6" }}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.mixpanel) {
+                    window.mixpanel.track('Navigation Clicked', {
+                      nav_item: 'History',
+                      page: 'meTube Home'
+                    });
+                  }
+                }}
               >
                 <HistoryIcon className="h-5 w-5" />
                 {!sidebarCollapsed && <span className="text-sm font-medium">History</span>}
@@ -878,6 +912,9 @@ export default function MeTubeHomePage() {
 
       {/* Video Recommender Modal */}
       {showRecommender && <VideoRecommenderModal onClose={() => setShowRecommender(false)} />}
+
+      {/* AI Playlist Builder */}
+      <AIPlaylistBuilder />
     </div>
   );
 }

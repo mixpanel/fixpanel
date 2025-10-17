@@ -106,7 +106,7 @@ export default function AccessControlPage() {
                 <h1 className="text-3xl font-bold text-slate-900">Access Control</h1>
                 <p className="text-slate-600 mt-1">Manage user access and permissions across all services</p>
               </div>
-              <Button className="bg-purple-600 text-white hover:bg-purple-700 mt-4 md:mt-0" onClick={() => {
+              <Button className="bg-purple-600 text-white hover:bg-purple-700 hover:bg-opacity-90 active:scale-95 transition-all mt-4 md:mt-0" onClick={() => {
                 window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                 if (typeof window !== "undefined" && window.mixpanel) {
                   window.mixpanel.track("Bulk Provision Rickrolled");
@@ -125,7 +125,7 @@ export default function AccessControlPage() {
             <div className="flex space-x-8">
               <button
                 onClick={() => setSelectedTab("requests")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-all ${
                   selectedTab === "requests"
                     ? "border-purple-600 text-purple-600"
                     : "border-transparent text-slate-500 hover:text-slate-700"
@@ -135,7 +135,7 @@ export default function AccessControlPage() {
               </button>
               <button
                 onClick={() => setSelectedTab("services")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-all ${
                   selectedTab === "services"
                     ? "border-purple-600 text-purple-600"
                     : "border-transparent text-slate-500 hover:text-slate-700"
@@ -145,7 +145,7 @@ export default function AccessControlPage() {
               </button>
               <button
                 onClick={() => setSelectedTab("teams")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm transition-all ${
                   selectedTab === "teams"
                     ? "border-purple-600 text-purple-600"
                     : "border-transparent text-slate-500 hover:text-slate-700"
@@ -165,7 +165,7 @@ export default function AccessControlPage() {
                 {accessRequests.map((request) => (
                   <div
                     key={request.id}
-                    className={`bg-white rounded-lg border border-slate-200 p-6 hover:shadow-md transition-all ${
+                    className={`bg-white rounded-lg border border-slate-200 p-6 hover:shadow-md hover:scale-[1.01] transition-all ${
                       processingId === request.id ? "scale-[0.99] opacity-70" : ""
                     }`}
                   >
@@ -201,14 +201,14 @@ export default function AccessControlPage() {
                           <>
                             <Button
                               variant="outline"
-                              className="text-red-600 border-red-200 hover:bg-red-50"
+                              className="text-red-600 border-red-200 hover:bg-red-50 hover:bg-opacity-90 active:scale-95 transition-all"
                               onClick={() => handleReject(request)}
                             >
                               <XCircleIcon className="h-4 w-4 mr-1" />
                               Reject
                             </Button>
                             <Button
-                              className="bg-green-600 text-white hover:bg-green-700"
+                              className="bg-green-600 text-white hover:bg-green-700 hover:bg-opacity-90 active:scale-95 transition-all"
                               onClick={() => handleApprove(request)}
                             >
                               <CheckCircleIcon className="h-4 w-4 mr-1" />
@@ -236,7 +236,7 @@ export default function AccessControlPage() {
                 {provisionedServices.map((service, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow"
+                    className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
                     <h3 className="text-lg font-bold text-slate-900 mb-4">{service.service}</h3>
                     <div className="space-y-3">
@@ -255,7 +255,7 @@ export default function AccessControlPage() {
                     </div>
                     <Button
                       variant="outline"
-                      className="w-full mt-4"
+                      className="w-full mt-4 hover:bg-opacity-90 active:scale-95 transition-all"
                       onClick={() => {
                         window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                         if (typeof window !== "undefined" && window.mixpanel) {
@@ -275,7 +275,7 @@ export default function AccessControlPage() {
                 {teams.map((team, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow"
+                    className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
                     <h3 className="text-lg font-bold text-slate-900 mb-4">{team.name}</h3>
                     <div className="space-y-3">
@@ -290,7 +290,7 @@ export default function AccessControlPage() {
                     </div>
                     <Button
                       variant="outline"
-                      className="w-full mt-4"
+                      className="w-full mt-4 hover:bg-opacity-90 active:scale-95 transition-all"
                       onClick={() => {
                         window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                         if (typeof window !== "undefined" && window.mixpanel) {

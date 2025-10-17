@@ -27,7 +27,7 @@ export default function LandingPage() {
     // Show suggestion button after a delay
     const timer = setTimeout(() => {
       setShowSuggestionButton(true);
-    }, 1500);
+    }, 53500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -46,7 +46,7 @@ export default function LandingPage() {
                 </h1>
                 <p className="mx-auto max-w-[700px] text-lg md:text-xl">
                   try autocapture, session replay, feature flags, and other fantastic tools across different industries and use cases!<br/><br/>
-				  don't miss the 'mixpanel' and 'reset' links in the top right / bottom center
+				  don't miss the 'mixpanel' and 'reset' links in the top right / bottom center.<br/>come back to this page anytime to "reset" your experience
                 </p>
               </div>
             </div>
@@ -73,8 +73,12 @@ export default function LandingPage() {
                 <CreditCardIcon className="h-16 w-16 text-[#7856FF]" />
                 <h3 className="text-2xl font-bold">Financial Services</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  marketing/landing for fintech; experiment on customer testimonials; friction with KYC flow!
+                  Fintech marketing/landing with customer testimonials and signup flows
                 </p>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between">
+                  <span><strong>🔥 Friction:</strong> Lengthy KYC form on signup page</span>
+                  <BugIcon className="h-4 w-4 text-orange-600" />
+                </div>
                 <div className="w-full p-2 bg-purple-50 border border-purple-200 rounded text-xs text-purple-800 flex items-center justify-between">
                   <span><strong>🚩 Flags:</strong> Customer stories modal (homepage), KYC auto-fill (signup)</span>
                   <a
@@ -99,12 +103,16 @@ export default function LandingPage() {
                 <ShoppingCartIcon className="h-16 w-16 text-[#07B096]" />
                 <h3 className="text-2xl font-bold">Ecommerce + Checkout</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  e-commerce  app for product discovery, cart management and checkout flows; friction with the coupon code!
+                  Product discovery, cart management, and checkout flows
                 </p>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between">
+                  <span><strong>🔥 Friction:</strong> Broken coupon code field in cart</span>
+                  <BugIcon className="h-4 w-4 text-orange-600" />
+                </div>
                 <div className="w-full p-2 bg-green-50 border border-green-200 rounded text-xs text-green-800 flex items-center justify-between">
-                  <span><strong>🚩 Flag:</strong> Color scheme switcher (dark/chaos/light modes)</span>
+                  <span><strong>🚩 Flags:</strong> Color theme slider (right side), Coupon drawer (left side)</span>
                   <a
-                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/2318d3c5-497a-43d7-adec-67cc000b7f8d#HHn6n2M9ujQu"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-green-600 hover:text-green-800 transition-colors ml-2"
@@ -125,12 +133,16 @@ export default function LandingPage() {
                 <PlayIcon className="h-16 w-16 text-[#CC332B]" />
                 <h3 className="text-2xl font-bold">Media + Streaming</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  video streaming with dynamic content and personalized recommendations; friction with the 'like' and 'subscribe' buttons.
+                  Video streaming with dynamic content and personalized recommendations
                 </p>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between">
+                  <span><strong>🔥 Friction:</strong> Broken 'like' and 'subscribe' buttons</span>
+                  <BugIcon className="h-4 w-4 text-orange-600" />
+                </div>
                 <div className="w-full p-2 bg-red-50 border border-red-200 rounded text-xs text-red-800 flex items-center justify-between">
-                  <span><strong>🚩 Flag:</strong> "Just For You" video recommender (category bar)</span>
+                  <span><strong>🚩 Flags:</strong> Video recommender, AI Playlist Builder (lower right)</span>
                   <a
-                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/ddf7f839-1579-4e15-9dc2-a6f030a3770e"
+                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/41387f87-eb9e-4e01-b22a-c51411995e01"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-red-600 hover:text-red-800 transition-colors ml-2"
@@ -151,8 +163,14 @@ export default function LandingPage() {
                 <BuildingIcon className="h-16 w-16 text-gray-400" />
                 <h3 className="text-2xl font-bold text-gray-600">SaaS + Admin Apps</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  ERP-style admin dashboard for people ops, IT management, identity access control, and analytics
+                  Admin dashboard for people ops, IT management, and access control
                 </p>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between opacity-60">
+                  <span><strong>🔥 Friction:</strong> TBD</span>
+                  <Link href="/admin" title="Easter egg: Click to preview!">
+                    <BugIcon className="h-4 w-4 text-orange-600 hover:scale-125 transition-transform cursor-pointer" />
+                  </Link>
+                </div>
                 <div className="w-full p-2 bg-blue-50 border border-blue-200 rounded text-xs text-blue-800 flex items-center justify-between">
                   <span><strong>🚩 Flag:</strong> Integration chatbot helper (lower right button)</span>
                   <a
@@ -175,8 +193,14 @@ export default function LandingPage() {
                 <HeartIcon className="h-16 w-16 text-gray-400" />
                 <h3 className="text-2xl font-bold text-gray-600">Healthcare + Wellness</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  crowdsourced medical advice platform with AI doctor chat and community voting on diagnoses
+                  Crowdsourced medical advice with AI chat and community voting
                 </p>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between opacity-60">
+                  <span><strong>🔥 Friction:</strong> TBD</span>
+                  <Link href="/wellness" title="Easter egg: Click to preview!">
+                    <BugIcon className="h-4 w-4 text-orange-600 hover:scale-125 transition-transform cursor-pointer" />
+                  </Link>
+                </div>
                 <div className="w-full p-2 bg-teal-50 border border-teal-200 rounded text-xs text-teal-800 flex items-center justify-between">
                   <span><strong>🚩 Flag:</strong> Wheel of Symptoms spinner (lower left button)</span>
                   <a
@@ -199,8 +223,14 @@ export default function LandingPage() {
                 <SmartphoneIcon className="h-16 w-16 text-gray-400" />
                 <h3 className="text-2xl font-bold text-gray-600">Subscription + Lifestyle</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
-                  existentialist reddit-style forum with unique sorting by "likely to agree" or "likely to disagree"
+                  Reddit-style forum with "likely to agree/disagree" sorting
                 </p>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between opacity-60">
+                  <span><strong>🔥 Friction:</strong> TBD</span>
+                  <Link href="/lifestyle" title="Easter egg: Click to preview!">
+                    <BugIcon className="h-4 w-4 text-orange-600 hover:scale-125 transition-transform cursor-pointer" />
+                  </Link>
+                </div>
                 <div className="w-full p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800 flex items-center justify-between">
                   <span><strong>🚩 Flag:</strong> Post analyzer for bias/AI detection (hero button)</span>
                   <a

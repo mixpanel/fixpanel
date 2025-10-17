@@ -260,7 +260,10 @@ export default function CartPage() {
               <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
               <p className="text-gray-600 mb-6">Looks like you haven't added anything to your cart yet.</p>
               <Link href="/checkout">
-                <Button style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+                <Button
+                  style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                  className="hover:bg-opacity-90 active:scale-95 transition-all"
+                >
                   Start Shopping
                 </Button>
               </Link>
@@ -284,6 +287,7 @@ export default function CartPage() {
                           variant="outline"
                           size="icon"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          className="hover:bg-opacity-90 active:scale-95 transition-all"
                         >
                           <MinusIcon className="h-4 w-4" />
                         </Button>
@@ -292,6 +296,7 @@ export default function CartPage() {
                           variant="outline"
                           size="icon"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className="hover:bg-opacity-90 active:scale-95 transition-all"
                         >
                           <PlusIcon className="h-4 w-4" />
                         </Button>
@@ -303,7 +308,7 @@ export default function CartPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => removeItem(item.id)}
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 hover:text-red-700 hover:bg-opacity-90 active:scale-95 transition-all"
                         >
                           <TrashIcon className="h-4 w-4" />
                         </Button>
@@ -335,6 +340,7 @@ export default function CartPage() {
                         onClick={applyCoupon}
                         disabled={isApplyingCoupon || couponApplied || !couponCode}
                         style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                        className="hover:bg-opacity-90 active:scale-95 transition-all"
                       >
                         {isApplyingCoupon ? "..." : "Apply"}
                       </Button>
@@ -379,7 +385,7 @@ export default function CartPage() {
                   </div>
 
                   <Link href="/checkout/payment" className="w-full">
-                    <Button className="w-full mb-4" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+                    <Button className="w-full mb-4 hover:bg-opacity-90 active:scale-95 transition-all" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
                       <CreditCardIcon className="h-4 w-4 mr-2" />
                       Proceed to Checkout
                     </Button>

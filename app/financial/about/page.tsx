@@ -68,7 +68,22 @@ export default function AboutPage() {
             </div>
             <div className="flex justify-center">
               <Link href="/signup">
-                <Button size="lg" id="join">Join iBank Today</Button>
+                <Button
+                  size="lg"
+                  id="join"
+                  className="hover:bg-opacity-90 active:scale-95 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (typeof window !== 'undefined' && window.mixpanel) {
+                      window.mixpanel.track('Button Clicked', {
+                        button_name: 'join_ibank',
+                        page: 'about'
+                      });
+                    }
+                  }}
+                >
+                  Join iBank Today
+                </Button>
               </Link>
             </div>
           </div>

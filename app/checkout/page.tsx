@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useColorScheme } from "./ColorSchemeProvider";
+import { ThemeSlider } from "./ThemeSlider";
+import { CouponDrawer } from "./CouponDrawer";
 
 // Mock product data - Expanded catalog for better demo
 const products = [
@@ -481,6 +483,8 @@ export default function TheyBuyHomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
+      <ThemeSlider />
+      <CouponDrawer />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-6 md:py-10 lg:py-12 text-white" style={{ backgroundColor: colors.secondary }}>
@@ -656,7 +660,18 @@ export default function TheyBuyHomePage() {
                         <Button
                           variant="outline"
                           size="icon"
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (typeof window !== 'undefined' && window.mixpanel) {
+                              window.mixpanel.track('Button Clicked', {
+                                button_name: 'Favorite Product',
+                                product_id: product.id,
+                                product_name: product.name,
+                                page: 'theyBuy Home'
+                              });
+                            }
+                          }}
+                          className="hover:bg-opacity-90 active:scale-95 transition-all"
                           style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.text }}
                         >
                           <HeartIcon className="h-4 w-4" />
@@ -763,7 +778,7 @@ export default function TheyBuyHomePage() {
                       variant="ghost"
                       size="icon"
                       onClick={closeProductModal}
-                      className="hover:bg-gray-100"
+                      className="hover:bg-gray-100 hover:bg-opacity-90 active:scale-95 transition-all"
                     >
                       <XIcon className="h-4 w-4" />
                     </Button>
@@ -836,6 +851,18 @@ export default function TheyBuyHomePage() {
                         <Button
                           variant="outline"
                           size="lg"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (typeof window !== 'undefined' && window.mixpanel) {
+                              window.mixpanel.track('Button Clicked', {
+                                button_name: 'Favorite Product Modal',
+                                product_id: selectedProduct.id,
+                                product_name: selectedProduct.name,
+                                page: 'theyBuy Product Modal'
+                              });
+                            }
+                          }}
+                          className="hover:bg-opacity-90 active:scale-95 transition-all"
                           style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.text }}
                         >
                           <HeartIcon className="h-5 w-5" />

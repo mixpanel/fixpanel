@@ -212,7 +212,7 @@ export default function VotePage() {
                               ? "border-green-400 bg-green-50 ring-2 ring-green-200"
                               : hasVoted
                               ? "border-slate-200 bg-slate-50 cursor-not-allowed opacity-70"
-                              : "border-orange-200 hover:border-orange-400 hover:bg-orange-50 cursor-pointer hover:scale-105"
+                              : "border-orange-200 hover:border-orange-400 hover:bg-orange-50 cursor-pointer hover:scale-105 active:scale-95"
                           }`}
                         >
                           {wasVoted && (
@@ -248,6 +248,7 @@ export default function VotePage() {
                     variant="outline"
                     onClick={goToPrevious}
                     disabled={currentCase === 0}
+                    className="hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     Previous Case
                   </Button>
@@ -258,7 +259,7 @@ export default function VotePage() {
                     </div>
                   )}
                   <Button
-                    className="bg-orange-600 text-white hover:bg-orange-700"
+                    className="bg-orange-600 text-white hover:bg-orange-700 hover:bg-opacity-90 active:scale-95 transition-all"
                     onClick={goToNext}
                     disabled={currentCase === cases.length - 1}
                   >
@@ -274,18 +275,18 @@ export default function VotePage() {
 
               {/* Stats */}
               <div className="mt-8 grid gap-4 md:grid-cols-3">
-                <div className="bg-white rounded-lg border border-slate-200 p-6 text-center">
+                <div className="bg-white rounded-lg border border-slate-200 p-6 text-center hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                   <div className="text-3xl font-bold text-orange-600">{votedOn.size}</div>
                   <div className="text-sm text-slate-600 mt-1">Cases Voted On</div>
                 </div>
-                <div className="bg-white rounded-lg border border-slate-200 p-6 text-center">
+                <div className="bg-white rounded-lg border border-slate-200 p-6 text-center hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                   <div className="text-3xl font-bold text-emerald-600">
                     {Math.floor(Math.random() * 40 + 30)}%
                   </div>
                   <div className="text-sm text-slate-600 mt-1">Accuracy Score</div>
                   <div className="text-xs text-slate-400">(Completely made up)</div>
                 </div>
-                <div className="bg-white rounded-lg border border-slate-200 p-6 text-center">
+                <div className="bg-white rounded-lg border border-slate-200 p-6 text-center hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
                   <div className="text-3xl font-bold text-purple-600">{cases.length - currentCase - 1}</div>
                   <div className="text-sm text-slate-600 mt-1">Cases Remaining</div>
                 </div>
@@ -294,7 +295,7 @@ export default function VotePage() {
               {/* CTA */}
               <div className="mt-8 text-center">
                 <Link href="/wellness/submit">
-                  <Button size="lg" variant="outline" className="border-teal-200 text-teal-700 hover:bg-teal-50">
+                  <Button size="lg" variant="outline" className="border-teal-200 text-teal-700 hover:bg-teal-50 hover:bg-opacity-90 active:scale-95 transition-all">
                     Submit Your Own Case
                   </Button>
                 </Link>

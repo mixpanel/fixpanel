@@ -227,7 +227,7 @@ export default function HistoryPage() {
                   variant="outline"
                   size="sm"
                   onClick={clearAllHistory}
-                  className="text-red-600 border-red-600 hover:bg-red-50"
+                  className="text-red-600 border-red-600 hover:bg-red-50 hover:bg-opacity-90 active:scale-95 transition-all"
                 >
                   <TrashIcon className="h-4 w-4 mr-2" />
                   Clear All History
@@ -275,7 +275,17 @@ export default function HistoryPage() {
                   {history.length === 0 ? "Your watch history has been cleared." : "No videos match your search."}
                 </p>
                 <Link href="/streaming">
-                  <Button className="bg-[#CC332B] hover:bg-[#CC332B]/90">
+                  <Button
+                    className="bg-[#CC332B] hover:bg-[#CC332B]/90 active:scale-95 transition-all"
+                    onClick={() => {
+                      if (typeof window !== 'undefined' && window.mixpanel) {
+                        window.mixpanel.track('Button Clicked', {
+                          button_name: 'discover_videos',
+                          page: 'history'
+                        });
+                      }
+                    }}
+                  >
                     Discover Videos
                   </Button>
                 </Link>
@@ -294,7 +304,7 @@ export default function HistoryPage() {
                       {videos.map(video => (
                         <div
                           key={video.id}
-                          className={`bg-white rounded-lg shadow-sm hover:shadow-md transition-all border cursor-pointer ${
+                          className={`bg-white rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all border cursor-pointer ${
                             clearAnimations[video.id] ? 'transform scale-95 opacity-50' : ''
                           }`}
                           onClick={() => handleVideoClick(video.id)}
@@ -326,7 +336,7 @@ export default function HistoryPage() {
                               size="sm"
                               variant="ghost"
                               onClick={(e) => handleRemoveFromHistory(video.id, e)}
-                              className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-1 h-auto"
+                              className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 active:scale-95 text-white p-1 h-auto transition-all"
                             >
                               <TrashIcon className="h-3 w-3" />
                             </Button>

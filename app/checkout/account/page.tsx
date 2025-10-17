@@ -203,6 +203,7 @@ export default function AccountPage() {
             onClick={() => isEditing ? handleSaveProfile() : setIsEditing(true)}
             variant="outline"
             size="sm"
+            className="hover:bg-opacity-90 active:scale-95 transition-all"
           >
             {isEditing ? <SaveIcon className="h-4 w-4 mr-2" /> : <EditIcon className="h-4 w-4 mr-2" />}
             {isEditing ? 'Save Changes' : 'Edit'}
@@ -352,18 +353,18 @@ export default function AccountPage() {
           </div>
 
           <div className="flex gap-2">
-            <Button size="sm" variant="outline">
+            <Button size="sm" variant="outline" className="hover:bg-opacity-90 active:scale-95 transition-all">
               <EyeIcon className="h-4 w-4 mr-2" />
               View Details
             </Button>
             {order.trackingNumber && (
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" className="hover:bg-opacity-90 active:scale-95 transition-all">
                 <TruckIcon className="h-4 w-4 mr-2" />
                 Track Package
               </Button>
             )}
             {order.status === 'Delivered' && (
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" className="hover:bg-opacity-90 active:scale-95 transition-all">
                 <StarIcon className="h-4 w-4 mr-2" />
                 Write Review
               </Button>
@@ -392,7 +393,7 @@ export default function AccountPage() {
 
             <div className="space-y-2">
               <Button
-                className="w-full"
+                className="w-full hover:bg-opacity-90 active:scale-95 transition-all"
                 style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
                 disabled={!item.inStock}
               >
@@ -401,7 +402,7 @@ export default function AccountPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full text-red-600 border-red-600 hover:bg-red-50"
+                className="w-full text-red-600 border-red-600 hover:bg-red-50 hover:bg-opacity-90 active:scale-95 transition-all"
                 onClick={() => removeFromWishlist(item.id)}
               >
                 Remove from Wishlist
@@ -444,7 +445,7 @@ export default function AccountPage() {
                 size="sm"
                 variant={value ? "default" : "outline"}
                 onClick={() => handleNotificationToggle(key)}
-                className={value ? "bg-green-600 hover:bg-green-700" : ""}
+                className={value ? "bg-green-600 hover:bg-green-700 active:scale-95 transition-all" : "hover:bg-opacity-90 active:scale-95 transition-all"}
               >
                 {value ? 'ON' : 'OFF'}
               </Button>
@@ -457,13 +458,13 @@ export default function AccountPage() {
       <div className="bg-white border rounded-lg p-6">
         <h4 className="font-semibold mb-4">Account Actions</h4>
         <div className="space-y-3">
-          <Button variant="outline" className="w-full justify-start">
+          <Button variant="outline" className="w-full justify-start hover:bg-opacity-90 active:scale-95 transition-all">
             Change Password
           </Button>
-          <Button variant="outline" className="w-full justify-start">
+          <Button variant="outline" className="w-full justify-start hover:bg-opacity-90 active:scale-95 transition-all">
             Download My Data
           </Button>
-          <Button variant="outline" className="w-full justify-start text-red-600 border-red-600 hover:bg-red-50">
+          <Button variant="outline" className="w-full justify-start text-red-600 border-red-600 hover:bg-red-50 hover:bg-opacity-90 active:scale-95 transition-all">
             Delete Account
           </Button>
         </div>
@@ -533,7 +534,7 @@ export default function AccountPage() {
                       <Button
                         key={tab.id}
                         variant={activeTab === tab.id ? "default" : "ghost"}
-                        className="w-full justify-start"
+                        className="w-full justify-start hover:bg-opacity-90 active:scale-95 transition-all"
                         onClick={() => setActiveTab(tab.id)}
                       >
                         <tab.icon className="h-4 w-4 mr-2" />

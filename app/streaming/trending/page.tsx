@@ -197,7 +197,7 @@ export default function TrendingPage() {
           <div className="container px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {trendingVideos.map((video, index) => (
-                <div key={video.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border-2 border-orange-200">
+                <div key={video.id} className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all border-2 border-orange-200 hover:border-orange-300 hover:scale-[1.01] active:scale-[0.99]">
                   {/* Trending Badge */}
                   <div className="relative">
                     <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs px-3 py-1 rounded-full font-bold z-10">
@@ -233,7 +233,7 @@ export default function TrendingPage() {
                         size="sm"
                         variant={subscribedChannels.has(video.channel) ? "default" : "outline"}
                         onClick={(e) => handleSubscribe(video.channel, e)}
-                        className={`text-xs ${subscribedChannels.has(video.channel) ? "bg-gray-500" : "border-[#CC332B] text-[#CC332B] hover:bg-[#CC332B] hover:text-white"}`}
+                        className={`text-xs ${subscribedChannels.has(video.channel) ? "bg-gray-500" : "border-[#CC332B] text-[#CC332B] hover:bg-[#CC332B] hover:text-white"} active:scale-95 transition-all`}
                         style={{
                           // DRIFT EFFECT: Button position shifts slightly with each click!
                           transform: `translate(${Math.sin(clickCount * 0.5) * 2}px, ${Math.cos(clickCount * 0.3) * 1}px)`
@@ -262,12 +262,25 @@ export default function TrendingPage() {
                         size="sm"
                         variant="ghost"
                         onClick={(e) => handleLike(video.id, e)}
-                        className={`flex items-center gap-1 ${likedVideos.has(video.id) ? "text-red-500" : ""}`}
+                        className={`flex items-center gap-1 ${likedVideos.has(video.id) ? "text-red-500" : ""} hover:bg-opacity-90 active:scale-95 transition-all`}
                       >
                         <HeartIcon className={`h-4 w-4 ${likedVideos.has(video.id) ? "fill-current" : ""}`} />
                         <span className="text-xs">{likedVideos.has(video.id) ? "Liked" : "Like"}</span>
                       </Button>
-                      <Button size="sm" variant="ghost" className="flex items-center gap-1">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="flex items-center gap-1 hover:bg-gray-100 active:scale-95 transition-all"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (typeof window !== 'undefined' && window.mixpanel) {
+                            window.mixpanel.track('Video Share', {
+                              video_id: video.id,
+                              page: 'trending'
+                            });
+                          }
+                        }}
+                      >
                         <ShareIcon className="h-4 w-4" />
                         <span className="text-xs">Share</span>
                       </Button>
@@ -275,26 +288,6 @@ export default function TrendingPage() {
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Fun Interactive Widget */}
-            <div className="mt-12 p-6 bg-gradient-to-r from-orange-100 to-red-100 rounded-lg text-center">
-              <h3 className="text-xl font-bold mb-4">🎯 Trending Challenge!</h3>
-              <p className="text-gray-700 mb-4">
-                You've clicked the subscribe button <span className="font-bold text-red-600">{clickCount}</span> times.
-                Can you get to 20 clicks? (Hint: The buttons are broken! 😈)
-              </p>
-              <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
-                <div
-                  className="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full transition-all duration-300"
-                  style={{ width: `${Math.min((clickCount / 20) * 100, 100)}%` }}
-                ></div>
-              </div>
-              {clickCount >= 20 && (
-                <div className="text-2xl animate-bounce">
-                  🎉 You discovered the UX bug! This is what Mixpanel helps you find! 🎉
-                </div>
-              )}
             </div>
           </div>
         </section>

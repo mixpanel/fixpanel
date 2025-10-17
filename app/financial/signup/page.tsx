@@ -105,7 +105,7 @@ export default function SignUpPage() {
                 <Button
                   type="button"
                   onClick={() => setShowAutoFillModal(true)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                  className="bg-purple-600 hover:bg-purple-700 text-white hover:bg-opacity-90 active:scale-95 transition-all"
                 >
                   <Wand2Icon className="mr-2 h-4 w-4" />
                   Auto-Fill
@@ -392,6 +392,7 @@ export default function SignUpPage() {
                     onClick={handlePrevious}
                     variant="outline"
                     size="lg"
+                    className="hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     <ArrowLeftIcon className="mr-2 h-4 w-4" /> Previous
                   </Button>
@@ -402,7 +403,7 @@ export default function SignUpPage() {
                     id="next"
                     onClick={handleNext}
                     disabled={!isStepValid()}
-                    className="ml-auto bg-[#7856FF] hover:bg-[#7856FF]/90"
+                    className="ml-auto bg-[#7856FF] hover:bg-[#7856FF]/90 hover:bg-opacity-90 active:scale-95 transition-all"
                     size="lg"
                   >
                     Next <ArrowRightIcon className="ml-2 h-4 w-4" />
@@ -412,7 +413,7 @@ export default function SignUpPage() {
                     type="submit"
                     disabled={!isStepValid()}
                     id="getStarted"
-                    className="ml-auto bg-[#07B096] hover:bg-[#07B096]/90"
+                    className="ml-auto bg-[#07B096] hover:bg-[#07B096]/90 hover:bg-opacity-90 active:scale-95 transition-all"
                     size="lg"
                   >
                     Complete KYC

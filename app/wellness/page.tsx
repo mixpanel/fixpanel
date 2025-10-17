@@ -57,7 +57,7 @@ export default function WellnessLanding() {
                 <Link href="/wellness/submit">
                   <Button
                     size="lg"
-                    className="bg-white text-teal-700 hover:bg-teal-50"
+                    className="bg-white text-teal-700 hover:bg-teal-50 hover:bg-opacity-90 active:scale-95 transition-all"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
                         window.mixpanel.track("Wellness CTA Clicked", { cta: "Post Symptoms", location: "hero" });
@@ -72,7 +72,7 @@ export default function WellnessLanding() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-teal-700"
+                    className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-teal-700 active:scale-95 transition-all"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
                         window.mixpanel.track("Wellness CTA Clicked", { cta: "AI Doctor", location: "hero" });
@@ -104,7 +104,7 @@ export default function WellnessLanding() {
 
             <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-3">
               {/* Post Symptoms */}
-              <div className="flex flex-col items-center space-y-3 border-2 border-teal-200 p-8 rounded-lg hover:shadow-xl transition-shadow bg-teal-50">
+              <div className="flex flex-col items-center space-y-3 border-2 border-teal-200 p-8 rounded-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all bg-teal-50">
                 <div className="p-4 bg-teal-600 rounded-full">
                   <MessagesSquareIcon className="h-10 w-10 text-white" />
                 </div>
@@ -115,7 +115,7 @@ export default function WellnessLanding() {
               </div>
 
               {/* Community Votes */}
-              <div className="flex flex-col items-center space-y-3 border-2 border-emerald-200 p-8 rounded-lg hover:shadow-xl transition-shadow bg-emerald-50">
+              <div className="flex flex-col items-center space-y-3 border-2 border-emerald-200 p-8 rounded-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all bg-emerald-50">
                 <div className="p-4 bg-emerald-600 rounded-full">
                   <ThumbsUpIcon className="h-10 w-10 text-white" />
                 </div>
@@ -126,7 +126,7 @@ export default function WellnessLanding() {
               </div>
 
               {/* Get Results */}
-              <div className="flex flex-col items-center space-y-3 border-2 border-cyan-200 p-8 rounded-lg hover:shadow-xl transition-shadow bg-cyan-50">
+              <div className="flex flex-col items-center space-y-3 border-2 border-cyan-200 p-8 rounded-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all bg-cyan-50">
                 <div className="p-4 bg-cyan-600 rounded-full">
                   <SparklesIcon className="h-10 w-10 text-white" />
                 </div>
@@ -144,7 +144,7 @@ export default function WellnessLanding() {
           <div className="container px-4 md:px-6">
             <div className="grid gap-8 lg:grid-cols-2">
               {/* AI Doctor Chat */}
-              <div className="bg-white rounded-lg border-2 border-teal-200 p-8 hover:shadow-xl transition-shadow">
+              <div className="bg-white rounded-lg border-2 border-teal-200 p-8 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all">
                 <div className="flex items-start space-x-4">
                   <div className="p-3 bg-purple-100 rounded-lg">
                     <BrainIcon className="h-8 w-8 text-purple-600" />
@@ -155,7 +155,7 @@ export default function WellnessLanding() {
                       Chat with our AI doctor that's been trained on... well, we're not quite sure, but it sounds convincing! Share your diagnosis with the community for peer review.
                     </p>
                     <Link href="/wellness/chat">
-                      <Button className="bg-purple-600 text-white hover:bg-purple-700">
+                      <Button className="bg-purple-600 text-white hover:bg-purple-700 hover:bg-opacity-90 active:scale-95 transition-all">
                         Start AI Chat
                       </Button>
                     </Link>
@@ -164,7 +164,7 @@ export default function WellnessLanding() {
               </div>
 
               {/* Vote on Cases */}
-              <div className="bg-white rounded-lg border-2 border-emerald-200 p-8 hover:shadow-xl transition-shadow">
+              <div className="bg-white rounded-lg border-2 border-emerald-200 p-8 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all">
                 <div className="flex items-start space-x-4">
                   <div className="p-3 bg-orange-100 rounded-lg">
                     <UsersIcon className="h-8 w-8 text-orange-600" />
@@ -175,7 +175,7 @@ export default function WellnessLanding() {
                       Think you know better? Vote on other people's symptoms and watch your accuracy score... probably go down. But hey, it's fun!
                     </p>
                     <Link href="/wellness/vote">
-                      <Button className="bg-orange-600 text-white hover:bg-orange-700">
+                      <Button className="bg-orange-600 text-white hover:bg-orange-700 hover:bg-opacity-90 active:scale-95 transition-all">
                         Start Voting
                       </Button>
                     </Link>
@@ -231,7 +231,7 @@ export default function WellnessLanding() {
                 <Link href="/wellness/submit">
                   <Button
                     size="lg"
-                    className="bg-white text-teal-700 hover:bg-teal-50"
+                    className="bg-white text-teal-700 hover:bg-teal-50 hover:bg-opacity-90 active:scale-95 transition-all"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
                         window.mixpanel.track("Wellness CTA Clicked", {
@@ -248,7 +248,7 @@ export default function WellnessLanding() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-teal-700"
+                    className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-teal-700 active:scale-95 transition-all"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
                         window.mixpanel.track("Wellness CTA Clicked", {
@@ -277,7 +277,7 @@ export default function WellnessLanding() {
               window.mixpanel.track("Symptom Wheel Opened");
             }
           }}
-          className="fixed bottom-6 left-6 z-40 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 group animate-fade-in"
+          className="fixed bottom-6 left-6 z-40 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 active:scale-95 transition-all duration-300 group animate-fade-in"
           style={{
             animation: 'fadeIn 0.5s ease-in',
           }}

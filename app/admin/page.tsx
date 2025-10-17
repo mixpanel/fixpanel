@@ -49,7 +49,7 @@ export default function AdminLanding() {
                 <Link href="/admin/login">
                   <Button
                     size="lg"
-                    className="bg-blue-600 text-white hover:bg-blue-700"
+                    className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                     id="adminSignIn"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
@@ -68,7 +68,7 @@ export default function AdminLanding() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="bg-white text-blue-900 border-blue-200 hover:bg-slate-100"
+                    className="bg-white text-blue-900 border-blue-200 hover:bg-slate-100 active:scale-95 transition-all"
                     id="requestDemo"
                     onClick={() => {
                       if (typeof window !== "undefined" && window.mixpanel) {
@@ -103,7 +103,7 @@ export default function AdminLanding() {
 
             <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2 xl:grid-cols-3">
               {/* People Management */}
-              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg transition-shadow bg-white">
+              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all bg-white">
                 <div className="p-3 bg-blue-100 rounded-lg">
                   <UsersIcon className="h-8 w-8 text-blue-600" />
                 </div>
@@ -114,7 +114,7 @@ export default function AdminLanding() {
               </div>
 
               {/* Identity Provider */}
-              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg transition-shadow bg-white">
+              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all bg-white">
                 <div className="p-3 bg-purple-100 rounded-lg">
                   <ShieldCheckIcon className="h-8 w-8 text-purple-600" />
                 </div>
@@ -125,7 +125,7 @@ export default function AdminLanding() {
               </div>
 
               {/* Mobile Device Management */}
-              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg transition-shadow bg-white">
+              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all bg-white">
                 <div className="p-3 bg-green-100 rounded-lg">
                   <SmartphoneIcon className="h-8 w-8 text-green-600" />
                 </div>
@@ -136,7 +136,7 @@ export default function AdminLanding() {
               </div>
 
               {/* Email & Collaboration */}
-              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg transition-shadow bg-white">
+              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all bg-white">
                 <div className="p-3 bg-orange-100 rounded-lg">
                   <MailIcon className="h-8 w-8 text-orange-600" />
                 </div>
@@ -147,7 +147,7 @@ export default function AdminLanding() {
               </div>
 
               {/* Performance & Recognition */}
-              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg transition-shadow bg-white">
+              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all bg-white">
                 <div className="p-3 bg-pink-100 rounded-lg">
                   <AwardIcon className="h-8 w-8 text-pink-600" />
                 </div>
@@ -158,7 +158,7 @@ export default function AdminLanding() {
               </div>
 
               {/* Analytics & Insights */}
-              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg transition-shadow bg-white">
+              <div className="flex flex-col items-start space-y-3 border border-slate-200 p-6 rounded-lg hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all bg-white">
                 <div className="p-3 bg-cyan-100 rounded-lg">
                   <BarChartIcon className="h-8 w-8 text-cyan-600" />
                 </div>
@@ -173,7 +173,7 @@ export default function AdminLanding() {
               <Link href="/admin/login">
                 <Button
                   size="lg"
-                  className="bg-blue-600 text-white hover:bg-blue-700"
+                  className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
                   id="getStarted"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
@@ -230,7 +230,7 @@ export default function AdminLanding() {
               <Link href="/admin/login">
                 <Button
                   size="lg"
-                  className="bg-white text-blue-900 hover:bg-slate-100"
+                  className="bg-white text-blue-900 hover:bg-slate-100 hover:bg-opacity-90 active:scale-95 transition-all"
                   id="startTrial"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.mixpanel) {
@@ -254,7 +254,7 @@ export default function AdminLanding() {
       {!showChatbot && (
         <button
           onClick={() => setShowChatbot(true)}
-          className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 group"
+          className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 active:scale-95 transition-all duration-300 group"
         >
           <MessageCircleIcon className="h-6 w-6" />
           <div className="absolute -top-2 -right-2 bg-orange-500 rounded-full p-1">

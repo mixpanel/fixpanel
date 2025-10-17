@@ -49,7 +49,21 @@ export default function PricingPage() {
                     </li>
                   </ul>
                 </div>
-                <Button id="getStarted" className="mt-6">Get Started</Button>
+                <Button
+                  id="getStarted"
+                  className="mt-6 hover:bg-opacity-90 active:scale-95 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (typeof window !== 'undefined' && window.mixpanel) {
+                      window.mixpanel.track('Button Clicked', {
+                        button_name: 'get_started_basic',
+                        page: 'pricing'
+                      });
+                    }
+                  }}
+                >
+                  Get Started
+                </Button>
               </div>
               <div className="flex flex-col justify-between p-6 bg-white shadow-lg rounded-lg dark:bg-gray-800 border-2 border-primary">
                 <div>
@@ -77,7 +91,21 @@ export default function PricingPage() {
                   </ul>
                 </div>
                 <Link href="/financial/signup">
-                  <Button id="trial" className="mt-6">Start Free Trial</Button>
+                  <Button
+                    id="trial"
+                    className="mt-6 hover:bg-opacity-90 active:scale-95 transition-all"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (typeof window !== 'undefined' && window.mixpanel) {
+                        window.mixpanel.track('Button Clicked', {
+                          button_name: 'start_trial',
+                          page: 'pricing'
+                        });
+                      }
+                    }}
+                  >
+                    Start Free Trial
+                  </Button>
                 </Link>
               </div>
               <div className="flex flex-col justify-between p-6 bg-white shadow-lg rounded-lg dark:bg-gray-800">
@@ -105,7 +133,21 @@ export default function PricingPage() {
                     </li>
                   </ul>
                 </div>
-                <Button id="contactSales" className="mt-6">Contact Sales</Button>
+                <Button
+                  id="contactSales"
+                  className="mt-6 hover:bg-opacity-90 active:scale-95 transition-all"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (typeof window !== 'undefined' && window.mixpanel) {
+                      window.mixpanel.track('Button Clicked', {
+                        button_name: 'contact_sales',
+                        page: 'pricing'
+                      });
+                    }
+                  }}
+                >
+                  Contact Sales
+                </Button>
               </div>
             </div>
           </div>
