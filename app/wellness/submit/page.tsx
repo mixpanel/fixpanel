@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useRouter } from "next/navigation";
-import { SendIcon, CheckCircleIcon, Loader2Icon } from "lucide-react";
+import { SendIcon, CheckCircleIcon, Loader2Icon, AlertCircleIcon } from "lucide-react";
 
 export default function SubmitPage() {
   const router = useRouter();
@@ -17,6 +17,7 @@ export default function SubmitPage() {
   const [symptoms, setSymptoms] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -26,6 +27,65 @@ export default function SubmitPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // OVERLY STRICT VALIDATION (FRICTION!)
+    const errors: string[] = [];
+
+    // Username validation - TOO STRICT!
+    if (username.length < 8) {
+      errors.push("Username must be at least 8 characters long");
+    }
+    if (!/^[a-zA-Z]/.test(username)) {
+      errors.push("Username must start with a letter");
+    }
+    if (!/[0-9]/.test(username)) {
+      errors.push("Username must contain at least one number");
+    }
+    if (username.includes(" ")) {
+      errors.push("Username cannot contain spaces");
+    }
+
+    // Age validation - RIDICULOUS RESTRICTIONS!
+    const ageNum = parseInt(age);
+    if (isNaN(ageNum) || ageNum < 18 || ageNum > 100) {
+      errors.push("Age must be between 18 and 100");
+    }
+
+    // Duration validation - OVERLY SPECIFIC FORMAT!
+    if (!duration.match(/^\d+\s+(day|days|hour|hours|week|weeks)$/i)) {
+      errors.push("Duration must be in format: '3 days' or '2 weeks' (exact format required)");
+    }
+
+    // Symptoms validation - TOO MANY REQUIREMENTS!
+    if (symptoms.length < 50) {
+      errors.push("Symptoms description must be at least 50 characters");
+    }
+    if (symptoms.length > 500) {
+      errors.push("Symptoms description cannot exceed 500 characters");
+    }
+    if (!symptoms.includes(".") && !symptoms.includes("!") && !symptoms.includes("?")) {
+      errors.push("Symptoms must include proper punctuation (. ! or ?)");
+    }
+
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      setIsSubmitting(false);
+
+      // Track validation failures
+      if (typeof window !== "undefined" && window.mixpanel) {
+        window.mixpanel.track("Form Validation Failed", {
+          error_count: errors.length,
+          errors: errors,
+          username_length: username.length,
+          age: age,
+          duration_format: duration,
+          symptoms_length: symptoms.length,
+        });
+      }
+      return;
+    }
+
+    setValidationErrors([]);
     setIsSubmitting(true);
 
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -80,6 +140,25 @@ export default function SubmitPage() {
 
         <section className="w-full py-12">
           <div className="container px-4 md:px-6 max-w-2xl">
+            {/* Validation Errors */}
+            {validationErrors.length > 0 && (
+              <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg">
+                <div className="flex items-start">
+                  <AlertCircleIcon className="h-5 w-5 text-red-500 mt-0.5 mr-3" />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold text-red-800 mb-2">Please fix the following errors:</h3>
+                    <ul className="list-disc list-inside space-y-1">
+                      {validationErrors.map((error, index) => (
+                        <li key={index} className="text-sm text-red-700">
+                          {error}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="bg-white rounded-lg border-2 border-teal-200 shadow-xl p-8 space-y-6">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Anonymous Username</label>

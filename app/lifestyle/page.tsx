@@ -594,9 +594,14 @@ export default function LifestyleLanding() {
                         <button
                           onClick={() => {
                             if (typeof window !== "undefined" && window.mixpanel) {
-                              window.mixpanel.track("Lifestyle Comments Clicked", { post_id: post.id });
+                              window.mixpanel.track("Lifestyle Comments Clicked", {
+                                post_id: post.id,
+                                displayed_count: post.comments,
+                                actual_count: 0, // MISMATCH FRICTION!
+                              });
                             }
-                            window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
+                            // Show alert that comments failed to load (FRICTION!)
+                            alert("Unable to load comments. This post has 0 comments available.");
                           }}
                           className="flex items-center text-zinc-500 text-sm ml-auto hover:text-amber-500 transition-colors cursor-pointer"
                         >

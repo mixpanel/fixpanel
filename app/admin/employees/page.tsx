@@ -15,6 +15,8 @@ import {
   CheckCircleIcon,
   CalendarIcon,
   BriefcaseIcon,
+  DownloadIcon,
+  AlertCircleIcon,
 } from "lucide-react";
 
 // Extensive mock employee data
@@ -293,6 +295,8 @@ export default function EmployeesPage() {
     role: "",
     location: "",
   });
+  const [showPermissionError, setShowPermissionError] = useState(false);
+  const [showExportError, setShowExportError] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
@@ -312,6 +316,22 @@ export default function EmployeesPage() {
   });
 
   const handleAddEmployee = () => {
+    // 25% chance of permission error (FRICTION!)
+    const hasPermissionError = Math.random() < 0.25;
+
+    if (hasPermissionError) {
+      if (typeof window !== "undefined" && window.mixpanel) {
+        window.mixpanel.track("Permission Error", {
+          action: "Add Employee",
+          attempted_name: newEmployee.name,
+          error_type: "insufficient_permissions",
+        });
+      }
+      setShowPermissionError(true);
+      setTimeout(() => setShowPermissionError(false), 4000);
+      return;
+    }
+
     if (typeof window !== "undefined" && window.mixpanel) {
       window.mixpanel.track("Employee Added", newEmployee);
     }
@@ -319,6 +339,29 @@ export default function EmployeesPage() {
     setNewEmployee({ name: "", email: "", department: "Engineering", role: "", location: "" });
     // Show success message
     alert(`✅ ${newEmployee.name} has been added to the system!`);
+  };
+
+  const handleExportCSV = () => {
+    // Track export attempt
+    if (typeof window !== "undefined" && window.mixpanel) {
+      window.mixpanel.track("CSV Export Attempted", {
+        employee_count: filteredEmployees.length,
+        department_filter: selectedDepartment,
+        search_term: searchTerm,
+      });
+    }
+
+    // BROKEN CSV EXPORT (FRICTION!)
+    // This will always fail with a fake error
+    setShowExportError(true);
+    setTimeout(() => setShowExportError(false), 5000);
+
+    if (typeof window !== "undefined" && window.mixpanel) {
+      window.mixpanel.track("CSV Export Failed", {
+        employee_count: filteredEmployees.length,
+        error_type: "export_failure",
+      });
+    }
   };
 
   return (
@@ -333,18 +376,28 @@ export default function EmployeesPage() {
                 <h1 className="text-3xl font-bold text-slate-900">Employees</h1>
                 <p className="text-slate-600 mt-1">{filteredEmployees.length} total employees</p>
               </div>
-              <Button
-                className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
-                onClick={() => {
-                  setShowAddModal(true);
-                  if (typeof window !== "undefined" && window.mixpanel) {
-                    window.mixpanel.track("Add Employee Modal Opened");
-                  }
-                }}
-              >
-                <UsersIcon className="h-4 w-4 mr-2" />
-                Add New Employee
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="border-slate-300 text-slate-700 hover:bg-slate-100 active:scale-95 transition-all"
+                  onClick={handleExportCSV}
+                >
+                  <DownloadIcon className="h-4 w-4 mr-2" />
+                  Export CSV
+                </Button>
+                <Button
+                  className="bg-blue-600 text-white hover:bg-blue-700 hover:bg-opacity-90 active:scale-95 transition-all"
+                  onClick={() => {
+                    setShowAddModal(true);
+                    if (typeof window !== "undefined" && window.mixpanel) {
+                      window.mixpanel.track("Add Employee Modal Opened");
+                    }
+                  }}
+                >
+                  <UsersIcon className="h-4 w-4 mr-2" />
+                  Add New Employee
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -645,6 +698,52 @@ export default function EmployeesPage() {
                     Edit Profile
                   </Button>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Permission Error Notification */}
+        {showPermissionError && (
+          <div className="fixed top-4 right-4 z-50 max-w-md">
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 shadow-lg rounded-r-lg animate-in slide-in-from-right">
+              <div className="flex items-start">
+                <AlertCircleIcon className="h-6 w-6 text-red-500 mt-0.5 mr-3" />
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-red-800">Permission Denied</h3>
+                  <p className="text-sm text-red-700 mt-1">
+                    You don't have permission to perform this action. Please contact your administrator.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowPermissionError(false)}
+                  className="text-red-500 hover:text-red-700 ml-3"
+                >
+                  <XIcon className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CSV Export Error Notification */}
+        {showExportError && (
+          <div className="fixed top-4 right-4 z-50 max-w-md">
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 shadow-lg rounded-r-lg animate-in slide-in-from-right">
+              <div className="flex items-start">
+                <AlertCircleIcon className="h-6 w-6 text-red-500 mt-0.5 mr-3" />
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-red-800">Export Failed</h3>
+                  <p className="text-sm text-red-700 mt-1">
+                    Unable to export employee data to CSV. The file could not be generated. Please try again later.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowExportError(false)}
+                  className="text-red-500 hover:text-red-700 ml-3"
+                >
+                  <XIcon className="h-4 w-4" />
+                </button>
               </div>
             </div>
           </div>

@@ -165,11 +165,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Admin dashboard for people ops, IT management, and access control
                 </p>
-                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between opacity-60">
-                  <span><strong>🔥 Friction:</strong> TBD</span>
-                  <Link href="/admin" title="Easter egg: Click to preview!">
-                    <BugIcon className="h-4 w-4 text-orange-600 hover:scale-125 transition-transform cursor-pointer" />
-                  </Link>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between">
+                  <span><strong>🔥 Friction:</strong> Broken CSV export, permission errors (25%)</span>
+                  <BugIcon className="h-4 w-4 text-orange-600" />
                 </div>
                 <div className="w-full p-2 bg-blue-50 border border-blue-200 rounded text-xs text-blue-800 flex items-center justify-between">
                   <span><strong>🚩 Flag:</strong> Integration chatbot helper (lower right button)</span>
@@ -195,11 +193,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Crowdsourced medical advice with AI chat and community voting
                 </p>
-                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between opacity-60">
-                  <span><strong>🔥 Friction:</strong> TBD</span>
-                  <Link href="/wellness" title="Easter egg: Click to preview!">
-                    <BugIcon className="h-4 w-4 text-orange-600 hover:scale-125 transition-transform cursor-pointer" />
-                  </Link>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between">
+                  <span><strong>🔥 Friction:</strong> Form validation too strict (submit page)</span>
+                  <BugIcon className="h-4 w-4 text-orange-600" />
                 </div>
                 <div className="w-full p-2 bg-teal-50 border border-teal-200 rounded text-xs text-teal-800 flex items-center justify-between">
                   <span><strong>🚩 Flag:</strong> Wheel of Symptoms spinner (lower left button)</span>
@@ -225,11 +221,9 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Reddit-style forum with "likely to agree/disagree" sorting
                 </p>
-                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between opacity-60">
-                  <span><strong>🔥 Friction:</strong> TBD</span>
-                  <Link href="/lifestyle" title="Easter egg: Click to preview!">
-                    <BugIcon className="h-4 w-4 text-orange-600 hover:scale-125 transition-transform cursor-pointer" />
-                  </Link>
+                <div className="w-full p-2 bg-orange-50 border border-orange-200 rounded text-xs text-orange-800 flex items-center justify-between">
+                  <span><strong>🔥 Friction:</strong> Comment count mismatch (0 shown vs displayed)</span>
+                  <BugIcon className="h-4 w-4 text-orange-600" />
                 </div>
                 <div className="w-full p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800 flex items-center justify-between">
                   <span><strong>🚩 Flag:</strong> Post analyzer for bias/AI detection (hero button)</span>
