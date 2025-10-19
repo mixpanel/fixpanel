@@ -13,11 +13,13 @@
 		"start": "next start",
 		"lint": "next lint",
 		"typecheck": "tsc --noEmit",
-		"headless": "node ./scripts/headless.js",
-		"sanity": "npx serve ./dev/",
-		"sanity:prod": "npx serve ./out/",
 		"oneoffs": "npx serve ./oneoffs/",
-		"prune": "rm -rf ./out/*"
+		"prune": "rm -rf ./out/*",
+		"test": "playwright test",
+		"test:report": "npx playwright show-report tests/playwright-report",
+		"test:smoke": "playwright test smoke.spec.ts",
+		"test:headed": "playwright test --headed",
+		"test:install": "playwright install"
 	},
 	"dependencies": {
 		"@google-cloud/storage": "^7.12.1",
@@ -44,6 +46,7 @@
 		"tailwindcss-animate": "^1.0.7"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.40.0",
 		"@types/mixpanel-browser": "^2.60.0",
 		"@types/node": "^20",
 		"@types/react": "^18",
@@ -52,7 +55,6 @@
 		"eslint-config-next": "14.2.6",
 		"fs-extra": "^11.2.0",
 		"postcss": "^8",
-		"puppeteer": "^23.3.0",
 		"sharp": "^0.33.5",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
