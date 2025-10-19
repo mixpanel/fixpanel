@@ -65,7 +65,5 @@ export default defineConfig({
     url: 'http://localhost:3000',
     reuseExistingServer: true, // Use existing server if already running
     timeout: 120 * 1000,
-    stdout: 'inherit',
-    stderr: 'inherit',
   },
 });
