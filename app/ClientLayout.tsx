@@ -21,25 +21,28 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       // Determine which token to use (URL takes priority, then sessionStorage)
       const tokenToUse = urlToken || sessionStorage.getItem("mixpanel_custom_token") || undefined;
 
-      // If we found a new token (different from current), we need to re-initialize
+      // If we found a new token (different from current), we need to update the config
       if (tokenToUse && tokenToUse !== currentActiveToken) {
-        console.log(`[MIXPANEL]: NEW TOKEN DETECTED - RE-INITIALIZING`);
+        console.log(`[MIXPANEL]: NEW TOKEN DETECTED - UPDATING CONFIG`);
         console.log(`[MIXPANEL]: OLD TOKEN: ${currentActiveToken || "default"}`);
         console.log(`[MIXPANEL]: NEW TOKEN: ${tokenToUse}`);
 
-        // Reset Mixpanel completely
-        if (window.mixpanel?.reset) mixpanel.reset();
-        if (window.mixpanel?.stop_session_recording) mixpanel.stop_session_recording();
-
-        // Reset the initialized flag so we can re-initialize
-        resetInitialized();
+        // Reset Mixpanel and update config with new token
+        if (window.mixpanel?.reset) {
+          mixpanel.reset();
+          mixpanel.set_config({ token: tokenToUse });
+          console.log(`[MIXPANEL]: CONFIG UPDATED TO TOKEN: ${tokenToUse}`);
+        }
 
         // Store the new token
         sessionStorage.setItem("mixpanel_custom_token", tokenToUse);
         sessionStorage.setItem("mixpanel_active_token", tokenToUse);
 
-        // Re-initialize with new token
-        initMixpanelOnce(tokenToUse);
+        // Restart session recording
+        if (window.mixpanel?.start_session_recording) {
+          mixpanel.start_session_recording();
+          console.log("[MIXPANEL]: SESSION RECORDING RESTARTED");
+        }
       } else if (!currentActiveToken) {
         // First initialization - store what we're using
         const finalToken = tokenToUse || "default";
