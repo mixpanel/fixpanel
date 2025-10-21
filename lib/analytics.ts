@@ -40,13 +40,10 @@ function getParams() {
 const PARAMS = getParams();
 const { user = "" } = PARAMS;
 
-export function initMixpanelOnce(customToken?: string) {
+export function initMixpanelOnce() {
   if (initialized) return mixpanel;
 
-  const tokenToUse = customToken || MIXPANEL_TOKEN;
-  console.log(`[MIXPANEL]: INITIALIZING WITH TOKEN: ${tokenToUse}`);
-
-  mixpanel.init(tokenToUse, {
+  mixpanel.init(MIXPANEL_TOKEN, {
     // your existing options ↓
     //@ts-ignore
     flags: {}, // ! turn on Mixpanel's feature flags
@@ -73,30 +70,28 @@ export function initMixpanelOnce(customToken?: string) {
     api_transport: "XHR",
     persistence: "localStorage",
     hooks: {
-      before_send_events: function (row: any) {
-		// if (customToken && row["properties"]) row["properties"]["token"] = customToken;
-		return row;
-        // const { event = "", properties = {} } = row;
-        // const ignoreEventsAndPages = [
-        //   {
-        //     event: "$mp_page_leave",
-        //     pages: ["https://ak--47.github.io/fixpanel", "http://localhost"],
-        //   },
-        // ];
-        // for (let i = 0; i < ignoreEventsAndPages.length; i++) {
-        //   const ignore = ignoreEventsAndPages[i];
-        //   if (event === ignore.event) {
-        //     const currentPage = properties["$current_url"] || "";
-        //     for (let j = 0; j < ignore.pages.length; j++) {
-        //       const pageToIgnore = ignore.pages[j];
-        //       if (currentPage.startsWith(pageToIgnore)) {
-        //         console.log(`[MIXPANEL]: IGNORING EVENT ${event} ON PAGE ${currentPage}`);
-        //         row = {};
-        //         return row;
-        //       }
-        //     }
-        //   }
-        // }
+      before_send_events: function (row: any) {				
+        const { event = "", properties = {} } = row;
+        const ignoreEventsAndPages = [
+          {
+            event: "$mp_page_leave",
+            pages: ["https://ak--47.github.io/fixpanel", "http://localhost"],
+          },
+        ];
+        for (let i = 0; i < ignoreEventsAndPages.length; i++) {
+          const ignore = ignoreEventsAndPages[i];
+          if (event === ignore.event) {
+            const currentPage = properties["$current_url"] || "";
+            for (let j = 0; j < ignore.pages.length; j++) {
+              const pageToIgnore = ignore.pages[j];
+              if (currentPage.startsWith(pageToIgnore)) {
+                console.log(`[MIXPANEL]: IGNORING EVENT ${event} ON PAGE ${currentPage}`);
+                row = {};
+                return row;
+              }
+            }
+          }
+        }
       },
     },
     loaded: (mp: any) => {
