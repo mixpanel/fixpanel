@@ -40,10 +40,13 @@ function getParams() {
 const PARAMS = getParams();
 const { user = "" } = PARAMS;
 
-export function initMixpanelOnce() {
+export function initMixpanelOnce(customToken?: string) {
   if (initialized) return mixpanel;
 
-  mixpanel.init(MIXPANEL_TOKEN, {
+  const tokenToUse = customToken || MIXPANEL_TOKEN;
+  console.log(`[MIXPANEL]: INITIALIZING WITH TOKEN: ${tokenToUse}`);
+
+  mixpanel.init(tokenToUse, {
     // your existing options ↓
     //@ts-ignore
     flags: {}, // ! turn on Mixpanel's feature flags

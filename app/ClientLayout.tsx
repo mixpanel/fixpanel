@@ -11,7 +11,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   useEffect(() => {
     // Don't initialize Mixpanel on the landing page
     if (pathname !== "/") {
-      initMixpanelOnce();
+      // Check for custom token in URL params
+      const params = new URLSearchParams(window.location.search);
+      const customToken = params.get("token");
+      initMixpanelOnce(customToken || undefined);
     }
     if (pathname === "/") {
       // Reset mixpanel if it exists
