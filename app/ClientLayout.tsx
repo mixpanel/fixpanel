@@ -13,8 +13,17 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     if (pathname !== "/") {
       // Check for custom token in URL params
       const params = new URLSearchParams(window.location.search);
-      const customToken = params.get("token");
-      initMixpanelOnce(customToken || undefined);
+      const urlToken = params.get("token");
+
+      // If token is in URL, store it in sessionStorage for this session
+      if (urlToken) {
+        sessionStorage.setItem("mixpanel_custom_token", urlToken);
+        console.log("[MIXPANEL]: STORED CUSTOM TOKEN IN SESSION");
+      }
+
+      // Check URL first, then sessionStorage, then fall back to default
+      const tokenToUse = urlToken || sessionStorage.getItem("mixpanel_custom_token") || undefined;
+      initMixpanelOnce(tokenToUse);
     }
     if (pathname === "/") {
       // Reset mixpanel if it exists
@@ -25,6 +34,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             if (window.mixpanel?.reset) mixpanel.reset();
             if (window.mixpanel?.stop_session_recording) mixpanel.stop_session_recording();
             sessionStorage.removeItem("mixpanel_active_session");
+            sessionStorage.removeItem("mixpanel_custom_token");
             console.log("[MIXPANEL]: RESET SUCCESSFUL");
           } catch (error) {
             console.error("error resetting mixpanel:", error);
