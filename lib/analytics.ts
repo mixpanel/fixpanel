@@ -74,6 +74,7 @@ export function initMixpanelOnce(customToken?: string) {
     persistence: "localStorage",
     hooks: {
       before_send_events: function (row: any) {
+		return row;
         // const { event = "", properties = {} } = row;
         // const ignoreEventsAndPages = [
         //   {
