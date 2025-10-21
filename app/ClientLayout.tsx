@@ -30,6 +30,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         // Reset Mixpanel and update config with new token
         if (window.mixpanel?.reset) {
           mixpanel.reset();
+          // @ts-ignore - token is a valid config option but not in the TypeScript definitions
           mixpanel.set_config({ token: tokenToUse });
           console.log(`[MIXPANEL]: CONFIG UPDATED TO TOKEN: ${tokenToUse}`);
         }
