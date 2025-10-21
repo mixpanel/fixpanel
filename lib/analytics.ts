@@ -74,27 +74,27 @@ export function initMixpanelOnce(customToken?: string) {
     persistence: "localStorage",
     hooks: {
       before_send_events: function (row: any) {
-        const { event = "", properties = {} } = row;
-        const ignoreEventsAndPages = [
-          {
-            event: "$mp_page_leave",
-            pages: ["https://ak--47.github.io/fixpanel", "http://localhost"],
-          },
-        ];
-        for (let i = 0; i < ignoreEventsAndPages.length; i++) {
-          const ignore = ignoreEventsAndPages[i];
-          if (event === ignore.event) {
-            const currentPage = properties["$current_url"] || "";
-            for (let j = 0; j < ignore.pages.length; j++) {
-              const pageToIgnore = ignore.pages[j];
-              if (currentPage.startsWith(pageToIgnore)) {
-                // console.log(`[MIXPANEL]: IGNORING EVENT ${event} ON PAGE ${currentPage}`);
-                row = {};
-                return row;
-              }
-            }
-          }
-        }
+        // const { event = "", properties = {} } = row;
+        // const ignoreEventsAndPages = [
+        //   {
+        //     event: "$mp_page_leave",
+        //     pages: ["https://ak--47.github.io/fixpanel", "http://localhost"],
+        //   },
+        // ];
+        // for (let i = 0; i < ignoreEventsAndPages.length; i++) {
+        //   const ignore = ignoreEventsAndPages[i];
+        //   if (event === ignore.event) {
+        //     const currentPage = properties["$current_url"] || "";
+        //     for (let j = 0; j < ignore.pages.length; j++) {
+        //       const pageToIgnore = ignore.pages[j];
+        //       if (currentPage.startsWith(pageToIgnore)) {
+        //         console.log(`[MIXPANEL]: IGNORING EVENT ${event} ON PAGE ${currentPage}`);
+        //         row = {};
+        //         return row;
+        //       }
+        //     }
+        //   }
+        // }
       },
     },
     loaded: (mp: any) => {
