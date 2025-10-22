@@ -69,10 +69,10 @@ export default function CheckoutPage() {
 
       // Track button disappearance
       if (typeof window !== 'undefined' && window.mixpanel) {
-        window.mixpanel.track('Checkout Button Disappeared', {
-          order_value: orderTotal,
-          previous_position: buttonPosition
-        });
+        // window.mixpanel.track('Checkout Button Disappeared', {
+        //   order_value: orderTotal,
+        //   previous_position: buttonPosition
+        // });
       }
 
       // After 500ms, show in new position
@@ -83,10 +83,10 @@ export default function CheckoutPage() {
 
         // Track button reappearance
         if (typeof window !== 'undefined' && window.mixpanel) {
-          window.mixpanel.track('Checkout Button Appeared', {
-            order_value: orderTotal,
-            new_position: newPosition
-          });
+        //   window.mixpanel.track('Checkout Button Appeared', {
+        //     order_value: orderTotal,
+        //     new_position: newPosition
+        //   });
         }
       }, 500);
     }, 2500); // Every 2.5 seconds
