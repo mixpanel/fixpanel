@@ -70,7 +70,7 @@ export function initMixpanelOnce() {
     api_transport: "XHR",
     persistence: "localStorage",
     hooks: {
-      before_send_events: function (row: any) {				
+      before_send_events: function (row: any) {
         const { event = "", properties = {} } = row;
         const ignoreEventsAndPages = [
           {
@@ -92,6 +92,7 @@ export function initMixpanelOnce() {
             }
           }
         }
+        return row;
       },
     },
     loaded: (mp: any) => {
