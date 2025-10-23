@@ -14,24 +14,29 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       initMixpanelOnce();
     }
     if (pathname === "/") {
+      // NUKE EVERYTHING - clear all storage FIRST before resetting Mixpanel
+      try {
+        console.log("[MIXPANEL]: NUKING ALL STORAGE ON LANDING PAGE");
+
+        // Clear ALL localStorage (including Mixpanel super properties)
+        localStorage.clear();
+
+        // Clear ALL sessionStorage (including session flags and cart data)
+        sessionStorage.clear();
+
+        console.log("[MIXPANEL]: STORAGE CLEARED");
+      } catch (error) {
+        console.error("error clearing storage:", error);
+      }
+
       // Reset mixpanel if it exists
       if (typeof window !== "undefined" && window.mixpanel) {
         if (window?.mixpanel) {
           try {
-            console.log("[MIXPANEL]: ATTEMPTING FULL RESET ON LANDING PAGE");
+            console.log("[MIXPANEL]: RESETTING MIXPANEL INSTANCE");
             if (window.mixpanel?.reset) mixpanel.reset();
             if (window.mixpanel?.stop_session_recording) mixpanel.stop_session_recording();
-
-            // Clear all microsite session keys
-            sessionStorage.removeItem("mixpanel_active_session");
-            sessionStorage.removeItem("session_started_youAdmin");
-            sessionStorage.removeItem("session_started_theyBuy");
-            sessionStorage.removeItem("session_started_iBank");
-            sessionStorage.removeItem("session_started_ourHeart");
-            sessionStorage.removeItem("session_started_meTube");
-            sessionStorage.removeItem("session_started_weRead");
-
-            console.log("[MIXPANEL]: RESET SUCCESSFUL (including session keys)");
+            console.log("[MIXPANEL]: RESET SUCCESSFUL");
           } catch (error) {
             console.error("error resetting mixpanel:", error);
           }
@@ -40,10 +45,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
       // Reset the initialized flag so Mixpanel can be re-initialized fresh on next vertical
       resetInitialized();
-
-      // Completely nuke localStorage persistent data on landing page
-      console.log("[MIXPANEL]: NUKING LOCALSTORAGE");
-      localStorage.clear();
     }
   }, [pathname]);
 

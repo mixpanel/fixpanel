@@ -25,9 +25,9 @@ export default function WellnessLanding() {
   useEffect(() => {
     document.title = "ourHeart";
 
-    // Track session start (only once per session)
+    // Track session start (only once per session across ALL microsites)
     if (typeof window !== 'undefined' && window.mixpanel) {
-      const sessionKey = 'session_started_ourHeart';
+      const sessionKey = 'microsite_session_started';
       if (!sessionStorage.getItem(sessionKey)) {
         // Generate and register lucky number as super property
         const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
