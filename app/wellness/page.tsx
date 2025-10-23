@@ -25,6 +25,21 @@ export default function WellnessLanding() {
   useEffect(() => {
     document.title = "ourHeart";
 
+    // Track session start (only once per session)
+    if (typeof window !== 'undefined' && window.mixpanel) {
+      const sessionKey = 'session_started_ourHeart';
+      if (!sessionStorage.getItem(sessionKey)) {
+        // Generate and register lucky number as super property
+        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
+        window.mixpanel.register({ luckyNumber });
+        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
+
+        window.mixpanel.track('Session: ourHeart');
+        sessionStorage.setItem(sessionKey, 'true');
+        console.log('[SESSION]: Started ourHeart session');
+      }
+    }
+
     // Fade in the wheel button after page loads
     setTimeout(() => {
       setWheelButtonVisible(true);

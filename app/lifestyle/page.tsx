@@ -319,7 +319,20 @@ export default function LifestyleLanding() {
   useEffect(() => {
     document.title = "weRead";
 
-    if (typeof window !== "undefined" && window.mixpanel) {
+    // Track session start (only once per session)
+    if (typeof window !== 'undefined' && window.mixpanel) {
+      const sessionKey = 'session_started_weRead';
+      if (!sessionStorage.getItem(sessionKey)) {
+        // Generate and register lucky number as super property
+        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
+        window.mixpanel.register({ luckyNumber });
+        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
+
+        window.mixpanel.track('Session: weRead');
+        sessionStorage.setItem(sessionKey, 'true');
+        console.log('[SESSION]: Started weRead session');
+      }
+
       window.mixpanel.track("Lifestyle Landing Viewed", {
         total_posts: posts.length,
         tags_count: Array.from(new Set(posts.flatMap(p => p.tags))).length,

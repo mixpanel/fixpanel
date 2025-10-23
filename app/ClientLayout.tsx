@@ -21,8 +21,17 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             console.log("[MIXPANEL]: ATTEMPTING FULL RESET ON LANDING PAGE");
             if (window.mixpanel?.reset) mixpanel.reset();
             if (window.mixpanel?.stop_session_recording) mixpanel.stop_session_recording();
+
+            // Clear all microsite session keys
             sessionStorage.removeItem("mixpanel_active_session");
-            console.log("[MIXPANEL]: RESET SUCCESSFUL");
+            sessionStorage.removeItem("session_started_youAdmin");
+            sessionStorage.removeItem("session_started_theyBuy");
+            sessionStorage.removeItem("session_started_iBank");
+            sessionStorage.removeItem("session_started_ourHeart");
+            sessionStorage.removeItem("session_started_meTube");
+            sessionStorage.removeItem("session_started_weRead");
+
+            console.log("[MIXPANEL]: RESET SUCCESSFUL (including session keys)");
           } catch (error) {
             console.error("error resetting mixpanel:", error);
           }

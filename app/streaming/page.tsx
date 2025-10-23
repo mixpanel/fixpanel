@@ -503,6 +503,21 @@ export default function MeTubeHomePage() {
 
   useEffect(() => {
     document.title = "meTube";
+
+    // Track session start (only once per session)
+    if (typeof window !== 'undefined' && window.mixpanel) {
+      const sessionKey = 'session_started_meTube';
+      if (!sessionStorage.getItem(sessionKey)) {
+        // Generate and register lucky number as super property
+        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
+        window.mixpanel.register({ luckyNumber });
+        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
+
+        window.mixpanel.track('Session: meTube');
+        sessionStorage.setItem(sessionKey, 'true');
+        console.log('[SESSION]: Started meTube session');
+      }
+    }
   }, []);
 
   const filteredVideos = featuredVideos.filter(video => {
