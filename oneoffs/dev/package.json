@@ -1,8 +1,0 @@
-{
-  "name": "dev-micro-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "start": "npx serve"
-  }
-}
