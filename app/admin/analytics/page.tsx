@@ -8,7 +8,11 @@ import { BarChartIcon, TrendingUpIcon, TrendingDownIcon, ActivityIcon } from "lu
 export default function AnalyticsPage() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Analytics Page Viewed");
+      window.mixpanel.track("Analytics Page Viewed", {
+        services_count: serviceMetrics.length,
+        referrer: document.referrer || 'direct',
+        time_of_day: new Date().getHours()
+      });
     }
   }, []);
 

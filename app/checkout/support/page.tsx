@@ -184,7 +184,11 @@ export default function SupportPage() {
   // Track page view
   useEffect(() => {
     if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track('View Support Page');
+      window.mixpanel.track('View Support Page', {
+        referrer: document.referrer || 'direct',
+        time_of_day: new Date().getHours(),
+        has_active_cart: !!sessionStorage.getItem('theybuy_cart')
+      });
     }
   }, []);
 

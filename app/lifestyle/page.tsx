@@ -320,7 +320,11 @@ export default function LifestyleLanding() {
     document.title = "weRead";
 
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Lifestyle Landing Viewed");
+      window.mixpanel.track("Lifestyle Landing Viewed", {
+        total_posts: posts.length,
+        tags_count: Array.from(new Set(posts.flatMap(p => p.tags))).length,
+        time_of_day: new Date().getHours()
+      });
     }
   }, []);
 
@@ -437,7 +441,11 @@ export default function LifestyleLanding() {
                   onClick={() => {
                     setShowAnalyzer(true);
                     if (typeof window !== "undefined" && window.mixpanel) {
-                      window.mixpanel.track("Post Analyzer Opened");
+                      window.mixpanel.track("Post Analyzer Opened", {
+                        source: 'landing_page',
+                        total_posts: posts.length,
+                        voted_posts_count: votedPosts.size
+                      });
                     }
                   }}
                 >

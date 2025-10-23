@@ -28,7 +28,11 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Wellness AI Chat Viewed");
+      window.mixpanel.track("Wellness AI Chat Viewed", {
+        initial_message_count: messages.length,
+        referrer: document.referrer || 'direct',
+        time_of_day: new Date().getHours()
+      });
     }
   }, []);
 

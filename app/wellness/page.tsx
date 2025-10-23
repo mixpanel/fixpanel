@@ -274,7 +274,10 @@ export default function WellnessLanding() {
           onClick={() => {
             setShowWheel(true);
             if (typeof window !== "undefined" && window.mixpanel) {
-              window.mixpanel.track("Symptom Wheel Opened");
+              window.mixpanel.track("Symptom Wheel Opened", {
+                source: 'landing_page',
+                time_on_page: Math.round((Date.now() - (window as any).pageLoadTime) / 1000) || 0
+              });
             }
           }}
           className="fixed bottom-6 left-6 z-40 bg-gradient-to-r from-teal-600 to-emerald-600 text-white rounded-full p-4 shadow-2xl hover:shadow-3xl hover:scale-110 active:scale-95 transition-all duration-300 group animate-fade-in"

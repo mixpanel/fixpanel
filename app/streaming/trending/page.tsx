@@ -166,7 +166,11 @@ export default function TrendingPage() {
   // Track page view
   useEffect(() => {
     if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track('View Trending Page');
+      window.mixpanel.track('View Trending Page', {
+        video_count: trendingVideos.length,
+        time_of_day: new Date().getHours(),
+        day_of_week: new Date().toLocaleDateString('en-US', { weekday: 'long' })
+      });
     }
   }, []);
 

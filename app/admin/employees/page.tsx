@@ -300,7 +300,11 @@ export default function EmployeesPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Employees Page Viewed");
+      window.mixpanel.track("Employees Page Viewed", {
+        total_employees: employees.length,
+        departments_count: Array.from(new Set(employees.map(emp => emp.department))).length,
+        referrer: document.referrer || 'direct'
+      });
     }
   }, []);
 
@@ -390,7 +394,10 @@ export default function EmployeesPage() {
                   onClick={() => {
                     setShowAddModal(true);
                     if (typeof window !== "undefined" && window.mixpanel) {
-                      window.mixpanel.track("Add Employee Modal Opened");
+                      window.mixpanel.track("Add Employee Modal Opened", {
+                        current_employee_count: employees.length,
+                        selected_department: selectedDepartment
+                      });
                     }
                   }}
                 >
@@ -691,7 +698,11 @@ export default function EmployeesPage() {
                     onClick={() => {
                       window.open("https://storage.googleapis.com/mp-customer-upload/RickRoll.mp4", "_blank");
                       if (typeof window !== "undefined" && window.mixpanel) {
-                        window.mixpanel.track("Employee Edit Rickrolled");
+                        window.mixpanel.track("Employee Edit Rickrolled", {
+                          employee_id: selectedEmployee.id,
+                          employee_name: selectedEmployee.name,
+                          employee_department: selectedEmployee.department
+                        });
                       }
                     }}
                   >

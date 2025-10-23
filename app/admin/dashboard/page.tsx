@@ -21,7 +21,12 @@ import {
 export default function AdminDashboard() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Admin Dashboard Viewed");
+      window.mixpanel.track("Admin Dashboard Viewed", {
+        total_employees: stats.totalEmployees,
+        active_employees: stats.activeEmployees,
+        pending_onboarding: stats.pendingOnboarding,
+        referrer: document.referrer || 'direct'
+      });
     }
   }, []);
 

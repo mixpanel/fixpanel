@@ -27,7 +27,10 @@ const distributionLists = [
 export default function EmailSetupPage() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Email Setup Page Viewed");
+      window.mixpanel.track("Email Setup Page Viewed", {
+        referrer: document.referrer || 'direct',
+        time_of_day: new Date().getHours()
+      });
     }
   }, []);
 
@@ -44,7 +47,10 @@ export default function EmailSetupPage() {
               </div>
               <Button className="bg-orange-600 text-white hover:bg-orange-700 mt-4 md:mt-0" onClick={() => {
                 if (typeof window !== "undefined" && window.mixpanel) {
-                  window.mixpanel.track("Create Email Account Clicked");
+                  window.mixpanel.track("Create Email Account Clicked", {
+                    source: 'email_setup_page',
+                    time_of_day: new Date().getHours()
+                  });
                 }
               }}>
                 <PlusIcon className="h-4 w-4 mr-2" />

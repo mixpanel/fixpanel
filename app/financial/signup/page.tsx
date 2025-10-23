@@ -33,6 +33,46 @@ export default function SignUpPage() {
     riskTolerance: "",
   });
 
+  // Load form data from sessionStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedFormData = sessionStorage.getItem('ibank_kyc_form');
+      const savedStep = sessionStorage.getItem('ibank_kyc_step');
+
+      if (savedFormData) {
+        try {
+          setFormData(JSON.parse(savedFormData));
+          console.log('[KYC]: Loaded saved form data from session');
+        } catch (e) {
+          console.error('Error loading form data from sessionStorage:', e);
+        }
+      }
+
+      if (savedStep) {
+        try {
+          setStep(parseInt(savedStep));
+          console.log('[KYC]: Resumed at step', savedStep);
+        } catch (e) {
+          console.error('Error loading step from sessionStorage:', e);
+        }
+      }
+    }
+  }, []);
+
+  // Save form data to sessionStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('ibank_kyc_form', JSON.stringify(formData));
+    }
+  }, [formData]);
+
+  // Save current step to sessionStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('ibank_kyc_step', step.toString());
+    }
+  }, [step]);
+
   // 20% success rate for radio button clicks (only on step 3)
   const handleRadioClick = (name: string, value: string) => {
     // Only apply the faulty behavior on step 3
@@ -79,6 +119,13 @@ export default function SignUpPage() {
     e.preventDefault();
     mixpanel.track("KYC Form Submitted", formData);
     console.log("KYC form submitted", formData);
+
+    // Clear sessionStorage after successful submission
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('ibank_kyc_form');
+      sessionStorage.removeItem('ibank_kyc_step');
+      console.log('[KYC]: Form submitted - cleared session data');
+    }
   };
 
   return (

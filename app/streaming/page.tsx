@@ -803,7 +803,13 @@ export default function MeTubeHomePage() {
                 onClick={() => {
                   setShowRecommender(true);
                   if (typeof window !== 'undefined' && window.mixpanel) {
-                    window.mixpanel.track('Video Recommender Opened');
+                    window.mixpanel.track('Video Recommender Opened', {
+                      source_page: 'home',
+                      current_category: selectedCategory,
+                      has_search_term: searchTerm.length > 0,
+                      liked_videos_count: likedVideos.size,
+                      subscribed_channels_count: subscribedChannels.size
+                    });
                   }
                 }}
                 whileHover={{ scale: 1.05 }}

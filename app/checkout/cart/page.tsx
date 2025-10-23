@@ -16,80 +16,17 @@ import {
   CreditCardIcon
 } from "lucide-react";
 import { useColorScheme } from "../ColorSchemeProvider";
-
-// Product data from main checkout page (should be shared)
-const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 99.99,
-    rating: 4.5,
-    reviews: 128,
-    category: "Electronics",
-    image: "🎧",
-    description: "High-quality wireless headphones with noise cancellation"
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 249.99,
-    rating: 4.3,
-    reviews: 89,
-    category: "Electronics",
-    image: "⌚",
-    description: "Feature-rich smartwatch with health tracking"
-  },
-  {
-    id: 3,
-    name: "Bluetooth Speaker",
-    price: 79.99,
-    rating: 4.6,
-    reviews: 203,
-    category: "Electronics",
-    image: "🔊",
-    description: "Portable waterproof speaker with rich bass"
-  },
-  {
-    id: 4,
-    name: "Wireless Mouse",
-    price: 34.99,
-    rating: 4.2,
-    reviews: 156,
-    category: "Electronics",
-    image: "🖱️",
-    description: "Ergonomic wireless mouse with long battery life"
-  },
-  {
-    id: 5,
-    name: "USB-C Hub",
-    price: 59.99,
-    rating: 4.4,
-    reviews: 92,
-    category: "Electronics",
-    image: "🔌",
-    description: "7-in-1 USB-C hub with HDMI, USB 3.0, and SD card slots"
-  },
-  {
-    id: 6,
-    name: "Portable Charger",
-    price: 39.99,
-    rating: 4.7,
-    reviews: 312,
-    category: "Electronics",
-    image: "🔋",
-    description: "20,000mAh portable power bank with fast charging"
-  }
-];
+import { products } from "../products";
 
 export default function CartPage() {
   const { colors } = useColorScheme();
   const [cartData, setCartData] = useState<Array<{id: number, quantity: number}>>([]);
   const [cartItems, setCartItems] = useState<Array<{id: number, name: string, price: number, quantity: number, image: string}>>([]);
 
-  // Load cart from localStorage and convert to full product data
+  // Load cart from sessionStorage and convert to full product data
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('theybuy_cart');
+      const savedCart = sessionStorage.getItem('theybuy_cart');
       if (savedCart) {
         try {
           const cartData = JSON.parse(savedCart);
@@ -112,16 +49,16 @@ export default function CartPage() {
 
           setCartItems(fullCartItems);
         } catch (e) {
-          console.error('Error loading cart from localStorage:', e);
+          console.error('Error loading cart from sessionStorage:', e);
         }
       }
     }
   }, []);
 
-  // Update localStorage when cart changes
+  // Update sessionStorage when cart changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('theybuy_cart', JSON.stringify(cartData));
+      sessionStorage.setItem('theybuy_cart', JSON.stringify(cartData));
     }
   }, [cartData]);
   const [couponCode, setCouponCode] = useState("");

@@ -19,9 +19,41 @@ export default function SubmitPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
+  // Load form data from sessionStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedFormData = sessionStorage.getItem('wellness_submit_form');
+
+      if (savedFormData) {
+        try {
+          const parsed = JSON.parse(savedFormData);
+          setUsername(parsed.username || "");
+          setAge(parsed.age || "");
+          setDuration(parsed.duration || "");
+          setSymptoms(parsed.symptoms || "");
+          console.log('[Wellness]: Loaded saved form data from session');
+        } catch (e) {
+          console.error('Error loading form data from sessionStorage:', e);
+        }
+      }
+    }
+  }, []);
+
+  // Save form data to sessionStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const formData = { username, age, duration, symptoms };
+      sessionStorage.setItem('wellness_submit_form', JSON.stringify(formData));
+    }
+  }, [username, age, duration, symptoms]);
+
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Wellness Submit Page Viewed");
+      window.mixpanel.track("Wellness Submit Page Viewed", {
+        has_saved_data: !!sessionStorage.getItem('wellness_submit_form'),
+        referrer: document.referrer || 'direct',
+        time_of_day: new Date().getHours()
+      });
     }
   }, []);
 
@@ -100,6 +132,13 @@ export default function SubmitPage() {
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
+
+      // Clear sessionStorage after successful submission
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('wellness_submit_form');
+        console.log('[Wellness]: Form submitted - cleared session data');
+      }
+
       setTimeout(() => router.push("/wellness/vote"), 2000);
     }, 1000);
   };

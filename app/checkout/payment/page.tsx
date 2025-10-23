@@ -13,6 +13,7 @@ import {
   CheckCircleIcon
 } from "lucide-react";
 import { useColorScheme } from "../ColorSchemeProvider";
+import { products } from "../products";
 
 export default function CheckoutPage() {
   const { colors } = useColorScheme();
@@ -41,22 +42,70 @@ export default function CheckoutPage() {
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
 
-  // Mock order data
-  const orderTotal = 387.97;
-  const orderItems = [
-    { name: "Wireless Headphones", price: 99.99, quantity: 1 },
-    { name: "Smart Watch", price: 249.99, quantity: 1 }
-  ];
+  // Real cart data from sessionStorage
+  const [cartItems, setCartItems] = useState<Array<{id: number, name: string, price: number, quantity: number, image: string, category: string}>>([]);
+  const [subtotal, setSubtotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [shipping, setShipping] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [orderTotal, setOrderTotal] = useState(0);
+
+  // Load cart from sessionStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedCart = sessionStorage.getItem('theybuy_cart');
+      if (savedCart) {
+        try {
+          const cartData = JSON.parse(savedCart);
+
+          // Convert cart data to full product info
+          const fullCartItems = cartData.map((cartItem: {id: number, quantity: number}) => {
+            const product = products.find(p => p.id === cartItem.id);
+            if (product) {
+              return {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: cartItem.quantity,
+                image: product.image,
+                category: product.category
+              };
+            }
+            return null;
+          }).filter(Boolean);
+
+          setCartItems(fullCartItems);
+
+          // Calculate totals
+          const calculatedSubtotal = fullCartItems.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+          const calculatedDiscount = calculatedSubtotal * 0.15; // 15% discount (from coupon)
+          const calculatedShipping = calculatedSubtotal > 50 ? 0 : 8.99;
+          const calculatedTax = (calculatedSubtotal - calculatedDiscount) * 0.08; // 8% tax
+          const calculatedTotal = calculatedSubtotal - calculatedDiscount + calculatedShipping + calculatedTax;
+
+          setSubtotal(calculatedSubtotal);
+          setDiscount(calculatedDiscount);
+          setShipping(calculatedShipping);
+          setTax(calculatedTax);
+          setOrderTotal(calculatedTotal);
+        } catch (e) {
+          console.error('Error loading cart from sessionStorage:', e);
+        }
+      }
+    }
+  }, []);
 
   // Track page views for each step
   useEffect(() => {
     if (typeof window !== 'undefined' && window.mixpanel) {
       window.mixpanel.track('View Checkout', {
         step: currentStep,
-        order_value: orderTotal
+        order_value: orderTotal,
+        item_count: cartItems.length,
+        cart_items: cartItems.map(item => item.name).join(', ')
       });
     }
-  }, [currentStep]);
+  }, [currentStep, orderTotal, cartItems]);
 
   // THE MOVING CHECKOUT BUTTON! 🐛
   // Button disappears and reappears in a new location every 5 seconds (only on step 3)
@@ -101,7 +150,15 @@ export default function CheckoutPage() {
     if (typeof window !== 'undefined' && window.mixpanel) {
       window.mixpanel.track('Checkout Attempted', {
         order_value: orderTotal,
-        payment_method: 'credit_card'
+        payment_method: 'credit_card',
+        item_count: cartItems.length,
+        items: cartItems.map(item => ({
+          product_id: item.id,
+          name: item.name,
+          category: item.category,
+          price: item.price,
+          quantity: item.quantity
+        }))
       });
     }
 
@@ -110,16 +167,23 @@ export default function CheckoutPage() {
       setOrderComplete(true);
       setIsProcessing(false);
 
-      // Track successful purchase
+      // Track successful purchase with real cart data
       if (typeof window !== 'undefined' && window.mixpanel) {
         window.mixpanel.track('Purchase Completed', {
           order_value: orderTotal,
           order_id: `ORD-${Date.now()}`,
-          items: orderItems.map(item => ({
+          item_count: cartItems.length,
+          items: cartItems.map(item => ({
+            product_id: item.id,
             name: item.name,
             price: item.price,
-            quantity: item.quantity
-          }))
+            quantity: item.quantity,
+            category: item.category
+          })),
+          subtotal: subtotal,
+          discount: discount,
+          shipping: shipping,
+          tax: tax
         });
       }
     }, 3000);
@@ -139,8 +203,8 @@ export default function CheckoutPage() {
             <div className="bg-gray-50 rounded-lg p-6 mb-8">
               <h3 className="font-semibold mb-4">Order Summary</h3>
               <div className="space-y-2">
-                {orderItems.map((item, index) => (
-                  <div key={index} className="flex justify-between">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex justify-between">
                     <span>{item.name} (x{item.quantity})</span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
@@ -362,8 +426,8 @@ export default function CheckoutPage() {
               <div className="border rounded-lg p-6 sticky top-6" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
                 <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
                 <div className="space-y-3 mb-4">
-                  {orderItems.map((item, index) => (
-                    <div key={index} className="flex justify-between text-sm">
+                  {cartItems.map((item) => (
+                    <div key={item.id} className="flex justify-between text-sm">
                       <span>{item.name} (x{item.quantity})</span>
                       <span>${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
@@ -373,19 +437,19 @@ export default function CheckoutPage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>$349.98</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Discount (15%)</span>
-                    <span className="text-green-600">-$52.50</span>
+                    <span className="text-green-600">-${discount.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>Free</span>
+                    <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax</span>
-                    <span>$23.80</span>
+                    <span>${tax.toFixed(2)}</span>
                   </div>
                   <hr />
                   <div className="flex justify-between font-semibold text-lg">

@@ -83,7 +83,12 @@ export default function VotePage() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Wellness Vote Page Viewed");
+      window.mixpanel.track("Wellness Vote Page Viewed", {
+        total_cases: cases.length,
+        current_case_index: currentCase,
+        voted_count: votedOn.size,
+        referrer: document.referrer || 'direct'
+      });
     }
   }, []);
 

@@ -19,7 +19,10 @@ export default function SubmitPostPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.mixpanel) {
-      window.mixpanel.track("Lifestyle Submit Page Viewed");
+      window.mixpanel.track("Lifestyle Submit Page Viewed", {
+        referrer: document.referrer || 'direct',
+        time_of_day: new Date().getHours()
+      });
     }
   }, []);
 
