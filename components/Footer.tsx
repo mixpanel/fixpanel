@@ -2,32 +2,32 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { initMixpanelOnce } from "@/lib/analytics";
 import { ExternalLinkIcon } from "lucide-react";
+import { useMixpanelDeviceId } from "@/lib/useMixpanelDeviceId";
 
 export function Footer() {
   const pathname = usePathname();
+  const { deviceId, isPolling } = useMixpanelDeviceId();
 
+  // Determine Mixpanel URL based on device ID availability
   const getMixpanelProjectUrl = () => {
-    // On root page, users don't have distinct_id yet, so link to generic events page
+    // On root page, always link to generic events page
     if (pathname === '/') {
       return "https://mixpanel.com/project/3276012/view/3782804/app/events";
     }
 
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      const deviceId = window.mixpanel.get_distinct_id();
+    // If we have a device ID, link to the profile
+    if (deviceId) {
       return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=${deviceId}`;
     }
-    return "https://mixpanel.com/project/3276012/view/3782804/app/events";
+
+    // No device ID yet - return null to disable link
+    return null;
   };
 
-  const [mixpanelUrl, setMixpanelUrl] = useState(getMixpanelProjectUrl());
-
-  const handleMixpanelHover = () => {
-    setMixpanelUrl(getMixpanelProjectUrl());
-  };
+  const mixpanelUrl = getMixpanelProjectUrl();
+  const isButtonDisabled = !mixpanelUrl;
 
   return (
     <footer className="flex flex-col sm:flex-row py-6 w-full items-center justify-between px-4 md:px-6 border-t">
@@ -49,10 +49,13 @@ export function Footer() {
         <Button
           variant="outline"
           onClick={() => {
-            window.open(mixpanelUrl, '_blank');
+            if (mixpanelUrl) {
+              window.open(mixpanelUrl, '_blank');
+            }
           }}
-          onMouseEnter={handleMixpanelHover}
+          disabled={isButtonDisabled}
           className="flex items-center gap-1"
+          title={isButtonDisabled ? (isPolling ? "Loading device ID..." : "Device ID not available") : "Open Mixpanel profile"}
         >
           <ExternalLinkIcon className="h-3 w-3" />
           mixpanel project

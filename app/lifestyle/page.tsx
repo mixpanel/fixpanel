@@ -339,6 +339,7 @@ export default function LifestyleLanding() {
         time_of_day: new Date().getHours()
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUpvote = (postId: number) => {

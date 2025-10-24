@@ -15,5 +15,8 @@
 		"unoptimized",
 		"Usain",
 		"workmap"
-	]
+	],
+	"playwright.testExplorer.enabled": true,
+	"playwright.testExplorer.runOnSave": false,
+	"playwright.testExplorer.showTrace": false
 }

@@ -14,6 +14,7 @@ export default function AnalyticsPage() {
         time_of_day: new Date().getHours()
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const serviceMetrics = [

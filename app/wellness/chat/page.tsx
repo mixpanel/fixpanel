@@ -34,6 +34,7 @@ export default function ChatPage() {
         time_of_day: new Date().getHours()
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

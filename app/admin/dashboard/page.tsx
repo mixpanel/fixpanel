@@ -28,6 +28,7 @@ export default function AdminDashboard() {
         referrer: document.referrer || 'direct'
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const stats = {

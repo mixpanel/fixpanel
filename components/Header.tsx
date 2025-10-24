@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import {
   CreditCardIcon,
   TrendingUpDownIcon,
@@ -13,29 +12,30 @@ import {
   BookOpenIcon,
   HeartPulseIcon
 } from "lucide-react";
-import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
-
-const getMixpanelUrl = (pathname: string) => {
-  // On root page, users don't have distinct_id yet, so link to generic events page
-  if (pathname === '/') {
-    return "https://mixpanel.com/project/3276012/view/3782804/app/events";
-  }
-
-  try {
-    const deviceId = mixpanel.get_property("$device_id");
-    return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=%24device%3A${deviceId}`;
-  } catch (e) {
-    return "https://mixpanel.com/project/3276012/view/3782804/app/events";
-  }
-};
+import { useMixpanelDeviceId } from "@/lib/useMixpanelDeviceId";
 
 export function Header() {
   const pathname = usePathname();
-  const [mixpanelUrl, setMixpanelUrl] = useState(() => getMixpanelUrl(pathname));
+  const { deviceId, isPolling } = useMixpanelDeviceId();
 
-  const handleMixpanelHover = () => {
-    setMixpanelUrl(getMixpanelUrl(pathname));
+  // Determine Mixpanel URL based on device ID availability
+  const getMixpanelUrl = () => {
+    // On root page, always link to generic events page
+    if (pathname === '/') {
+      return "https://mixpanel.com/project/3276012/view/3782804/app/events";
+    }
+
+    // If we have a device ID, link to the profile
+    if (deviceId) {
+      return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=%24device%3A${deviceId}`;
+    }
+
+    // No device ID yet - return null to disable link
+    return null;
   };
+
+  const mixpanelUrl = getMixpanelUrl();
+  const isLinkDisabled = !mixpanelUrl;
 
   // Determine which microsite we're in
   const isFinancial = pathname.startsWith('/financial');
@@ -205,14 +205,22 @@ export function Header() {
           Reset
         </Link>
 
-        <Link
-          className="text-sm font-medium hover:underline underline-offset-4 text-purple-500"
-          href={mixpanelUrl}
-          target="_blank"
-          onMouseEnter={handleMixpanelHover}
-        >
-          MIXPANEL
-        </Link>
+        {isLinkDisabled ? (
+          <span
+            className="text-sm font-medium text-gray-400 cursor-not-allowed"
+            title={isPolling ? "Loading device ID..." : "Device ID not available"}
+          >
+            MIXPANEL
+          </span>
+        ) : (
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4 text-purple-500"
+            href={mixpanelUrl!}
+            target="_blank"
+          >
+            MIXPANEL
+          </Link>
+        )}
       </nav>
     </header>
   );

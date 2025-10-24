@@ -90,6 +90,7 @@ export default function VotePage() {
         referrer: document.referrer || 'direct'
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const currentCaseData = cases[currentCase];
