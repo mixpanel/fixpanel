@@ -67,7 +67,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="flex justify-center">
-              <Link href="/signup">
+              <Link href="/financial/signup">
                 <Button
                   size="lg"
                   id="join"

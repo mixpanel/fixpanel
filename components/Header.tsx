@@ -107,19 +107,19 @@ export function Header() {
             </Link>
             {isFinancial && (
               <>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/features">
+                <Link id="features-nav-link" className="text-sm font-medium hover:underline underline-offset-4" href="/financial/features">
                   Features
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/product">
+                <Link id="products-nav-link" className="text-sm font-medium hover:underline underline-offset-4" href="/financial/product">
                   Products
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/pricing">
+                <Link id="pricing-nav-link" className="text-sm font-medium hover:underline underline-offset-4" href="/financial/pricing">
                   Pricing
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/login">
+                <Link id="signin-nav-link" className="text-sm font-medium hover:underline underline-offset-4" href="/financial/login">
                   Sign In
                 </Link>
-                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/financial/about">
+                <Link id="about-nav-link" className="text-sm font-medium hover:underline underline-offset-4" href="/financial/about">
                   About
                 </Link>
               </>

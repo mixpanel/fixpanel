@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -12,6 +13,7 @@ import { KYCAutoFillModal } from "../KYCAutoFillModal";
 import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [showAutoFillModal, setShowAutoFillModal] = useState(false);
 
@@ -120,12 +122,16 @@ export default function SignUpPage() {
     mixpanel.track("KYC Form Submitted", formData);
     console.log("KYC form submitted", formData);
 
-    // Clear sessionStorage after successful submission
+    // Save the completed form data to sessionStorage for the success page
     if (typeof window !== 'undefined') {
+      sessionStorage.setItem('ibank_kyc_completed', JSON.stringify(formData));
       sessionStorage.removeItem('ibank_kyc_form');
       sessionStorage.removeItem('ibank_kyc_step');
-      console.log('[KYC]: Form submitted - cleared session data');
+      console.log('[KYC]: Form submitted - saved completed data and cleared form session data');
     }
+
+    // Navigate to success page
+    router.push('/financial/signup/success');
   };
 
   return (
@@ -151,6 +157,7 @@ export default function SignUpPage() {
                 </div>
                 <Button
                   type="button"
+				  id="open-auto-fill-modal-button"
                   onClick={() => setShowAutoFillModal(true)}
                   className="bg-purple-600 hover:bg-purple-700 text-white hover:bg-opacity-90 active:scale-95 transition-all"
                 >

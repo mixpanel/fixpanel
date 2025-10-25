@@ -176,6 +176,7 @@ export function KYCAutoFillModal(props: KYCAutoFillModalProps) {
         <Button
           onClick={variant === "D (control)" ? handleClose : handleProcess}
           disabled={isProcessing}
+		  id="auto-fill-action-button"
           className={`w-full bg-${content.color}-600 hover:bg-${content.color}-700 text-white`}
           style={{
             backgroundColor:
