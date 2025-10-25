@@ -148,7 +148,7 @@ export function FlagsModal(props: FlagsModalProps) {
               <Button variant="outline" onClick={onClose}>
                 {cancelText}
               </Button>
-              <Button onClick={handleConfirm}>{confirmText}</Button>
+              <Button onClick={handleConfirm} id="confirm-button">{confirmText}</Button>
             </div>
           </div>
         )}

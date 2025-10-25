@@ -93,9 +93,10 @@ export default function TestimonialsPage() {
               Sign up now and craft your own epic financial fairytale!
             </p>
             <div className="mt-8">
-              <Link href="/signup">
+              <Link href="/financial/signup">
                 <Button
                   size="lg"
+				  id="start-saga-button"
                   className="bg-white text-[#07B096] hover:bg-white/90 hover:bg-opacity-90 active:scale-95 transition-all"
                   onClick={(e) => {
                     e.stopPropagation();
