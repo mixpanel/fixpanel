@@ -412,17 +412,30 @@ export function AIPlaylistBuilder() {
 
               {/* Footer */}
               <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Powered by {personality.name} AI</span>
-                  <a
-                    href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/41387f87-eb9e-4e01-b22a-c51411995e01"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-gray-700 transition-colors flex items-center gap-1"
-                  >
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-center gap-1 text-xs text-gray-500">
                     <Sparkles className="h-3 w-3" />
-                    <span>Feature Flags</span>
-                  </a>
+                    <span>Powered by {personality.name} AI & Feature Flags</span>
+                  </div>
+                  <div className="flex justify-center gap-3 text-xs">
+                    <a
+                      href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/41387f87-eb9e-4e01-b22a-c51411995e01"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-gray-700 underline transition-colors"
+                    >
+                      View Flag
+                    </a>
+                    <span className="text-gray-300">•</span>
+                    <a
+                      href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/a7b28c8a-5cc7-468b-8466-e2e7e421d32d"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-gray-700 underline transition-colors"
+                    >
+                      View Experiment
+                    </a>
+                  </div>
                 </div>
               </div>
             </motion.div>

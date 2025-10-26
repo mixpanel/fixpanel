@@ -150,6 +150,27 @@ export function FlagsModal(props: FlagsModalProps) {
               </Button>
               <Button onClick={handleConfirm} id="confirm-button">{confirmText}</Button>
             </div>
+            <div className="flex justify-center gap-3 mt-4 text-xs">
+              <a
+                href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/c4bf3cf0-658f-486c-b403-14d5535f4661"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline transition-colors"
+                style={{ color: copyColor }}
+              >
+                View Flag
+              </a>
+              <span style={{ opacity: 0.5 }}>•</span>
+              <a
+                href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/568e5655-085e-4de9-bb5f-c7de888e0d7d"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline transition-colors"
+                style={{ color: copyColor }}
+              >
+                View Experiment
+              </a>
+            </div>
           </div>
         )}
       </div>

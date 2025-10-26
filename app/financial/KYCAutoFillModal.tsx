@@ -195,14 +195,25 @@ export function KYCAutoFillModal(props: KYCAutoFillModalProps) {
           </p>
         )}
 
-        <a
-          href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/7a8e2371-37ab-4e57-9f34-6f5ea0f9ad9b"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-gray-400 hover:text-purple-600 mt-3 block text-center transition-colors"
-        >
-          ⚙️ View flag in Mixpanel
-        </a>
+        <div className="flex justify-center gap-3 mt-3 text-xs">
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/7a8e2371-37ab-4e57-9f34-6f5ea0f9ad9b"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-purple-600 underline transition-colors"
+          >
+            View Flag
+          </a>
+          <span className="text-gray-300">•</span>
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/6594af35-5405-41dd-b49f-d84b8a20e444"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-purple-600 underline transition-colors"
+          >
+            View Experiment
+          </a>
+        </div>
       </div>
     </div>
   );

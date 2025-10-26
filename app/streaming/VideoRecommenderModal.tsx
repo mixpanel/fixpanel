@@ -312,15 +312,27 @@ export function VideoRecommenderModal(props: VideoRecommenderModalProps) {
           </p>
         )}
 
-        <a
-          href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/ddf7f839-1579-4e15-9dc2-a6f030a3770e"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs hover:opacity-80 mt-3 block text-center transition-colors"
-          style={{ color: style.accentColor }}
-        >
-          ⚙️ View flag in Mixpanel
-        </a>
+        <div className="flex justify-center gap-3 mt-3 text-xs">
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/ddf7f839-1579-4e15-9dc2-a6f030a3770e"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-80 underline transition-colors"
+            style={{ color: style.accentColor }}
+          >
+            View Flag
+          </a>
+          <span className="text-gray-400">•</span>
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/8f679182-b9f2-4894-b180-0debfb1cbbf1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-80 underline transition-colors"
+            style={{ color: style.accentColor }}
+          >
+            View Experiment
+          </a>
+        </div>
       </div>
     </div>
   );

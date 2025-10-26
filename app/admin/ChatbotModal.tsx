@@ -243,14 +243,25 @@ export function ChatbotModal(props: ChatbotModalProps) {
               <SendIcon className="h-4 w-4" />
             </Button>
           </div>
-          <a
-            href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-slate-400 hover:text-blue-600 mt-2 block text-center transition-colors"
-          >
-            ⚙️ View flag in Mixpanel
-          </a>
+          <div className="flex justify-center gap-3 mt-2 text-xs">
+            <a
+              href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-blue-600 underline transition-colors"
+            >
+              View Flag
+            </a>
+            <span className="text-slate-300">•</span>
+            <a
+              href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/e6995970-5b64-4d4c-bf2b-4ff31bc0e74d"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-blue-600 underline transition-colors"
+            >
+              View Experiment
+            </a>
+          </div>
         </div>
       </div>
     </div>

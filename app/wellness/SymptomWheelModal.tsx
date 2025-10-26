@@ -269,14 +269,25 @@ export function SymptomWheelModal(props: SymptomWheelModalProps) {
           )}
         </Button>
 
-        <a
-          href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/293d35aa-b171-41a9-b64e-1dfb7d4eb6b6"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-slate-400 hover:text-teal-600 mt-3 block text-center transition-colors"
-        >
-          ⚙️ View flag in Mixpanel
-        </a>
+        <div className="flex justify-center gap-3 mt-3 text-xs">
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/293d35aa-b171-41a9-b64e-1dfb7d4eb6b6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-400 hover:text-teal-600 underline transition-colors"
+          >
+            View Flag
+          </a>
+          <span className="text-slate-300">•</span>
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/dbb2b252-87bb-4fe7-8ddd-0d2197600736"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-400 hover:text-teal-600 underline transition-colors"
+          >
+            View Experiment
+          </a>
+        </div>
       </div>
     </div>
   );

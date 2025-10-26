@@ -291,14 +291,25 @@ export function PostAnalyzerModal(props: PostAnalyzerModalProps) {
           </div>
         )}
 
-        <a
-          href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/a759f0e5-cd4e-4458-b24c-a786a045cf12"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-zinc-500 hover:text-amber-500 mt-4 block text-center transition-colors"
-        >
-          ⚙️ View flag in Mixpanel
-        </a>
+        <div className="flex justify-center gap-3 mt-4 text-xs">
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/a759f0e5-cd4e-4458-b24c-a786a045cf12"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-amber-500 underline transition-colors"
+          >
+            View Flag
+          </a>
+          <span className="text-zinc-300">•</span>
+          <a
+            href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/2256ed85-ac9b-4844-aa39-c2af8060cb98"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-amber-500 underline transition-colors"
+          >
+            View Experiment
+          </a>
+        </div>
       </div>
     </div>
   );
