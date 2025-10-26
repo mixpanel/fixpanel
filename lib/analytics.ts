@@ -17,6 +17,54 @@ export function resetInitialized() {
   console.log("[MIXPANEL]: RESET INITIALIZED FLAG");
 }
 
+// Helper function to wait for Mixpanel to be ready
+export function waitForMixpanel(maxAttempts = 20, interval = 100): Promise<any> {
+  return new Promise((resolve, reject) => {
+    let attempts = 0;
+
+    const checkMixpanel = () => {
+      attempts++;
+
+      if (typeof window !== 'undefined' && window.mixpanel) {
+        console.log(`[MIXPANEL READY]: Found after ${attempts} attempts`);
+        resolve(window.mixpanel);
+        return;
+      }
+
+      if (attempts >= maxAttempts) {
+        console.error(`[MIXPANEL READY]: Not found after ${maxAttempts} attempts`);
+        reject(new Error('Mixpanel not loaded'));
+        return;
+      }
+
+      setTimeout(checkMixpanel, interval);
+    };
+
+    checkMixpanel();
+  });
+}
+
+// Track microsite session start (only once per session across ALL microsites)
+export async function trackMicrositeSession(micrositeName: string): Promise<void> {
+  try {
+    const mp = await waitForMixpanel();
+    const sessionKey = 'microsite_session_started';
+
+    if (!sessionStorage.getItem(sessionKey)) {
+      // Generate and register lucky number as super property
+      const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
+      mp.register({ luckyNumber });
+      console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
+
+      mp.track(`Session: ${micrositeName}`);
+      sessionStorage.setItem(sessionKey, 'true');
+      console.log(`[SESSION]: Started ${micrositeName} session`);
+    }
+  } catch (error) {
+    console.error('[SESSION]: Failed to track session:', error);
+  }
+}
+
 // parse a query-string safely
 function qsToObj(queryString: string) {
   try {

@@ -28,6 +28,7 @@ import {
   FlagIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackMicrositeSession } from "@/lib/analytics";
 
 // Mock video data - Expanded catalog for better demo
 const featuredVideos = [
@@ -504,20 +505,8 @@ export default function MeTubeHomePage() {
   useEffect(() => {
     document.title = "meTube";
 
-    // Track session start (only once per session across ALL microsites)
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      const sessionKey = 'microsite_session_started';
-      if (!sessionStorage.getItem(sessionKey)) {
-        // Generate and register lucky number as super property
-        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
-        window.mixpanel.register({ luckyNumber });
-        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
-
-        window.mixpanel.track('Session: meTube');
-        sessionStorage.setItem(sessionKey, 'true');
-        console.log('[SESSION]: Started meTube session');
-      }
-    }
+    // Track session start
+    trackMicrositeSession('meTube');
   }, []);
 
   const filteredVideos = featuredVideos.filter(video => {

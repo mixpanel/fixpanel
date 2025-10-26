@@ -18,6 +18,7 @@ import {
   MessageCircleIcon,
   FlagIcon,
 } from "lucide-react";
+import { trackMicrositeSession } from "@/lib/analytics";
 
 export default function AdminLanding() {
   const [showChatbot, setShowChatbot] = useState(false);
@@ -25,20 +26,8 @@ export default function AdminLanding() {
   useEffect(() => {
     document.title = "youAdmin";
 
-    // Track session start (only once per session across ALL microsites)
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      const sessionKey = 'microsite_session_started';
-      if (!sessionStorage.getItem(sessionKey)) {
-        // Generate and register lucky number as super property
-        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
-        window.mixpanel.register({ luckyNumber });
-        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
-
-        window.mixpanel.track('Session: youAdmin');
-        sessionStorage.setItem(sessionKey, 'true');
-        console.log('[SESSION]: Started youAdmin session');
-      }
-    }
+    // Track session start
+    trackMicrositeSession('youAdmin');
   }, []);
 
   return (

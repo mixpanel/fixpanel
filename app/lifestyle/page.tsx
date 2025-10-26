@@ -17,6 +17,7 @@ import {
   PlusIcon,
   FlagIcon,
 } from "lucide-react";
+import { trackMicrositeSession, waitForMixpanel } from "@/lib/analytics";
 
 // Extensive mock data for posts
 const initialPosts = [
@@ -319,26 +320,24 @@ export default function LifestyleLanding() {
   useEffect(() => {
     document.title = "weRead";
 
-    // Track session start (only once per session across ALL microsites)
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      const sessionKey = 'microsite_session_started';
-      if (!sessionStorage.getItem(sessionKey)) {
-        // Generate and register lucky number as super property
-        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
-        window.mixpanel.register({ luckyNumber });
-        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
+    // Track session start
+    trackMicrositeSession('weRead');
 
-        window.mixpanel.track('Session: weRead');
-        sessionStorage.setItem(sessionKey, 'true');
-        console.log('[SESSION]: Started weRead session');
+    // Track page view
+    const trackPageView = async () => {
+      try {
+        const mp = await waitForMixpanel();
+        mp.track("Lifestyle Landing Viewed", {
+          total_posts: posts.length,
+          tags_count: Array.from(new Set(posts.flatMap(p => p.tags))).length,
+          time_of_day: new Date().getHours()
+        });
+      } catch (error) {
+        console.error('[TRACKING]: Failed to track page view:', error);
       }
+    };
 
-      window.mixpanel.track("Lifestyle Landing Viewed", {
-        total_posts: posts.length,
-        tags_count: Array.from(new Set(posts.flatMap(p => p.tags))).length,
-        time_of_day: new Date().getHours()
-      });
-    }
+    trackPageView();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

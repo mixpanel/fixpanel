@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { FlagsModal } from "./FlagsModal";
+import { trackMicrositeSession } from "@/lib/analytics";
 
 
 import {
@@ -46,20 +47,8 @@ export default function HomePage() {
   useEffect(() => {
     document.title = "iBank";
 
-    // Track session start (only once per session across ALL microsites)
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      const sessionKey = 'microsite_session_started';
-      if (!sessionStorage.getItem(sessionKey)) {
-        // Generate and register lucky number as super property
-        const luckyNumber = Math.floor(Math.random() * 1000000) + 1;
-        window.mixpanel.register({ luckyNumber });
-        console.log('[SESSION]: Registered luckyNumber:', luckyNumber);
-
-        window.mixpanel.track('Session: iBank');
-        sessionStorage.setItem(sessionKey, 'true');
-        console.log('[SESSION]: Started iBank session');
-      }
-    }
+    // Track session start
+    trackMicrositeSession('iBank');
 
     const taglines = [
       "Fix Your Finances with Data-Driven Insights.",
