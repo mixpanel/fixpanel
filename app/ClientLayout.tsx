@@ -102,10 +102,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         console.error("[CLEANUP]: error during storage cleanup:", error);
       }
 
-      // 7. Reset Mixpanel completely (stop recording, reset instance, clear state)
+      // 7. COMPLETELY NUKE Mixpanel (stop all tracking, destroy instance)
       if (typeof window !== "undefined" && window.mixpanel) {
         try {
-          console.log("[CLEANUP]: RESETTING MIXPANEL INSTANCE");
+          console.log("[CLEANUP]: NUKING MIXPANEL INSTANCE");
 
           // Stop session recording first
           if (window.mixpanel?.stop_session_recording) {
@@ -119,9 +119,15 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             console.log("[CLEANUP]: ✓ Mixpanel instance reset");
           }
 
-          console.log("[CLEANUP]: MIXPANEL RESET COMPLETE");
+          // COMPLETELY DESTROY the Mixpanel instance by setting it to null
+          // This prevents any auto-capture or tracking from firing on the landing page
+          // @ts-ignore
+          window.mixpanel = null;
+          console.log("[CLEANUP]: ✓ Mixpanel instance destroyed (set to null)");
+
+          console.log("[CLEANUP]: MIXPANEL NUKE COMPLETE");
         } catch (error) {
-          console.error("[CLEANUP]: error resetting mixpanel:", error);
+          console.error("[CLEANUP]: error nuking mixpanel:", error);
         }
       }
 

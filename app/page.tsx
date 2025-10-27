@@ -92,45 +92,45 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span><strong>🚩 Flags:</strong> Customer stories modal (homepage), KYC auto-fill (signup)</span>
                   </div>
-                  <div className="flex gap-2 text-xs">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/c4bf3cf0-658f-486c-b403-14d5535f4661"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-800 underline transition-colors"
+                      className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View customer stories flag"
                     >
-                      Stories Flag
+                      Stories F
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/568e5655-085e-4de9-bb5f-c7de888e0d7d"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-800 underline transition-colors"
+                      className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View customer stories experiment"
                     >
-                      Stories Exp
+                      Stories E
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/7a8e2371-37ab-4e57-9f34-6f5ea0f9ad9b"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-800 underline transition-colors"
+                      className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View KYC flag"
                     >
-                      KYC Flag
+                      KYC F
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/6594af35-5405-41dd-b49f-d84b8a20e444"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-800 underline transition-colors"
+                      className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View KYC experiment"
                     >
-                      KYC Exp
+                      KYC E
                     </a>
                   </div>
                 </div>
@@ -156,45 +156,45 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span><strong>🚩 Flags:</strong> Color theme slider (right side), Coupon drawer (left side)</span>
                   </div>
-                  <div className="flex gap-2 text-xs">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/44d8efa2-649c-424d-b57b-bce61ea5b703"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-800 underline transition-colors"
+                      className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View colors flag"
                     >
-                      Colors Flag
+                      Colors F
                     </a>
                     <span className="text-green-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/b0dfc540-007f-439a-be4e-92e4bc5572c6"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-800 underline transition-colors"
+                      className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View colors experiment"
                     >
-                      Colors Exp
+                      Colors E
                     </a>
                     <span className="text-green-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/2318d3c5-497a-43d7-adec-67cc000b7f8d"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-800 underline transition-colors"
+                      className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View coupon flag"
                     >
-                      Coupon Flag
+                      Coupon F
                     </a>
                     <span className="text-green-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/933490cb-7727-48a0-ae1d-ade673507b4c"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-800 underline transition-colors"
+                      className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View coupon experiment"
                     >
-                      Coupon Exp
+                      Coupon E
                     </a>
                   </div>
                 </div>
@@ -220,45 +220,45 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span><strong>🚩 Flags:</strong> Video recommender, AI Playlist Builder (lower right)</span>
                   </div>
-                  <div className="flex gap-2 text-xs">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/ddf7f839-1579-4e15-9dc2-a6f030a3770e"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-red-600 hover:text-red-800 underline transition-colors"
+                      className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View recommender flag"
                     >
-                      Recommender Flag
+                      Recomm F
                     </a>
                     <span className="text-red-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/8f679182-b9f2-4894-b180-0debfb1cbbf1"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-red-600 hover:text-red-800 underline transition-colors"
+                      className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View recommender experiment"
                     >
-                      Recommender Exp
+                      Recomm E
                     </a>
                     <span className="text-red-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/41387f87-eb9e-4e01-b22a-c51411995e01"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-red-600 hover:text-red-800 underline transition-colors"
+                      className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View playlist flag"
                     >
-                      Playlist Flag
+                      Playlist F
                     </a>
                     <span className="text-red-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/a7b28c8a-5cc7-468b-8466-e2e7e421d32d"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-red-600 hover:text-red-800 underline transition-colors"
+                      className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View playlist experiment"
                     >
-                      Playlist Exp
+                      Playlist E
                     </a>
                   </div>
                 </div>
@@ -284,25 +284,25 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span><strong>🚩 Flag:</strong> Integration chatbot helper (lower right button)</span>
                   </div>
-                  <div className="flex gap-2 text-xs">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/1c4fa66b-c9d4-4f22-aba4-a4563e0c1328"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                      className="text-blue-600 hover:text-blue-800 underline transition-colors whitespace-nowrap"
                       title="View chatbot flag"
                     >
-                      Flag
+                      F
                     </a>
                     <span className="text-blue-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/e6995970-5b64-4d4c-bf2b-4ff31bc0e74d"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 underline transition-colors"
+                      className="text-blue-600 hover:text-blue-800 underline transition-colors whitespace-nowrap"
                       title="View chatbot experiment"
                     >
-                      Experiment
+                      E
                     </a>
                   </div>
                 </div>
@@ -334,25 +334,25 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span><strong>🚩 Flag:</strong> Wheel of Symptoms spinner (lower left button)</span>
                   </div>
-                  <div className="flex gap-2 text-xs">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/293d35aa-b171-41a9-b64e-1dfb7d4eb6b6"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-teal-600 hover:text-teal-800 underline transition-colors"
+                      className="text-teal-600 hover:text-teal-800 underline transition-colors whitespace-nowrap"
                       title="View symptom wheel flag"
                     >
-                      Flag
+                      F
                     </a>
                     <span className="text-teal-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/dbb2b252-87bb-4fe7-8ddd-0d2197600736"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-teal-600 hover:text-teal-800 underline transition-colors"
+                      className="text-teal-600 hover:text-teal-800 underline transition-colors whitespace-nowrap"
                       title="View symptom wheel experiment"
                     >
-                      Experiment
+                      E
                     </a>
                   </div>
                 </div>
@@ -384,25 +384,25 @@ export default function LandingPage() {
                   <div className="flex items-center justify-between mb-1">
                     <span><strong>🚩 Flag:</strong> Post analyzer for bias/AI detection (hero button)</span>
                   </div>
-                  <div className="flex gap-2 text-xs">
+                  <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/a759f0e5-cd4e-4458-b24c-a786a045cf12"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-amber-600 hover:text-amber-800 underline transition-colors"
+                      className="text-amber-600 hover:text-amber-800 underline transition-colors whitespace-nowrap"
                       title="View post analyzer flag"
                     >
-                      Flag
+                      F
                     </a>
                     <span className="text-amber-400">•</span>
                     <a
                       href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/2256ed85-ac9b-4844-aa39-c2af8060cb98"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-amber-600 hover:text-amber-800 underline transition-colors"
+                      className="text-amber-600 hover:text-amber-800 underline transition-colors whitespace-nowrap"
                       title="View post analyzer experiment"
                     >
-                      Experiment
+                      E
                     </a>
                   </div>
                 </div>
