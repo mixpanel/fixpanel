@@ -14,7 +14,7 @@ let initialized = false;
 // Reset the initialized flag to allow re-initialization
 export function resetInitialized() {
   initialized = false;
-  console.log("[MIXPANEL]: RESET INITIALIZED FLAG");
+  console.log("[SDK]: RESET INITIALIZED FLAG");
 }
 
 // Helper function to wait for Mixpanel to be ready
@@ -26,13 +26,13 @@ export function waitForMixpanel(maxAttempts = 20, interval = 100): Promise<any> 
       attempts++;
 
       if (typeof window !== 'undefined' && window.mixpanel) {
-        console.log(`[MIXPANEL READY]: Found after ${attempts} attempts`);
+        console.log(`[SDK]: MIXPANEL READY Found after ${attempts} attempts`);
         resolve(window.mixpanel);
         return;
       }
 
       if (attempts >= maxAttempts) {
-        console.error(`[MIXPANEL READY]: Not found after ${maxAttempts} attempts`);
+        console.error(`[SDK]: MIXPANEL UN-READY Not found after ${maxAttempts} attempts`);
         reject(new Error('Mixpanel not loaded'));
         return;
       }
@@ -144,7 +144,7 @@ export function initMixpanelOnce() {
     //   },
     },
     loaded: (mp: any) => {
-      console.log("[MIXPANEL]: LOADED");
+      console.log("[SDK]: MIXPANEL LOADED");
 
       // RESETTING MIXPANEL AND STARTING A NEW SESSION
       // WE ONLY WANT TO RESET MIXPANEL IF WE JUST LANDED ON a "top level" PAGE
@@ -166,7 +166,7 @@ export function initMixpanelOnce() {
 
       if (isTopLevelPage && !hasActiveSession) {
         // This is a fresh landing on a top-level page - reset and start new session
-        console.log("[MIXPANEL]: FRESH LANDING - RESETTING");
+        console.log("[SDK]: FRESH LANDING - RESETTING");
         mp.stop_session_recording();
         mp.reset();
         sessionStorage.setItem("mixpanel_active_session", "true");
@@ -174,11 +174,11 @@ export function initMixpanelOnce() {
         mp.track_pageview();
       }
 
-      console.log(`[MIXPANEL]: DISTINCT_ID: ${mp.get_distinct_id()}\n`);
+      console.log(`[SDK]: DISTINCT_ID: ${mp.get_distinct_id()}\n`);
       if (typeof window !== "undefined") {
-        console.log("[MIXPANEL]: EXPOSED GLOBALLY");
+        console.log("[SDK]: EXPOSED GLOBALLY");
         mixpanel.start_session_recording();
-        console.log("[MIXPANEL]: START SESSION RECORDING");
+        console.log("[SDK]: START SESSION RECORDING");
         // expose for debugging
         // @ts-ignore
         window.mixpanel = mp;
@@ -187,70 +187,152 @@ export function initMixpanelOnce() {
         const originalTrack = mp.track;
         mp.track = function (event: string, props: any) {
           if (typeof props !== "object" || !props) props = {};
-          if (Object.keys(props).length === 0) console.log(`[MIXPANEL]: ${event}`);
-          else console.log(`[MIXPANEL]: EVENT ${event}`, props);
+          if (Object.keys(props).length === 0) console.log(`[SDK]: ${event}`);
+          else console.log(`[SDK]: EVENT ${event}`, props);
           originalTrack.call(mp, event, props);
         };
 
         //   monkey patch identify to log to the console
         const originalIdentify = mp.identify;
         mp.identify = function (distinctId: string) {
-          console.log(`[MIXPANEL]: IDENTIFY ${distinctId}`);
+          console.log(`[SDK]: IDENTIFY ${distinctId}`);
           originalIdentify.call(mp, distinctId);
         };
 
         const PARAMS = getParams();
-        const { user = "" } = PARAMS;
+        const { user = "", ...restParams } = PARAMS;
         if (user) {
-          console.log(`[MIXPANEL]: FOUND USER ${user}`);
+          console.log(`[SDK]: FOUND USER ${user}`);
           mp.identify(user);
           mp.people.increment("# hits");
         }
 
+		if (Object.keys(restParams).length > 0) {
+			console.log("[SDK]: REGISTERING PARAMS AS SUPER PROPERTIES", restParams);
+			mp.register(restParams);
+		}
+
         // @ts-ignore
-        window.RESET = function () {
-          // Create fade overlay element
-          const overlay = document.createElement("div");
-          overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1a1a1a;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            z-index: 9999;
-            pointer-events: none;
-          `;
-          document.body.appendChild(overlay);
-
-          // Trigger fade in
-          requestAnimationFrame(() => {
-            overlay.style.opacity = "1";
-          });
-
-          setTimeout(() => {
-            mp.track("END OF USER");
-            setTimeout(() => {
-              console.log("[MIXPANEL]: STOP SESSION RECORDING");
-              mp.stop_session_recording();
-              mp.reset();
-              sessionStorage.removeItem("mixpanel_active_session");
-              localStorage.clear();
-              console.log("[MIXPANEL]: RESET + CLEARED LOCALSTORAGE");
-              setTimeout(() => {
-                window.location.reload();
-              }, 200);
-            }, 300);
-          }, 500);
-        };
+        window.RESET = () => nukePanel(mp);
       }
     },
   });
 
   initialized = true;
   return mixpanel;
+}
+
+/**
+ * Completely nuke Mixpanel and all storage, then navigate to landing page.
+ * This prevents creating a "third user" by ensuring we go through the landing page cleanup.
+ */
+export function nukePanel(mp: typeof mixpanel): void {
+  // Create fade overlay element
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 9999;
+    pointer-events: none;
+  `;
+  document.body.appendChild(overlay);
+
+  // Trigger fade in
+  requestAnimationFrame(() => {
+    overlay.style.opacity = "1";
+  });
+
+  setTimeout(() => {
+    console.log("[RESET]: NUKING EVERYTHING AND RETURNING TO LANDING PAGE");
+
+    setTimeout(() => {
+      // 1. Stop Mixpanel session recording
+      if (mp?.stop_session_recording) {
+        mp.stop_session_recording();
+        console.log("[RESET]: ✓ Session recording stopped");
+      }
+
+      // 2. Reset Mixpanel instance
+      if (mp?.reset) {
+        mp.reset();
+        console.log("[RESET]: ✓ Mixpanel instance reset");
+      }
+
+      // 3. Clear ALL localStorage
+      try {
+        localStorage.clear();
+        console.log("[RESET]: ✓ localStorage cleared");
+      } catch (e) {
+        console.error("[RESET]: ✗ localStorage clear failed:", e);
+      }
+
+      // 4. Clear ALL sessionStorage
+      try {
+        sessionStorage.clear();
+        console.log("[RESET]: ✓ sessionStorage cleared");
+      } catch (e) {
+        console.error("[RESET]: ✗ sessionStorage clear failed:", e);
+      }
+
+      // 5. Clear ALL cookies
+      try {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substring(0, eqPos).trim() : cookie.trim();
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+          const domain = window.location.hostname;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + domain;
+        }
+        console.log("[RESET]: ✓ Cookies cleared");
+      } catch (e) {
+        console.error("[RESET]: ✗ Cookie clear failed:", e);
+      }
+
+      // 6. Clear ALL IndexedDB databases
+      try {
+        if (window.indexedDB && window.indexedDB.databases) {
+          window.indexedDB.databases().then((databases) => {
+            databases.forEach((db) => {
+              if (db.name) window.indexedDB.deleteDatabase(db.name);
+            });
+          });
+          console.log("[RESET]: ✓ IndexedDB cleared");
+        }
+      } catch (e) {
+        console.error("[RESET]: ✗ IndexedDB clear failed:", e);
+      }
+
+      // 7. Clear ALL Cache storage
+      try {
+        if (window.caches) {
+          caches.keys().then((names) => {
+            names.forEach((name) => caches.delete(name));
+          });
+          console.log("[RESET]: ✓ Cache storage cleared");
+        }
+      } catch (e) {
+        console.error("[RESET]: ✗ Cache storage clear failed:", e);
+      }
+
+      console.log("[RESET]: 🧹 ALL STORAGE CLEARED");
+
+      // 8. Navigate to landing page (/) which will trigger ClientLayout cleanup
+      // This ensures we don't create a "third user" by reloading the current microsite
+      setTimeout(() => {
+        console.log("[RESET]: 🏠 Navigating to landing page...");
+        window.location.href = window.location.origin + (window.location.pathname.includes('fixpanel') ? '/fixpanel/' : '/');
+      }, 200);
+    }, 300);
+  }, 500);
 }
 
 // export the instance symbol so callers can just do mixpanel.track(...)
