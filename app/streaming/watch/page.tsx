@@ -24,8 +24,9 @@ export default function VideoWatchPage() {
   const [isDisliked, setIsDisliked] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [views] = useState("1,337,420");
-  const [likes] = useState("42,069");
-  const [dislikes] = useState("1,234");
+  // Random likes in range 35K-50K, dislikes in range 800-1500
+  const [likes, setLikes] = useState(Math.floor(Math.random() * (50000 - 35000 + 1)) + 35000);
+  const [dislikes, setDislikes] = useState(Math.floor(Math.random() * (1500 - 800 + 1)) + 800);
 
   // Animation states for visual feedback
   const [likeButtonState, setLikeButtonState] = useState<'idle' | 'failed' | 'success'>('idle');
@@ -47,43 +48,38 @@ export default function VideoWatchPage() {
     // Only works 20% of the time
     const shouldWork = Math.random() < 0.2;
 
-    // Track like attempt
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track('Like Attempted', {
-        video_title: videoTitle,
-        channel: channelName,
-        was_liked: isLiked
-      });
-    }
-
     if (!shouldWork) {
-      // Track failed like
-      if (typeof window !== 'undefined' && window.mixpanel) {
-        window.mixpanel.track('Like Failed', {
-          video_title: videoTitle,
-          channel: channelName,
-          failure_reason: 'button_malfunction'
-        });
-      }
-
-      // Show failure animation
+      // Show failure animation - no tracking, no increment
       setLikeButtonState('failed');
       setTimeout(() => setLikeButtonState('idle'), 600);
-      return; // Button doesn't work!
+      return; // Button doesn't work - no Mixpanel event, no counter increment!
     }
 
     // If it works, proceed with like
     setLikeButtonState('success');
     setTimeout(() => setLikeButtonState('idle'), 600);
 
-    if (isDisliked) setIsDisliked(false);
+    const wasLiked = isLiked;
+
+    if (isDisliked) {
+      setIsDisliked(false);
+      setDislikes(dislikes - 1); // Remove dislike
+    }
     setIsLiked(!isLiked);
 
-    // Track successful like action
+    // Update like counter
+    if (!wasLiked) {
+      setLikes(likes + 1); // Add like
+    } else {
+      setLikes(likes - 1); // Remove like
+    }
+
+    // Track successful like action (PRECISION EVENT - only on success!)
     if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track(isLiked ? 'Video Unliked' : 'Video Liked', {
+      window.mixpanel.track(wasLiked ? 'Video Unliked' : 'Video Liked', {
         video_title: videoTitle,
-        channel: channelName
+        channel: channelName,
+        new_like_count: wasLiked ? likes - 1 : likes + 1
       });
     }
   };
@@ -93,43 +89,38 @@ export default function VideoWatchPage() {
     // Only works 20% of the time
     const shouldWork = Math.random() < 0.2;
 
-    // Track dislike attempt
-    if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track('Dislike Attempted', {
-        video_title: videoTitle,
-        channel: channelName,
-        was_disliked: isDisliked
-      });
-    }
-
     if (!shouldWork) {
-      // Track failed dislike
-      if (typeof window !== 'undefined' && window.mixpanel) {
-        window.mixpanel.track('Dislike Failed', {
-          video_title: videoTitle,
-          channel: channelName,
-          failure_reason: 'button_malfunction'
-        });
-      }
-
-      // Show failure animation
+      // Show failure animation - no tracking, no increment
       setDislikeButtonState('failed');
       setTimeout(() => setDislikeButtonState('idle'), 600);
-      return; // Button doesn't work!
+      return; // Button doesn't work - no Mixpanel event, no counter increment!
     }
 
     // If it works, proceed with dislike
     setDislikeButtonState('success');
     setTimeout(() => setDislikeButtonState('idle'), 600);
 
-    if (isLiked) setIsLiked(false);
+    const wasDisliked = isDisliked;
+
+    if (isLiked) {
+      setIsLiked(false);
+      setLikes(likes - 1); // Remove like
+    }
     setIsDisliked(!isDisliked);
 
-    // Track successful dislike action
+    // Update dislike counter
+    if (!wasDisliked) {
+      setDislikes(dislikes + 1); // Add dislike
+    } else {
+      setDislikes(dislikes - 1); // Remove dislike
+    }
+
+    // Track successful dislike action (PRECISION EVENT - only on success!)
     if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track(isDisliked ? 'Video Undisliked' : 'Video Disliked', {
+      window.mixpanel.track(wasDisliked ? 'Video Undisliked' : 'Video Disliked', {
         video_title: videoTitle,
-        channel: channelName
+        channel: channelName,
+        new_dislike_count: wasDisliked ? dislikes - 1 : dislikes + 1
       });
     }
   };
@@ -325,7 +316,7 @@ export default function VideoWatchPage() {
                         } ${likeButtonState === 'success' ? 'border-green-500 border-2' : ''} hover:bg-opacity-90 active:scale-95 transition-all`}
                       >
                         <ThumbsUpIcon className="h-4 w-4 mr-1" />
-                        {likes}
+                        {likes.toLocaleString()}
                       </Button>
                     </motion.div>
 
@@ -348,7 +339,7 @@ export default function VideoWatchPage() {
                         } ${dislikeButtonState === 'success' ? 'border-green-500 border-2' : ''} hover:bg-opacity-90 active:scale-95 transition-all`}
                       >
                         <ThumbsDownIcon className="h-4 w-4 mr-1" />
-                        {dislikes}
+                        {dislikes.toLocaleString()}
                       </Button>
                     </motion.div>
 

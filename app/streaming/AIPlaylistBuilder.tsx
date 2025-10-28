@@ -224,9 +224,9 @@ export function AIPlaylistBuilder() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Button - Lower Left */}
       <motion.button
-        className={`fixed bottom-6 right-6 z-40 bg-gradient-to-r ${personality.bgGradient} text-white rounded-full px-6 py-4 shadow-lg flex items-center gap-2 hover:shadow-xl transition-all active:scale-95`}
+        className={`fixed bottom-6 left-6 z-40 bg-gradient-to-r ${personality.bgGradient} text-white rounded-full px-6 py-4 shadow-lg flex items-center gap-2 hover:shadow-xl transition-all active:scale-95`}
         onClick={handleOpen}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

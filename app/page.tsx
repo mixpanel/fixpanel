@@ -120,7 +120,7 @@ export default function LandingPage() {
                       className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View KYC flag"
                     >
-                      KYC F
+                      F
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
@@ -130,7 +130,7 @@ export default function LandingPage() {
                       className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View KYC experiment"
                     >
-                      KYC E
+                      E
                     </a>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export default function LandingPage() {
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View coupon flag"
                     >
-                      Coupon F
+                      F
                     </a>
                     <span className="text-green-400">•</span>
                     <a
@@ -194,7 +194,7 @@ export default function LandingPage() {
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View coupon experiment"
                     >
-                      Coupon E
+                      E
                     </a>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View recommender flag"
                     >
-                      Recomm F
+                      F
                     </a>
                     <span className="text-red-400">•</span>
                     <a
@@ -238,7 +238,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View recommender experiment"
                     >
-                      Recomm E
+                      E
                     </a>
                     <span className="text-red-400">•</span>
                     <a
@@ -248,7 +248,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View playlist flag"
                     >
-                      Playlist F
+                      F
                     </a>
                     <span className="text-red-400">•</span>
                     <a
@@ -258,7 +258,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View playlist experiment"
                     >
-                      Playlist E
+                      E
                     </a>
                   </div>
                 </div>
@@ -494,7 +494,7 @@ export default function LandingPage() {
       {/* Floating Suggestion Button */}
       {showSuggestionButton && (
         <a
-          href="https://forms.gle/DZCMVsmNC2XMxt8y8"
+          href="https://mixpanel.slack.com/archives/C09P2HN2WDA/"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-6 right-6 z-50"
@@ -507,7 +507,7 @@ export default function LandingPage() {
             }}
           >
             <MessageSquarePlusIcon className="mr-2 h-5 w-5" />
-            Suggestions?
+            Suggestions / Bugs
           </Button>
         </a>
       )}

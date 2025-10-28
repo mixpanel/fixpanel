@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test';
 import { ConsoleLogTracker } from './utils/test-helpers';
 
 /**
- * Opt-in/Opt-out flow tests
+ * Tracking lifecycle tests (formerly opt-in/opt-out)
  *
- * Critical scenarios to ensure tracking works correctly:
- * 1. Microsite → Opted in, tracking works
- * 2. Landing page → Opted out, NO tracking
- * 3. Microsite → Landing → Microsite → Opted back in, tracking works
- * 4. RESET → Opted out, navigates to landing
+ * Critical scenarios to ensure tracking works correctly with hard refresh approach:
+ * 1. Microsite → Mixpanel initializes, tracking works
+ * 2. Landing page → Cleanup + hard reload, NO tracking
+ * 3. Microsite → Landing → Microsite → Fresh initialization, tracking works
+ * 4. RESET → Cleanup, navigates to landing
  */
 test.describe('Opt-in/Opt-out Flow Tests', () => {
   let consoleTracker: ConsoleLogTracker;
@@ -22,18 +22,17 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    // Should see opt-in log
-    const hasOptIn = consoleTracker.hasLog('Opted in to tracking');
-    console.log('✅ Opt-in on microsite load:', hasOptIn ? '✅' : '❌');
-    expect(hasOptIn).toBeTruthy();
+    // Should see Mixpanel loaded
+    const hasLoaded = consoleTracker.hasLog('MIXPANEL LOADED');
+    console.log('✅ Mixpanel initialized:', hasLoaded ? '✅' : '❌');
+    expect(hasLoaded).toBeTruthy();
 
-    // Verify tracking is enabled
-    const isOptedOut = await page.evaluate(() => {
-      return window.mixpanel?.has_opted_out_tracking?.() || false;
+    // Verify Mixpanel exists
+    const mixpanelExists = await page.evaluate(() => {
+      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
     });
 
-    console.log('📊 Opted out status:', isOptedOut);
-    expect(isOptedOut).toBeFalsy();
+    expect(mixpanelExists).toBeTruthy();
 
     // Verify SDK can track
     const canTrack = await page.evaluate(() => {
@@ -49,26 +48,26 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    // Verify opted in on microsite
-    let isOptedOut = await page.evaluate(() => {
-      return window.mixpanel?.has_opted_out_tracking?.() || false;
+    // Verify Mixpanel exists on microsite
+    let mixpanelExists = await page.evaluate(() => {
+      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
     });
-    expect(isOptedOut).toBeFalsy();
+    expect(mixpanelExists).toBeTruthy();
 
     consoleTracker.clearLogs();
 
-    // Navigate to landing page
+    // Navigate to landing page (should trigger cleanup + hard reload)
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    // Should see opt-out log
-    const hasOptOut = consoleTracker.hasLog('Opted out of tracking');
-    console.log('🚫 Opt-out on landing page:', hasOptOut ? '✅' : '❌');
-    expect(hasOptOut).toBeTruthy();
+    // Should see cleanup logs OR fresh landing log
+    const hasCleanup = consoleTracker.hasLog('CLEANUP') || consoleTracker.hasLog('Fresh landing page');
+    console.log('🚫 Landing page cleanup:', hasCleanup ? '✅' : '❌');
+    expect(hasCleanup).toBeTruthy();
 
-    // Verify Mixpanel is destroyed
-    const mixpanelExists = await page.evaluate(() => {
+    // Verify Mixpanel is NOT initialized on landing
+    mixpanelExists = await page.evaluate(() => {
       return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
     });
 
@@ -108,37 +107,37 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    const hasOptIn1 = consoleTracker.hasLog('Opted in to tracking');
-    console.log('Step 1 - Microsite opted in:', hasOptIn1 ? '✅' : '❌');
-    expect(hasOptIn1).toBeTruthy();
+    const hasLoaded1 = consoleTracker.hasLog('MIXPANEL LOADED');
+    console.log('Step 1 - Mixpanel initialized:', hasLoaded1 ? '✅' : '❌');
+    expect(hasLoaded1).toBeTruthy();
 
-    // 2. Navigate to landing (opt out)
+    // 2. Navigate to landing (cleanup + reload)
     consoleTracker.clearLogs();
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    const hasOptOut = consoleTracker.hasLog('Opted out of tracking');
-    console.log('Step 2 - Landing opted out:', hasOptOut ? '✅' : '❌');
-    expect(hasOptOut).toBeTruthy();
+    const hasCleanup = consoleTracker.hasLog('CLEANUP') || consoleTracker.hasLog('Fresh landing');
+    console.log('Step 2 - Landing cleanup:', hasCleanup ? '✅' : '❌');
+    expect(hasCleanup).toBeTruthy();
 
-    // 3. Navigate to different microsite (should opt back in)
+    // 3. Navigate to different microsite (should initialize fresh)
     consoleTracker.clearLogs();
     await page.goto('/wellness');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    const hasOptIn2 = consoleTracker.hasLog('Opted in to tracking');
-    console.log('Step 3 - Microsite opted back in:', hasOptIn2 ? '✅' : '❌');
-    expect(hasOptIn2).toBeTruthy();
+    const hasLoaded2 = consoleTracker.hasLog('MIXPANEL LOADED');
+    console.log('Step 3 - Mixpanel re-initialized:', hasLoaded2 ? '✅' : '❌');
+    expect(hasLoaded2).toBeTruthy();
 
     // Verify tracking works
-    const isOptedOut = await page.evaluate(() => {
-      return window.mixpanel?.has_opted_out_tracking?.() || false;
+    const mixpanelExists = await page.evaluate(() => {
+      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
     });
 
-    console.log('Step 3 - Final opted out status:', isOptedOut);
-    expect(isOptedOut).toBeFalsy();
+    console.log('Step 3 - Mixpanel exists:', mixpanelExists);
+    expect(mixpanelExists).toBeTruthy();
 
     // Verify events can fire
     const canTrack = await page.evaluate(() => {
@@ -155,35 +154,27 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
 
     consoleTracker.clearLogs();
 
-    // Call RESET (but prevent actual navigation for testing)
-    await page.evaluate(() => {
-      // Store original location.href setter
-      const originalHref = Object.getOwnPropertyDescriptor(window.location, 'href');
+    // Intercept navigation to prevent actual page change
+    await page.route('**/*', route => route.abort());
 
-      // Override to prevent navigation
-      Object.defineProperty(window.location, 'href', {
-        set: (url: string) => {
-          console.log('[TEST]: Prevented navigation to', url);
-        },
-        get: () => window.location.href
+    // Call RESET
+    try {
+      await page.evaluate(() => {
+        window.RESET();
       });
+    } catch (error) {
+      // Navigation will be aborted, which is expected
+    }
 
-      window.RESET();
+    await page.waitForTimeout(1000);
 
-      // Restore after a delay
-      setTimeout(() => {
-        if (originalHref) {
-          Object.defineProperty(window.location, 'href', originalHref);
-        }
-      }, 2000);
-    });
+    // Should see cleanup logs
+    const hasCleanup = consoleTracker.hasLog('CLEANUP');
+    console.log('🔄 RESET triggered cleanup:', hasCleanup ? '✅' : '❌');
+    expect(hasCleanup).toBeTruthy();
 
-    await page.waitForTimeout(2000);
-
-    // Should see opt-out log
-    const hasOptOut = consoleTracker.hasLog('Opted out of tracking');
-    console.log('🔄 RESET opted out:', hasOptOut ? '✅' : '❌');
-    expect(hasOptOut).toBeTruthy();
+    // Clean up route interception
+    await page.unroute('**/*');
   });
 
   test('Multiple microsite visits maintain opt-in', async ({ page }) => {
@@ -196,17 +187,17 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(2000);
 
-      // Each microsite should opt in
-      const hasOptIn = consoleTracker.hasLog('Opted in to tracking');
-      console.log(`${microsite} opted in:`, hasOptIn ? '✅' : '❌');
-      expect(hasOptIn).toBeTruthy();
+      // Each microsite should initialize Mixpanel
+      const hasLoaded = consoleTracker.hasLog('MIXPANEL LOADED');
+      console.log(`${microsite} initialized:`, hasLoaded ? '✅' : '❌');
+      expect(hasLoaded).toBeTruthy();
 
-      // Verify not opted out
-      const isOptedOut = await page.evaluate(() => {
-        return window.mixpanel?.has_opted_out_tracking?.() || false;
+      // Verify Mixpanel exists
+      const mixpanelExists = await page.evaluate(() => {
+        return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
       });
 
-      expect(isOptedOut).toBeFalsy();
+      expect(mixpanelExists).toBeTruthy();
     }
   });
 
@@ -226,12 +217,12 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     console.log('🍪 Opt-out cookie exists:', !!optOutCookie);
     expect(optOutCookie).toBeFalsy();
 
-    // Verify opt-in state
-    const hasOptedIn = await page.evaluate(() => {
-      return !window.mixpanel?.has_opted_out_tracking?.();
+    // Verify Mixpanel is initialized
+    const mixpanelExists = await page.evaluate(() => {
+      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
     });
 
-    expect(hasOptedIn).toBeTruthy();
+    expect(mixpanelExists).toBeTruthy();
   });
 
   test('Direct microsite visit opts in immediately', async ({ page }) => {
@@ -240,15 +231,14 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(2000);
 
-    // Should opt in immediately
-    const hasOptIn = consoleTracker.hasLog('Opted in to tracking');
-    console.log('🎯 Direct visit opted in:', hasOptIn ? '✅' : '❌');
-    expect(hasOptIn).toBeTruthy();
+    // Should initialize immediately
+    const hasLoaded = consoleTracker.hasLog('MIXPANEL LOADED');
+    console.log('🎯 Direct visit initialized:', hasLoaded ? '✅' : '❌');
+    expect(hasLoaded).toBeTruthy();
 
     // Tracking should work
     const trackingWorks = await page.evaluate(() => {
-      return typeof window.mixpanel?.track === 'function' &&
-             !window.mixpanel?.has_opted_out_tracking?.();
+      return typeof window.mixpanel?.track === 'function';
     });
 
     expect(trackingWorks).toBeTruthy();
@@ -259,19 +249,19 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    // Should see opt-in BEFORE session event
+    // Should see Mixpanel loaded BEFORE session event
     const logs = consoleTracker.getLogs();
-    const optInIndex = logs.findIndex(log => log.includes('Opted in to tracking'));
+    const loadedIndex = logs.findIndex(log => log.includes('MIXPANEL LOADED'));
     const sessionIndex = logs.findIndex(log => log.includes('Session: theyBuy'));
 
-    console.log('📊 Opt-in index:', optInIndex);
+    console.log('📊 Loaded index:', loadedIndex);
     console.log('📊 Session index:', sessionIndex);
 
-    expect(optInIndex).toBeGreaterThan(-1);
+    expect(loadedIndex).toBeGreaterThan(-1);
     expect(sessionIndex).toBeGreaterThan(-1);
 
-    // Opt-in should happen BEFORE session tracking
-    expect(optInIndex).toBeLessThan(sessionIndex);
+    // Mixpanel should load BEFORE session tracking
+    expect(loadedIndex).toBeLessThan(sessionIndex);
   });
 
   test('Auto-capture works after opt-in', async ({ page }) => {
@@ -279,11 +269,11 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
-    // Verify opted in
-    const isOptedOut = await page.evaluate(() => {
-      return window.mixpanel?.has_opted_out_tracking?.() || false;
+    // Verify Mixpanel exists
+    const mixpanelExists = await page.evaluate(() => {
+      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
     });
-    expect(isOptedOut).toBeFalsy();
+    expect(mixpanelExists).toBeTruthy();
 
     consoleTracker.clearLogs();
 

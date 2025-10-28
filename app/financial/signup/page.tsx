@@ -16,6 +16,7 @@ export default function SignUpPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [showAutoFillModal, setShowAutoFillModal] = useState(false);
+  const [completeClickCount, setCompleteClickCount] = useState(0);
 
   useEffect(() => {
     initMixpanelOnce();
@@ -119,8 +120,25 @@ export default function SignUpPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mixpanel.track("KYC Form Submitted", formData);
-    console.log("KYC form submitted", formData);
+
+    // Require 10 clicks before actually submitting
+    const newClickCount = completeClickCount + 1;
+    setCompleteClickCount(newClickCount);
+
+    mixpanel.track("Complete KYC Button Clicked", {
+      ...formData,
+      clickCount: newClickCount,
+      clicksRemaining: 10 - newClickCount
+    });
+
+    if (newClickCount < 10) {
+      console.log(`[KYC]: Click ${newClickCount}/10 - ${10 - newClickCount} more clicks needed`);
+      return;
+    }
+
+    // After 10 clicks, actually submit
+    mixpanel.track("Complete KYC", formData);
+    console.log("[KYC]: Form submitted after 10 clicks", formData);
 
     // Save the completed form data to sessionStorage for the success page
     if (typeof window !== 'undefined') {
@@ -470,7 +488,7 @@ export default function SignUpPage() {
                     className="ml-auto bg-[#07B096] hover:bg-[#07B096]/90 hover:bg-opacity-90 active:scale-95 transition-all"
                     size="lg"
                   >
-                    Complete KYC
+                    Complete KYC {completeClickCount > 0 && `(${completeClickCount}/10)`}
                   </Button>
                 )}
               </div>

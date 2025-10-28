@@ -6,7 +6,22 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import mixpanel from "mixpanel-browser";
 
-const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN || "7c02ad22ae575ab4e15cdd052cd730fb";
+// Get token from URL or use default
+function getMixpanelToken(): string {
+  // Check for token in URL query params
+  if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    if (urlToken) {
+      console.log('[SDK]: Using token from URL:', urlToken.substring(0, 8) + '...');
+      return urlToken;
+    }
+  }
+  // Fall back to environment variable or default
+  return process.env.REACT_APP_MIXPANEL_TOKEN || "7c02ad22ae575ab4e15cdd052cd730fb";
+}
+
+const MIXPANEL_TOKEN = getMixpanelToken();
 const MIXPANEL_PROXY = `https://express-proxy-lmozz6xkha-uc.a.run.app`;
 
 let initialized = false;
@@ -44,11 +59,14 @@ export function waitForMixpanel(maxAttempts = 20, interval = 100): Promise<any> 
   });
 }
 
-// Track microsite session start (only once per session across ALL microsites)
+/**
+ * Track microsite session start - called by each microsite landing page
+ * Uses the SAME sessionStorage key as the loaded callback to avoid duplicates
+ */
 export async function trackMicrositeSession(micrositeName: string): Promise<void> {
   try {
     const mp = await waitForMixpanel();
-    const sessionKey = 'microsite_session_started';
+    const sessionKey = 'mixpanel_active_session'; // Same key as loaded callback!
 
     if (!sessionStorage.getItem(sessionKey)) {
       // Generate and register lucky number as super property
@@ -59,6 +77,8 @@ export async function trackMicrositeSession(micrositeName: string): Promise<void
       mp.track(`Session: ${micrositeName}`);
       sessionStorage.setItem(sessionKey, 'true');
       console.log(`[SESSION]: Started ${micrositeName} session`);
+    } else {
+      console.log(`[SESSION]: Session already active, skipping ${micrositeName} session event`);
     }
   } catch (error) {
     console.error('[SESSION]: Failed to track session:', error);
@@ -146,51 +166,24 @@ export function initMixpanelOnce() {
     loaded: (mp: any) => {
       console.log("[SDK]: MIXPANEL LOADED");
 
-      // RESETTING MIXPANEL AND STARTING A NEW SESSION
-      // WE ONLY WANT TO RESET MIXPANEL IF WE JUST LANDED ON a "top level" PAGE
-      // ^ the use case we expect is users starts on / (no tracking) then goes to /financial and we should reset
-      // the top level paths are: /financial /checkout /admin /lifestyle /streaming /wellness
-      // IMPORTANTLY we DON'T want to reset if we're on a "sub page" like
-      // /financial/testimonials or /checkout/cart etc
-      // we ALSO don't want to reset if we navigated from a "sub page" back to a "top level" page
-      // so /financial → /financial/testimonials → /financial should NOT reset
-
-      const pageDepth = document.location.pathname.split("/").filter((a) => a).length;
-      const topLevelPaths = ["financial", "checkout", "admin", "lifestyle", "streaming", "wellness"];
-      const currentTopLevel = document.location.pathname.split("/").filter((a) => a)[0];
-      const isTopLevelPage = pageDepth === 1 && topLevelPaths.includes(currentTopLevel);
-
-      // Check if we have an active session marker in sessionStorage
-      // sessionStorage persists across page navigation but is cleared when tab/window closes
-      const hasActiveSession = sessionStorage.getItem("mixpanel_active_session") === "true";
-
-      if (isTopLevelPage && !hasActiveSession) {
-        // This is a fresh landing on a top-level page - reset and start new session
-        console.log("[SDK]: FRESH LANDING - RESETTING");
-        mp.stop_session_recording();
-        mp.reset();
-        sessionStorage.setItem("mixpanel_active_session", "true");
-        mp.track(`START ${currentTopLevel}`);
-        mp.track_pageview();
-      }
+      // Note: Session tracking is handled by trackMicrositeSession()
+      // which is called by each microsite landing page
+      // We don't track session here because the loaded callback only fires once
+      // even with client-side routing
 
       console.log(`[SDK]: DISTINCT_ID: ${mp.get_distinct_id()}\n`);
       if (typeof window !== "undefined") {
         console.log("[SDK]: EXPOSED GLOBALLY");
 
-        // OPT IN to tracking (clears any previous opt-out state)
-        if (mp.opt_in_tracking) {
-          mp.opt_in_tracking();
-          console.log("[SDK]: ✓ Opted in to tracking");
-        }
-
+        // Start session recording
         mixpanel.start_session_recording();
         console.log("[SDK]: START SESSION RECORDING");
-        // expose for debugging
+
+        // Expose for debugging
         // @ts-ignore
         window.mixpanel = mp;
 
-        //   monkey patch track to log to the console
+        // Monkey patch track to log to the console
         const originalTrack = mp.track;
         mp.track = function (event: string, props: any) {
           if (typeof props !== "object" || !props) props = {};
@@ -199,13 +192,14 @@ export function initMixpanelOnce() {
           originalTrack.call(mp, event, props);
         };
 
-        //   monkey patch identify to log to the console
+        // Monkey patch identify to log to the console
         const originalIdentify = mp.identify;
         mp.identify = function (distinctId: string) {
           console.log(`[SDK]: IDENTIFY ${distinctId}`);
           originalIdentify.call(mp, distinctId);
         };
 
+        // Handle URL parameters
         const PARAMS = getParams();
         const { user = "", ...restParams } = PARAMS;
         if (user) {
@@ -214,11 +208,12 @@ export function initMixpanelOnce() {
           mp.people.increment("# hits");
         }
 
-		if (Object.keys(restParams).length > 0) {
-			console.log("[SDK]: REGISTERING PARAMS AS SUPER PROPERTIES", restParams);
-			mp.register(restParams);
-		}
+        if (Object.keys(restParams).length > 0) {
+          console.log("[SDK]: REGISTERING PARAMS AS SUPER PROPERTIES", restParams);
+          mp.register(restParams);
+        }
 
+        // Expose global RESET function
         // @ts-ignore
         window.RESET = () => nukePanel();
       }
@@ -232,20 +227,15 @@ export function initMixpanelOnce() {
 /**
  * Core cleanup function - clears all storage and destroys Mixpanel instance
  * Used by both landing page navigation and RESET button
+ * NOTE: Always followed by a hard page reload, so no need for opt_out_tracking()
  */
 export function cleanupEverything(): void {
   console.log("[CLEANUP]: STARTING COMPLETE CLEANUP");
 
-  // 1. OPT OUT of tracking FIRST (before clearing storage!)
-  // This removes auto-capture event listeners and sets opt-out cookie
+  // 1. Destroy Mixpanel instance (if it exists)
   if (typeof window !== "undefined" && window.mixpanel) {
     try {
-      console.log("[CLEANUP]: OPTING OUT OF TRACKING");
-
-      if (window.mixpanel?.opt_out_tracking) {
-        window.mixpanel.opt_out_tracking();
-        console.log("[SDK]: ✓ Opted out of tracking");
-      }
+      console.log("[CLEANUP]: DESTROYING MIXPANEL INSTANCE");
 
       // Stop session recording
       if (window.mixpanel?.stop_session_recording) {
@@ -253,13 +243,18 @@ export function cleanupEverything(): void {
         console.log("[CLEANUP]: ✓ Session recording stopped");
       }
 
-      // Reset Mixpanel instance
+      // Reset Mixpanel instance (clears super properties, etc)
       if (window.mixpanel?.reset) {
         window.mixpanel.reset();
         console.log("[CLEANUP]: ✓ Mixpanel instance reset");
       }
+
+      // Destroy the instance
+      // @ts-ignore
+      window.mixpanel = null;
+      console.log("[CLEANUP]: ✓ Mixpanel instance destroyed");
     } catch (error) {
-      console.error("[CLEANUP]: error during Mixpanel opt-out:", error);
+      console.error("[CLEANUP]: error destroying Mixpanel:", error);
     }
   }
 

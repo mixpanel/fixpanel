@@ -27,9 +27,10 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
 
-  // State for moving checkout button
-  const [checkoutButtonVisible, setCheckoutButtonVisible] = useState(true);
-  const [buttonPosition, setButtonPosition] = useState(0); // 0 = default, 1-4 = alternate positions
+  // State for checkout button with timeout and click requirement
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [buttonTimeRemaining, setButtonTimeRemaining] = useState(0);
+  const [checkoutClickCount, setCheckoutClickCount] = useState(0);
 
   // Form states
   const [email, setEmail] = useState("");
@@ -107,43 +108,54 @@ export default function CheckoutPage() {
     }
   }, [currentStep, orderTotal, cartItems]);
 
-  // THE MOVING CHECKOUT BUTTON! 🐛
-  // Button disappears and reappears in a new location every 5 seconds (only on step 3)
+  // CHECKOUT BUTTON TIMEOUT - Random 30-45 second delay (only on step 3)
   useEffect(() => {
     if (currentStep !== 3 || isProcessing || orderComplete) return;
 
+    // Set random timeout between 30-45 seconds
+    const timeoutSeconds = Math.floor(Math.random() * 16) + 30; // 30-45 seconds
+    setButtonTimeRemaining(timeoutSeconds);
+    setButtonEnabled(false);
+    setCheckoutClickCount(0);
+
+    console.log(`[CHECKOUT]: Button will be enabled in ${timeoutSeconds} seconds`);
+
+    // Count down every second
     const interval = setInterval(() => {
-      // Hide button
-      setCheckoutButtonVisible(false);
-
-      // Track button disappearance
-      if (typeof window !== 'undefined' && window.mixpanel) {
-        // window.mixpanel.track('Checkout Button Disappeared', {
-        //   order_value: orderTotal,
-        //   previous_position: buttonPosition
-        // });
-      }
-
-      // After 500ms, show in new position
-      setTimeout(() => {
-        const newPosition = Math.floor(Math.random() *85); // 0-4 random positions
-        setButtonPosition(newPosition);
-        setCheckoutButtonVisible(true);
-
-        // Track button reappearance
-        if (typeof window !== 'undefined' && window.mixpanel) {
-        //   window.mixpanel.track('Checkout Button Appeared', {
-        //     order_value: orderTotal,
-        //     new_position: newPosition
-        //   });
+      setButtonTimeRemaining((prev) => {
+        if (prev <= 1) {
+          setButtonEnabled(true);
+          console.log('[CHECKOUT]: Button is now enabled - requires 10 clicks');
+          return 0;
         }
-      }, 500);
-    }, 2500); // Every 2.5 seconds
+        return prev - 1;
+      });
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [currentStep, isProcessing, orderComplete, buttonPosition]);
+  }, [currentStep, isProcessing, orderComplete]);
 
   const handleSubmitPayment = () => {
+    // Require 10 clicks before actually processing
+    const newClickCount = checkoutClickCount + 1;
+    setCheckoutClickCount(newClickCount);
+
+    // Track each click
+    if (typeof window !== 'undefined' && window.mixpanel) {
+      window.mixpanel.track('Checkout Button Clicked', {
+        order_value: orderTotal,
+        clickCount: newClickCount,
+        clicksRemaining: 10 - newClickCount,
+        item_count: cartItems.length
+      });
+    }
+
+    if (newClickCount < 10) {
+      console.log(`[CHECKOUT]: Click ${newClickCount}/10 - ${10 - newClickCount} more clicks needed`);
+      return;
+    }
+
+    // After 10 clicks, actually process the order
     setIsProcessing(true);
 
     // Track checkout attempt
@@ -344,7 +356,7 @@ export default function CheckoutPage() {
 
               {/* Step 3: Payment */}
               {currentStep === 3 && (
-                <div className="space-y-6 relative min-h-[500px]">
+                <div className="space-y-6">
                   <h2 className="text-xl font-semibold">Payment Information</h2>
                   <div className="flex items-center gap-2 mb-4">
                     <ShieldCheckIcon className="h-5 w-5 text-green-500" />
@@ -368,7 +380,7 @@ export default function CheckoutPage() {
                     />
                   </div>
 
-                  {/* Back Button - Always visible */}
+                  {/* Buttons */}
                   <div className="flex gap-4">
                     <Button
                       variant="outline"
@@ -378,43 +390,30 @@ export default function CheckoutPage() {
                     >
                       Back
                     </Button>
-                  </div>
 
-                  {/* Moving Checkout Button - Appears in different positions */}
-                  {checkoutButtonVisible && (
-                    <div
-                      className={`absolute transition-all duration-300 ${
-                        buttonPosition === 0 ? 'top-64 left-0' : ''
-                      } ${
-                        buttonPosition === 1 ? 'top-64 right-0' : ''
-                      } ${
-                        buttonPosition === 2 ? 'top-96 left-1/4' : ''
-                      } ${
-                        buttonPosition === 3 ? 'top-96 right-1/4' : ''
-                      } ${
-                        buttonPosition === 4 ? 'top-80 left-1/2 -translate-x-1/2' : ''
-                      }`}
-                      style={{
-                        opacity: checkoutButtonVisible ? 1 : 0,
-                        transform: checkoutButtonVisible ? 'scale(1)' : 'scale(0.8)'
-                      }}
+                    {/* Stationary Checkout Button with Timeout */}
+                    <Button
+                      onClick={handleSubmitPayment}
+                      disabled={!cardNumber || !expiryDate || !cvv || !buttonEnabled || isProcessing}
+                      className="shadow-lg hover:bg-opacity-90 active:scale-95 transition-all"
+                      style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
                     >
-                      <Button
-                        onClick={handleSubmitPayment}
-                        disabled={!cardNumber || !expiryDate || !cvv || isProcessing}
-                        className="shadow-lg hover:bg-opacity-90 active:scale-95 transition-all"
-                        style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
-                      >
-                        <CreditCardIcon className="h-4 w-4 mr-2" />
-                        {isProcessing ? "Processing..." : `Complete Order ($${orderTotal.toFixed(2)})`}
-                      </Button>
-                    </div>
-                  )}
+                      <CreditCardIcon className="h-4 w-4 mr-2" />
+                      {isProcessing
+                        ? "Processing..."
+                        : !buttonEnabled
+                          ? `Please wait (${buttonTimeRemaining}s)`
+                          : checkoutClickCount > 0
+                            ? `Complete Order (${checkoutClickCount}/10) - $${orderTotal.toFixed(2)}`
+                            : `Complete Order ($${orderTotal.toFixed(2)})`
+                      }
+                    </Button>
+                  </div>
 
                   {/* Demo Note */}
                   <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <p className="text-sm text-yellow-800">
-                      💡 <strong>Demo Note:</strong> The checkout button disappears and reappears in a random location every 5 seconds to simulate a frustrating UX bug that analytics can help identify!
+                      💡 <strong>Demo Note:</strong> The checkout button is disabled for 30-45 seconds (random), then requires 10 clicks to complete the order. This simulates frustrating friction that analytics can help identify!
                     </p>
                   </div>
                 </div>

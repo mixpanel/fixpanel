@@ -28,13 +28,13 @@ test.describe('Smoke Tests', () => {
     await page.waitForTimeout(2000);
 
     // Should NOT see session start events on landing
-    const hasStartEvent = consoleTracker.hasLog(/START (financial|wellness|checkout|admin|lifestyle|streaming)/);
+    const hasSessionEvent = consoleTracker.hasLog(/Session: (iBank|ourHeart|theyBuy|youAdmin|weRead|meTube)/);
     const hasResetLog = consoleTracker.hasLog('FRESH LANDING');
 
-    console.log('🏠 Landing - START events:', hasStartEvent ? '❌ BAD' : '✅ None');
+    console.log('🏠 Landing - Session events:', hasSessionEvent ? '❌ BAD' : '✅ None');
     console.log('🏠 Landing - RESET log:', hasResetLog ? '❌ BAD' : '✅ None');
 
-    expect(hasStartEvent).toBeFalsy();
+    expect(hasSessionEvent).toBeFalsy();
     expect(hasResetLog).toBeFalsy();
   });
 
@@ -51,7 +51,7 @@ test.describe('Smoke Tests', () => {
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(1500);
 
-      const hasStart = consoleTracker.hasLog(/START financial|FRESH LANDING/);
+      const hasStart = consoleTracker.hasLog(/Session: iBank|MIXPANEL LOADED/);
       console.log('🎯 Session started on vertical:', hasStart ? '✅' : '❌');
 
       expect(hasStart).toBeTruthy();
@@ -71,8 +71,9 @@ test.describe('Smoke Tests', () => {
       await page.waitForLoadState('networkidle');
       await page.waitForTimeout(1500);
 
-      const hasStart = consoleTracker.hasLog(`START ${v.name}`);
-      console.log(`🎯 ${v.name}:`, hasStart ? '✅' : '❌');
+      // Check for Session events (iBank, ourHeart, etc.)
+      const hasSession = consoleTracker.hasLog(/Session: (iBank|ourHeart)/);
+      console.log(`🎯 ${v.name}:`, hasSession ? '✅' : '❌');
 
       consoleTracker.clearLogs();
     }
