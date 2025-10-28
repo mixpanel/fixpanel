@@ -177,6 +177,13 @@ export function initMixpanelOnce() {
       console.log(`[SDK]: DISTINCT_ID: ${mp.get_distinct_id()}\n`);
       if (typeof window !== "undefined") {
         console.log("[SDK]: EXPOSED GLOBALLY");
+
+        // OPT IN to tracking (clears any previous opt-out state)
+        if (mp.opt_in_tracking) {
+          mp.opt_in_tracking();
+          console.log("[SDK]: ✓ Opted in to tracking");
+        }
+
         mixpanel.start_session_recording();
         console.log("[SDK]: START SESSION RECORDING");
         // expose for debugging
@@ -213,7 +220,7 @@ export function initMixpanelOnce() {
 		}
 
         // @ts-ignore
-        window.RESET = () => nukePanel(mp);
+        window.RESET = () => nukePanel();
       }
     },
   });
@@ -223,10 +230,135 @@ export function initMixpanelOnce() {
 }
 
 /**
- * Completely nuke Mixpanel and all storage, then navigate to landing page.
+ * Core cleanup function - clears all storage and destroys Mixpanel instance
+ * Used by both landing page navigation and RESET button
+ */
+export function cleanupEverything(): void {
+  console.log("[CLEANUP]: STARTING COMPLETE CLEANUP");
+
+  // 1. OPT OUT of tracking FIRST (before clearing storage!)
+  // This removes auto-capture event listeners and sets opt-out cookie
+  if (typeof window !== "undefined" && window.mixpanel) {
+    try {
+      console.log("[CLEANUP]: OPTING OUT OF TRACKING");
+
+      if (window.mixpanel?.opt_out_tracking) {
+        window.mixpanel.opt_out_tracking();
+        console.log("[SDK]: ✓ Opted out of tracking");
+      }
+
+      // Stop session recording
+      if (window.mixpanel?.stop_session_recording) {
+        window.mixpanel.stop_session_recording();
+        console.log("[CLEANUP]: ✓ Session recording stopped");
+      }
+
+      // Reset Mixpanel instance
+      if (window.mixpanel?.reset) {
+        window.mixpanel.reset();
+        console.log("[CLEANUP]: ✓ Mixpanel instance reset");
+      }
+    } catch (error) {
+      console.error("[CLEANUP]: error during Mixpanel opt-out:", error);
+    }
+  }
+
+  // 2. Clear ALL localStorage
+  try {
+    localStorage.clear();
+    console.log("[CLEANUP]: ✓ localStorage cleared");
+  } catch (e) {
+    console.error("[CLEANUP]: ✗ localStorage clear failed:", e);
+  }
+
+  // 3. Clear ALL sessionStorage
+  try {
+    sessionStorage.clear();
+    console.log("[CLEANUP]: ✓ sessionStorage cleared");
+  } catch (e) {
+    console.error("[CLEANUP]: ✗ sessionStorage clear failed:", e);
+  }
+
+  // 4. Clear ALL cookies
+  try {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substring(0, eqPos).trim() : cookie.trim();
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+      const domain = window.location.hostname;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + domain;
+    }
+    console.log("[CLEANUP]: ✓ Cookies cleared");
+  } catch (e) {
+    console.error("[CLEANUP]: ✗ Cookie clear failed:", e);
+  }
+
+  // 5. Clear ALL IndexedDB databases
+  try {
+    if (window.indexedDB && window.indexedDB.databases) {
+      window.indexedDB.databases().then((databases) => {
+        databases.forEach((db) => {
+          if (db.name) window.indexedDB.deleteDatabase(db.name);
+        });
+      });
+      console.log("[CLEANUP]: ✓ IndexedDB cleared");
+    }
+  } catch (e) {
+    console.error("[CLEANUP]: ✗ IndexedDB clear failed:", e);
+  }
+
+  // 6. Clear ALL Cache storage
+  try {
+    if (window.caches) {
+      caches.keys().then((names) => {
+        names.forEach((name) => caches.delete(name));
+      });
+      console.log("[CLEANUP]: ✓ Cache storage cleared");
+    }
+  } catch (e) {
+    console.error("[CLEANUP]: ✗ Cache storage clear failed:", e);
+  }
+
+  // 7. Clear Shared storage (experimental API)
+  try {
+    // @ts-ignore
+    if (window.sharedStorage) {
+      // @ts-ignore
+      window.sharedStorage.clear();
+      console.log("[CLEANUP]: ✓ Shared storage cleared");
+    }
+  } catch (e) {
+    console.log("[CLEANUP]: ⓘ Shared storage not available or clear failed");
+  }
+
+  console.log("[CLEANUP]: ✓ ALL STORAGE CLEARED");
+
+  // 8. DESTROY Mixpanel instance (after storage cleared)
+  if (typeof window !== "undefined" && window.mixpanel) {
+    try {
+      // @ts-ignore
+      window.mixpanel = null;
+      console.log("[CLEANUP]: ✓ Mixpanel instance destroyed (set to null)");
+    } catch (error) {
+      console.error("[CLEANUP]: error destroying mixpanel:", error);
+    }
+  }
+
+  // 9. Reset the initialized flag
+  resetInitialized();
+  console.log("[CLEANUP]: ✓ Initialization flag reset");
+
+  console.log("[CLEANUP]: 🧹 COMPLETE CLEANUP FINISHED");
+}
+
+/**
+ * Nuke everything with fade animation, then navigate to landing page.
  * This prevents creating a "third user" by ensuring we go through the landing page cleanup.
  */
-export function nukePanel(mp: typeof mixpanel): void {
+export function nukePanel(): void {
   // Create fade overlay element
   const overlay = document.createElement("div");
   overlay.style.cssText = `
@@ -252,80 +384,10 @@ export function nukePanel(mp: typeof mixpanel): void {
     console.log("[RESET]: NUKING EVERYTHING AND RETURNING TO LANDING PAGE");
 
     setTimeout(() => {
-      // 1. Stop Mixpanel session recording
-      if (mp?.stop_session_recording) {
-        mp.stop_session_recording();
-        console.log("[RESET]: ✓ Session recording stopped");
-      }
+      // Use the centralized cleanup function
+      cleanupEverything();
 
-      // 2. Reset Mixpanel instance
-      if (mp?.reset) {
-        mp.reset();
-        console.log("[RESET]: ✓ Mixpanel instance reset");
-      }
-
-      // 3. Clear ALL localStorage
-      try {
-        localStorage.clear();
-        console.log("[RESET]: ✓ localStorage cleared");
-      } catch (e) {
-        console.error("[RESET]: ✗ localStorage clear failed:", e);
-      }
-
-      // 4. Clear ALL sessionStorage
-      try {
-        sessionStorage.clear();
-        console.log("[RESET]: ✓ sessionStorage cleared");
-      } catch (e) {
-        console.error("[RESET]: ✗ sessionStorage clear failed:", e);
-      }
-
-      // 5. Clear ALL cookies
-      try {
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i];
-          const eqPos = cookie.indexOf("=");
-          const name = eqPos > -1 ? cookie.substring(0, eqPos).trim() : cookie.trim();
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
-          const domain = window.location.hostname;
-          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=" + domain;
-        }
-        console.log("[RESET]: ✓ Cookies cleared");
-      } catch (e) {
-        console.error("[RESET]: ✗ Cookie clear failed:", e);
-      }
-
-      // 6. Clear ALL IndexedDB databases
-      try {
-        if (window.indexedDB && window.indexedDB.databases) {
-          window.indexedDB.databases().then((databases) => {
-            databases.forEach((db) => {
-              if (db.name) window.indexedDB.deleteDatabase(db.name);
-            });
-          });
-          console.log("[RESET]: ✓ IndexedDB cleared");
-        }
-      } catch (e) {
-        console.error("[RESET]: ✗ IndexedDB clear failed:", e);
-      }
-
-      // 7. Clear ALL Cache storage
-      try {
-        if (window.caches) {
-          caches.keys().then((names) => {
-            names.forEach((name) => caches.delete(name));
-          });
-          console.log("[RESET]: ✓ Cache storage cleared");
-        }
-      } catch (e) {
-        console.error("[RESET]: ✗ Cache storage clear failed:", e);
-      }
-
-      console.log("[RESET]: 🧹 ALL STORAGE CLEARED");
-
-      // 8. Navigate to landing page (/) which will trigger ClientLayout cleanup
+      // Navigate to landing page (/) which will trigger ClientLayout cleanup again for double protection
       // This ensures we don't create a "third user" by reloading the current microsite
       setTimeout(() => {
         console.log("[RESET]: 🏠 Navigating to landing page...");
