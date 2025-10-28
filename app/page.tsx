@@ -100,7 +100,7 @@ export default function LandingPage() {
                       className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View customer stories flag"
                     >
-                      Stories F
+                      Stories Flag
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
@@ -110,7 +110,7 @@ export default function LandingPage() {
                       className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View customer stories experiment"
                     >
-                      Stories E
+                      Stories Exp
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
@@ -120,7 +120,7 @@ export default function LandingPage() {
                       className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View KYC flag"
                     >
-                      F
+                      KYC Flag
                     </a>
                     <span className="text-purple-400">•</span>
                     <a
@@ -130,7 +130,7 @@ export default function LandingPage() {
                       className="text-purple-600 hover:text-purple-800 underline transition-colors whitespace-nowrap"
                       title="View KYC experiment"
                     >
-                      E
+                      KYC Exp
                     </a>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function LandingPage() {
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View colors flag"
                     >
-                      Colors F
+                      Colors Flag
                     </a>
                     <span className="text-green-400">•</span>
                     <a
@@ -174,7 +174,7 @@ export default function LandingPage() {
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View colors experiment"
                     >
-                      Colors E
+                      Colors Exp
                     </a>
                     <span className="text-green-400">•</span>
                     <a
@@ -184,7 +184,7 @@ export default function LandingPage() {
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View coupon flag"
                     >
-                      F
+                      Coupon Flag
                     </a>
                     <span className="text-green-400">•</span>
                     <a
@@ -194,7 +194,7 @@ export default function LandingPage() {
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
                       title="View coupon experiment"
                     >
-                      E
+                      Coupon Exp
                     </a>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View recommender flag"
                     >
-                      F
+                      Recommend Flag
                     </a>
                     <span className="text-red-400">•</span>
                     <a
@@ -238,7 +238,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View recommender experiment"
                     >
-                      E
+                      Recommend Exp
                     </a>
                     <span className="text-red-400">•</span>
                     <a
@@ -248,7 +248,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View playlist flag"
                     >
-                      F
+                      Playlist Flag
                     </a>
                     <span className="text-red-400">•</span>
                     <a
@@ -258,7 +258,7 @@ export default function LandingPage() {
                       className="text-red-600 hover:text-red-800 underline transition-colors whitespace-nowrap"
                       title="View playlist experiment"
                     >
-                      E
+                      Playlist Exp
                     </a>
                   </div>
                 </div>
@@ -292,7 +292,7 @@ export default function LandingPage() {
                       className="text-blue-600 hover:text-blue-800 underline transition-colors whitespace-nowrap"
                       title="View chatbot flag"
                     >
-                      F
+                      Flag
                     </a>
                     <span className="text-blue-400">•</span>
                     <a
@@ -302,7 +302,7 @@ export default function LandingPage() {
                       className="text-blue-600 hover:text-blue-800 underline transition-colors whitespace-nowrap"
                       title="View chatbot experiment"
                     >
-                      E
+                      Exp
                     </a>
                   </div>
                 </div>
@@ -342,7 +342,7 @@ export default function LandingPage() {
                       className="text-teal-600 hover:text-teal-800 underline transition-colors whitespace-nowrap"
                       title="View symptom wheel flag"
                     >
-                      F
+                      Flag
                     </a>
                     <span className="text-teal-400">•</span>
                     <a
@@ -352,7 +352,7 @@ export default function LandingPage() {
                       className="text-teal-600 hover:text-teal-800 underline transition-colors whitespace-nowrap"
                       title="View symptom wheel experiment"
                     >
-                      E
+                      Exp
                     </a>
                   </div>
                 </div>
@@ -392,7 +392,7 @@ export default function LandingPage() {
                       className="text-amber-600 hover:text-amber-800 underline transition-colors whitespace-nowrap"
                       title="View post analyzer flag"
                     >
-                      F
+                      Flag
                     </a>
                     <span className="text-amber-400">•</span>
                     <a
@@ -402,7 +402,7 @@ export default function LandingPage() {
                       className="text-amber-600 hover:text-amber-800 underline transition-colors whitespace-nowrap"
                       title="View post analyzer experiment"
                     >
-                      E
+                      Exp
                     </a>
                   </div>
                 </div>
