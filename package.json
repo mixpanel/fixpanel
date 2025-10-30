@@ -2,10 +2,10 @@
 	"name": "fixpanel",
 	"version": "1.00",
 	"private": false,
-	"url": "https://ak--47.github.io/fixpanel/",
-	"repo": "https://github.com/ak--47/fixpanel",
+	"url": "https://mixpanel.github.io/fixpanel/",
+	"repo": "https://github.com/mixpanel/fixpanel",
 	"docs": "https://www.notion.so/mxpnl/Fixpanel-1ece0ba9256280b9b10ad1ad09b80bca",
-	"author": "ak--47",
+	"author": "mixpanel",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",

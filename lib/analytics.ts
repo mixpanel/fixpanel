@@ -143,7 +143,7 @@ export function initMixpanelOnce() {
     //     const ignoreEventsAndPages = [
     //       {
     //         event: "$mp_page_leave",
-    //         pages: ["https://ak--47.github.io/fixpanel", "http://localhost"],
+    //         pages: ["https://mixpanel.github.io/fixpanel", "http://localhost"],
     //       },
     //     ];
     //     for (let i = 0; i < ignoreEventsAndPages.length; i++) {

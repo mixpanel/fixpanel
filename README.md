@@ -1,6 +1,6 @@
 # FixPanel
 
-Welcome to [FixPanel](https://ak--47.github.io/fixpanel/), a modern, React + Next.js + Tailwind series of demo sites for [6 different industry use cases](https://ak--47.github.io/fixpanel/). It showcases the power of [Mixpanel's SDKs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript) and how its core capabilities might be implemented in a modern web app.
+Welcome to [FixPanel](https://mixpanel.github.io/fixpanel/), a modern, React + Next.js + Tailwind series of demo sites for [6 different industry use cases](https://mixpanel.github.io/fixpanel/). It showcases the power of [Mixpanel's SDKs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript) and how its core capabilities might be implemented in a modern web app.
 
 ## Running Locally
 
@@ -11,7 +11,7 @@ Welcome to [FixPanel](https://ak--47.github.io/fixpanel/), a modern, React + Nex
 ### Quick Start
 
 ```bash
-git clone https://github.com/ak--47/fixpanel.git
+git clone https://github.com/mixpanel/fixpanel.git
 cd fixpanel
 npm install
 npm run dev
@@ -180,7 +180,7 @@ if (variant === 'control') {
 
 ## Resources
 
-- [Live Site](https://ak--47.github.io/fixpanel/)
+- [Live Site](https://mixpanel.github.io/fixpanel/)
 - [Mixpanel Project](https://mixpanel.com/project/3276012/view/3782804/app/events)
 - [Internal Docs](https://www.notion.so/mxpnl/Fixpanel-1ece0ba9256280b9b10ad1ad09b80bca)
 - [Mixpanel JavaScript SDK Docs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript)

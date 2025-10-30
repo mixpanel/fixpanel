@@ -61,7 +61,7 @@ async function copyOneoffs() {
     console.log('\n✅ Oneoff microsites copied successfully!');
     console.log(`\n📍 Available at:`);
     oneoffDirs.forEach(dir => {
-      console.log(`   https://ak--47.github.io/fixpanel/${dir}/`);
+      console.log(`   https://mixpanel.github.io/fixpanel/${dir}/`);
     });
 
   } catch (error) {
