@@ -1,4 +1,4 @@
-// Shared product data for theyBuy ecommerce demo
+// Shared product data for weBuy ecommerce demo
 
 export interface Product {
   id: number;

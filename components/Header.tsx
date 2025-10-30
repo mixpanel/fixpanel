@@ -18,16 +18,29 @@ export function Header() {
   const pathname = usePathname();
   const { deviceId, isPolling } = useMixpanelDeviceId();
 
+  // Get vertical-specific Mixpanel data view ID
+  const getViewId = () => {
+    if (pathname.startsWith('/checkout')) return '4354009';   // weBuy
+    if (pathname.startsWith('/financial')) return '4354010';  // iBank
+    if (pathname.startsWith('/streaming')) return '4354011';  // meTube
+    if (pathname.startsWith('/admin')) return '4354012';      // youAdmin
+    if (pathname.startsWith('/wellness')) return '4354013';   // ourHeart
+    if (pathname.startsWith('/lifestyle')) return '4354015';  // theyRead
+    return '3782804'; // Default to global view for root/other pages
+  };
+
   // Determine Mixpanel URL based on device ID availability
   const getMixpanelUrl = () => {
+    const viewId = getViewId();
+
     // On root page, always link to generic events page
     if (pathname === '/') {
       return "https://mixpanel.com/project/3276012/view/3782804/app/events";
     }
 
-    // If we have a device ID, link to the profile
+    // If we have a device ID, link to the profile in the vertical-specific view
     if (deviceId) {
-      return `https://mixpanel.com/project/3276012/view/3782804/app/profile#distinct_id=%24device%3A${deviceId}`;
+      return `https://mixpanel.com/project/3276012/view/${viewId}/app/profile#distinct_id=%24device%3A${deviceId}`;
     }
 
     // No device ID yet - return null to disable link
@@ -56,10 +69,10 @@ export function Header() {
 
   // Get site name and logo
   const siteName = isFinancial ? 'iBank' :
-                   isCheckout ? 'theyBuy' :
+                   isCheckout ? 'weBuy' :
                    isStreaming ? 'meTube' :
                    isAdmin ? 'youAdmin' :
-                   isLifestyle ? 'weRead' :
+                   isLifestyle ? 'theyRead' :
                    isWellness ? 'ourHeart' : 'Mixpanel Demos';
 
   // Get the appropriate icon component for each site

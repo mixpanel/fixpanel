@@ -32,7 +32,7 @@ test.describe('Mixpanel Tracking Tests', () => {
     console.log('🧹 Landing page cleanup:', hasCleanup ? '✅' : '⚠️');
 
     // Should NOT see any session start events
-    const hasSessionStart = consoleTracker.hasLog(/Session: (iBank|theyBuy|meTube|youAdmin|ourHeart|weRead)/);
+    const hasSessionStart = consoleTracker.hasLog(/Session: (iBank|weBuy|meTube|youAdmin|ourHeart|theyRead)/);
     expect(hasSessionStart).toBeFalsy();
   });
 
@@ -45,7 +45,7 @@ test.describe('Mixpanel Tracking Tests', () => {
     await page.waitForTimeout(2000);
 
     // Session event should fire immediately, not require user interaction
-    const hasSessionEvent = consoleTracker.hasLog(/Session: weRead|Started weRead session/);
+    const hasSessionEvent = consoleTracker.hasLog(/Session: theyRead|Started theyRead session/);
     const hasLuckyNumber = consoleTracker.hasLog(/Registered luckyNumber:/);
 
     console.log('🎯 Session event fired immediately:', hasSessionEvent ? '✅' : '❌');
@@ -278,11 +278,11 @@ test.describe('Mixpanel Tracking Tests', () => {
   test('All microsites track correctly', async ({ page }) => {
     const microsites = [
       { path: '/financial', session: 'Session: iBank' },
-      { path: '/checkout', session: 'Session: theyBuy' },
+      { path: '/checkout', session: 'Session: weBuy' },
       { path: '/streaming', session: 'Session: meTube' },
       { path: '/wellness', session: 'Session: ourHeart' },
       { path: '/admin', session: 'Session: youAdmin' },
-      { path: '/lifestyle', session: 'Session: weRead' }
+      { path: '/lifestyle', session: 'Session: theyRead' }
     ];
 
     for (const microsite of microsites) {

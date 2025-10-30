@@ -318,10 +318,10 @@ export default function LifestyleLanding() {
   const [showAnalyzer, setShowAnalyzer] = useState(false);
 
   useEffect(() => {
-    document.title = "weRead";
+    document.title = "theyRead";
 
     // Track session start
-    trackMicrositeSession('weRead');
+    trackMicrositeSession('theyRead');
 
     // Track page view
     const trackPageView = async () => {
@@ -410,7 +410,7 @@ export default function LifestyleLanding() {
                   <BookOpenIcon className="h-16 w-16 text-amber-500" />
                 </div>
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none text-amber-400">
-                  weRead
+                  theyRead
                 </h1>
                 <p className="mx-auto max-w-[800px] text-xl md:text-2xl text-zinc-300">
                   A Forum for Existential Inquiry
@@ -644,7 +644,7 @@ export default function LifestyleLanding() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-amber-400 mb-4">Become a Well-Rounded Thinker</h2>
               <p className="text-zinc-400 max-w-2xl mx-auto">
-                weRead's unique algorithms help you explore diverse perspectives and challenge your own beliefs
+                theyRead's unique algorithms help you explore diverse perspectives and challenge your own beliefs
               </p>
             </div>
             <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">

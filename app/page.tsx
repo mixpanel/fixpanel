@@ -139,6 +139,14 @@ export default function LandingPage() {
                     Explore iBank
                   </Button>
                 </Link>
+                <a
+                  href="https://mixpanel.com/report/3276012/view/4354010"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                >
+                  View Data in Mixpanel →
+                </a>
               </div>
 
               {/* Ecommerce */}
@@ -200,9 +208,17 @@ export default function LandingPage() {
                 </div>
                 <Link href="/checkout" className="w-full">
                   <Button className="w-full bg-[#07B096] text-white hover:bg-[#07B096]/90">
-                    Explore theyBuy
+                    Explore weBuy
                   </Button>
                 </Link>
+                <a
+                  href="https://mixpanel.com/report/3276012/view/4354009"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                >
+                  View Data in Mixpanel →
+                </a>
               </div>
 
               {/* Media & Streaming */}
@@ -267,6 +283,14 @@ export default function LandingPage() {
                     Explore meTube
                   </Button>
                 </Link>
+                <a
+                  href="https://mixpanel.com/report/3276012/view/4354011"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                >
+                  View Data in Mixpanel →
+                </a>
               </div>
 
               {/* SaaS B2B */}
@@ -307,11 +331,21 @@ export default function LandingPage() {
                   </div>
                 </div>
                 {unlockedMode ? (
-                  <Link href="/admin" className="w-full">
-                    <Button className="w-full bg-[#3B82F6] text-white hover:bg-[#3B82F6]/90">
-                      Explore youAdmin
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/admin" className="w-full">
+                      <Button className="w-full bg-[#3B82F6] text-white hover:bg-[#3B82F6]/90">
+                        Explore youAdmin
+                      </Button>
+                    </Link>
+                    <a
+                      href="https://mixpanel.com/report/3276012/view/4354012"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                    >
+                      View Data in Mixpanel →
+                    </a>
+                  </>
                 ) : (
                   <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
                     youAdmin - Coming Soon
@@ -357,11 +391,21 @@ export default function LandingPage() {
                   </div>
                 </div>
                 {unlockedMode ? (
-                  <Link href="/wellness" className="w-full">
-                    <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
-                      Explore ourHeart
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/wellness" className="w-full">
+                      <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
+                        Explore ourHeart
+                      </Button>
+                    </Link>
+                    <a
+                      href="https://mixpanel.com/report/3276012/view/4354013"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                    >
+                      View Data in Mixpanel →
+                    </a>
+                  </>
                 ) : (
                   <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
                     ourHeart - Coming Soon
@@ -407,14 +451,24 @@ export default function LandingPage() {
                   </div>
                 </div>
                 {unlockedMode ? (
-                  <Link href="/lifestyle" className="w-full">
-                    <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
-                      Explore weRead
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/lifestyle" className="w-full">
+                      <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
+                        Explore theyRead
+                      </Button>
+                    </Link>
+                    <a
+                      href="https://mixpanel.com/report/3276012/view/4354015"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                    >
+                      View Data in Mixpanel →
+                    </a>
+                  </>
                 ) : (
                   <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                    weRead - Coming Soon
+                    theyRead - Coming Soon
                   </Button>
                 )}
               </div>

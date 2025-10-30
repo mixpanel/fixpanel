@@ -28,7 +28,7 @@ test.describe('Smoke Tests', () => {
     await page.waitForTimeout(2000);
 
     // Should NOT see session start events on landing
-    const hasSessionEvent = consoleTracker.hasLog(/Session: (iBank|ourHeart|theyBuy|youAdmin|weRead|meTube)/);
+    const hasSessionEvent = consoleTracker.hasLog(/Session: (iBank|ourHeart|weBuy|youAdmin|theyRead|meTube)/);
     const hasResetLog = consoleTracker.hasLog('FRESH LANDING');
 
     console.log('🏠 Landing - Session events:', hasSessionEvent ? '❌ BAD' : '✅ None');

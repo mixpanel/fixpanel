@@ -252,7 +252,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     // Should see Mixpanel loaded BEFORE session event
     const logs = consoleTracker.getLogs();
     const loadedIndex = logs.findIndex(log => log.includes('MIXPANEL LOADED'));
-    const sessionIndex = logs.findIndex(log => log.includes('Session: theyBuy'));
+    const sessionIndex = logs.findIndex(log => log.includes('Session: weBuy'));
 
     console.log('📊 Loaded index:', loadedIndex);
     console.log('📊 Session index:', sessionIndex);

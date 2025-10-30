@@ -123,7 +123,7 @@ export default function TrendingPage() {
 
     // Track subscribe attempt
     if (typeof window !== 'undefined' && window.mixpanel) {
-      window.mixpanel.track('Subscribe Attempt', {
+      window.mixpanel.track('Subscribe Attempted', {
         channel: channel,
         page: 'trending',
         attempt_number: clickCount + 1

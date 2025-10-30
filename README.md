@@ -37,6 +37,17 @@ npm run oneoffs          # Serve oneoffs directory standalone
 
 The app is pre-configured to send data to the [demo Mixpanel project](https://mixpanel.com/project/3276012/view/3782804/app/home).
 
+**Data Architecture**: All microsites send data to the same Mixpanel project (ID: `3276012`), but each vertical has its own dedicated data view for filtering and analysis:
+
+- **weBuy** (Ecommerce): [View 4354009](https://mixpanel.com/report/3276012/view/4354009)
+- **iBank** (Financial): [View 4354010](https://mixpanel.com/report/3276012/view/4354010)
+- **meTube** (Media): [View 4354011](https://mixpanel.com/report/3276012/view/4354011)
+- **youAdmin** (SaaS): [View 4354012](https://mixpanel.com/report/3276012/view/4354012)
+- **ourHeart** (Healthcare): [View 4354013](https://mixpanel.com/report/3276012/view/4354013)
+- **theyRead** (Social): [View 4354015](https://mixpanel.com/report/3276012/view/4354015)
+
+The Header and Footer Mixpanel links automatically route users to the appropriate vertical-specific view based on which microsite they're viewing.
+
 To use your own Mixpanel project, create a `.env` file:
 
 ```bash
@@ -173,3 +184,14 @@ if (variant === 'control') {
 - [Mixpanel Project](https://mixpanel.com/project/3276012/view/3782804/app/events)
 - [Internal Docs](https://www.notion.so/mxpnl/Fixpanel-1ece0ba9256280b9b10ad1ad09b80bca)
 - [Mixpanel JavaScript SDK Docs](https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript)
+
+### Vertical-Specific Mixpanel Data Views
+
+Each microsite has its own data view for focused analysis:
+
+- [weBuy (Ecommerce)](https://mixpanel.com/report/3276012/view/4354009)
+- [iBank (Financial)](https://mixpanel.com/report/3276012/view/4354010)
+- [meTube (Media)](https://mixpanel.com/report/3276012/view/4354011)
+- [youAdmin (SaaS)](https://mixpanel.com/report/3276012/view/4354012)
+- [ourHeart (Healthcare)](https://mixpanel.com/report/3276012/view/4354013)
+- [theyRead (Social)](https://mixpanel.com/report/3276012/view/4354015)

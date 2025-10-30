@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { ConsoleLogTracker } from '../utils/test-helpers';
 
-test.describe('theyBuy', () => {
+test.describe('weBuy', () => {
   let consoleTracker: ConsoleLogTracker;
 
   test.beforeEach(async ({ page }) => {

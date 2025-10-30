@@ -22,7 +22,7 @@ import { ThemeSlider } from "./ThemeSlider";
 import { CouponDrawer } from "./CouponDrawer";
 import { products } from "./products";
 
-export default function TheyBuyHomePage() {
+export default function WeBuyHomePage() {
   const { colors } = useColorScheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -31,10 +31,10 @@ export default function TheyBuyHomePage() {
 
   // Load cart from sessionStorage on mount
   useEffect(() => {
-    document.title = "theyBuy";
+    document.title = "weBuy";
 
     // Track session start
-    trackMicrositeSession('theyBuy');
+    trackMicrositeSession('weBuy');
 
     if (typeof window !== 'undefined') {
       const savedCart = sessionStorage.getItem('theybuy_cart');
@@ -132,7 +132,7 @@ export default function TheyBuyHomePage() {
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  theyBuy
+                  weBuy
                 </motion.h1>
                 <motion.p
                   className="mx-auto max-w-[700px] text-lg md:text-xl"
@@ -297,7 +297,7 @@ export default function TheyBuyHomePage() {
                                 button_name: 'Favorite Product',
                                 product_id: product.id,
                                 product_name: product.name,
-                                page: 'theyBuy Home'
+                                page: 'weBuy Home'
                               });
                             }
                           }}
@@ -488,7 +488,7 @@ export default function TheyBuyHomePage() {
                                 button_name: 'Favorite Product Modal',
                                 product_id: selectedProduct.id,
                                 product_name: selectedProduct.name,
-                                page: 'theyBuy Product Modal'
+                                page: 'weBuy Product Modal'
                               });
                             }
                           }}
