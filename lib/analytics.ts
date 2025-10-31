@@ -350,8 +350,44 @@ export function cleanupEverything(): void {
 }
 
 /**
- * Nuke everything with fade animation, then navigate to landing page.
- * This prevents creating a "third user" by ensuring we go through the landing page cleanup.
+ * Get the base path of the current microsite
+ * Examples:
+ * - /fixpanel/financial/account → /fixpanel/financial/
+ * - /fixpanel/wellness/chat → /fixpanel/wellness/
+ * - /fixpanel/ → /fixpanel/
+ * - /financial/account → /financial/
+ * - / → /
+ */
+function getMicrositeBasePath(): string {
+  const pathname = window.location.pathname;
+
+  // Check if we have /fixpanel/ in the path (production)
+  if (pathname.includes('/fixpanel/')) {
+    const parts = pathname.split('/').filter(Boolean);
+    // parts could be ['fixpanel'] or ['fixpanel', 'financial'] or ['fixpanel', 'financial', 'account']
+    if (parts.length <= 1) {
+      // We're on the homepage /fixpanel/ or /fixpanel
+      return '/fixpanel/';
+    } else {
+      // We're in a microsite, return /fixpanel/microsite/
+      return `/${parts[0]}/${parts[1]}/`;
+    }
+  } else {
+    // Development mode (no /fixpanel/ prefix)
+    const parts = pathname.split('/').filter(Boolean);
+    if (parts.length === 0) {
+      // We're on the homepage /
+      return '/';
+    } else {
+      // We're in a microsite, return /microsite/
+      return `/${parts[0]}/`;
+    }
+  }
+}
+
+/**
+ * Nuke everything with fade animation, then reload the current microsite.
+ * This keeps users in their current vertical while resetting all tracking data.
  */
 export function nukePanel(): void {
   // Create fade overlay element
@@ -376,17 +412,18 @@ export function nukePanel(): void {
   });
 
   setTimeout(() => {
-    console.log("[RESET]: NUKING EVERYTHING AND RETURNING TO LANDING PAGE");
+    console.log("[RESET]: NUKING EVERYTHING AND RELOADING CURRENT MICROSITE");
 
     setTimeout(() => {
       // Use the centralized cleanup function
       cleanupEverything();
 
-      // Navigate to landing page (/) which will trigger ClientLayout cleanup again for double protection
-      // This ensures we don't create a "third user" by reloading the current microsite
+      // Navigate to current microsite's base path
+      // This keeps users in their vertical while starting fresh
       setTimeout(() => {
-        console.log("[RESET]: 🏠 Navigating to landing page...");
-        window.location.href = window.location.origin + (window.location.pathname.includes('fixpanel') ? '/fixpanel/' : '/');
+        const targetPath = getMicrositeBasePath();
+        console.log(`[RESET]: 🔄 Reloading current microsite: ${targetPath}`);
+        window.location.href = window.location.origin + targetPath;
       }, 200);
     }, 300);
   }, 500);
