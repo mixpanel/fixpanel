@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mixpanel Feature Flags Demo</title>
+	<!-- Prevent favicon 404 by using a data URI for a transparent icon -->
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🚀</text></svg>">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			min-height: 100vh;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			position: relative;
+		}
+
+		/* Fade overlay for reset */
+		.fade-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: black;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.5s ease-out;
+			z-index: 9999;
+		}
+
+		.fade-overlay.active {
+			opacity: 1;
+			pointer-events: all;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 1400px;
+		}
+
+		h1 {
+			color: white;
+			text-align: center;
+			margin-bottom: 30px;
+			font-size: 2.5rem;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+			font-weight: 300;
+		}
+
+		/* Header with controls */
+		.header {
+			background: white;
+			border-radius: 10px;
+			padding: 20px;
+			margin-bottom: 20px;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+		}
+
+		.info-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			margin-bottom: 20px;
+		}
+
+		.info-item {
+			background: #f8f9fa;
+			padding: 10px 15px;
+			border-radius: 5px;
+			border-left: 3px solid #7856FF;
+		}
+
+		.info-label {
+			color: #666;
+			font-size: 0.85rem;
+			margin-bottom: 4px;
+		}
+
+		.info-value {
+			color: #333;
+			font-weight: bold;
+			font-family: monospace;
+			word-break: break-all;
+		}
+
+		/* Control buttons */
+		.controls {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+
+		.btn {
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			font-size: 14px;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			font-family: inherit;
+		}
+
+		.btn:hover:not(:disabled) {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		}
+
+		.btn:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+
+		.btn-primary {
+			background: #7856FF;
+			color: white;
+		}
+
+		.btn-success {
+			background: #07B096;
+			color: white;
+		}
+
+		.btn-danger {
+			background: #CC332B;
+			color: white;
+		}
+
+		.btn-warning {
+			background: #DA6B16;
+			color: white;
+		}
+
+		.btn-sm {
+			padding: 8px 16px;
+			font-size: 13px;
+		}
+
+		/* Main content grid */
+		.main-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 20px;
+			margin-top: 20px;
+		}
+
+		@media (max-width: 1024px) {
+			.main-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		/* Terminal UI */
+		.terminal {
+			background: #1e1e1e;
+			border-radius: 10px;
+			overflow: hidden;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+			height: 600px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.terminal-header {
+			background: #333;
+			padding: 10px 15px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.terminal-title {
+			color: #aaa;
+			font-size: 14px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.terminal-buttons {
+			display: flex;
+			gap: 8px;
+		}
+
+		.terminal-button {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+		}
+
+		.terminal-button.red { background: #ff5f56; }
+		.terminal-button.yellow { background: #ffbd2e; }
+		.terminal-button.green { background: #27c93f; }
+
+		.terminal-body {
+			flex: 1;
+			padding: 15px;
+			overflow-y: auto;
+			font-size: 13px;
+			line-height: 1.5;
+		}
+
+		.terminal-line {
+			margin-bottom: 8px;
+			white-space: pre-wrap;
+			word-break: break-all;
+		}
+
+		.terminal-line.info { color: #58a6ff; }
+		.terminal-line.success { color: #56d364; }
+		.terminal-line.warning { color: #f85149; }
+		.terminal-line.error { color: #ff5f56; }
+		.terminal-line.debug { color: #8b949e; }
+		.terminal-line.highlight {
+			color: #ffd700;
+			font-weight: bold;
+			background: rgba(255, 215, 0, 0.1);
+			padding: 2px 4px;
+			border-radius: 3px;
+		}
+
+		/* Flag status cards */
+		.flag-grid {
+			display: grid;
+			gap: 15px;
+		}
+
+		.flag-card {
+			background: white;
+			border-radius: 10px;
+			padding: 20px;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+			border-left: 4px solid #7856FF;
+			transition: all 0.3s ease;
+		}
+
+		.flag-card.collapsed {
+			padding: 15px 20px;
+		}
+
+		.flag-card.collapsed .flag-details {
+			display: none;
+		}
+
+		.flag-card.gate {
+			border-left-color: #07B096;
+		}
+
+		.flag-card.experiment {
+			border-left-color: #DA6B16;
+		}
+
+		.flag-card.config {
+			border-left-color: #764ba2;
+		}
+
+		.flag-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 15px;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		.flag-card.collapsed .flag-header {
+			margin-bottom: 0;
+		}
+
+		.collapse-icon {
+			font-size: 1.2rem;
+			transition: transform 0.3s ease;
+			margin-left: 10px;
+		}
+
+		.flag-card.collapsed .collapse-icon {
+			transform: rotate(-90deg);
+		}
+
+		.flag-title {
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: #333;
+		}
+
+		.flag-type {
+			background: #e9ecef;
+			color: #495057;
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 0.75rem;
+			font-weight: 600;
+			text-transform: uppercase;
+		}
+
+		.flag-details {
+			display: grid;
+			gap: 10px;
+		}
+
+		.flag-row {
+			display: flex;
+			justify-content: space-between;
+			padding: 8px;
+			background: #f8f9fa;
+			border-radius: 4px;
+		}
+
+		.flag-label {
+			color: #666;
+			font-size: 0.9rem;
+		}
+
+		.flag-value {
+			color: #333;
+			font-weight: 600;
+			font-family: monospace;
+		}
+
+		.flag-value.true { color: #07B096; }
+		.flag-value.false { color: #CC332B; }
+
+		/* JSON display */
+		.json-display {
+			background: #2d2d2d;
+			color: #f8f8f2;
+			padding: 10px;
+			border-radius: 4px;
+			font-size: 0.85rem;
+			overflow-x: auto;
+			margin-top: 10px;
+			white-space: pre;
+			font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+		}
+
+		/* Syntax highlighting for code */
+		.keyword { color: #ff79c6; }
+		.string { color: #f1fa8c; }
+		.comment { color: #6272a4; }
+		.function { color: #50fa7b; }
+		.number { color: #bd93f9; }
+
+		/* Terminal input */
+		.terminal-input-container {
+			padding: 10px 15px;
+			border-top: 1px solid #444;
+			display: flex;
+			align-items: center;
+			background: #1a1a1a;
+		}
+
+		.terminal-prompt {
+			color: #56d364;
+			margin-right: 8px;
+			font-weight: bold;
+		}
+
+		.terminal-input {
+			flex: 1;
+			background: transparent;
+			border: none;
+			color: #f8f8f2;
+			font-family: inherit;
+			font-size: 13px;
+			outline: none;
+		}
+
+		/* Loading spinner */
+		.spinner {
+			width: 20px;
+			height: 20px;
+			border: 2px solid #f3f3f3;
+			border-top: 2px solid #7856FF;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+			display: inline-block;
+			margin-left: 10px;
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		/* Custom scrollbar for terminal */
+		.terminal-body::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		.terminal-body::-webkit-scrollbar-track {
+			background: #2d2d2d;
+		}
+
+		.terminal-body::-webkit-scrollbar-thumb {
+			background: #555;
+			border-radius: 4px;
+		}
+
+		.terminal-body::-webkit-scrollbar-thumb:hover {
+			background: #666;
+		}
+	</style>
+</head>
+<body>
+	<!-- Fade overlay for reset animation -->
+	<div class="fade-overlay" id="fadeOverlay"></div>
+
+	<div class="container">
+		<h1>🚀 Mixpanel Feature Flags Demo</h1>
+
+		<!-- Header with info and controls -->
+		<div class="header">
+			<div class="info-grid">
+				<div class="info-item">
+					<div class="info-label">Distinct ID</div>
+					<div class="info-value" id="distinctId">Loading...</div>
+				</div>
+				<div class="info-item">
+					<div class="info-label">Device ID</div>
+					<div class="info-value" id="deviceId">Loading...</div>
+				</div>
+				<div class="info-item">
+					<div class="info-label">SDK Status</div>
+					<div class="info-value" id="sdkStatus">Initializing...</div>
+				</div>
+				<div class="info-item">
+					<div class="info-label">Flags Loaded</div>
+					<div class="info-value" id="flagsStatus">Not loaded</div>
+				</div>
+			</div>
+
+			<div class="controls">
+				<button class="btn btn-primary" onclick="fetchAllFlags()">
+					🔄 Fetch All Flags
+				</button>
+				<button class="btn btn-success" onclick="updateContext()">
+					🔧 Update Context
+				</button>
+				<button class="btn btn-warning" onclick="simulateRuntimeTargeting()">
+					🎯 Test Runtime Targeting
+				</button>
+				<button class="btn btn-warning" onclick="testURLParams()">
+					🔗 Test URL Eligibility
+				</button>
+				<button class="btn" style="background: #7856FF; color: white;" onclick="viewUserProfile()" id="viewUserBtn" disabled>
+					👤 View User
+				</button>
+				<button class="btn btn-danger" onclick="resetUser()">
+					💀 Reset User (New Session)
+				</button>
+			</div>
+		</div>
+
+		<!-- Main content grid -->
+		<div class="main-grid">
+			<!-- Terminal output -->
+			<div class="terminal">
+				<div class="terminal-header">
+					<div class="terminal-buttons">
+						<div class="terminal-button red"></div>
+						<div class="terminal-button yellow"></div>
+						<div class="terminal-button green"></div>
+					</div>
+					<div class="terminal-title">
+						<span>📟 Terminal Output</span>
+						<button class="btn btn-sm" style="padding: 4px 8px; font-size: 11px; margin-left: auto; background: #444; color: #aaa;" onclick="clearTerminal()">Clear</button>
+					</div>
+				</div>
+				<div class="terminal-body" id="terminalOutput">
+					<div class="terminal-line info">🚀 Initializing Mixpanel Feature Flags Demo...</div>
+				</div>
+				<div class="terminal-input-container">
+					<span class="terminal-prompt">$</span>
+					<input type="text" class="terminal-input" id="terminalInput" placeholder="Type JavaScript code here and press Enter..." onkeypress="handleTerminalInput(event)">
+				</div>
+			</div>
+
+			<!-- Flag status display -->
+			<div>
+				<!-- Expand/Collapse controls -->
+				<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+					<button class="btn btn-sm" style="background: #6c757d; color: white;" onclick="collapseAllCards()">
+						📦 Collapse All
+					</button>
+					<button class="btn btn-sm" style="background: #6c757d; color: white;" onclick="expandAllCards()">
+						📂 Expand All
+					</button>
+				</div>
+
+				<!-- Flag cards -->
+				<div class="flag-grid">
+				<!-- Feature Gate -->
+				<div class="flag-card gate" id="gateCard">
+					<div class="flag-header" onclick="toggleCard('gateCard')">
+						<div style="display: flex; align-items: center;">
+							<div class="flag-title">Feature Gate</div>
+							<span class="collapse-icon">▼</span>
+						</div>
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<button class="btn btn-sm" style="padding: 4px 10px; font-size: 12px; background: #7856FF; color: white;" onclick="event.stopPropagation(); window.open('https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/f6497d8f-f18f-4b6f-8dc5-c36e9b948f65', '_blank')">
+								📊 Mixpanel
+							</button>
+							<div class="flag-type">Gate</div>
+						</div>
+					</div>
+					<div class="flag-details">
+						<button class="btn btn-sm btn-primary" onclick="fetchGateFlag()" style="width: 100%; margin-bottom: 10px;">
+							🎯 Fetch This Flag
+						</button>
+						<div class="flag-row">
+							<span class="flag-label">Flag Key:</span>
+							<span class="flag-value">i-am-feature-gate</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Is Enabled:</span>
+							<span class="flag-value" id="gateEnabled">--</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Variant Value:</span>
+							<span class="flag-value" id="gateVariant">--</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Fallback Used:</span>
+							<span class="flag-value" id="gateFallback">--</span>
+						</div>
+						<details style="margin-top: 15px;">
+							<summary style="cursor: pointer; color: #07B096; font-weight: bold;">📝 View Code Example</summary>
+							<div class="json-display" style="margin-top: 10px; font-size: 12px;">
+// Check if feature is enabled (returns true/false)
+const isEnabled = await mixpanel.flags.is_enabled(
+  "i-am-feature-gate",
+  false // fallback value
+);
+
+if (isEnabled) {
+  showNewFeature();
+} else {
+  showOldFeature();
+}
+
+// Alternative: get_variant_value also works
+const value = await mixpanel.flags.get_variant_value(
+  "i-am-feature-gate",
+  false
+);</div>
+						</details>
+					</div>
+				</div>
+
+				<!-- Experiment -->
+				<div class="flag-card experiment" id="experimentCard">
+					<div class="flag-header" onclick="toggleCard('experimentCard')">
+						<div style="display: flex; align-items: center;">
+							<div class="flag-title">A/B/C Experiment</div>
+							<span class="collapse-icon">▼</span>
+						</div>
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<button class="btn btn-sm" style="padding: 4px 10px; font-size: 12px; background: #7856FF; color: white;" onclick="event.stopPropagation(); window.open('https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/136ad851-6152-4e18-9311-724e4919adc7', '_blank')">
+								📊 Mixpanel
+							</button>
+							<div class="flag-type">Experiment</div>
+						</div>
+					</div>
+					<div class="flag-details">
+						<button class="btn btn-sm btn-primary" onclick="fetchExperimentFlag()" style="width: 100%; margin-bottom: 10px;">
+							🎯 Fetch This Flag
+						</button>
+						<div class="flag-row">
+							<span class="flag-label">Flag Key:</span>
+							<span class="flag-value">i-am-experiment</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Variant:</span>
+							<span class="flag-value" id="experimentVariant">--</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Expected:</span>
+							<span class="flag-value">A | B | Control (33/33/33)</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Exposure Event:</span>
+							<span class="flag-value" id="experimentExposure">--</span>
+						</div>
+						<details style="margin-top: 15px;">
+							<summary style="cursor: pointer; color: #DA6B16; font-weight: bold;">📝 View Code Example</summary>
+							<div class="json-display" style="margin-top: 10px; font-size: 12px;">
+// Get experiment variant and track exposure event
+const variant = await mixpanel.flags.get_variant_value(
+  "i-am-experiment",
+  "Control" // fallback variant
+);
+
+// Use variant to render different experiences
+switch(variant) {
+  case "A":
+    renderExperienceA();
+    break;
+  case "B":
+    renderExperienceB();
+    break;
+  case "Control":
+    renderControlExperience();
+    break;
+  default:
+    renderControlExperience();
+}
+
+// Note: $experiment_started event is automatically
+// tracked when get_variant_value is called</div>
+						</details>
+					</div>
+				</div>
+
+				<!-- Dynamic Config -->
+				<div class="flag-card config" id="configCard">
+					<div class="flag-header" onclick="toggleCard('configCard')">
+						<div style="display: flex; align-items: center;">
+							<div class="flag-title">Dynamic Config</div>
+							<span class="collapse-icon">▼</span>
+						</div>
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<button class="btn btn-sm" style="padding: 4px 10px; font-size: 12px; background: #7856FF; color: white;" onclick="event.stopPropagation(); window.open('https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/e4b1b18d-edb1-4142-acb9-e2383a0fdf1e', '_blank')">
+								📊 Mixpanel
+							</button>
+							<div class="flag-type">Config</div>
+						</div>
+					</div>
+					<div class="flag-details">
+						<button class="btn btn-sm btn-primary" onclick="fetchConfigFlag()" style="width: 100%; margin-bottom: 10px;">
+							🎯 Fetch This Flag
+						</button>
+						<div class="flag-row">
+							<span class="flag-label">Flag Key:</span>
+							<span class="flag-value">i-am-dynamic-config</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Config Value:</span>
+						</div>
+						<div class="json-display" id="configValue">--</div>
+						<div class="flag-row">
+							<span class="flag-label">Expected:</span>
+							<span class="flag-value">{"foo":"bar"} | {"baz":"qux"}</span>
+						</div>
+						<details style="margin-top: 15px;">
+							<summary style="cursor: pointer; color: #764ba2; font-weight: bold;">📝 View Code Example</summary>
+							<div class="json-display" style="margin-top: 10px; font-size: 12px;">
+// Get dynamic configuration object
+const configStr = await mixpanel.flags.get_variant_value(
+  "i-am-dynamic-config",
+  JSON.stringify({ default: true }) // fallback config
+);
+
+// Parse the config (it comes as a string)
+let config;
+try {
+  config = JSON.parse(configStr);
+} catch (e) {
+  config = { default: true };
+}
+
+// Use the config to control app behavior
+if (config.foo === "bar") {
+  // Apply config variant 1
+  setButtonText(config.foo);
+} else if (config.baz === "qux") {
+  // Apply config variant 2
+  setButtonColor(config.baz);
+}
+
+// Dynamic configs are great for:
+// - UI text/labels
+// - Feature parameters
+// - Pricing tiers
+// - API endpoints</div>
+						</details>
+					</div>
+				</div>
+
+				<!-- Runtime Targeting Example -->
+				<div class="flag-card" style="border-left-color: #ff6b6b;" id="runtimeCard">
+					<div class="flag-header" onclick="toggleCard('runtimeCard')">
+						<div style="display: flex; align-items: center;">
+							<div class="flag-title">Runtime Targeting (URL Params)</div>
+							<span class="collapse-icon">▼</span>
+						</div>
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<button class="btn btn-sm" style="padding: 4px 10px; font-size: 12px; background: #7856FF; color: white;" onclick="event.stopPropagation(); window.open('https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/b60ce1d8-dbb0-495c-a9b4-fba7de271004', '_blank')">
+								📊 Mixpanel
+							</button>
+							<div class="flag-type">Runtime</div>
+						</div>
+					</div>
+					<div class="flag-details">
+						<button class="btn btn-sm btn-primary" onclick="fetchRuntimeFlag()" style="width: 100%; margin-bottom: 10px;">
+							🎯 Fetch This Flag
+						</button>
+						<div class="flag-row">
+							<span class="flag-label">Flag Key:</span>
+							<span class="flag-value">i-am-runtime-example</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">URL Param:</span>
+							<span class="flag-value" id="urlRuntimeParam">none</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Eligibility Status:</span>
+							<span class="flag-value" id="runtimeVariant">--</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Result:</span>
+						</div>
+						<div class="json-display" id="runtimePayload">--</div>
+						<details style="margin-top: 15px;">
+							<summary style="cursor: pointer; color: #ff6b6b; font-weight: bold;">📝 How Runtime Targeting Works</summary>
+							<div class="json-display" style="margin-top: 10px; font-size: 12px;">
+// Runtime Targeting controls WHO is eligible for a flag
+// Not WHICH variant they get
+
+// Enable runtime targeting (user becomes eligible):
+<a href="?runtime=true" style="color: #58a6ff;">?runtime=true</a>
+
+// Without runtime targeting (user NOT eligible):
+<a href="." style="color: #58a6ff;">Remove URL param</a>
+
+// How it works:
+// 1. With ?runtime=true → sends custom_properties.runtime = "true"
+// 2. Mixpanel flag is configured to target users where runtime = "true"
+// 3. Eligible users get randomly assigned to a variant (foo/bar/baz)
+// 4. Non-eligible users receive the fallback value
+
+// This is useful for:
+// - Beta features (only beta users see the flag)
+// - Geographic targeting (only certain regions)
+// - Plan-based features (only premium users)
+// - Testing environments (only staging/dev)</div>
+						</details>
+					</div>
+				</div>
+
+				<!-- Toggle Runtime Targeting -->
+				<div class="flag-card" id="contextCard">
+					<div class="flag-header" onclick="toggleCard('contextCard')">
+						<div style="display: flex; align-items: center;">
+							<div class="flag-title">Toggle Runtime Eligibility</div>
+							<span class="collapse-icon">▼</span>
+						</div>
+						<div class="flag-type">Context</div>
+					</div>
+					<div class="flag-details">
+						<button class="btn btn-sm btn-success" onclick="updateRuntimeContext()" style="width: 100%; margin-bottom: 10px;">
+							🔄 Toggle Eligibility On/Off
+						</button>
+						<div class="flag-row">
+							<span class="flag-label">Eligibility State:</span>
+							<span class="flag-value" id="runtimeContext">runtime: "false"</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Method:</span>
+							<span class="flag-value">flags.update_context()</span>
+						</div>
+						<details style="margin-top: 15px;">
+							<summary style="cursor: pointer; color: #7856FF; font-weight: bold;">📝 View Code Example</summary>
+							<div class="json-display" style="margin-top: 10px; font-size: 12px;">
+// Initialize with runtime targeting
+mixpanel.init(MIXPANEL_TOKEN, {
+  flags: {
+    context: {
+      custom_properties: {
+        runtime: "true"  // User is eligible
+      }
+    }
+  }
+});
+
+// Dynamically enable runtime targeting
+await mixpanel.flags.update_context({
+  custom_properties: {
+    runtime: "true"  // Enable eligibility
+  }
+});
+
+// Dynamically disable runtime targeting
+await mixpanel.flags.update_context({
+  custom_properties: {
+    runtime: "false"  // Disable eligibility
+  }
+});
+
+// After updating, flags are re-evaluated immediately</div>
+						</details>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Fix for path resolution with query parameters
+		// If URL doesn't end with /, redirect to add it (preserves query params)
+		if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+			window.location.replace(window.location.pathname + '/' + window.location.search);
+		}
+		// Set up Mixpanel loaded event listener BEFORE loading mixpanel.js
+		window.addEventListener('mixpanelLoaded', function(event) {
+			// Update the UI elements with the data from the event
+			const distinctIdEl = document.getElementById('distinctId');
+			const deviceIdEl = document.getElementById('deviceId');
+			const sdkStatusEl = document.getElementById('sdkStatus');
+			const viewUserBtn = document.getElementById('viewUserBtn');
+
+			if (distinctIdEl) {
+				distinctIdEl.textContent = event.detail.distinctId;
+			}
+
+			if (deviceIdEl) {
+				deviceIdEl.textContent = event.detail.deviceId;
+			}
+
+			if (sdkStatusEl) {
+				sdkStatusEl.textContent = '✅ Ready';
+			}
+
+			if (viewUserBtn) {
+				viewUserBtn.disabled = false;
+			}
+		});
+	</script>
+	<script src="mixpanel.js"></script>
+	<script>
+		// Toggle card collapse/expand
+		function toggleCard(cardId) {
+			const card = document.getElementById(cardId);
+			if (card) {
+				card.classList.toggle('collapsed');
+			}
+		}
+
+		// Expand/collapse all cards
+		function expandAllCards() {
+			document.querySelectorAll('.flag-card').forEach(card => {
+				card.classList.remove('collapsed');
+			});
+		}
+
+		function collapseAllCards() {
+			document.querySelectorAll('.flag-card').forEach(card => {
+				card.classList.add('collapsed');
+			});
+		}
+
+		// Make global
+		window.toggleCard = toggleCard;
+		window.expandAllCards = expandAllCards;
+		window.collapseAllCards = collapseAllCards;
+
+		// Fallback check if event was missed
+		setTimeout(function() {
+			if (window.mixpanelData && window.mixpanelData.loaded) {
+				const distinctIdEl = document.getElementById('distinctId');
+				const deviceIdEl = document.getElementById('deviceId');
+				const sdkStatusEl = document.getElementById('sdkStatus');
+				const viewUserBtn = document.getElementById('viewUserBtn');
+
+				if (distinctIdEl && distinctIdEl.textContent === 'Loading...') {
+					distinctIdEl.textContent = window.mixpanelData.distinctId;
+				}
+
+				if (deviceIdEl && deviceIdEl.textContent === 'Loading...') {
+					deviceIdEl.textContent = window.mixpanelData.deviceId;
+				}
+
+				if (sdkStatusEl && sdkStatusEl.textContent === 'Initializing...') {
+					sdkStatusEl.textContent = '✅ Ready';
+				}
+
+				if (viewUserBtn && viewUserBtn.disabled) {
+					viewUserBtn.disabled = false;
+				}
+			}
+		}, 500);
+	</script>
+</body>
+</html>

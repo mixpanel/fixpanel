@@ -494,6 +494,9 @@ export default function LandingPage() {
                   <Link href="/metube" className="text-blue-600 hover:underline">
                     MeTube Video
                   </Link>
+				  <Link href="/feature-flags-demo" className="text-blue-600 hover:underline">
+					Feature Flags Demo
+				  </Link>
                 </div>
               </div>
             </div>

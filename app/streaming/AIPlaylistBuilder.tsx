@@ -345,6 +345,7 @@ export function AIPlaylistBuilder() {
                   >
                     {/* Response Message */}
                     <div className={`mb-4 p-4 rounded-lg bg-gradient-to-r ${personality.bgGradient} bg-opacity-10`}>
+						{/* todo: used personality.color somewhere else */}
                       <p className="font-semibold text-white">
                         {personality.responsePrefix} for "{userPrompt}"! ({playlist.length} videos)
                       </p>
