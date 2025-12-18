@@ -23,7 +23,7 @@ const FLAGS = {
 	experiment: {
 		key: "i-am-experiment",
 		type: "experiment",
-		expected: "A, B, or Control (33/33/33)",
+		expected: "A, B, C, or Control (25/25/25/25)",
 		dashboardUrl: "https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/136ad851-6152-4e18-9311-724e4919adc7",
 		analysisUrl: "https://mixpanel.com/project/3971270/view/4466983/app/experiments/0de178e9-d243-47fd-b345-cc2335dd67c2"
 	},
@@ -32,6 +32,12 @@ const FLAGS = {
 		type: "runtime",
 		expected: 'foo, bar, or baz (33/33/34) based on URL param',
 		dashboardUrl: "https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/b60ce1d8-dbb0-495c-a9b4-fba7de271004"
+	},
+	cohortExample: {
+		key: "i-am-cohort-example",
+		type: "cohort",
+		expected: 'awesome (100%) of users who did "some trigger event"',
+		dashboardUrl: "https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/6777f61b-b643-487a-8c5a-1c0a8e7f891a"
 	}
 };
 
@@ -378,10 +384,29 @@ async function fetchAllFlags() {
 			console.log(`✨ User eligible - assigned variant: ${display}`);
 		}
 
+		// 5. COHORT EXAMPLE (Behavioral Targeting)
+		const cohortValue = await mixpanel.flags.get_variant_value(FLAGS.cohortExample.key, false);
+
+		let cohortStatus = '';
+
+		if (cohortValue === true) {
+			// User is in the cohort (has fired the trigger event)
+			cohortStatus = '✅ Eligible';
+			updateUIElement('cohortStatus', '✅ Eligible (in cohort)');
+			updateUIElement('cohortVariant', 'awesome');
+		} else {
+			// User is not in the cohort
+			cohortStatus = '❌ Not Eligible';
+			updateUIElement('cohortStatus', '❌ Not Eligible (not in cohort)');
+			updateUIElement('cohortVariant', 'false (not in cohort)');
+		}
+
+		console.log(`🎯 Cohort flag: ${cohortValue ? 'User in cohort' : 'User not in cohort'}`);
+
 		// Summary
 		const runtimeSummary = runtimeValue === runtimeFallback ? 'Not Eligible' :
 			(typeof parsedValue === 'object' && parsedValue.hello ? parsedValue.hello : String(runtimeValue));
-		console.log(`✅ Flags fetched - Gate: ${isGateEnabled ? 'Enabled' : 'Disabled'}, Experiment: ${experimentVariant}, Config: ${typeof parsedConfig === 'object' ? 'Object' : configValue}, Runtime: ${runtimeSummary}`);
+		console.log(`✅ Flags fetched - Gate: ${isGateEnabled ? 'Enabled' : 'Disabled'}, Experiment: ${experimentVariant}, Config: ${typeof parsedConfig === 'object' ? 'Object' : configValue}, Runtime: ${runtimeSummary}, Cohort: ${cohortStatus}`);
 
 		updateUIElement('flagsStatus', '✅ Loaded');
 
@@ -483,6 +508,67 @@ async function simulateRuntimeTargeting() {
 
 	// Re-fetch flags
 	setTimeout(() => fetchAllFlags(), 500);
+}
+
+// ==========================
+// BEHAVIORAL TARGETING SIMULATION
+// ==========================
+
+async function simulateBehavioralTargeting() {
+	console.log("\n========================================");
+	console.log("🎯 SIMULATING BEHAVIORAL TARGETING");
+	console.log("========================================");
+
+	console.log("📝 Behavioral targeting uses user actions to determine eligibility");
+	console.log("🔄 This demo will:");
+	console.log("   1. Fire 'some trigger event'");
+	console.log("   2. Wait for Mixpanel to process the event");
+	console.log("   3. Check if user is now in the cohort");
+	console.log("   4. Show the 'awesome' flag variant if eligible");
+
+	console.log("\n🎯 Step 1: Firing trigger event...");
+	mixpanel.track('some trigger event', {
+		source: 'simulation',
+		timestamp: new Date().toISOString()
+	});
+
+	updateUIElement('cohortEvent', '✅ Event fired (simulation)');
+	console.log("✅ Event 'some trigger event' fired!");
+
+	console.log("\n⏳ Step 2: Waiting for cohort evaluation...");
+	console.log("💡 Mixpanel needs to process the event and update cohort membership");
+
+	// Show progress
+	for (let i = 1; i <= 3; i++) {
+		await new Promise(resolve => setTimeout(resolve, 1000));
+		console.log(`⏱️ Waiting... ${i}s`);
+	}
+
+	console.log("\n🔄 Step 3: Checking cohort membership...");
+	const cohortValue = await mixpanel.flags.get_variant_value(FLAGS.cohortExample.key, false);
+
+	if (cohortValue === true) {
+		console.log("\n✅ SUCCESS! User is now in the cohort!");
+		console.log("🎉 Flag returned: 'awesome'");
+		console.log("📝 The user is eligible because they performed 'some trigger event'");
+
+		updateUIElement('cohortStatus', '✅ Eligible (in cohort)');
+		updateUIElement('cohortVariant', 'awesome');
+		updateUIElement('cohortEvent', '✅ Event recognized');
+	} else {
+		console.log("\n⚠️ User not yet in cohort");
+		console.log("⏱️ Cohort evaluation may still be processing");
+		console.log("💡 Try refreshing the flag or running the simulation again");
+
+		updateUIElement('cohortStatus', '❌ Not Eligible (processing...)');
+		updateUIElement('cohortVariant', 'false (not in cohort)');
+	}
+
+	console.log("\n📊 Behavioral targeting is powerful for:");
+	console.log("   • Progressive disclosure (unlock features as users engage)");
+	console.log("   • Onboarding flows (show features after certain actions)");
+	console.log("   • Power user features (enable for highly engaged users)");
+	console.log("   • A/B tests on engaged segments");
 }
 
 // ==========================
@@ -793,6 +879,80 @@ async function updateRuntimeContext() {
 }
 
 // ==========================
+// COHORT/BEHAVIORAL TARGETING
+// ==========================
+
+async function fireTriggerEvent() {
+	console.log("\n========================================");
+	console.log("🎯 FIRING TRIGGER EVENT FOR COHORT");
+	console.log("========================================");
+
+	try {
+		// Fire the trigger event
+		mixpanel.track('some trigger event', {
+			timestamp: new Date().toISOString(),
+			source: 'feature-flags-demo',
+			action: 'manual-trigger'
+		});
+
+		console.log("✅ Event fired: 'some trigger event'");
+		console.log("📊 Event properties sent:");
+		console.log("   - timestamp: " + new Date().toISOString());
+		console.log("   - source: feature-flags-demo");
+		console.log("   - action: manual-trigger");
+
+		// Update UI to show event was fired
+		updateUIElement('cohortEvent', '✅ Event fired!');
+
+		console.log("\n⏳ Cohort evaluation may take a moment...");
+		console.log("💡 Mixpanel needs to process the event and update cohort membership");
+		console.log("🔄 Click 'Refresh' or wait for next flag fetch to see updated eligibility");
+
+		// Automatically refresh after a delay
+		setTimeout(() => {
+			console.log("🔄 Auto-refreshing cohort flag...");
+			fetchCohortFlag();
+		}, 2000);
+
+	} catch (error) {
+		console.error("❌ ERROR FIRING EVENT:", error);
+		updateUIElement('cohortEvent', '❌ Error');
+	}
+}
+
+async function fetchCohortFlag() {
+	console.log("🎯 Fetching cohort flag...");
+
+	try {
+		const cohortValue = await mixpanel.flags.get_variant_value(FLAGS.cohortExample.key, false);
+
+		console.log(`📦 Cohort flag value: ${cohortValue}`);
+
+		if (cohortValue === true) {
+			// User is in the cohort
+			console.log("✅ SUCCESS! User is now in the cohort");
+			console.log("🎉 Flag returned: 'awesome'");
+			console.log("📝 User has performed 'some trigger event' and qualifies");
+
+			updateUIElement('cohortStatus', '✅ Eligible (in cohort)');
+			updateUIElement('cohortVariant', 'awesome');
+			updateUIElement('cohortEvent', '✅ Event recognized');
+		} else {
+			// User is not in the cohort
+			console.log("⚠️ User not yet in cohort");
+			console.log("💡 Fire the trigger event to become eligible");
+			console.log("⏱️ If you just fired the event, it may need more time to process");
+
+			updateUIElement('cohortStatus', '❌ Not Eligible (not in cohort)');
+			updateUIElement('cohortVariant', 'false (not in cohort)');
+		}
+
+	} catch (error) {
+		console.error("❌ ERROR FETCHING COHORT FLAG:", error);
+	}
+}
+
+// ==========================
 // VIEW USER PROFILE
 // ==========================
 
@@ -948,6 +1108,19 @@ window.mixpanelDemo = {
 		const display = typeof parsed === 'object' ? JSON.stringify(parsed) : result;
 		console.log(`🎯 Runtime Value: ${display}`);
 		return result;
+	},
+
+	async getCohort() {
+		const result = await mixpanel.flags.get_variant_value(FLAGS.cohortExample.key, false);
+		console.log(`🎯 Cohort Flag: ${result ? 'awesome (in cohort)' : 'false (not in cohort)'}`);
+		return result;
+	},
+
+	async fireEvent() {
+		mixpanel.track('some trigger event', { source: 'console' });
+		console.log("✅ Event 'some trigger event' fired!");
+		console.log("⏱️ Cohort membership may take a moment to update");
+		return true;
 	}
 };
 
@@ -965,5 +1138,8 @@ window.fetchAllFlags = fetchAllFlags;
 window.updateContext = updateContext;
 window.simulateRuntimeTargeting = simulateRuntimeTargeting;
 window.resetUser = resetUser;
+window.fireTriggerEvent = fireTriggerEvent;
+window.fetchCohortFlag = fetchCohortFlag;
+window.simulateBehavioralTargeting = simulateBehavioralTargeting;
 
 console.log("💡 Use window.mixpanelDemo in console for testing");

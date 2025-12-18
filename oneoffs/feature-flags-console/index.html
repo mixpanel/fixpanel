@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Mixpanel Feature Flags Demo</title>
+	<title>Mixpanel Feature Flags Console</title>
 	<!-- Prevent favicon 404 by using a data URI for a transparent icon -->
-	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🚀</text></svg>">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📟</text></svg>">
 	<style>
 		* {
 			margin: 0;
@@ -96,15 +96,22 @@
 		/* Control buttons */
 		.controls {
 			display: flex;
-			gap: 10px;
-			flex-wrap: wrap;
+			gap: 12px;
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			padding-bottom: 5px;
+		}
+
+		.controls button {
+			white-space: nowrap;
+			flex-shrink: 0;
 		}
 
 		.btn {
-			padding: 10px 20px;
+			padding: 9px 16px;
 			border: none;
 			border-radius: 5px;
-			font-size: 14px;
+			font-size: 13px;
 			font-weight: 600;
 			cursor: pointer;
 			transition: all 0.3s ease;
@@ -447,16 +454,19 @@
 					🔧 Update Context
 				</button>
 				<button class="btn btn-warning" onclick="simulateRuntimeTargeting()">
-					🎯 Test Runtime Targeting
+					🎯 Test Runtime
+				</button>
+				<button class="btn btn-warning" onclick="simulateBehavioralTargeting()">
+					🎯 Test Behavioral
 				</button>
 				<button class="btn btn-warning" onclick="testURLParams()">
-					🔗 Test URL Eligibility
+					🔗 Test URL
 				</button>
 				<button class="btn" style="background: #7856FF; color: white;" onclick="viewUserProfile()" id="viewUserBtn" disabled>
 					👤 View User
 				</button>
 				<button class="btn btn-danger" onclick="resetUser()">
-					💀 Reset User (New Session)
+					💀 Reset User
 				</button>
 			</div>
 		</div>
@@ -585,7 +595,7 @@ const value = await mixpanel.flags.get_variant_value(
 						</div>
 						<div class="flag-row">
 							<span class="flag-label">Expected:</span>
-							<span class="flag-value">A | B | Control (33/33/33)</span>
+							<span class="flag-value">"A | B | C | Control (25/25/25/25)"</span>
 						</div>
 						<div class="flag-row">
 							<span class="flag-label">Exposure Event:</span>
@@ -743,6 +753,67 @@ if (config.foo === "bar") {
 // - Geographic targeting (only certain regions)
 // - Plan-based features (only premium users)
 // - Testing environments (only staging/dev)</div>
+						</details>
+					</div>
+				</div>
+
+				<!-- Cohort/Behavioral Targeting Example -->
+				<div class="flag-card" style="border-left-color: #1C782D;" id="cohortCard">
+					<div class="flag-header" onclick="toggleCard('cohortCard')">
+						<div style="display: flex; align-items: center;">
+							<div class="flag-title">Behavioral Targeting (Cohorts)</div>
+							<span class="collapse-icon">▼</span>
+						</div>
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<button class="btn btn-sm" style="padding: 4px 10px; font-size: 12px; background: #7856FF; color: white;" onclick="event.stopPropagation(); window.open('https://mixpanel.com/project/3971270/view/4466983/app/feature-flags/6777f61b-b643-487a-8c5a-1c0a8e7f891a', '_blank')">
+								📊 Mixpanel
+							</button>
+							<button class="btn btn-sm btn-success" onclick="event.stopPropagation(); fetchCohortFlag()">
+								🔄 Refresh
+							</button>
+							<div class="flag-type">Gate</div>
+						</div>
+					</div>
+					<div class="flag-details">
+						<div class="flag-row">
+							<span class="flag-label">Flag Key:</span>
+							<span class="flag-value">i-am-cohort-example</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Eligibility:</span>
+							<span class="flag-value" id="cohortStatus">--</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Event Status:</span>
+							<span class="flag-value" id="cohortEvent">Not fired</span>
+						</div>
+						<div class="flag-row">
+							<span class="flag-label">Result:</span>
+							<span class="flag-value" id="cohortVariant">--</span>
+						</div>
+						<button class="btn btn-sm btn-warning" onclick="fireTriggerEvent()" style="width: 100%; margin: 15px 0;">
+							🎯 Fire Trigger Event
+						</button>
+						<details style="margin-top: 15px;">
+							<summary style="cursor: pointer; color: #1C782D; font-weight: bold;">📝 How Behavioral Targeting Works</summary>
+							<div class="json-display" style="margin-top: 10px; font-size: 12px;">
+// Behavioral Targeting uses user actions to determine eligibility
+// Not just properties, but actual events they've triggered
+
+// Fire an event to become eligible:
+mixpanel.track('some trigger event');
+
+// How it works:
+// 1. User performs specific action (fires event)
+// 2. Mixpanel cohort evaluates: "users who did 'some trigger event'"
+// 3. Flag targets users in that cohort
+// 4. Eligible users see the feature
+
+// This is useful for:
+// - Progressive disclosure (unlock features as users engage)
+// - Onboarding flows (show features after certain actions)
+// - Power user features (enable for highly engaged users)
+// - A/B tests on engaged segments</div>
 						</details>
 					</div>
 				</div>

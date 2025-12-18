@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixpanel Feature Flags - Basic Demo</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .status {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .status.loaded {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        button:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        .info {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .info code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: Monaco, Menlo, monospace;
+            color: #e83e8c;
+        }
+
+        .info a:hover {
+            text-decoration: underline !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World</h1>
+
+        <div class="status" id="status">
+            Initializing Mixpanel...
+        </div>
+
+        <button onclick="resetUser()">
+            💀 Reset User
+        </button>
+
+        <div class="info">
+            <p>Token: <code>bb6aa70aeb05a0d20584a4ea6afb7bf8</code></p>
+            <p id="distinctId">Distinct ID: <code>Loading...</code></p>
+            <p style="margin-top: 10px;">
+                <a href="https://mixpanel.com/project/3971935" target="_blank" style="color: #7856FF; text-decoration: none; font-weight: 600;">
+                    📊 View Mixpanel Project →
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Mixpanel SDK -->
+    <script>
+        (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+    </script>
+
+    <script>
+        // Mixpanel token
+        const MIXPANEL_TOKEN = 'bb6aa70aeb05a0d20584a4ea6afb7bf8';
+
+        // Initialize Mixpanel
+        mixpanel.init(MIXPANEL_TOKEN, {
+            debug: true,
+            track_pageview: false,
+            persistence: 'localStorage',
+            // Feature flags configuration - uncomment to enable
+			// flags: {},
+            // flags: {
+            //     context: {
+            //         custom_properties: {
+            //             // Add custom properties for targeting
+            //         }
+            //     }
+            // },
+            loaded: function(mixpanel) {
+                console.log('✅ Mixpanel loaded successfully!');
+
+                // Update status
+                const statusEl = document.getElementById('status');
+                statusEl.textContent = '✅ Mixpanel Loaded';
+                statusEl.classList.add('loaded');
+
+                // Show distinct ID
+                const distinctId = mixpanel.get_distinct_id();
+                document.getElementById('distinctId').innerHTML = `Distinct ID: <code>${distinctId}</code>`;
+
+                // Track page load
+                mixpanel.track('page!');
+
+                // Example: Fetch a feature flag value
+                // Uncomment the code below to fetch a flag value
+                /*
+                async function checkFlag() {
+                    try {
+                        // Check if flag is enabled (returns true/false)
+                        const isEnabled = await mixpanel.flags.is_enabled('my-cool-flag', false);
+                        console.log('Flag "my-cool-flag" is:', isEnabled ? 'ENABLED' : 'DISABLED');
+
+                        // Or get the variant value (for experiments/config)
+                        const value = await mixpanel.flags.get_variant_value('my-cool-flag', 'default');
+                        console.log('Flag value:', value);
+                    } catch (error) {
+                        console.error('Error fetching flag:', error);
+                    }
+                }
+
+                // Call the function to check the flag
+                checkFlag();
+                */
+            }
+        });
+
+        // Reset function - clear all storage and reload
+        function resetUser() {
+            console.log('🧹 Resetting user...');
+
+            // Track reset event
+            if (window.mixpanel) {
+                mixpanel.track('Basic Demo - User Reset');
+            }
+
+            // Clear Mixpanel
+            if (window.mixpanel && window.mixpanel.reset) {
+                mixpanel.reset();
+            }
+
+            // Clear all storage
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+
+                // Clear cookies
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+
+                console.log('✅ Storage cleared');
+            } catch (e) {
+                console.error('Error clearing storage:', e);
+            }
+
+            // Reload page
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+
+        // Log to console for debugging
+        console.log('🚀 Mixpanel Basic Demo');
+        console.log('Token:', MIXPANEL_TOKEN);
+        console.log('Ready to fetch feature flags!');
+    </script>
+</body>
+</html>
