@@ -495,12 +495,12 @@ export default function LandingPage() {
                     MeTube Video
                   </Link>
                   <span className="text-gray-300">•</span>
-				  <Link href="/feature-flags-demo" className="text-blue-600 hover:underline">
-					Feature Flags Demo
+				  <Link href="/feature-flags-console" className="text-blue-600 hover:underline">
+					Feature Flags Console
 				  </Link>
                   <span className="text-gray-300">•</span>
-                  <a href="/oneoffs" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                    View All OneOffs →
+                  <a href="https://mixpanel.github.io/fixpanel/oneoffs/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                    View All Demos →
                   </a>
                 </div>
               </div>

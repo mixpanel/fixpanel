@@ -74,7 +74,7 @@ function generateHTMLContent(structure) {
       <div class="folder-header">
         <input type="checkbox" checked disabled>
         <span class="folder-icon">📁</span>
-        <a href="./${folder}/" class="folder-name">${folder}/</a>
+        <a href="../${folder}/" class="folder-name">${folder}/</a>
       </div>
       <div class="file-list">`;
 
@@ -86,7 +86,7 @@ function generateHTMLContent(structure) {
         <div class="${className}">
           <input type="checkbox" disabled>
           <span class="file-icon">📄</span>
-          <a href="./${folder}/${file}">${displayName}</a>
+          <a href="../${folder}/${file}">${displayName}</a>
         </div>`;
     }
 

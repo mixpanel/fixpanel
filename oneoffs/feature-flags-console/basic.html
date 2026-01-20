@@ -160,7 +160,7 @@
                 </a>
                 <br>
                 <a href="https://mixpanel.com/project/3971935/view/4467659/app/feature-flags/3897a9ad-6e7d-4d27-acf3-2e48ca8986ca" target="_blank" style="color: #7856FF; text-decoration: none; font-weight: 600;">
-                    🚩 View Feature Flag (my-cool-flag) →
+                    🚩 View Feature Flag (my-first-flag) →
                 </a>
             </p>
         </div>
@@ -211,18 +211,18 @@
                     try {
                         // Create an object to store all flag data
                         const flagData = {
-                            flagName: 'my-cool-flag',
+                            flagName: 'my-first-flag',
                             timestamp: new Date().toISOString(),
                             distinctId: mixpanel.get_distinct_id()
                         };
 
                         // Check if flag is enabled (returns true/false)
-                        const isEnabled = await mixpanel.flags.is_enabled('my-cool-flag', false);
+                        const isEnabled = await mixpanel.flags.is_enabled('my-first-flag', false);
                         flagData.isEnabled = isEnabled;
-                        console.log('Flag "my-cool-flag" is:', isEnabled ? 'ENABLED' : 'DISABLED');
+                        console.log('Flag "my-first-flag" is:', isEnabled ? 'ENABLED' : 'DISABLED');
 
                         // Get the variant value (for experiments/config)
-                        const value = await mixpanel.flags.get_variant_value('my-cool-flag', 'default');
+                        const value = await mixpanel.flags.get_variant_value('my-first-flag', 'default');
                         flagData.variantValue = value;
                         console.log('Flag value:', value);
 
