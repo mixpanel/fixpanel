@@ -20,7 +20,6 @@ import {
   BotIcon,
   UserIcon
 } from "lucide-react";
-import { useColorScheme } from "../ColorSchemeProvider";
 
 // Mock FAQ data
 const faqs = [
@@ -77,7 +76,6 @@ const initialChatMessages = [
 ];
 
 export default function SupportPage() {
-  const { colors } = useColorScheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [helpfulVotes, setHelpfulVotes] = useState<{[key: number]: boolean | null}>({});
@@ -432,7 +430,7 @@ export default function SupportPage() {
                     rows={6}
                     required
                   />
-                  <Button type="submit" className="w-full hover:bg-opacity-90 active:scale-95 transition-all" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+                  <Button type="submit" className="w-full hover:bg-opacity-90 active:scale-95 transition-all" style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}>
                     Send Message
                   </Button>
                 </form>

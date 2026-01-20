@@ -15,11 +15,9 @@ import {
   ArrowLeftIcon,
   CreditCardIcon
 } from "lucide-react";
-import { useColorScheme } from "../ColorSchemeProvider";
 import { products } from "../products";
 
 export default function CartPage() {
-  const { colors } = useColorScheme();
   const [cartData, setCartData] = useState<Array<{id: number, quantity: number}>>([]);
   const [cartItems, setCartItems] = useState<Array<{id: number, name: string, price: number, quantity: number, image: string}>>([]);
 
@@ -183,7 +181,7 @@ export default function CartPage() {
       <main className="flex-1 py-8">
         <div className="container px-4 md:px-6">
           <div className="mb-6">
-            <Link href="/checkout" className="flex items-center hover:underline" style={{ color: colors.primary }}>
+            <Link href="/checkout" className="flex items-center hover:underline" style={{ color: '#9333EA' }}>
               <ArrowLeftIcon className="h-4 w-4 mr-2" />
               Continue Shopping
             </Link>
@@ -198,7 +196,7 @@ export default function CartPage() {
               <p className="text-gray-600 mb-6">Looks like you haven't added anything to your cart yet.</p>
               <Link href="/checkout">
                 <Button
-                  style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                  style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                   className="hover:bg-opacity-90 active:scale-95 transition-all"
                 >
                   Start Shopping
@@ -216,7 +214,7 @@ export default function CartPage() {
 
                       <div className="flex-1">
                         <h3 className="font-semibold">{item.name}</h3>
-                        <p className="font-semibold" style={{ color: colors.primary }}>${item.price}</p>
+                        <p className="font-semibold" style={{ color: '#9333EA' }}>${item.price}</p>
                       </div>
 
                       <div className="flex items-center gap-2">
@@ -263,7 +261,7 @@ export default function CartPage() {
                   {/* Coupon Section - THE BROKEN FEATURE! */}
                   <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                     <div className="flex items-center gap-2 mb-3">
-                      <TagIcon className="h-4 w-4" style={{ color: colors.primary }} />
+                      <TagIcon className="h-4 w-4" style={{ color: '#9333EA' }} />
                       <span className="font-medium">Promo Code</span>
                     </div>
                     <div className="flex gap-2">
@@ -276,7 +274,7 @@ export default function CartPage() {
                       <Button
                         onClick={applyCoupon}
                         disabled={isApplyingCoupon || couponApplied || !couponCode}
-                        style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                        style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                         className="hover:bg-opacity-90 active:scale-95 transition-all"
                       >
                         {isApplyingCoupon ? "..." : "Apply"}
@@ -322,7 +320,7 @@ export default function CartPage() {
                   </div>
 
                   <Link href="/checkout/payment" className="w-full">
-                    <Button className="w-full mb-4 hover:bg-opacity-90 active:scale-95 transition-all" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+                    <Button className="w-full mb-4 hover:bg-opacity-90 active:scale-95 transition-all" style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}>
                       <CreditCardIcon className="h-4 w-4 mr-2" />
                       Proceed to Checkout
                     </Button>

@@ -24,7 +24,6 @@ import {
   EditIcon,
   SaveIcon
 } from "lucide-react";
-import { useColorScheme } from "../ColorSchemeProvider";
 
 // Mock user data
 const mockUser = {
@@ -98,7 +97,6 @@ const wishlistItems = [
 ];
 
 export default function AccountPage() {
-  const { colors } = useColorScheme();
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState(mockUser);
@@ -171,7 +169,7 @@ export default function AccountPage() {
       {/* Account Overview */}
       <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-lg p-6">
         <div className="flex items-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold" style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
+          <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold" style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}>
             {userInfo.name.split(' ').map(n => n[0]).join('')}
           </div>
           <div>
@@ -384,7 +382,7 @@ export default function AccountPage() {
             <div className="text-center mb-4">
               <div className="text-6xl mb-2">{item.image}</div>
               <h4 className="font-semibold">{item.name}</h4>
-              <div className="text-xl font-bold mt-2" style={{ color: colors.primary }}>${item.price}</div>
+              <div className="text-xl font-bold mt-2" style={{ color: '#9333EA' }}>${item.price}</div>
             </div>
 
             <div className={`text-center text-sm mb-4 ${item.inStock ? 'text-green-600' : 'text-red-600'}`}>
@@ -394,7 +392,7 @@ export default function AccountPage() {
             <div className="space-y-2">
               <Button
                 className="w-full hover:bg-opacity-90 active:scale-95 transition-all"
-                style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                 disabled={!item.inStock}
               >
                 Add to Cart

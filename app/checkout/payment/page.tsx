@@ -12,17 +12,9 @@ import {
   ShieldCheckIcon,
   CheckCircleIcon
 } from "lucide-react";
-import { useColorScheme } from "../ColorSchemeProvider";
 import { products } from "../products";
 
 export default function CheckoutPage() {
-  const { colors } = useColorScheme();
-
-  // Debug: log colors when they change
-  useEffect(() => {
-    console.log("[PAYMENT PAGE]: Received colors", colors);
-  }, [colors]);
-
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
@@ -230,7 +222,7 @@ export default function CheckoutPage() {
             </div>
             <Link href="/checkout">
               <Button
-                style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                 className="hover:bg-opacity-90 active:scale-95 transition-all"
               >
                 Continue Shopping
@@ -249,7 +241,7 @@ export default function CheckoutPage() {
       <main className="flex-1 py-8">
         <div className="container px-4 md:px-6 max-w-4xl mx-auto">
           <div className="mb-6">
-            <Link href="/checkout/cart" className="flex items-center hover:underline" style={{ color: colors.primary }}>
+            <Link href="/checkout/cart" className="flex items-center hover:underline" style={{ color: '#9333EA' }}>
               <ArrowLeftIcon className="h-4 w-4 mr-2" />
               Back to Cart
             </Link>
@@ -260,19 +252,19 @@ export default function CheckoutPage() {
           {/* Progress Steps */}
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center space-x-4">
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? '' : 'bg-gray-200'}`} style={currentStep >= 1 ? { backgroundColor: colors.buttonBg, color: colors.buttonText } : {}}>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? '' : 'bg-gray-200'}`} style={currentStep >= 1 ? { backgroundColor: '#9333EA', color: '#FFFFFF' } : {}}>
                 1
               </div>
               <div className="w-12 h-1 bg-gray-200">
-                <div className="h-full transition-all" style={{ backgroundColor: colors.buttonBg, width: currentStep >= 2 ? '100%' : '0' }}></div>
+                <div className="h-full transition-all" style={{ backgroundColor: '#9333EA', width: currentStep >= 2 ? '100%' : '0' }}></div>
               </div>
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? '' : 'bg-gray-200'}`} style={currentStep >= 2 ? { backgroundColor: colors.buttonBg, color: colors.buttonText } : {}}>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? '' : 'bg-gray-200'}`} style={currentStep >= 2 ? { backgroundColor: '#9333EA', color: '#FFFFFF' } : {}}>
                 2
               </div>
               <div className="w-12 h-1 bg-gray-200">
-                <div className="h-full transition-all" style={{ backgroundColor: colors.buttonBg, width: currentStep >= 3 ? '100%' : '0' }}></div>
+                <div className="h-full transition-all" style={{ backgroundColor: '#9333EA', width: currentStep >= 3 ? '100%' : '0' }}></div>
               </div>
-              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? '' : 'bg-gray-200'}`} style={currentStep >= 3 ? { backgroundColor: colors.buttonBg, color: colors.buttonText } : {}}>
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? '' : 'bg-gray-200'}`} style={currentStep >= 3 ? { backgroundColor: '#9333EA', color: '#FFFFFF' } : {}}>
                 3
               </div>
             </div>
@@ -305,7 +297,7 @@ export default function CheckoutPage() {
                   <Button
                     onClick={() => setCurrentStep(2)}
                     disabled={!firstName || !lastName || !email}
-                    style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                    style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                     className="hover:bg-opacity-90 active:scale-95 transition-all"
                   >
                     Continue to Shipping
@@ -345,7 +337,7 @@ export default function CheckoutPage() {
                     <Button
                       onClick={() => setCurrentStep(3)}
                       disabled={!address || !city || !zipCode}
-                      style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                      style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                       className="hover:bg-opacity-90 active:scale-95 transition-all"
                     >
                       Continue to Payment
@@ -396,7 +388,7 @@ export default function CheckoutPage() {
                       onClick={handleSubmitPayment}
                       disabled={!cardNumber || !expiryDate || !cvv || !buttonEnabled || isProcessing}
                       className="shadow-lg hover:bg-opacity-90 active:scale-95 transition-all"
-                      style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                      style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                     >
                       <CreditCardIcon className="h-4 w-4 mr-2" />
                       {isProcessing
@@ -422,7 +414,7 @@ export default function CheckoutPage() {
 
             {/* Order Summary Sidebar */}
             <div className="lg:col-span-1">
-              <div className="border rounded-lg p-6 sticky top-6" style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}>
+              <div className="border rounded-lg p-6 sticky top-6" style={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB' }}>
                 <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
                 <div className="space-y-3 mb-4">
                   {cartItems.map((item) => (

@@ -15,7 +15,6 @@ import {
   TimerIcon,
   GiftIcon
 } from "lucide-react";
-import { useColorScheme } from "../ColorSchemeProvider";
 
 // Daily deals with flash sale mechanics
 const dailyDeals = [
@@ -112,7 +111,6 @@ const dailyDeals = [
 ];
 
 export default function DealsPage() {
-  const { colors } = useColorScheme();
   const [cart, setCart] = useState<Array<{id: number, quantity: number}>>([]);
   const [timers, setTimers] = useState<{[key: number]: number}>({});
   const [flashingDeals, setFlashingDeals] = useState<{[key: number]: boolean}>({});
@@ -257,7 +255,7 @@ export default function DealsPage() {
               </div>
               <Link href="/checkout/cart">
                 <Button
-                  style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                  style={{ backgroundColor: '#9333EA', color: '#FFFFFF' }}
                   className="hover:bg-opacity-90 active:scale-95 transition-all"
                 >
                   <ShoppingCartIcon className="h-4 w-4 mr-2" />
@@ -323,7 +321,7 @@ export default function DealsPage() {
 
                       {/* Pricing */}
                       <div className="mb-4">
-                        <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>
+                        <div className="text-3xl font-bold mb-2" style={{ color: '#9333EA' }}>
                           ${deal.salePrice}
                         </div>
                         <div className="text-lg text-gray-500 line-through">
@@ -383,7 +381,7 @@ export default function DealsPage() {
                           ? { backgroundColor: '#9ca3af', cursor: 'not-allowed' }
                           : isUrgent
                           ? { backgroundColor: '#dc2626', color: 'white' }
-                          : { backgroundColor: colors.buttonBg, color: colors.buttonText }
+                          : { backgroundColor: '#9333EA', color: '#FFFFFF' }
                       }
                     >
                       {timeRemaining <= 0 ? (
