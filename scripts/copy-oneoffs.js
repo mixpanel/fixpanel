@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
+const generateOneoffsIndex = require('./generate-oneoffs-index');
 
 const ONEOFFS_DIR = path.join(__dirname, '../oneoffs');
 const OUT_DIR = path.join(__dirname, '../out');
@@ -16,6 +17,16 @@ const EXCLUDE_PATTERNS = [
 ];
 
 async function copyOneoffs() {
+  console.log('📦 Preparing oneoff microsites for build output...\n');
+
+  // Generate the index page first
+  try {
+    await generateOneoffsIndex();
+    console.log(''); // Add spacing after index generation
+  } catch (error) {
+    console.error('⚠️  Failed to generate oneoffs index, continuing with copy...');
+  }
+
   console.log('📦 Copying oneoff microsites to build output...\n');
 
   try {
@@ -58,8 +69,20 @@ async function copyOneoffs() {
       });
     }
 
+    // Copy the generated index.html if it exists
+    const indexSrc = path.join(ONEOFFS_DIR, 'index.html');
+    if (fs.existsSync(indexSrc)) {
+      // Create oneoffs directory in out and copy index there
+      const oneoffsOutDir = path.join(OUT_DIR, 'oneoffs');
+      await fs.ensureDir(oneoffsOutDir);
+      const indexDest = path.join(oneoffsOutDir, 'index.html');
+      await fs.copy(indexSrc, indexDest);
+      console.log(`  └─ Copying oneoffs index → out/oneoffs/index.html`);
+    }
+
     console.log('\n✅ Oneoff microsites copied successfully!');
     console.log(`\n📍 Available at:`);
+    console.log(`   https://mixpanel.github.io/fixpanel/oneoffs/ (index)`);
     oneoffDirs.forEach(dir => {
       console.log(`   https://mixpanel.github.io/fixpanel/${dir}/`);
     });

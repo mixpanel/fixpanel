@@ -91,8 +91,8 @@ export function CouponDrawer() {
   React.useEffect(() => {
     initMixpanelOnce();
 
-    // Delay drawer open for dramatic effect
-    const openTimer = setTimeout(() => setIsOpen(true), 2000);
+    // Don't auto-open the drawer, just make it visible
+    // const openTimer = setTimeout(() => setIsOpen(true), 2000);
 
     mixpanel.flags
       .get_variant_value(experimentId, fallbackVariant)
@@ -120,7 +120,7 @@ export function CouponDrawer() {
         mixpanel.track("Coupon Offer Loaded", { variant: v });
       });
 
-    return () => clearTimeout(openTimer);
+    // return () => clearTimeout(openTimer);
   }, []);
 
   const handleReveal = () => {
@@ -357,24 +357,54 @@ export function CouponDrawer() {
       )}
     </AnimatePresence>
 
-    {/* Reopen Button - Shows when drawer is dismissed */}
+    {/* Offer Tab - Shows when drawer is closed */}
     <AnimatePresence>
-      {isDismissed && !isOpen && (
+      {!isOpen && variant && (
         <motion.button
-          onClick={handleReopen}
+          onClick={() => {
+            setIsOpen(true);
+            if (isDismissed && variant && typeof window !== 'undefined' && window.mixpanel) {
+              window.mixpanel.track('Coupon Drawer Reopened', {
+                variant,
+                was_revealed: isRevealed,
+              });
+            }
+          }}
           className={`fixed left-0 top-1/2 -translate-y-1/2 bg-gradient-to-r ${offer.bgGradient} text-white px-3 py-6 rounded-r-lg shadow-lg z-40 flex flex-col items-center gap-2 hover:px-4 transition-all`}
           initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          animate={{
+            x: 0,
+            opacity: 1,
+          }}
           exit={{ x: -100, opacity: 0 }}
-          transition={{ type: "spring", damping: 20, stiffness: 200, delay: 0.5 }}
+          transition={{
+            type: "spring",
+            damping: 20,
+            stiffness: 200,
+            delay: 0.5,
+          }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <Icon className="h-5 w-5" />
-          <div className="text-xs font-semibold transform rotate-180" style={{ writingMode: 'vertical-rl' }}>
-            {offer.discount}
-          </div>
-          <Tag className="h-4 w-4" />
+          {/* Add attention-grabbing wiggle animation */}
+          <motion.div
+            animate={{
+              rotate: [0, -10, 10, -10, 10, 0],
+            }}
+            transition={{
+              duration: 0.5,
+              delay: 1.5,
+              repeat: Infinity,
+              repeatDelay: 5,
+            }}
+            className="flex flex-col items-center gap-2"
+          >
+            <Icon className="h-5 w-5" />
+            <div className="text-xs font-semibold transform rotate-180" style={{ writingMode: 'vertical-rl' }}>
+              {offer.discount}
+            </div>
+            <Tag className="h-4 w-4" />
+          </motion.div>
         </motion.button>
       )}
     </AnimatePresence>

@@ -275,6 +275,7 @@ test.describe('Mixpanel Tracking Tests', () => {
     console.log('✅ No third user - clean separation between microsites');
   });
 
+  //@ts-ignore
   test('All microsites track correctly', async ({ page }) => {
     const microsites = [
       { path: '/financial', session: 'Session: iBank' },

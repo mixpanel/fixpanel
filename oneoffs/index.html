@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index of oneoffs/</title>
+  <style>
+    :root {
+      --bg-primary: #0d0d0d;
+      --bg-secondary: #1a1a1a;
+      --text-primary: #e5e5e5;
+      --text-secondary: #999;
+      --link-color: #60a5fa;
+      --link-hover: #93bbfc;
+      --border-color: #333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: normal;
+    }
+
+    .stats {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+    }
+
+    .folder {
+      margin-bottom: 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .folder-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .folder-icon, .file-icon {
+      margin: 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .folder-name {
+      font-weight: bold;
+      color: var(--link-color);
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+
+    .folder-name:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+    .file-list {
+      margin-left: 2.5rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 0.25rem 0;
+    }
+
+    .file-item.main-file {
+      font-weight: 600;
+    }
+
+    .file-item a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .file-item a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+    input[type="checkbox"] {
+      cursor: not-allowed;
+      margin-right: 0.5rem;
+      width: 14px;
+      height: 14px;
+      accent-color: var(--link-color);
+    }
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .folder {
+        padding: 0.75rem;
+      }
+
+      .file-list {
+        margin-left: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Index of oneoffs/</h1>
+    <div class="stats">5 folders, 9 HTML files</div>
+    
+    <div class="folder">
+      <div class="folder-header">
+        <input type="checkbox" checked disabled>
+        <span class="folder-icon">📁</span>
+        <a href="./dev/" class="folder-name">dev/</a>
+      </div>
+      <div class="file-list">
+        <div class="file-item main-file">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./dev/index.html">index.html</a>
+        </div>
+      </div>
+    </div>
+    <div class="folder">
+      <div class="folder-header">
+        <input type="checkbox" checked disabled>
+        <span class="folder-icon">📁</span>
+        <a href="./feature-flags-console/" class="folder-name">feature-flags-console/</a>
+      </div>
+      <div class="file-list">
+        <div class="file-item">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./feature-flags-console/basic.html">basic.html</a>
+        </div>
+        <div class="file-item main-file">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./feature-flags-console/index.html">index.html</a>
+        </div>
+      </div>
+    </div>
+    <div class="folder">
+      <div class="folder-header">
+        <input type="checkbox" checked disabled>
+        <span class="folder-icon">📁</span>
+        <a href="./hud/" class="folder-name">hud/</a>
+      </div>
+      <div class="file-list">
+        <div class="file-item main-file">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./hud/index.html">index.html</a>
+        </div>
+      </div>
+    </div>
+    <div class="folder">
+      <div class="folder-header">
+        <input type="checkbox" checked disabled>
+        <span class="folder-icon">📁</span>
+        <a href="./metube/" class="folder-name">metube/</a>
+      </div>
+      <div class="file-list">
+        <div class="file-item main-file">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./metube/index.html">index.html</a>
+        </div>
+        <div class="file-item">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./metube/no-results-with-featured.html">no-results-with-featured.html</a>
+        </div>
+        <div class="file-item">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./metube/no-results.html">no-results.html</a>
+        </div>
+        <div class="file-item">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./metube/video-player.html">video-player.html</a>
+        </div>
+      </div>
+    </div>
+    <div class="folder">
+      <div class="folder-header">
+        <input type="checkbox" checked disabled>
+        <span class="folder-icon">📁</span>
+        <a href="./payments/" class="folder-name">payments/</a>
+      </div>
+      <div class="file-list">
+        <div class="file-item main-file">
+          <input type="checkbox" disabled>
+          <span class="file-icon">📄</span>
+          <a href="./payments/index.html">index.html</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      Generated on 2026-01-20 • <a href="https://github.com/mixpanel/fixpanel" style="color: var(--link-color);">View on GitHub</a>
+    </div>
+  </div>
+</body>
+</html>

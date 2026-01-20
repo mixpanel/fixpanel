@@ -162,27 +162,27 @@ export default function LandingPage() {
                 </div>
                 <div className="w-full p-2 bg-green-50 border border-green-200 rounded text-xs text-green-800">
                   <div className="flex items-center justify-between mb-1">
-                    <span><strong>🚩 Flags:</strong> Color theme slider (right side), Coupon drawer (left side)</span>
+                    <span><strong>🚩 Flags:</strong> AI Chatbot (bottom-right), Dynamic CTA button, Coupon drawer (left side)</span>
                   </div>
                   <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs">
                     <a
-                      href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/44d8efa2-649c-424d-b57b-bce61ea5b703"
+                      href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/4c323b7e-45ea-4d20-91ec-4211f828d2ce"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
-                      title="View colors flag"
+                      title="View chatbot flag"
                     >
-                      Colors Flag
+                      Chatbot Flag
                     </a>
                     <span className="text-green-400">•</span>
                     <a
-                      href="https://mixpanel.com/project/3276012/view/3782804/app/experiments/b0dfc540-007f-439a-be4e-92e4bc5572c6"
+                      href="https://mixpanel.com/project/3276012/view/3782804/app/feature-flags/37edc9a2-9061-4a25-b78c-3dff304a0fff"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-green-600 hover:text-green-800 underline transition-colors whitespace-nowrap"
-                      title="View colors experiment"
+                      title="View dynamic CTA flag"
                     >
-                      Colors Exp
+                      Dynamic CTA
                     </a>
                     <span className="text-green-400">•</span>
                     <a

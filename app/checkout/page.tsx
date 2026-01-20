@@ -17,13 +17,12 @@ import {
   XIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useColorScheme } from "./ColorSchemeProvider";
-import { ThemeSlider } from "./ThemeSlider";
 import { CouponDrawer } from "./CouponDrawer";
+import { ChatbotWidget } from "./ChatbotWidget";
+import { DynamicCTAButton } from "./DynamicCTAButton";
 import { products } from "./products";
 
 export default function WeBuyHomePage() {
-  const { colors } = useColorScheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState<Array<{id: number, quantity: number}>>([]);
@@ -113,11 +112,11 @@ export default function WeBuyHomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <ThemeSlider />
       <CouponDrawer />
+      <ChatbotWidget />
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-6 md:py-10 lg:py-12 text-white" style={{ backgroundColor: colors.secondary }}>
+        <section className="w-full py-6 md:py-10 lg:py-12 text-white" style={{ backgroundColor: "#6B46C1" }}>
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <motion.div
@@ -162,7 +161,7 @@ export default function WeBuyHomePage() {
         </section>
 
         {/* Search and Filter Section */}
-        <section className="w-full py-6" style={{ backgroundColor: colors.cardBg }}>
+        <section className="w-full py-6" style={{ backgroundColor: "#ffffff" }}>
           <div className="container px-4 md:px-6">
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
               <div className="flex-1 max-w-md">
@@ -174,7 +173,7 @@ export default function WeBuyHomePage() {
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10"
-                      style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.text }}
+                      style={{ backgroundColor: "#ffffff", borderColor: "#e5e5e5", color: "#333333" }}
                     />
                   </motion.div>
                 </div>
@@ -186,7 +185,7 @@ export default function WeBuyHomePage() {
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="px-3 py-2 border rounded-md text-sm"
-                  style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.text }}
+                  style={{ backgroundColor: "#ffffff", borderColor: "#e5e5e5", color: "#333333" }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -201,20 +200,23 @@ export default function WeBuyHomePage() {
                 </motion.select>
               </div>
 
-              <Link href="/checkout/cart">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}>
-                    <ShoppingCartIcon className="h-4 w-4 mr-2" />
-                    Cart ({getCartItemCount()})
-                  </Button>
-                </motion.div>
-              </Link>
+              <div className="flex gap-3 items-center">
+                <DynamicCTAButton />
+                <Link href="/checkout/cart">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button style={{ backgroundColor: "#7856FF", color: "#ffffff" }}>
+                      <ShoppingCartIcon className="h-4 w-4 mr-2" />
+                      Cart ({getCartItemCount()})
+                    </Button>
+                  </motion.div>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Products Grid */}
-        <section className="w-full py-8" style={{ backgroundColor: colors.background }}>
+        <section className="w-full py-8" style={{ backgroundColor: "#f5f5f5" }}>
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">
@@ -229,7 +231,7 @@ export default function WeBuyHomePage() {
                 <motion.div
                   key={product.id}
                   className="border rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer"
-                  style={{ backgroundColor: colors.cardBg, borderColor: colors.border }}
+                  style={{ backgroundColor: "#ffffff", borderColor: "#e5e5e5" }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => openProductModal(product)}
@@ -258,7 +260,7 @@ export default function WeBuyHomePage() {
 
                     <motion.div
                       className="text-2xl font-bold mb-4"
-                      style={{ color: colors.primary }}
+                      style={{ color: "#7856FF" }}
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -277,7 +279,7 @@ export default function WeBuyHomePage() {
                             addToCart(product.id);
                           }}
                           className="w-full"
-                          style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                          style={{ backgroundColor: "#7856FF", color: "#ffffff" }}
                         >
                           <ShoppingCartIcon className="h-4 w-4 mr-2" />
                           Add to Cart
@@ -302,7 +304,7 @@ export default function WeBuyHomePage() {
                             }
                           }}
                           className="hover:bg-opacity-90 active:scale-95 transition-all"
-                          style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.text }}
+                          style={{ backgroundColor: "#ffffff", borderColor: "#e5e5e5", color: "#333333" }}
                         >
                           <HeartIcon className="h-4 w-4" />
                         </Button>
@@ -322,7 +324,7 @@ export default function WeBuyHomePage() {
         </section>
 
         {/* Features Section */}
-        <section className="w-full py-12" style={{ backgroundColor: colors.cardBg }}>
+        <section className="w-full py-12" style={{ backgroundColor: "#ffffff" }}>
           <div className="container px-4 md:px-6">
             <div className="grid md:grid-cols-3 gap-8">
               <motion.div
@@ -336,7 +338,7 @@ export default function WeBuyHomePage() {
                   whileHover={{ scale: 1.1, rotate: 360 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <TruckIcon className="h-12 w-12 mx-auto mb-4" style={{ color: colors.primary }} />
+                  <TruckIcon className="h-12 w-12 mx-auto mb-4" style={{ color: "#7856FF" }} />
                 </motion.div>
                 <h3 className="font-semibold mb-2">Fast Delivery</h3>
                 <p className="text-gray-600 text-sm">Free shipping on orders over $50</p>
@@ -352,7 +354,7 @@ export default function WeBuyHomePage() {
                   whileHover={{ scale: 1.1, rotate: 360 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ShoppingCartIcon className="h-12 w-12 mx-auto mb-4" style={{ color: colors.primary }} />
+                  <ShoppingCartIcon className="h-12 w-12 mx-auto mb-4" style={{ color: "#7856FF" }} />
                 </motion.div>
                 <h3 className="font-semibold mb-2">Easy Returns</h3>
                 <p className="text-gray-600 text-sm">30-day return policy</p>
@@ -368,7 +370,7 @@ export default function WeBuyHomePage() {
                   whileHover={{ scale: 1.1, rotate: 360 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <StarIcon className="h-12 w-12 mx-auto mb-4" style={{ color: colors.primary }} />
+                  <StarIcon className="h-12 w-12 mx-auto mb-4" style={{ color: "#7856FF" }} />
                 </motion.div>
                 <h3 className="font-semibold mb-2">Quality Products</h3>
                 <p className="text-gray-600 text-sm">Curated selection of top-rated items</p>
@@ -391,7 +393,7 @@ export default function WeBuyHomePage() {
           >
             <motion.div
               className="rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-              style={{ backgroundColor: colors.cardBg }}
+              style={{ backgroundColor: "#ffffff" }}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -452,7 +454,7 @@ export default function WeBuyHomePage() {
 
                     <motion.div
                       className="text-3xl font-bold mb-4"
-                      style={{ color: colors.primary }}
+                      style={{ color: "#7856FF" }}
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -468,7 +470,7 @@ export default function WeBuyHomePage() {
                         <Button
                           onClick={() => addToCart(selectedProduct.id)}
                           className="w-full text-lg py-3"
-                          style={{ backgroundColor: colors.buttonBg, color: colors.buttonText }}
+                          style={{ backgroundColor: "#7856FF", color: "#ffffff" }}
                         >
                           <ShoppingCartIcon className="h-5 w-5 mr-2" />
                           Add to Cart
@@ -493,14 +495,14 @@ export default function WeBuyHomePage() {
                             }
                           }}
                           className="hover:bg-opacity-90 active:scale-95 transition-all"
-                          style={{ backgroundColor: colors.cardBg, borderColor: colors.border, color: colors.text }}
+                          style={{ backgroundColor: "#ffffff", borderColor: "#e5e5e5", color: "#333333" }}
                         >
                           <HeartIcon className="h-5 w-5" />
                         </Button>
                       </motion.div>
                     </div>
 
-                    <div className="p-4 rounded-lg" style={{ backgroundColor: colors.background, borderColor: colors.border, border: '1px solid' }}>
+                    <div className="p-4 rounded-lg" style={{ backgroundColor: "#f5f5f5", borderColor: "#e5e5e5", border: '1px solid' }}>
                       <h4 className="font-semibold mb-2">Product Features:</h4>
                       <ul className="text-sm text-gray-600 space-y-1">
                         <li>• High quality materials</li>

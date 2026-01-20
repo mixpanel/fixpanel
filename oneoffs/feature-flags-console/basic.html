@@ -91,6 +91,45 @@
         .info a:hover {
             text-decoration: underline !important;
         }
+
+        .flag-display {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            text-align: left;
+        }
+
+        .flag-display h3 {
+            margin-bottom: 15px;
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        .flag-result {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: Monaco, Menlo, monospace;
+            font-size: 0.9rem;
+            color: #212529;
+            line-height: 1.6;
+            border: 1px solid #dee2e6;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .flag-loading {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .flag-error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
@@ -105,12 +144,23 @@
             💀 Reset User
         </button>
 
+        <div class="flag-display">
+            <h3>🚩 Feature Flag Response</h3>
+            <div class="flag-result flag-loading" id="flagResult">
+                Fetching feature flag data...
+            </div>
+        </div>
+
         <div class="info">
             <p>Token: <code>bb6aa70aeb05a0d20584a4ea6afb7bf8</code></p>
             <p id="distinctId">Distinct ID: <code>Loading...</code></p>
             <p style="margin-top: 10px;">
                 <a href="https://mixpanel.com/project/3971935" target="_blank" style="color: #7856FF; text-decoration: none; font-weight: 600;">
                     📊 View Mixpanel Project →
+                </a>
+                <br>
+                <a href="https://mixpanel.com/project/3971935/view/4467659/app/feature-flags/3897a9ad-6e7d-4d27-acf3-2e48ca8986ca" target="_blank" style="color: #7856FF; text-decoration: none; font-weight: 600;">
+                    🚩 View Feature Flag (my-cool-flag) →
                 </a>
             </p>
         </div>
@@ -131,7 +181,7 @@
             track_pageview: false,
             persistence: 'localStorage',
             // Feature flags configuration - uncomment to enable
-			// flags: {},
+			flags: {},
             // flags: {
             //     context: {
             //         custom_properties: {
@@ -154,26 +204,53 @@
                 // Track page load
                 mixpanel.track('page!');
 
-                // Example: Fetch a feature flag value
-                // Uncomment the code below to fetch a flag value
-                /*
+                // Fetch and display feature flag value
                 async function checkFlag() {
+                    const flagResultEl = document.getElementById('flagResult');
+
                     try {
+                        // Create an object to store all flag data
+                        const flagData = {
+                            flagName: 'my-cool-flag',
+                            timestamp: new Date().toISOString(),
+                            distinctId: mixpanel.get_distinct_id()
+                        };
+
                         // Check if flag is enabled (returns true/false)
                         const isEnabled = await mixpanel.flags.is_enabled('my-cool-flag', false);
+                        flagData.isEnabled = isEnabled;
                         console.log('Flag "my-cool-flag" is:', isEnabled ? 'ENABLED' : 'DISABLED');
 
-                        // Or get the variant value (for experiments/config)
+                        // Get the variant value (for experiments/config)
                         const value = await mixpanel.flags.get_variant_value('my-cool-flag', 'default');
+                        flagData.variantValue = value;
                         console.log('Flag value:', value);
+
+                        // Get all flags (if available)
+                        if (mixpanel.flags.get_all_flags) {
+                            try {
+                                const allFlags = await mixpanel.flags.get_all_flags();
+                                flagData.allFlags = allFlags;
+                                console.log('All flags:', allFlags);
+                            } catch (e) {
+                                console.log('Could not fetch all flags:', e);
+                            }
+                        }
+
+                        // Display the flag data in the UI
+                        flagResultEl.classList.remove('flag-loading', 'flag-error');
+                        flagResultEl.textContent = JSON.stringify(flagData, null, 2);
+
                     } catch (error) {
                         console.error('Error fetching flag:', error);
+                        flagResultEl.classList.remove('flag-loading');
+                        flagResultEl.classList.add('flag-error');
+                        flagResultEl.textContent = `Error fetching flag: ${error.message || 'Unknown error'}`;
                     }
                 }
 
                 // Call the function to check the flag
                 checkFlag();
-                */
             }
         });
 
