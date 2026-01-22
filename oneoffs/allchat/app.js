@@ -367,16 +367,20 @@
 
     const conversations = CONVERSATIONS[state.conversationSet];
     const fromIndex = state.currentPromptIndex;
-    const toIndex = (state.currentPromptIndex + 1) % conversations.length;
 
-    // Reset to main conversation set if we've cycled through alternate
-    if (state.conversationSet === 'alternate' && toIndex === 0) {
-      state.conversationSet = 'main';
+    // Randomly select a different prompt
+    let toIndex;
+    if (conversations.length <= 1) {
+      toIndex = 0;
+    } else {
+      do {
+        toIndex = Math.floor(Math.random() * conversations.length);
+      } while (toIndex === fromIndex);
     }
 
     state.currentPromptIndex = toIndex;
 
-    // Get the next prompt
+    // Get the randomly selected prompt
     const convo = CONVERSATIONS[state.conversationSet][toIndex];
     sendPrompt(convo.prompt, true);
 
@@ -485,8 +489,9 @@
       }
     }
 
-    // Add small initial delay for realism
-    const initialDelay = 200 + Math.random() * 500;
+    // Add LLM-specific initial delay for more variety
+    const delayConfig = speedVariance.initialDelay || { min: 200, max: 500 };
+    const initialDelay = delayConfig.min + Math.random() * (delayConfig.max - delayConfig.min);
     state.streamingControllers[llm] = setTimeout(typeNextChar, initialDelay);
   }
 
@@ -496,15 +501,33 @@
   }
 
   // ===== Welcome State =====
+  const WELCOME_MESSAGES = {
+    tarus: {
+      icon: '✨',
+      text: 'I blend poetry with science to illuminate the cosmos'
+    },
+    mock: {
+      icon: '😏',
+      text: 'Serving truth with a side of sarcasm since... whenever'
+    },
+    shallowfind: {
+      icon: '📊',
+      text: 'Data-driven insights. Precision analysis. No fluff.'
+    },
+    alpaca: {
+      icon: '🌱',
+      text: 'Let\'s explore life\'s big questions together'
+    }
+  };
+
   function showWelcomeState() {
     LLMS.forEach(llm => {
+      const welcome = WELCOME_MESSAGES[llm];
       const welcomeDiv = document.createElement('div');
       welcomeDiv.className = 'welcome-message';
       welcomeDiv.innerHTML = `
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor">
-          <path d="M24 4C12.96 4 4 12.96 4 24s8.96 20 20 20 20-8.96 20-20S35.04 4 24 4zm2 30h-4v-4h4v4zm0-8h-4V14h4v12z"/>
-        </svg>
-        <p>Type a question or click the play button to explore</p>
+        <span class="welcome-icon">${welcome.icon}</span>
+        <p>${welcome.text}</p>
       `;
       elements.messages[llm].appendChild(welcomeDiv);
     });

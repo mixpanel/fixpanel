@@ -1840,12 +1840,12 @@ const CONVERSATIONS = {
   ]
 };
 
-// Typing speed configurations (ms per character)
+// Typing speed configurations (ms per character) - more dramatic variation
 const LLM_SPEEDS = {
-  tarus: { min: 20, max: 35 },
-  mock: { min: 25, max: 40 },
-  shallowfind: { min: 15, max: 25 },
-  alpaca: { min: 25, max: 40 }
+  tarus: { min: 25, max: 45, initialDelay: { min: 400, max: 800 } },      // Poetic, measured pace
+  mock: { min: 12, max: 28, initialDelay: { min: 100, max: 300 } },       // Quick wit, fast starter
+  shallowfind: { min: 8, max: 18, initialDelay: { min: 600, max: 1000 } }, // Very fast once started, but "processing" delay
+  alpaca: { min: 30, max: 55, initialDelay: { min: 200, max: 500 } }      // Warm, takes its time
 };
 
 // Export for use in app.js
