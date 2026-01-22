@@ -41,6 +41,7 @@
       promptInput: document.getElementById('promptInput'),
       sendBtn: document.getElementById('sendBtn'),
       nextPromptBtn: document.getElementById('nextPromptBtn'),
+      clearAllBtn: document.getElementById('clearAllBtn'),
       backToAllBtn: document.getElementById('backToAllBtn'),
       resetBtn: document.getElementById('resetBtn'),
       attachBtn: document.getElementById('attachBtn'),
@@ -115,6 +116,9 @@
     // Next prompt button
     elements.nextPromptBtn.addEventListener('click', handleNextPrompt);
 
+    // Clear all button
+    elements.clearAllBtn.addEventListener('click', handleClearAll);
+
     // Back to all button
     elements.backToAllBtn.addEventListener('click', exitFocusMode);
 
@@ -128,16 +132,16 @@
       }
     });
 
-    // Attach button (demo - shows alert)
+    // Attach button (demo - shows demo file)
     elements.attachBtn.addEventListener('click', () => {
       mixpanel.track('attach_clicked');
-      showToast('File attachment coming soon!');
+      showDemoAttachment();
     });
 
-    // Voice button (demo - shows alert)
+    // Voice button (demo - shows waveform)
     elements.voiceBtn.addEventListener('click', () => {
       mixpanel.track('voice_input_clicked');
-      showToast('Voice input coming soon!');
+      showDemoVoiceInput();
     });
 
     // Layout switcher buttons
@@ -232,6 +236,99 @@
     setTimeout(() => toast.remove(), 2000);
   }
 
+  // Demo attachment chip
+  function showDemoAttachment() {
+    // Remove existing attachment if any
+    const existing = document.querySelector('.demo-attachment');
+    if (existing) {
+      existing.remove();
+      showToast('Attachment removed');
+      return;
+    }
+
+    const chip = document.createElement('div');
+    chip.className = 'demo-attachment';
+    chip.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+        <path d="M3 1a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2V5l-4-4H3zm4 0v3a1 1 0 001 1h3"/>
+      </svg>
+      <span>cosmic_data.json</span>
+      <button class="remove-attachment" title="Remove">&times;</button>
+    `;
+
+    // Insert before input
+    const inputWrapper = document.querySelector('.input-wrapper');
+    inputWrapper.insertBefore(chip, elements.promptInput);
+
+    // Remove handler
+    chip.querySelector('.remove-attachment').addEventListener('click', (e) => {
+      e.stopPropagation();
+      chip.remove();
+      showToast('Attachment removed');
+    });
+
+    showToast('Demo file attached');
+  }
+
+  // Demo voice input waveform
+  function showDemoVoiceInput() {
+    const btn = elements.voiceBtn;
+
+    // Toggle recording state
+    if (btn.classList.contains('recording')) {
+      btn.classList.remove('recording');
+      elements.promptInput.value = "What mysteries lie beyond the event horizon?";
+      showToast('Voice transcribed');
+      return;
+    }
+
+    btn.classList.add('recording');
+    showToast('Listening... (click again to stop)');
+
+    // Auto-stop after 3 seconds
+    setTimeout(() => {
+      if (btn.classList.contains('recording')) {
+        btn.classList.remove('recording');
+        elements.promptInput.value = "What mysteries lie beyond the event horizon?";
+        showToast('Voice transcribed');
+      }
+    }, 3000);
+  }
+
+  // Clear all messages
+  function handleClearAll() {
+    // Stop any active streaming
+    Object.values(state.streamingControllers).forEach(controller => {
+      if (controller) clearTimeout(controller);
+    });
+    state.streamingControllers = {};
+    state.isStreaming = false;
+
+    // Clear all message containers
+    LLMS.forEach(llm => {
+      elements.messages[llm].innerHTML = '';
+    });
+
+    // Reset state
+    state.currentPromptIndex = 0;
+    state.conversationSet = 'main';
+    resetRatings();
+
+    // Remove any attachments
+    const attachment = document.querySelector('.demo-attachment');
+    if (attachment) attachment.remove();
+
+    // Clear input
+    elements.promptInput.value = '';
+
+    // Show welcome state again
+    showWelcomeState();
+
+    // Track and notify
+    mixpanel.track('clear_all_clicked');
+    showToast('Conversation cleared');
+  }
+
   // ===== Layout Management =====
   function setLayout(layout, source = 'unknown') {
     const oldLayout = state.currentLayout;
@@ -274,6 +371,9 @@
     // Show back button
     elements.backToAllBtn.style.display = 'flex';
 
+    // Update input placeholder
+    elements.promptInput.placeholder = `Continue chatting with ${LLM_DISPLAY_NAMES[llm]}...`;
+
     // Track event
     mixpanel.track('focus_mode_entered', {
       llm_name: llm,
@@ -299,6 +399,9 @@
     // Hide back button
     elements.backToAllBtn.style.display = 'none';
 
+    // Restore input placeholder
+    elements.promptInput.placeholder = 'Ask all four LLMs anything...';
+
     // Track event
     mixpanel.track('focus_mode_exited', {
       llm_name: llm,
@@ -314,6 +417,11 @@
   function handleRating(llm, rating) {
     const key = `${llm}-${state.currentPromptIndex}`;
     const currentRating = state.ratings[key];
+    const btn = elements.ratingBtns[llm][rating];
+
+    // Add click animation
+    btn.classList.add('clicked');
+    setTimeout(() => btn.classList.remove('clicked'), 200);
 
     // Toggle rating
     if (currentRating === rating) {
@@ -321,6 +429,8 @@
       delete state.ratings[key];
       elements.ratingBtns[llm].up.classList.remove('active');
       elements.ratingBtns[llm].down.classList.remove('active');
+
+      showToast(`Rating removed for ${LLM_DISPLAY_NAMES[llm]}`);
 
       mixpanel.track('rating_removed', {
         llm_name: llm,
@@ -332,6 +442,9 @@
       state.ratings[key] = rating;
       elements.ratingBtns[llm].up.classList.toggle('active', rating === 'up');
       elements.ratingBtns[llm].down.classList.toggle('active', rating === 'down');
+
+      const ratingText = rating === 'up' ? 'Liked' : 'Disliked';
+      showToast(`${ratingText} ${LLM_DISPLAY_NAMES[llm]}'s response`);
 
       // Track event
       mixpanel.track('rating_given', {

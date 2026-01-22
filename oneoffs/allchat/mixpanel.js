@@ -3,6 +3,13 @@
  * Autocapture, Session Replay, Experiments, and Feature Flags
  */
 
+// ========================================
+// EXPERIMENT & FEATURE FLAG CONTROLS
+// Set to false to disable checking Mixpanel flags
+// ========================================
+const EXPERIMENT_ACTIVE = true;   // Controls ui_grid_system experiment
+const FEATURE_FLAG_ACTIVE = true; // Controls grid_selector_control flag
+
 // Configuration
 const MIXPANEL_TOKEN = "281c0f62e328b044d47dfa8e78fcd505";
 const MIXPANEL_PROXY = "https://express-proxy-lmozz6xkha-uc.a.run.app";
@@ -83,6 +90,9 @@ async function initMixpanel() {
       debug: MIXPANEL_DEBUG,
       ignore_dnt: true,
 
+      // Enable feature flags
+      flags: true,
+
       // Autocapture configuration
       autocapture: {
         pageview: "full-url",
@@ -139,33 +149,46 @@ async function loadFlagsAndExperiments() {
   console.log("Project:", MIXPANEL_PROJECT_URL);
   console.log("Experiment (ui_grid_system):", MIXPANEL_EXPERIMENT_URL);
   console.log("Feature Flag (grid_selector_control):", MIXPANEL_FEATURE_FLAG_URL);
+  console.log("EXPERIMENT_ACTIVE:", EXPERIMENT_ACTIVE);
+  console.log("FEATURE_FLAG_ACTIVE:", FEATURE_FLAG_ACTIVE);
 
   try {
     // Experiment: ui_grid_system
     // Controls initial layout: 'control' (grid), 'variant a' (vertical), 'variant b' (horizontal)
-    const layoutVariant = await mixpanel.flags.get_variant_value(
-      "ui_grid_system",
-      "control" // fallback
-    );
+    if (EXPERIMENT_ACTIVE) {
+      const layoutVariant = await mixpanel.flags.get_variant_value(
+        "ui_grid_system",
+        "control" // fallback
+      );
 
-    // Map experiment values to layout names
-    const layoutMap = {
-      "control": "grid",
-      "variant a": "vertical",
-      "variant b": "horizontal"
-    };
-    window.allchatConfig.layout = layoutMap[layoutVariant] || "grid";
-    window.allchatConfig.experimentVariant = layoutVariant;
-    if (MIXPANEL_DEBUG) console.log("[MIXPANEL] Experiment variant:", layoutVariant, "-> Layout:", window.allchatConfig.layout);
+      // Map experiment values to layout names
+      const layoutMap = {
+        "control": "grid",
+        "variant a": "vertical",
+        "variant b": "horizontal"
+      };
+      window.allchatConfig.layout = layoutMap[layoutVariant] || "grid";
+      window.allchatConfig.experimentVariant = layoutVariant;
+      if (MIXPANEL_DEBUG) console.log("[MIXPANEL] Experiment variant:", layoutVariant, "-> Layout:", window.allchatConfig.layout);
+    } else {
+      if (MIXPANEL_DEBUG) console.log("[MIXPANEL] Experiment disabled, using default layout: grid");
+      window.allchatConfig.layout = 'grid';
+      window.allchatConfig.experimentVariant = 'disabled';
+    }
 
     // Feature Flag: grid_selector_control
     // Controls whether to show the layout switcher UI
-    const showSwitcher = await mixpanel.flags.is_enabled(
-      "grid_selector_control",
-      false // fallback
-    );
-    window.allchatConfig.showLayoutSwitcher = showSwitcher;
-    if (MIXPANEL_DEBUG) console.log("[MIXPANEL] Layout switcher enabled:", showSwitcher);
+    if (FEATURE_FLAG_ACTIVE) {
+      const showSwitcher = await mixpanel.flags.is_enabled(
+        "grid_selector_control",
+        false // fallback
+      );
+      window.allchatConfig.showLayoutSwitcher = showSwitcher;
+      if (MIXPANEL_DEBUG) console.log("[MIXPANEL] Layout switcher enabled:", showSwitcher);
+    } else {
+      if (MIXPANEL_DEBUG) console.log("[MIXPANEL] Feature flag disabled, layout switcher: false");
+      window.allchatConfig.showLayoutSwitcher = false;
+    }
 
   } catch (error) {
     console.error("[MIXPANEL] Error loading flags:", error);
@@ -181,6 +204,24 @@ async function loadFlagsAndExperiments() {
 function setupResetFunction(mp) {
   window.RESET = function () {
     console.log("[MIXPANEL] Initiating reset...");
+
+    // Create fade overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    `;
+    document.body.appendChild(overlay);
+
+    // Trigger fade to black
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+    });
 
     setTimeout(() => {
       // Track bounce event before reset
@@ -200,8 +241,8 @@ function setupResetFunction(mp) {
 
           // Reload the page
           window.location.assign(window.location.href.split('?')[0]);
-        }, 500);
-      }, 500);
+        }, 300);
+      }, 300);
     }, 500);
   };
 
