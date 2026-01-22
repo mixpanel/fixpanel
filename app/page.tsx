@@ -20,18 +20,9 @@ import {
 
 export default function LandingPage() {
   const [showSuggestionButton, setShowSuggestionButton] = useState(false);
-  const [unlockedMode, setUnlockedMode] = useState(false);
 
   useEffect(() => {
     document.title = "Demo Sites";
-
-    // Check for unlock/preview parameter
-    const params = new URLSearchParams(window.location.search);
-    const unlockParam = params.get("preview") || params.get("unlock");
-    if (unlockParam) {
-      setUnlockedMode(true);
-      console.log("[LANDING PAGE]: UNLOCKED MODE ENABLED - ALL DEMOS ACCESSIBLE");
-    }
 
     // Show suggestion button after a delay
     const timer = setTimeout(() => {
@@ -294,9 +285,9 @@ export default function LandingPage() {
               </div>
 
               {/* SaaS B2B */}
-              <div className={`flex flex-col items-center space-y-3 border p-6 rounded-lg hover:shadow-lg transition-shadow ${unlockedMode ? 'border-[#3B82F6]' : 'border-gray-300 opacity-60'}`}>
-                <BuildingIcon className={`h-16 w-16 ${unlockedMode ? 'text-[#3B82F6]' : 'text-gray-400'}`} />
-                <h3 className={`text-2xl font-bold ${unlockedMode ? 'text-gray-900' : 'text-gray-600'}`}>SaaS + Admin Apps</h3>
+              <div className="flex flex-col items-center space-y-3 border border-[#3B82F6] p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <BuildingIcon className="h-16 w-16 text-[#3B82F6]" />
+                <h3 className="text-2xl font-bold">SaaS + Admin Apps</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Admin dashboard for people ops, IT management, and access control
                 </p>
@@ -330,33 +321,25 @@ export default function LandingPage() {
                     </a>
                   </div>
                 </div>
-                {unlockedMode ? (
-                  <>
-                    <Link href="/admin" className="w-full">
-                      <Button className="w-full bg-[#3B82F6] text-white hover:bg-[#3B82F6]/90">
-                        Explore youAdmin
-                      </Button>
-                    </Link>
-                    <a
-                      href="https://mixpanel.com/report/3276012/view/4354012"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
-                    >
-                      View Data in Mixpanel →
-                    </a>
-                  </>
-                ) : (
-                  <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                    youAdmin - Coming Soon
+                <Link href="/admin" className="w-full">
+                  <Button className="w-full bg-[#3B82F6] text-white hover:bg-[#3B82F6]/90">
+                    Explore youAdmin
                   </Button>
-                )}
+                </Link>
+                <a
+                  href="https://mixpanel.com/report/3276012/view/4354012"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                >
+                  View Data in Mixpanel →
+                </a>
               </div>
 
               {/* Healthcare & Wellness */}
-              <div className={`flex flex-col items-center space-y-3 border p-6 rounded-lg hover:shadow-lg transition-shadow ${unlockedMode ? 'border-[#14B8A6]' : 'border-gray-300 opacity-60'}`}>
-                <HeartIcon className={`h-16 w-16 ${unlockedMode ? 'text-[#14B8A6]' : 'text-gray-400'}`} />
-                <h3 className={`text-2xl font-bold ${unlockedMode ? 'text-gray-900' : 'text-gray-600'}`}>Healthcare + Wellness</h3>
+              <div className="flex flex-col items-center space-y-3 border border-[#14B8A6] p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <HeartIcon className="h-16 w-16 text-[#14B8A6]" />
+                <h3 className="text-2xl font-bold">Healthcare + Wellness</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Crowdsourced medical advice with AI chat and community voting
                 </p>
@@ -390,33 +373,25 @@ export default function LandingPage() {
                     </a>
                   </div>
                 </div>
-                {unlockedMode ? (
-                  <>
-                    <Link href="/wellness" className="w-full">
-                      <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
-                        Explore ourHeart
-                      </Button>
-                    </Link>
-                    <a
-                      href="https://mixpanel.com/report/3276012/view/4354013"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
-                    >
-                      View Data in Mixpanel →
-                    </a>
-                  </>
-                ) : (
-                  <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                    ourHeart - Coming Soon
+                <Link href="/wellness" className="w-full">
+                  <Button className="w-full bg-[#14B8A6] text-white hover:bg-[#14B8A6]/90">
+                    Explore ourHeart
                   </Button>
-                )}
+                </Link>
+                <a
+                  href="https://mixpanel.com/report/3276012/view/4354013"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                >
+                  View Data in Mixpanel →
+                </a>
               </div>
 
               {/* Subscription B2C */}
-              <div className={`flex flex-col items-center space-y-3 border p-6 rounded-lg hover:shadow-lg transition-shadow ${unlockedMode ? 'border-[#F59E0B]' : 'border-gray-300 opacity-60'}`}>
-                <SmartphoneIcon className={`h-16 w-16 ${unlockedMode ? 'text-[#F59E0B]' : 'text-gray-400'}`} />
-                <h3 className={`text-2xl font-bold ${unlockedMode ? 'text-gray-900' : 'text-gray-600'}`}>Subscription + Lifestyle</h3>
+              <div className="flex flex-col items-center space-y-3 border border-[#F59E0B] p-6 rounded-lg hover:shadow-lg transition-shadow">
+                <SmartphoneIcon className="h-16 w-16 text-[#F59E0B]" />
+                <h3 className="text-2xl font-bold">Subscription + Lifestyle</h3>
                 <p className="text-sm text-gray-500 text-center flex-1">
                   Reddit-style forum with "likely to agree/disagree" sorting
                 </p>
@@ -450,27 +425,19 @@ export default function LandingPage() {
                     </a>
                   </div>
                 </div>
-                {unlockedMode ? (
-                  <>
-                    <Link href="/lifestyle" className="w-full">
-                      <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
-                        Explore theyRead
-                      </Button>
-                    </Link>
-                    <a
-                      href="https://mixpanel.com/report/3276012/view/4354015"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
-                    >
-                      View Data in Mixpanel →
-                    </a>
-                  </>
-                ) : (
-                  <Button disabled className="w-full bg-gray-300 text-gray-500 cursor-not-allowed">
-                    theyRead - Coming Soon
+                <Link href="/lifestyle" className="w-full">
+                  <Button className="w-full bg-[#F59E0B] text-white hover:bg-[#F59E0B]/90">
+                    Explore theyRead
                   </Button>
-                )}
+                </Link>
+                <a
+                  href="https://mixpanel.com/report/3276012/view/4354015"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors text-center"
+                >
+                  View Data in Mixpanel →
+                </a>
               </div>
             </div>
 
