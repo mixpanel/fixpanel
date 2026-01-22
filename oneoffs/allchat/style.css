@@ -201,6 +201,66 @@ body {
   grid-template-rows: 1fr;
 }
 
+/* Horizontal mode: tighter layout for narrow panels */
+.panels-container[data-layout="horizontal"] .panel-header {
+  padding: 8px 10px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.panels-container[data-layout="horizontal"] .llm-logo {
+  width: 28px;
+  height: 28px;
+}
+
+.panels-container[data-layout="horizontal"] .llm-logo svg {
+  width: 20px;
+  height: 20px;
+}
+
+.panels-container[data-layout="horizontal"] .llm-name {
+  font-size: 13px;
+}
+
+.panels-container[data-layout="horizontal"] .llm-subtitle {
+  display: none;
+}
+
+.panels-container[data-layout="horizontal"] .panel-actions {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+.panels-container[data-layout="horizontal"] .welcome-message {
+  padding: 10px;
+}
+
+.panels-container[data-layout="horizontal"] .welcome-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.panels-container[data-layout="horizontal"] .welcome-message p {
+  font-size: 11px;
+  max-width: 150px;
+}
+
+/* Vertical mode: ensure all headers align */
+.panels-container[data-layout="vertical"] .panel-header {
+  min-height: 60px;
+}
+
+.panels-container[data-layout="vertical"] .llm-info {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.panels-container[data-layout="vertical"] .llm-subtitle {
+  font-size: 11px;
+}
+
 /* ===== LLM Panel ===== */
 .llm-panel {
   display: flex;

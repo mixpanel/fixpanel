@@ -566,25 +566,46 @@
     messageDiv.className = 'message assistant streaming';
     elements.messages[llm].appendChild(messageDiv);
 
-    let charIndex = 0;
     const speedVariance = LLM_SPEEDS[llm] || { min: 20, max: 40 };
 
-    function typeNextChar() {
-      if (charIndex < text.length) {
-        messageDiv.textContent = text.substring(0, charIndex + 1);
-        charIndex++;
+    // Split text into chunks (words) for realistic streaming
+    const words = text.split(/(\s+)/); // Keep whitespace
+    let wordIndex = 0;
+    let displayedText = '';
+
+    function streamNextChunk() {
+      if (wordIndex < words.length) {
+        // Stream 1-3 words at a time for variety
+        const chunkSize = Math.floor(Math.random() * 3) + 1;
+        const chunk = words.slice(wordIndex, wordIndex + chunkSize).join('');
+        displayedText += chunk;
+        wordIndex += chunkSize;
+
+        messageDiv.textContent = displayedText;
         scrollToBottom(llm);
 
-        // Variable typing speed for realism
-        const speed = speedVariance.min + Math.random() * (speedVariance.max - speedVariance.min);
+        // Calculate delay
+        let delay = speedVariance.min + Math.random() * (speedVariance.max - speedVariance.min);
 
-        // Pause longer at punctuation
-        const currentChar = text[charIndex - 1];
-        const delay = ['.', '!', '?'].includes(currentChar) ? speed * 3 :
-          [',', ';', ':'].includes(currentChar) ? speed * 1.5 :
-            currentChar === '\n' ? speed * 2 : speed;
+        // Check last character for punctuation pauses
+        const lastChar = chunk.trim().slice(-1);
+        if (['.', '!', '?'].includes(lastChar)) {
+          delay *= 4; // Longer pause at sentence end
+        } else if ([',', ';', ':'].includes(lastChar)) {
+          delay *= 2;
+        } else if (chunk.includes('\n')) {
+          delay *= 3;
+        }
 
-        state.streamingControllers[llm] = setTimeout(typeNextChar, delay);
+        // Random "thinking" pauses (5% chance)
+        if (Math.random() < 0.05) {
+          delay += 150 + Math.random() * 200;
+        }
+
+        // Scale delay by chunk size
+        delay *= (chunkSize * 0.7);
+
+        state.streamingControllers[llm] = setTimeout(streamNextChunk, delay);
       } else {
         // Streaming complete
         messageDiv.classList.remove('streaming');
@@ -605,7 +626,7 @@
     // Add LLM-specific initial delay for more variety
     const delayConfig = speedVariance.initialDelay || { min: 200, max: 500 };
     const initialDelay = delayConfig.min + Math.random() * (delayConfig.max - delayConfig.min);
-    state.streamingControllers[llm] = setTimeout(typeNextChar, initialDelay);
+    state.streamingControllers[llm] = setTimeout(streamNextChunk, initialDelay);
   }
 
   function scrollToBottom(llm) {
