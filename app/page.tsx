@@ -462,6 +462,10 @@ export default function LandingPage() {
                     MeTube Video
                   </Link>
                   <span className="text-gray-300">•</span>
+                  <Link href="/allchat" className="text-blue-600 hover:underline">
+                    AllChat (4 LLMs)
+                  </Link>
+                  <span className="text-gray-300">•</span>
 				  <Link href="/feature-flags-console" className="text-blue-600 hover:underline">
 					Feature Flags Console
 				  </Link>

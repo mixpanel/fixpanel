@@ -451,6 +451,62 @@ body {
   color: var(--primary);
 }
 
+/* Collapse button */
+.collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 0.6;
+}
+
+.llm-panel:hover .collapse-btn {
+  opacity: 1;
+}
+
+.collapse-btn:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.collapse-btn .collapse-icon {
+  transition: transform var(--transition-fast);
+}
+
+/* Collapsed panel state */
+.llm-panel.collapsed {
+  flex: 0 0 auto;
+}
+
+.llm-panel.collapsed .panel-content,
+.llm-panel.collapsed .panel-footer {
+  display: none;
+}
+
+.llm-panel.collapsed .collapse-btn .collapse-icon {
+  transform: rotate(-90deg);
+}
+
+.llm-panel.collapsed .collapse-btn {
+  opacity: 1;
+}
+
+/* Toggle all button */
+.toggle-all-btn {
+  position: relative;
+}
+
+.toggle-all-btn.all-collapsed .expand-all-icon {
+  opacity: 0.5;
+}
+
 /* Panel Content */
 .panel-content {
   flex: 1;

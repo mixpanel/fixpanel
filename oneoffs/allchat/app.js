@@ -49,9 +49,11 @@
       panels: {},
       messages: {},
       focusBtns: {},
+      collapseBtns: {},
       copyBtns: {},
       regenerateBtns: {},
-      ratingBtns: {}
+      ratingBtns: {},
+      toggleAllBtn: document.getElementById('toggleAllBtn')
     };
 
     // Cache panel-specific elements
@@ -59,6 +61,7 @@
       elements.panels[llm] = document.getElementById(`panel-${llm}`);
       elements.messages[llm] = document.getElementById(`messages-${llm}`);
       elements.focusBtns[llm] = elements.panels[llm].querySelector('.focus-btn');
+      elements.collapseBtns[llm] = elements.panels[llm].querySelector('.collapse-btn');
       elements.copyBtns[llm] = elements.panels[llm].querySelector('.copy-btn');
       elements.regenerateBtns[llm] = elements.panels[llm].querySelector('.regenerate-btn');
       elements.ratingBtns[llm] = {
@@ -183,7 +186,16 @@
         e.stopPropagation();
         handleRating(llm, 'down');
       });
+
+      // Collapse button
+      elements.collapseBtns[llm].addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePanelCollapse(llm);
+      });
     });
+
+    // Toggle all panels button
+    elements.toggleAllBtn.addEventListener('click', toggleAllPanels);
   }
 
   // ===== Copy & Regenerate =====
@@ -411,6 +423,47 @@
 
     state.focusedLLM = null;
     state.focusModeStartTime = null;
+  }
+
+  // ===== Panel Collapse =====
+  function togglePanelCollapse(llm) {
+    const panel = elements.panels[llm];
+    const isCollapsed = panel.classList.toggle('collapsed');
+
+    // Track event
+    mixpanel.track('panel_collapse_toggled', {
+      llm_name: llm,
+      collapsed: isCollapsed,
+      current_layout: state.currentLayout
+    });
+
+    // Update toggle all button state
+    updateToggleAllButtonState();
+  }
+
+  function toggleAllPanels() {
+    // Check if any panels are expanded (not collapsed)
+    const anyExpanded = LLMS.some(llm => !elements.panels[llm].classList.contains('collapsed'));
+
+    // If any are expanded, collapse all. Otherwise, expand all.
+    LLMS.forEach(llm => {
+      elements.panels[llm].classList.toggle('collapsed', anyExpanded);
+    });
+
+    // Track event
+    mixpanel.track('toggle_all_panels', {
+      action: anyExpanded ? 'collapse_all' : 'expand_all',
+      current_layout: state.currentLayout
+    });
+
+    // Update button state
+    updateToggleAllButtonState();
+  }
+
+  function updateToggleAllButtonState() {
+    const allCollapsed = LLMS.every(llm => elements.panels[llm].classList.contains('collapsed'));
+    elements.toggleAllBtn.classList.toggle('all-collapsed', allCollapsed);
+    elements.toggleAllBtn.title = allCollapsed ? 'Expand all panels' : 'Collapse all panels';
   }
 
   // ===== Rating System =====

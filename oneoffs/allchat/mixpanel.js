@@ -4,11 +4,14 @@
  */
 
 // ========================================
-// EXPERIMENT & FEATURE FLAG CONTROLS
-// Set to false to disable checking Mixpanel flags
+// URL PARAMETER CONTROLS
+// Use ?exp_active=true to enable experiment
+// Use ?ff_active=true to enable feature flag
+// Use ?exp_active=true&ff_active=true for both
 // ========================================
-const EXPERIMENT_ACTIVE = true;   // Controls ui_grid_system experiment
-const FEATURE_FLAG_ACTIVE = true; // Controls grid_selector_control flag
+const urlParams = new URLSearchParams(window.location.search);
+const EXPERIMENT_ACTIVE = urlParams.get('exp_active') === 'true';
+const FEATURE_FLAG_ACTIVE = urlParams.get('ff_active') === 'true';
 
 // Configuration
 const MIXPANEL_TOKEN = "281c0f62e328b044d47dfa8e78fcd505";
@@ -144,13 +147,59 @@ async function initMixpanel() {
  * Load experiment variants and feature flags
  */
 async function loadFlagsAndExperiments() {
-  // Log project links for quick access
-  console.log("%c[AllChat Mixpanel Links]", "color: #7856FF; font-weight: bold;");
-  console.log("Project:", MIXPANEL_PROJECT_URL);
-  console.log("Experiment (ui_grid_system):", MIXPANEL_EXPERIMENT_URL);
-  console.log("Feature Flag (grid_selector_control):", MIXPANEL_FEATURE_FLAG_URL);
-  console.log("EXPERIMENT_ACTIVE:", EXPERIMENT_ACTIVE);
-  console.log("FEATURE_FLAG_ACTIVE:", FEATURE_FLAG_ACTIVE);
+  // Build demo URLs with params
+  const baseUrl = window.location.origin + window.location.pathname;
+  const expOnlyUrl = `${baseUrl}?exp_active=true`;
+  const ffOnlyUrl = `${baseUrl}?ff_active=true`;
+  const bothUrl = `${baseUrl}?exp_active=true&ff_active=true`;
+
+  // Print nice console instructions
+  console.log(
+    "%c\n" +
+    "╔═══════════════════════════════════════════════════════════════╗\n" +
+    "║                    🎯 AllChat Demo Console                    ║\n" +
+    "╚═══════════════════════════════════════════════════════════════╝",
+    "color: #7856FF; font-weight: bold; font-size: 12px;"
+  );
+
+  console.log(
+    "%c📊 Current Status",
+    "color: #A855F7; font-weight: bold; font-size: 11px; margin-top: 8px;"
+  );
+  console.log(
+    `   Experiment (ui_grid_system):     %c${EXPERIMENT_ACTIVE ? '✅ ACTIVE' : '⏸️  INACTIVE'}`,
+    EXPERIMENT_ACTIVE ? "color: #22C55E; font-weight: bold;" : "color: #6B7280;"
+  );
+  console.log(
+    `   Feature Flag (grid_selector):    %c${FEATURE_FLAG_ACTIVE ? '✅ ACTIVE' : '⏸️  INACTIVE'}`,
+    FEATURE_FLAG_ACTIVE ? "color: #22C55E; font-weight: bold;" : "color: #6B7280;"
+  );
+
+  console.log(
+    "%c\n🔗 Quick Launch Links",
+    "color: #A855F7; font-weight: bold; font-size: 11px;"
+  );
+  console.log(`   Experiment only:     ${expOnlyUrl}`);
+  console.log(`   Feature flag only:   ${ffOnlyUrl}`);
+  console.log(`   Both enabled:        ${bothUrl}`);
+  console.log(`   Default (none):      ${baseUrl}`);
+
+  console.log(
+    "%c\n🎛️  Mixpanel Project Links",
+    "color: #A855F7; font-weight: bold; font-size: 11px;"
+  );
+  console.log(`   Project:       ${MIXPANEL_PROJECT_URL}`);
+  console.log(`   Experiment:    ${MIXPANEL_EXPERIMENT_URL}`);
+  console.log(`   Feature Flag:  ${MIXPANEL_FEATURE_FLAG_URL}`);
+
+  console.log(
+    "%c\n💡 Tip: %cType %cRESET()%c to clear user data and start fresh",
+    "color: #A855F7; font-weight: bold;",
+    "color: #9CA3AF;",
+    "color: #22C55E; font-weight: bold;",
+    "color: #9CA3AF;"
+  );
+  console.log("");
 
   try {
     // Experiment: ui_grid_system
