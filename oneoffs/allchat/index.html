@@ -353,9 +353,16 @@
                 <path d="M9 12a3 3 0 003-3V5a3 3 0 00-6 0v4a3 3 0 003 3zm5-3a5 5 0 01-10 0H3a6 6 0 0012 0h-1zm-5 7a1 1 0 001-1v-1h-2v1a1 1 0 001 1z"/>
               </svg>
             </button>
-            <button class="input-action-btn toggle-all-btn" id="toggleAllBtn" title="Expand/Collapse all panels">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" class="expand-all-icon">
-                <path d="M3 4h12M3 9h12M3 14h12" stroke="currentColor" stroke-width="2" fill="none"/>
+            <button class="input-action-btn toggle-all-btn" id="toggleAllBtn" title="Collapse all panels">
+              <!-- Collapse all icon (double chevron down) -->
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="collapse-all-icon">
+                <path d="M4 5l5 4 5-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 9l5 4 5-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <!-- Expand all icon (double chevron up) -->
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="expand-all-icon">
+                <path d="M4 13l5-4 5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 9l5-4 5 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
           </div>
