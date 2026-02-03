@@ -16,6 +16,9 @@ service-acct.json
 /.next/
 /out/
 
+# symlinks for local dev (oneoffs served via public/)
+public/allchat
+
 # production
 /build
 
