@@ -683,7 +683,8 @@
   }
 
   function scrollToBottom(llm) {
-    const container = elements.messages[llm];
+    // Scroll the panel-content container (parent of messages)
+    const container = elements.messages[llm].parentElement;
     container.scrollTop = container.scrollHeight;
   }
 

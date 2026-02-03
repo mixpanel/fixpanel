@@ -246,6 +246,53 @@ body {
   max-width: 150px;
 }
 
+.panels-container[data-layout="horizontal"] .panel-content {
+  padding: 6px;
+}
+
+.panels-container[data-layout="horizontal"] .messages {
+  gap: 4px;
+}
+
+.panels-container[data-layout="horizontal"] .message {
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.3;
+  border-radius: 6px;
+}
+
+/* In horizontal mode: minimal footer, rating buttons float to header */
+.panels-container[data-layout="horizontal"] .panel-footer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  pointer-events: none;
+}
+
+.panels-container[data-layout="horizontal"] .rating-buttons {
+  position: absolute;
+  top: 6px;
+  right: 95px;
+  display: flex;
+  gap: 2px;
+  pointer-events: auto;
+}
+
+.panels-container[data-layout="horizontal"] .rating-buttons button {
+  padding: 3px 5px;
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 4px;
+}
+
+.panels-container[data-layout="horizontal"] .rating-buttons svg {
+  width: 12px;
+  height: 12px;
+}
+
 /* Vertical mode: ensure all headers align */
 .panels-container[data-layout="vertical"] .panel-header {
   min-height: 60px;
