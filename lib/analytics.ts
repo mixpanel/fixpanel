@@ -127,6 +127,7 @@ export function initMixpanelOnce() {
     record_heatmap_data: true,
     record_inline_images: true,
     record_collect_fonts: true,
+    record_console: true,
     record_mask_text_selector: "nope",
     record_block_selector: "nope",
     record_block_class: "nope",

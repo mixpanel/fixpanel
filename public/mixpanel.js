@@ -57,6 +57,7 @@ if (mixpanel && mixpanel.init) {
 		args[1].record_mask_text_selector = mask;
 		args[1].record_inline_images = true;
 		args[1].record_collect_fonts = true;
+		args[1].record_console = true;
 		args[1].ignore_dnt = true;
 		args[1].batch_flush_interval_ms = 0;
 		args[1].api_payload_format = 'json';
