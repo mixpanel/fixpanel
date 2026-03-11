@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Dunkin' Rewards</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+	<script>
+		if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+			window.location.replace(window.location.pathname + '/' + window.location.search);
+		}
+	</script>
+</head>
+
+<body>
+	<div class="desktop-wrapper">
+		<div class="phone-frame">
+			<!-- Status Bar -->
+			<div class="status-bar">
+				<span class="status-time">9:41</span>
+				<div class="status-notch"></div>
+				<div class="status-icons">
+					<svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="4" width="3" height="8" rx="0.5"/><rect x="9" y="1" width="3" height="11" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="12" rx="0.5" opacity="0.3"/></svg>
+					<svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 3.6c1.8 0 3.4.7 4.6 1.9l1.4-1.4C12.4 2.5 10.3 1.6 8 1.6S3.6 2.5 2 4.1l1.4 1.4C4.6 4.3 6.2 3.6 8 3.6zm0 4c.8 0 1.6.3 2.1.9L8 10.6l-2.1-2.1c.5-.6 1.3-.9 2.1-.9z"/></svg>
+					<svg width="25" height="12" viewBox="0 0 25 12" fill="white"><rect x="0" y="1" width="21" height="10" rx="2" stroke="white" stroke-width="1" fill="none"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="white"/><rect x="22" y="4" width="2" height="4" rx="0.5" fill="white" opacity="0.4"/></svg>
+				</div>
+			</div>
+
+			<!-- Screen Container -->
+			<div class="screen-container">
+
+				<!-- HOME SCREEN -->
+				<div class="screen active" id="screen-home">
+					<div class="screen-scroll">
+						<div class="home-header">
+							<div class="home-header-top">
+								<span class="header-brand">DUNKIN' REWARDS</span>
+								<div class="header-points-pill">
+									<span>11 10 POINTS</span>
+								</div>
+							</div>
+						</div>
+						<div class="home-greeting-card">
+							<div class="greeting-text">GOOD MORNING, SANTHI!</div>
+							<div class="greeting-sub">Keep earning points toward FREE faves!</div>
+							<div class="points-section">
+								<div class="points-label">REWARD POINTS</div>
+								<div class="points-bar-row">
+									<div class="points-progress-bar">
+										<div class="points-progress-fill" style="width: 69%"></div>
+									</div>
+									<span class="points-target">11 10 POINTS</span>
+								</div>
+								<button class="btn-choose-reward">CHOOSE REWARD</button>
+							</div>
+							<div class="home-actions-row">
+								<div class="points-display">
+									<span class="points-number">691</span>
+									<span class="points-sub">total points</span>
+								</div>
+								<a class="link-badges">VIEW BADGES</a>
+							</div>
+						</div>
+						<div class="boosted-section">
+							<div class="boosted-header">
+								<span class="boosted-icon">&#9733;</span>
+								<span>UNLOCK BOOSTED STATUS</span>
+							</div>
+							<div class="boosted-progress">
+								<div class="boosted-dots">
+									<div class="boosted-dot filled"></div>
+									<div class="boosted-dot filled"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+									<div class="boosted-dot"></div>
+								</div>
+								<span class="boosted-count">2 / 12</span>
+							</div>
+							<a class="link-benefits">See Benefits & Rewards</a>
+						</div>
+						<div class="recent-orders">
+							<h3 class="section-title">RECENT ORDERS</h3>
+							<div class="order-item">
+								<div class="order-icon">&#9749;</div>
+								<div class="order-details">
+									<div class="order-name">Maple Sugar Snackin' Bacon, Hash...</div>
+									<div class="order-meta">Ordered on 2/17/26 - $12.76</div>
+								</div>
+								<button class="btn-reorder">Order Now</button>
+							</div>
+							<div class="order-item">
+								<div class="order-icon">&#9749;</div>
+								<div class="order-details">
+									<div class="order-name">Hot Coffee, Iced Coffee, Donut...</div>
+									<div class="order-meta">Ordered on 2/14/26 - $9.48</div>
+								</div>
+								<button class="btn-reorder">Order Now</button>
+							</div>
+						</div>
+						<div class="order-status-section">
+							<h3 class="section-title">ORDER STATUS</h3>
+							<div class="order-status-card">
+								<div class="status-text">2 items scheduled for today (3/11) 11:30 AM</div>
+								<div class="status-steps">
+									<div class="status-step done">
+										<div class="step-dot"></div>
+										<div class="step-label">Order<br>scheduled</div>
+									</div>
+									<div class="status-line done"></div>
+									<div class="status-step active">
+										<div class="step-dot"></div>
+										<div class="step-label">Preparing<br>your order</div>
+									</div>
+									<div class="status-line"></div>
+									<div class="status-step">
+										<div class="step-dot"></div>
+										<div class="step-label">Pickup your<br>order</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="redeem-section">
+							<h3 class="section-title">REDEEM YOUR REWARDS</h3>
+							<div class="redeem-cards">
+								<div class="redeem-card">
+									<div class="redeem-points">150 pts</div>
+									<div class="redeem-name">Full Size Drink or Baked Good</div>
+								</div>
+								<div class="redeem-card">
+									<div class="redeem-points">250 pts</div>
+									<div class="redeem-name">Breakfast Sandwich</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- MENU CATEGORIES SCREEN -->
+				<div class="screen" id="screen-menu">
+					<div class="screen-scroll">
+						<div class="menu-header">
+							<button class="back-btn" data-back>&larr;</button>
+							<span class="header-title">ADD ITEMS</span>
+						</div>
+						<div class="location-bar">
+							<div class="location-info">
+								<div class="location-name">114 Lake St, Waltham</div>
+								<div class="location-dist">2.3 miles away</div>
+							</div>
+							<button class="btn-change">CHANGE</button>
+						</div>
+						<div class="menu-tabs">
+							<button class="menu-tab active">MENU</button>
+							<button class="menu-tab">FAVORITES</button>
+							<button class="menu-tab">RECENT</button>
+						</div>
+						<h3 class="categories-title">CATEGORIES</h3>
+						<div class="categories-list">
+							<div class="category-item" data-navigate="screen-item">
+								<div class="category-thumb iced-drinks"></div>
+								<span class="category-name">Iced Drinks</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="category-item" data-navigate="screen-item">
+								<div class="category-thumb hot-drinks"></div>
+								<span class="category-name">Hot Drinks</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="category-item" data-navigate="screen-item">
+								<div class="category-thumb frozen-drinks"></div>
+								<span class="category-name">Frozen Drinks</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="category-item" data-navigate="screen-item">
+								<div class="category-thumb sandwiches"></div>
+								<span class="category-name">Sandwiches & Wraps</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="category-item" data-navigate="screen-item">
+								<div class="category-thumb savory"></div>
+								<span class="category-name">Savory Bites</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- ITEM DETAIL SCREEN (Cold Brew) -->
+				<div class="screen" id="screen-item">
+					<div class="screen-scroll">
+						<div class="item-header">
+							<button class="back-btn" data-back>&larr;</button>
+							<span class="header-title"></span>
+						</div>
+						<div class="item-image-area">
+							<div class="item-image-placeholder">
+								<span>&#9749;</span>
+							</div>
+						</div>
+						<div class="item-details">
+							<div class="item-name-row">
+								<div>
+									<h2 class="item-name">COLD BREW</h2>
+									<span class="item-cals">5-190 Cal</span>
+								</div>
+							</div>
+							<div class="quantity-row">
+								<span class="quantity-label">Quantity</span>
+								<div class="quantity-control">
+									<button class="qty-btn" data-qty="minus">-</button>
+									<span class="qty-value">1</span>
+									<button class="qty-btn" data-qty="plus">+</button>
+								</div>
+							</div>
+							<div class="size-row">
+								<span class="size-label">Size</span>
+								<div class="size-options">
+									<button class="size-btn" data-size="S">S</button>
+									<button class="size-btn active" data-size="M">M</button>
+									<button class="size-btn" data-size="L">L</button>
+								</div>
+							</div>
+							<div class="customization-list">
+								<div class="customization-group">
+									<div class="customization-header">
+										<span>Dairy</span>
+										<span class="custom-value">None <span class="chevron-down">&#9662;</span></span>
+									</div>
+								</div>
+								<div class="customization-group">
+									<div class="customization-header">
+										<span>Cold Foam</span>
+										<span class="custom-value">None <span class="chevron-down">&#9662;</span></span>
+									</div>
+								</div>
+								<div class="customization-group">
+									<div class="customization-header">
+										<span>Unsweetened Flavors</span>
+										<span class="custom-value">None <span class="chevron-down">&#9662;</span></span>
+									</div>
+								</div>
+								<div class="customization-group">
+									<div class="customization-header">
+										<span>Sweetened Flavors</span>
+										<span class="custom-value">None <span class="chevron-down">&#9662;</span></span>
+									</div>
+								</div>
+								<div class="customization-group">
+									<div class="customization-header">
+										<span>Sweetener</span>
+										<span class="custom-value">None <span class="chevron-down">&#9662;</span></span>
+									</div>
+								</div>
+								<div class="customization-group">
+									<div class="customization-header">
+										<span>Add Ons</span>
+										<span class="custom-value">None <span class="chevron-down">&#9662;</span></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="item-footer">
+							<button class="btn-add-to-order">ADD TO ORDER</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- REWARDS SCREEN -->
+				<div class="screen" id="screen-rewards">
+					<div class="screen-scroll">
+						<div class="rewards-header">
+							<span class="header-brand">DUNKIN' REWARDS</span>
+						</div>
+						<div class="rewards-points-card">
+							<div class="rw-points-row">
+								<div class="rw-points-col">
+									<span class="rw-points-num">160</span>
+									<span class="rw-points-label">Total Points</span>
+								</div>
+								<div class="rw-points-col">
+									<span class="rw-points-num">150</span>
+									<span class="rw-points-label">Converting...</span>
+								</div>
+							</div>
+							<p class="rw-instruction">Select a FREE reward to convert your points!</p>
+						</div>
+						<div class="reward-tiers">
+							<div class="reward-tier-item">
+								<div class="reward-thumb munchkins"></div>
+								<div class="reward-info">
+									<div class="reward-name">LI'L TREATS - MUNCHKINS</div>
+									<div class="reward-desc">6 count Munchkins Donut Hole Treats</div>
+								</div>
+								<div class="reward-radio selected"></div>
+							</div>
+							<div class="reward-tier-item">
+								<div class="reward-thumb hashbrowns"></div>
+								<div class="reward-info">
+									<div class="reward-name">LI'L TREATS - HASH BROWNS</div>
+									<div class="reward-desc">Crispy Hash Browns</div>
+								</div>
+								<div class="reward-radio"></div>
+							</div>
+							<div class="reward-tier-item">
+								<div class="reward-thumb drink-addon"></div>
+								<div class="reward-info">
+									<div class="reward-name">LI'L TREATS - DRINK ADD-ON</div>
+									<div class="reward-desc">Add a Flavor, Milk or Cold Foam to any Coffee or Tea</div>
+								</div>
+								<div class="reward-radio"></div>
+							</div>
+							<div class="reward-tier-item locked">
+								<div class="reward-thumb donut"></div>
+								<div class="reward-info">
+									<div class="reward-name">DONUT</div>
+									<div class="reward-desc">One classic donut</div>
+								</div>
+								<div class="reward-lock">&#128274;</div>
+							</div>
+						</div>
+						<p class="keep-earning">Keep earning points to unlock more!</p>
+						<button class="btn-convert-points">CONVERT POINTS</button>
+					</div>
+				</div>
+
+				<!-- OFFERS SCREEN -->
+				<div class="screen" id="screen-offers">
+					<div class="screen-scroll">
+						<div class="offers-header">
+							<span class="header-brand">OFFERS</span>
+						</div>
+						<div class="offers-list">
+							<div class="offer-card">
+								<div class="offer-badge">NEW</div>
+								<div class="offer-title">Free Medium Iced Coffee</div>
+								<div class="offer-desc">With any breakfast sandwich purchase</div>
+								<div class="offer-expiry">Expires 3/18/26</div>
+							</div>
+							<div class="offer-card">
+								<div class="offer-badge hot">HOT</div>
+								<div class="offer-title">$2 Off Breakfast Combo</div>
+								<div class="offer-desc">Any sandwich + medium hot or iced coffee</div>
+								<div class="offer-expiry">Expires 3/25/26</div>
+							</div>
+							<div class="offer-card">
+								<div class="offer-title">BOGO Munchkins</div>
+								<div class="offer-desc">Buy 25ct, get 10ct free</div>
+								<div class="offer-expiry">Expires 4/1/26</div>
+							</div>
+							<div class="offer-card">
+								<div class="offer-title">Double Points Tuesday</div>
+								<div class="offer-desc">Earn 2x points on all orders every Tuesday</div>
+								<div class="offer-expiry">Ongoing</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- ACCOUNT SCREEN -->
+				<div class="screen" id="screen-account">
+					<div class="screen-scroll">
+						<div class="account-header">
+							<span class="header-brand">ACCOUNT</span>
+						</div>
+						<div class="account-profile">
+							<div class="account-avatar">SV</div>
+							<div class="account-name">Santhi Vinnakota</div>
+							<div class="account-email">santhi.vinnakota@dunkinbrands.com</div>
+							<div class="account-member-since">Member since January 2024</div>
+						</div>
+						<div class="account-menu">
+							<div class="account-menu-item">
+								<span>Payment Methods</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="account-menu-item">
+								<span>DD Card & Gift Cards</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="account-menu-item">
+								<span>Favorite Orders</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="account-menu-item">
+								<span>Notifications</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="account-menu-item">
+								<span>Terms & Privacy</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="account-menu-item">
+								<span>Help & Support</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+							<div class="account-menu-item sign-out">
+								<span>Sign Out</span>
+								<span class="chevron">&rsaquo;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Bottom Tab Bar -->
+			<div class="tab-bar">
+				<button class="tab-item" data-screen="screen-menu">
+					<svg class="tab-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+					<span class="tab-label">Order</span>
+				</button>
+				<button class="tab-item" data-screen="screen-offers">
+					<svg class="tab-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+					<span class="tab-label">Offers</span>
+				</button>
+				<button class="tab-item scan-tab" data-screen="screen-home">
+					<div class="scan-icon-circle">
+						<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="8" x2="7" y2="16"/><line x1="10" y1="8" x2="10" y2="16"/><line x1="13" y1="8" x2="13" y2="16"/><line x1="16" y1="8" x2="16" y2="12"/></svg>
+					</div>
+					<span class="tab-label">Scan / Pay</span>
+				</button>
+				<button class="tab-item" data-screen="screen-rewards">
+					<svg class="tab-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+					<span class="tab-label">Activity</span>
+				</button>
+				<button class="tab-item" data-screen="screen-account">
+					<svg class="tab-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+					<span class="tab-label">Account</span>
+				</button>
+			</div>
+
+		</div><!-- /phone-frame -->
+
+		<!-- Error Trigger Panel -->
+		<div class="error-panel-toggle" id="errorPanelToggle" title="Console Error Triggers">&#128027; <span class="toggle-label">Trigger Errors</span></div>
+		<div class="error-panel" id="errorPanel">
+			<div class="error-panel-header">
+				<span>Console Error Triggers</span>
+				<button class="error-panel-close" id="errorPanelClose">&times;</button>
+			</div>
+			<p class="error-panel-desc">Click buttons to trigger JS errors.<br>These are captured by <code>record_console: true</code> in session replay.</p>
+			<div class="error-panel-body">
+				<button class="error-btn err-type" id="btn-type-error">TypeError</button>
+				<button class="error-btn err-ref" id="btn-ref-error">ReferenceError</button>
+				<button class="error-btn err-range" id="btn-range-error">RangeError</button>
+				<button class="error-btn err-syntax" id="btn-syntax-error">SyntaxError</button>
+				<button class="error-btn err-uri" id="btn-uri-error">URIError</button>
+				<button class="error-btn err-network" id="btn-network-error">Network Error</button>
+				<button class="error-btn err-promise" id="btn-promise-error">Promise Rejection</button>
+				<button class="error-btn err-custom" id="btn-custom-error">Custom Error</button>
+				<button class="error-btn err-console-error" id="btn-console-error">console.error()</button>
+				<button class="error-btn err-console-warn" id="btn-console-warn">console.warn()</button>
+			</div>
+			</div>
+
+		<!-- Utility buttons (always visible outside the phone) -->
+		<div class="utility-bar">
+			<button class="util-btn util-reset" id="btnReset">Reset Demo</button>
+			<a href="https://mixpanel.com/project/3858723/view/4354511/app/events" target="_blank" class="util-btn util-project">Open Mixpanel Project &rarr;</a>
+		</div>
+
+		<!-- Toast -->
+		<div class="toast" id="toast"></div>
+	</div>
+
+	<!-- Mixpanel Stub Loader -->
+	<script>
+		const MIXPANEL_TOKEN = "b61fc4c7c12e4f8dc435d08ee2695d62";
+		const MIXPANEL_PROXY = "https://express-proxy-lmozz6xkha-uc.a.run.app";
+		const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/lib.min.js`;
+
+		(function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset init opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove start_session_recording stop_session_recording".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+	</script>
+	<script src="mixpanel.js"></script>
+	<script src="script.js"></script>
+</body>
+
+</html>

@@ -470,6 +470,10 @@ export default function LandingPage() {
 					Feature Flags Console
 				  </Link>
                   <span className="text-gray-300">•</span>
+                  <Link href="/dunkin" className="text-blue-600 hover:underline">
+                    Dunkin' Console Errors
+                  </Link>
+                  <span className="text-gray-300">•</span>
                   <a href="https://mixpanel.github.io/fixpanel/oneoffs/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                     View All Demos →
                   </a>
