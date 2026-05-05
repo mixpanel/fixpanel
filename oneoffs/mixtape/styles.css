@@ -304,6 +304,63 @@ body {
 .track-save-btn:hover { color: var(--error); }
 .track-save-btn.saved { color: var(--error); }
 
+/* Genres Page */
+.genres-page-header {
+    padding: 40px 24px 16px;
+}
+
+.genres-page-title {
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.genres-page-subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+.genres-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 16px 24px 24px;
+}
+
+.genre-card-large {
+    border-radius: 12px;
+    padding: 32px 24px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.genre-card-large:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+.genre-card-large .genre-card-emoji {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.genre-card-large .genre-card-name {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.genre-card-large .genre-card-count {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+}
+
 /* Genre View */
 .genre-view-header { padding: 24px; }
 

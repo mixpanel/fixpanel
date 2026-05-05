@@ -206,6 +206,37 @@ function renderBrowseScreen() {
     });
 }
 
+// ── Genres Page ──
+
+var GENRE_GRADIENTS = {
+    lo_fi_ambient: "linear-gradient(135deg, #1a1a2e, #4a3f8a)",
+    pop: "linear-gradient(135deg, #ff006e, #ff7eb3)",
+    rock: "linear-gradient(135deg, #1a1a1a, #8b0000)",
+    hip_hop: "linear-gradient(135deg, #2d132c, #801336)",
+    electronic: "linear-gradient(135deg, #0f0c29, #302b63)",
+    jazz: "linear-gradient(135deg, #1b2838, #2c5f7c)"
+};
+
+function renderGenresPage() {
+    var grid = document.getElementById("genresCardGrid");
+    grid.innerHTML = "";
+
+    GENRE_ORDER.forEach(function (genre) {
+        var count = TRACKS.filter(function (t) { return t.genre === genre; }).length;
+        var card = document.createElement("div");
+        card.className = "genre-card-large";
+        card.style.background = GENRE_GRADIENTS[genre];
+        card.innerHTML =
+            '<span class="genre-card-emoji">' + GENRE_EMOJI[genre] + '</span>' +
+            '<span class="genre-card-name">' + GENRE_DISPLAY[genre] + '</span>' +
+            '<span class="genre-card-count">' + count + ' tracks</span>';
+        card.addEventListener("click", function () {
+            showGenreView(genre);
+        });
+        grid.appendChild(card);
+    });
+}
+
 // ── Genre View ──
 
 function showGenreView(genre) {
@@ -545,7 +576,7 @@ document.getElementById("headerNav").querySelectorAll(".nav-link").forEach(funct
         document.getElementById("headerNav").querySelectorAll(".nav-link").forEach(function (l) { l.classList.remove("active"); });
         this.classList.add("active");
         if (target === "browse") navigateTo("screen-browse");
-        else if (target === "genres") navigateTo("screen-browse");
+        else if (target === "genres") { renderGenresPage(); navigateTo("screen-genres"); }
     });
 });
 
