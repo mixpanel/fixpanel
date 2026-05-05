@@ -16,7 +16,7 @@
 <body>
 
     <!-- Header -->
-    <header class="app-header" id="appHeader">
+    <header class="app-header hidden" id="appHeader">
         <div class="header-left">
             <span class="header-logo">&#9835; Mixtape</span>
         </div>
@@ -32,8 +32,49 @@
 
     <!-- Screens -->
 
+    <!-- Landing Page -->
+    <div class="screen active" id="screen-landing">
+        <div class="landing-hero">
+            <div class="landing-hero-content">
+                <span class="landing-badge">&#9835; Music Streaming Demo</span>
+                <h1 class="landing-title">Your music.<br>Your way.</h1>
+                <p class="landing-subtitle">Discover millions of tracks, curated playlists, and personalized recommendations. Stream what you love, whenever you want.</p>
+                <button class="btn-landing-cta" id="landingCta">Start Listening Free</button>
+                <p class="landing-note">No credit card required</p>
+            </div>
+            <div class="landing-hero-visual">
+                <div class="landing-album-grid">
+                    <div class="landing-album" style="background:linear-gradient(135deg,#1a1a2e,#4a3f8a)">&#9835;</div>
+                    <div class="landing-album" style="background:linear-gradient(135deg,#ff006e,#ff7eb3)">&#9834;</div>
+                    <div class="landing-album" style="background:linear-gradient(135deg,#0f0c29,#302b63)">&#9836;</div>
+                    <div class="landing-album" style="background:linear-gradient(135deg,#1b2838,#2c5f7c)">&#9833;</div>
+                </div>
+            </div>
+        </div>
+        <div class="landing-features">
+            <div class="landing-feature-card">
+                <span class="feature-icon">&#127925;</span>
+                <h3>Discover Music</h3>
+                <p>30+ tracks across 6 genres. Lo-fi, pop, rock, hip-hop, electronic, and jazz — all curated for you.</p>
+            </div>
+            <div class="landing-feature-card">
+                <span class="feature-icon">&#9733;</span>
+                <h3>Personalized Feed</h3>
+                <p>Tell us what you love during onboarding and get a feed tailored to your taste profile.</p>
+            </div>
+            <div class="landing-feature-card">
+                <span class="feature-icon">&#128142;</span>
+                <h3>Go Premium</h3>
+                <p>Unlimited listening with no track limits. Monthly or annual plans with instant activation.</p>
+            </div>
+        </div>
+        <div class="landing-bottom-cta">
+            <button class="btn-landing-cta" id="landingCtaBottom">Explore Mixtape</button>
+        </div>
+    </div>
+
     <!-- Browse Screen -->
-    <div class="screen active" id="screen-browse">
+    <div class="screen" id="screen-browse">
         <div class="hero-banner" id="heroBanner">
             <div class="hero-content">
                 <span class="hero-genre-tag">Lo-Fi &amp; Ambient</span>
@@ -177,6 +218,7 @@
             </div>
             <div class="paywall-processing" id="paywallProcessing">Processing...</div>
             <div class="paywall-success" id="paywallSuccess">&#10003; Welcome to Premium!</div>
+            <span class="paywall-variant-label" id="paywallVariantLabel"></span>
         </div>
     </div>
 
@@ -185,8 +227,8 @@
 
     <!-- Utility Bar -->
     <div class="utility-bar">
-        <button class="util-btn util-reset" id="btnReset">Reset Demo</button>
-        <a id="btnMixpanelProject" href="https://mixpanel.com/project/4021104/view/4517235/app/events" target="_blank" class="util-btn util-project">Open Mixpanel Project &rarr;</a>
+        <button class="util-btn util-reset" id="btnReset">Reset</button>
+        <a id="btnMixpanelProject" href="https://mixpanel.com/project/4021104/view/4517235/app/events" target="_blank" class="util-btn util-project">Mixpanel &rarr;</a>
     </div>
 
     <!-- Mixpanel Stub Loader -->

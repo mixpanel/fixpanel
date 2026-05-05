@@ -8,13 +8,13 @@ window.mixtapeState = {
 
     sessionTrackCount: 0,
     sessionNumber: 1,
-    trackLimit: 5,
+    trackLimit: 2,
 
     experimentVariant: "c",
 
     bugMode: params.get("bug") === "true",
 
-    currentScreen: "browse",
+    currentScreen: "landing",
 
     tasteProfileStep: null,
     selectedGenres: [],
@@ -76,15 +76,34 @@ mixpanel.init(MIXPANEL_TOKEN, {
     ignore_dnt: true,
     flags: true,
 
-    autocapture: false,
+    autocapture: {
+        pageview: "full-url",
+        click: false,
+        dead_click: true,
+        rage_click: true,
+        input: true,
+        scroll: true,
+        submit: true,
+        capture_text_content: true,
+    },
 
     record_sessions_percent: 100,
+    record_block_class: new RegExp('^$'),
+    record_block_selector: '',
+    record_idle_timeout_ms: 86400000,
+    record_mask_all_text: false,
+    record_mask_all_inputs: false,
+    record_canvas: true,
     record_heatmap_data: true,
-    record_inline_images: true,
     record_collect_fonts: true,
-    record_mask_text_selector: "nope",
-    record_block_selector: "nope",
-    record_block_class: "nope",
+    record_inline_images: true,
+    record_console: true,
+    record_network: true,
+    record_network_options: {
+        recordHeaders: { request: ['*'], response: ['*'] },
+        recordBodyUrls: { request: ['.*'], response: ['.*'] },
+        recordInitialRequests: true
+    },
 
     batch_flush_interval_ms: 0,
     api_payload_format: "json",
@@ -241,6 +260,19 @@ function trackPlaylistCreated() {
     trackEvent("Playlist Created");
 }
 
+// Playback
+function trackPlaybackPaused(track) {
+    trackEvent("Playback Paused", {
+        content_genre: track.genre
+    });
+}
+
+function trackPlaybackResumed(track) {
+    trackEvent("Playback Resumed", {
+        content_genre: track.genre
+    });
+}
+
 // Subscription
 function trackSubscriptionStarted(plan, trigger) {
     var price = plan === "annual" ? 79.99 : 9.99;
@@ -249,6 +281,11 @@ function trackSubscriptionStarted(plan, trigger) {
         plan_price_usd: price,
         trigger: trigger,
         experiment_variant: window.mixtapeState.experimentVariant
+    });
+    mixpanel.people.track_charge(price);
+    mixpanel.people.set({
+        subscription_plan: plan,
+        subscription_price_usd: price
     });
 }
 

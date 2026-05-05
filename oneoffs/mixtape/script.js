@@ -342,7 +342,9 @@ playerPlayBtn.addEventListener("click", function () {
             clearInterval(window.mixtapeState.playbackTimer);
             window.mixtapeState.playbackTimer = null;
         }
+        trackPlaybackPaused(window.mixtapeState.currentTrack);
     } else {
+        trackPlaybackResumed(window.mixtapeState.currentTrack);
         playTrack(window.mixtapeState.currentTrack);
     }
 });
@@ -396,6 +398,9 @@ function showPaywall(triggerReason) {
             '<div class="paywall-progress-bar-outer"><div class="paywall-progress-bar-inner" style="width:' + Math.min(100, (window.mixtapeState.sessionTrackCount / window.mixtapeState.trackLimit) * 100) + '%"></div></div>';
         prog.style.display = "block";
     }
+
+    var variantLabels = { c: "Control", a: "Variant A", b: "Variant B" };
+    document.getElementById("paywallVariantLabel").textContent = variantLabels[v] || v;
 
     paywallModal.classList.add("show");
     trackPaywallViewed(triggerReason);
@@ -740,6 +745,11 @@ function renderOnboardingStep3() {
 }
 
 document.getElementById("startListeningBtn").addEventListener("click", function () {
+    mixpanel.people.set({
+        favorite_genres: window.mixtapeState.selectedGenres.map(function (g) { return GENRE_DISPLAY[g]; }),
+        favorite_artists: window.mixtapeState.selectedArtists,
+        onboarding_completed: true
+    });
     trackFirstPersonalizedFeedLoaded();
     renderFeedScreen();
     navigateTo("screen-feed");
@@ -815,16 +825,33 @@ document.getElementById("btnMixpanelProject").addEventListener("click", function
     }
 });
 
+// ── Landing Page ──
+
+function enterApp() {
+    document.getElementById("appHeader").classList.remove("hidden");
+    renderBrowseScreen();
+    navigateTo("screen-browse");
+}
+
+document.getElementById("landingCta").addEventListener("click", function () {
+    enterApp();
+});
+
+document.getElementById("landingCtaBottom").addEventListener("click", function () {
+    enterApp();
+});
+
 // ── Init ──
 
 function init() {
     renderBrowseScreen();
-    trackPageViewed("browse");
+    trackPageViewed("landing");
 
     if (preIdentifyUser) {
         window.mixtapeState.isAnonymous = false;
         window.mixtapeState.userEmail = preIdentifyUser;
         window.mixtapeState.trackLimit = 8;
+        document.getElementById("appHeader").classList.remove("hidden");
         updateHeaderForAuth();
         renderFeedScreen();
         navigateTo("screen-feed");
