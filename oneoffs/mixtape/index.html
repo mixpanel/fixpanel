@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixtape - Music Streaming</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+            window.location.replace(window.location.pathname + '/' + window.location.search);
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="app-header" id="appHeader">
+        <div class="header-left">
+            <span class="header-logo">&#9835; Mixtape</span>
+        </div>
+        <nav class="header-nav" id="headerNav">
+            <a href="#" class="nav-link active" data-nav="browse">Browse</a>
+            <a href="#" class="nav-link" data-nav="genres">Genres</a>
+        </nav>
+        <div class="header-right" id="headerRight">
+            <button class="btn-header" id="btnLogin">Log In</button>
+            <button class="btn-header btn-signup-header" id="btnSignup">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- Screens -->
+
+    <!-- Browse Screen -->
+    <div class="screen active" id="screen-browse">
+        <div class="hero-banner" id="heroBanner">
+            <div class="hero-content">
+                <span class="hero-genre-tag">Lo-Fi &amp; Ambient</span>
+                <h1 class="hero-title">Midnight Rain</h1>
+                <p class="hero-artist">Cloudset</p>
+                <button class="btn-hero-play" id="heroPlayBtn">&#9654; Play Now</button>
+            </div>
+        </div>
+        <div class="genre-pills" id="genrePills"></div>
+        <div id="browseGenreSections"></div>
+    </div>
+
+    <!-- Genre View Screen -->
+    <div class="screen" id="screen-genre">
+        <div class="genre-view-header">
+            <button class="btn-back" id="genreBackBtn">&larr; Browse</button>
+            <h2 class="genre-view-title" id="genreViewTitle"></h2>
+            <span class="genre-track-count" id="genreTrackCount"></span>
+        </div>
+        <div class="genre-grid" id="genreGrid"></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="screen" id="screen-login">
+        <div class="auth-card">
+            <h2 class="auth-title">Welcome back to Mixtape</h2>
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@email.com" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Log In</button>
+            </form>
+            <p class="auth-switch">Don't have an account? <a href="#" id="loginToSignup">Sign up</a></p>
+        </div>
+    </div>
+
+    <!-- Sign Up Screen -->
+    <div class="screen" id="screen-signup">
+        <div class="auth-card">
+            <h2 class="auth-title">Join Mixtape</h2>
+            <form id="signupForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="signupName">Display Name</label>
+                    <input type="text" id="signupName" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="you@email.com" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Create Account</button>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="#" id="signupToLogin">Log in</a></p>
+        </div>
+    </div>
+
+    <!-- Onboarding Step 1: Genre Selection -->
+    <div class="screen" id="screen-onboarding-1">
+        <div class="onboarding-container">
+            <div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div>
+            <p class="progress-label">Step 1 of 3</p>
+            <h2 class="onboarding-title">What do you like to listen to?</h2>
+            <div class="genre-select-grid" id="genreSelectGrid"></div>
+            <button class="btn-primary btn-full" id="onboarding1Continue" disabled>Continue</button>
+            <a href="#" class="skip-link" id="onboarding1Skip">Skip</a>
+        </div>
+    </div>
+
+    <!-- Onboarding Step 2: Artist Preferences -->
+    <div class="screen" id="screen-onboarding-2">
+        <div class="onboarding-container">
+            <div class="progress-bar"><div class="progress-fill" style="width:66%"></div></div>
+            <p class="progress-label">Step 2 of 3</p>
+            <h2 class="onboarding-title">Pick some artists you love</h2>
+            <div class="selected-artists-chips" id="selectedArtistsChips"></div>
+            <input type="text" class="artist-search-input" id="artistSearchInput" placeholder="Search artists...">
+            <div class="artist-list" id="artistList"></div>
+            <div class="onboarding-actions">
+                <a href="#" class="back-link" id="onboarding2Back">&larr; Back</a>
+                <button class="btn-primary" id="onboarding2Continue">Continue</button>
+            </div>
+            <a href="#" class="skip-link" id="onboarding2Skip">Skip</a>
+        </div>
+    </div>
+
+    <!-- Onboarding Step 3: Profile Complete -->
+    <div class="screen" id="screen-onboarding-3">
+        <div class="onboarding-container onboarding-complete">
+            <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+            <p class="progress-label">Step 3 of 3</p>
+            <h2 class="onboarding-title">You're all set!</h2>
+            <div class="profile-summary" id="profileSummary"></div>
+            <button class="btn-primary btn-full btn-large" id="startListeningBtn">Start Listening</button>
+        </div>
+    </div>
+
+    <!-- Personalized Feed -->
+    <div class="screen" id="screen-feed">
+        <div id="feedContent"></div>
+    </div>
+
+    <!-- Player Bar -->
+    <div class="player-bar" id="playerBar">
+        <button class="player-play-btn" id="playerPlayBtn">&#9654;</button>
+        <div class="player-info">
+            <span class="player-track-title" id="playerTrackTitle"></span>
+            <span class="player-track-artist" id="playerTrackArtist"></span>
+        </div>
+        <div class="player-progress-area">
+            <div class="player-progress-bar">
+                <div class="player-progress-fill" id="playerProgressFill"></div>
+            </div>
+        </div>
+        <span class="player-duration" id="playerDuration"></span>
+        <button class="player-save-btn" id="playerSaveBtn" title="Save track">&#9825;</button>
+        <div class="player-error" id="playerError">Playback failed. Try again.</div>
+        <div class="player-spinner" id="playerSpinner"><div class="spinner"></div></div>
+    </div>
+
+    <!-- Paywall Modal -->
+    <div class="modal-overlay" id="paywallModal">
+        <div class="modal-card" id="paywallCard">
+            <button class="modal-close" id="paywallClose">&times;</button>
+            <h2 class="modal-title" id="paywallTitle">Go Premium</h2>
+            <p class="modal-subtitle" id="paywallSubtitle">Unlimited music. No ads.</p>
+            <div id="paywallSocialProof" class="paywall-social-proof"></div>
+            <div id="paywallTestimonial" class="paywall-testimonial"></div>
+            <div id="paywallProgressIndicator" class="paywall-progress-indicator"></div>
+            <div class="paywall-buttons">
+                <button class="btn-primary btn-full" id="btnSubscribeMonthly">Subscribe Monthly &mdash; $9.99/mo</button>
+                <button class="btn-primary btn-full btn-annual" id="btnSubscribeAnnual">Subscribe Annual &mdash; $79.99/yr <span class="save-badge">SAVE 33%</span></button>
+            </div>
+            <div class="paywall-processing" id="paywallProcessing">Processing...</div>
+            <div class="paywall-success" id="paywallSuccess">&#10003; Welcome to Premium!</div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <button class="util-btn util-reset" id="btnReset">Reset Demo</button>
+        <a id="btnMixpanelProject" href="https://mixpanel.com/project/4021104/view/4517235/app/events" target="_blank" class="util-btn util-project">Open Mixpanel Project &rarr;</a>
+    </div>
+
+    <!-- Mixpanel Stub Loader -->
+    <script>
+        const MIXPANEL_TOKEN = "c91e9cc4412731bcd3fe576bc2233272";
+        const MIXPANEL_PROXY = "https://express-proxy-lmozz6xkha-uc.a.run.app";
+        const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/lib.min.js`;
+
+        (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset init opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove start_session_recording stop_session_recording".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+    </script>
+    <script src="mixpanel.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
