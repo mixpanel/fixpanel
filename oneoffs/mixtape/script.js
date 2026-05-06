@@ -866,6 +866,12 @@ function enterApp() {
     navigateTo("screen-browse");
 }
 
+document.getElementById("headerLogoLink").addEventListener("click", function (e) {
+    e.preventDefault();
+    document.getElementById("appHeader").classList.add("hidden");
+    navigateTo("screen-landing");
+});
+
 document.getElementById("landingCta").addEventListener("click", function () {
     enterApp();
 });
