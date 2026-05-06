@@ -12,6 +12,9 @@
     --success: #22C55E;
     --warning: #F59E0B;
     --error: #EF4444;
+    --accent-warm: #F97316;
+    --accent-warm-glow: rgba(249, 115, 22, 0.15);
+    --bg-card-gradient: linear-gradient(135deg, #161B22, #1C2128);
     --border: #30363D;
     --player-height: 64px;
     --header-height: 56px;
@@ -21,7 +24,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     padding-bottom: calc(var(--player-height) + var(--utility-height));
@@ -152,7 +155,12 @@ body {
     min-height: 100vh;
 }
 
-.screen.active { display: block; }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.screen.active { display: block; animation: fadeInUp 0.3s ease-out; }
 
 /* Landing Page */
 .landing-hero {
@@ -227,24 +235,10 @@ body {
 
 .landing-album-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
     transform: rotate(-6deg);
 }
-
-.landing-album {
-    width: 140px;
-    height: 140px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-}
-
-.landing-album:nth-child(2) { transform: translateY(20px); }
-.landing-album:nth-child(3) { transform: translateY(-20px); }
 
 .landing-features {
     display: grid;
@@ -254,17 +248,17 @@ body {
 }
 
 .landing-feature-card {
-    background: var(--bg-card);
+    background: var(--bg-card-gradient);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 32px 24px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.landing-feature-card:hover { border-color: var(--accent); }
+.landing-feature-card:hover { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
 
 .feature-icon {
-    font-size: 32px;
+    font-size: 40px;
     display: block;
     margin-bottom: 12px;
 }
@@ -528,7 +522,7 @@ body {
 .auth-card {
     max-width: 400px;
     margin: 80px auto;
-    background: var(--bg-card);
+    background: var(--bg-card-gradient);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 40px;
@@ -596,9 +590,9 @@ body {
 
 .progress-bar {
     width: 100%;
-    height: 4px;
+    height: 6px;
     background: var(--bg-elevated);
-    border-radius: 2px;
+    border-radius: 3px;
     margin-bottom: 8px;
     overflow: hidden;
 }
@@ -606,8 +600,9 @@ body {
 .progress-fill {
     height: 100%;
     background: var(--accent);
-    border-radius: 2px;
+    border-radius: 3px;
     transition: width 0.3s;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
 }
 
 .progress-label {
@@ -747,7 +742,7 @@ body {
 .onboarding-complete { text-align: center; }
 
 .profile-summary {
-    background: var(--bg-card);
+    background: var(--bg-card-gradient);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 24px;
@@ -786,14 +781,17 @@ body {
     height: var(--player-height);
     background: var(--bg-card);
     border-top: 1px solid var(--border);
-    display: none;
+    display: flex;
     align-items: center;
     padding: 0 16px;
     gap: 12px;
     z-index: 900;
+    transform: translateY(calc(100% + var(--utility-height)));
+    transition: transform 0.3s ease-out;
+    pointer-events: none;
 }
 
-.player-bar.visible { display: flex; }
+.player-bar.visible { transform: translateY(0); pointer-events: auto; }
 
 .player-play-btn {
     background: var(--accent);
@@ -811,6 +809,7 @@ body {
     transition: background 0.2s;
     letter-spacing: 2px;
     line-height: 1;
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
 }
 
 .player-play-btn:hover { background: var(--accent-hover); }
@@ -824,7 +823,7 @@ body {
 }
 
 .player-track-title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
@@ -843,9 +842,9 @@ body {
 
 .player-progress-bar {
     width: 100%;
-    height: 4px;
+    height: 6px;
     background: var(--bg-elevated);
-    border-radius: 2px;
+    border-radius: 3px;
     overflow: hidden;
 }
 
@@ -853,8 +852,9 @@ body {
     height: 100%;
     width: 0;
     background: var(--accent);
-    border-radius: 2px;
+    border-radius: 3px;
     transition: width 0.1s linear;
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
 }
 
 .player-duration {
@@ -928,10 +928,10 @@ body {
 .modal-overlay.show { display: flex; }
 
 .modal-card {
-    background: var(--bg-card);
+    background: linear-gradient(160deg, #161B22, #1C2128, #1a1530);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 40px;
+    padding: 48px;
     max-width: 440px;
     width: 90%;
     position: relative;
@@ -1111,11 +1111,161 @@ body {
 .util-reset { background: var(--border); color: var(--text-secondary); }
 .util-project { background: var(--border); color: var(--text-secondary); }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .hero-title { font-size: 32px; }
-    .genre-select-grid { grid-template-columns: repeat(2, 1fr); }
-    .genre-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-    .track-card { flex: 0 0 150px; }
-    .track-card-art { height: 150px; }
+/* Social Proof */
+.landing-social-proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.landing-avatars { display: flex; }
+
+.landing-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-primary);
+    margin-left: -8px;
+}
+
+.landing-avatar:first-child { margin-left: 0; }
+
+.landing-social-proof span {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Landing Stats */
+.landing-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 40px 48px 60px;
+}
+
+.stat-item { text-align: center; }
+
+.stat-number {
+    display: block;
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* Landing Track Preview Cards */
+.landing-track-card {
+    width: 140px;
+    height: 140px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.landing-track-card .landing-track-title {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.landing-track-card .landing-track-artist {
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+}
+
+/* Hero Banner Animation */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero-banner {
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+}
+
+.hero-album-preview {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.btn-hero-play {
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Player Bar Polish */
+.player-art {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+@keyframes heartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.track-save-btn.saved { animation: heartPulse 0.3s ease-out; }
+.player-save-btn.saved { animation: heartPulse 0.3s ease-out; }
+
+/* Auth Brand */
+.auth-brand {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 24px;
+}
+
+/* Focus Glow (consistency) */
+.form-group input:focus,
+.artist-search-input:focus,
+.paywall-auth-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Onboarding Checkmark */
+@keyframes checkmarkBounce {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.onboarding-checkmark {
+    font-size: 64px;
+    animation: checkmarkBounce 0.5s ease-out;
+    margin-bottom: 16px;
+    color: var(--success);
+}
+
+/* Save Badge Pulse */
+@keyframes subtlePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.save-badge {
+    animation: subtlePulse 2s ease-in-out infinite;
+    background: var(--accent-warm);
 }

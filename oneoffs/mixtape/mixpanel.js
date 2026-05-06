@@ -171,6 +171,13 @@ function trackPageViewed(pageName) {
     });
 }
 
+function trackPlayerOpened(track) {
+    trackEvent("Player Opened", {
+        content_genre: track.genre,
+        is_anonymous: window.mixtapeState.isAnonymous
+    });
+}
+
 function trackTrackPlayed(track) {
     window.mixtapeState.sessionTrackCount++;
     trackEvent("Track Played", {

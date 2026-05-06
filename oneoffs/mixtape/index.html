@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mixtape - Music Streaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script>
         if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
@@ -39,6 +42,14 @@
                 <span class="landing-badge">&#9835; Music Streaming Demo</span>
                 <h1 class="landing-title">Your music.<br>Your way.</h1>
                 <p class="landing-subtitle">Discover millions of tracks, curated playlists, and personalized recommendations. Stream what you love, whenever you want.</p>
+                <div class="landing-social-proof">
+                    <div class="landing-avatars">
+                        <img src="bar.png" class="landing-avatar" alt="">
+                        <img src="foo.png" class="landing-avatar" alt="">
+                        <img src="baz.png" class="landing-avatar" alt="">
+                    </div>
+                    <span>Join 4 million+ listeners</span>
+                </div>
                 <button class="btn-landing-cta" id="landingCta">Start Listening Free</button>
                 <p class="landing-note">No credit card required</p>
             </div>
@@ -68,6 +79,12 @@
                 <p>Unlimited listening with no track limits. Monthly or annual plans with instant activation.</p>
             </div>
         </div>
+        <div class="landing-stats">
+            <div class="stat-item"><span class="stat-number">30+</span><span class="stat-label">Tracks</span></div>
+            <div class="stat-item"><span class="stat-number">6</span><span class="stat-label">Genres</span></div>
+            <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Artists</span></div>
+            <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Free to Start</span></div>
+        </div>
         <div class="landing-bottom-cta">
             <button class="btn-landing-cta" id="landingCtaBottom">Explore Mixtape</button>
         </div>
@@ -77,6 +94,7 @@
     <div class="screen" id="screen-browse">
         <div class="hero-banner" id="heroBanner">
             <div class="hero-content">
+                <div class="hero-album-preview" style="background:linear-gradient(135deg,#0a0a1a,#4a3f8a,#8B7CC8)"></div>
                 <span class="hero-genre-tag">Lo-Fi &amp; Ambient</span>
                 <h1 class="hero-title">Midnight Rain</h1>
                 <p class="hero-artist">Cloudset</p>
@@ -109,6 +127,7 @@
     <!-- Login Screen -->
     <div class="screen" id="screen-login">
         <div class="auth-card">
+            <div class="auth-brand">&#9835; Mixtape</div>
             <h2 class="auth-title">Welcome back to Mixtape</h2>
             <form id="loginForm" autocomplete="off">
                 <div class="form-group">
@@ -124,6 +143,7 @@
     <!-- Sign Up Screen -->
     <div class="screen" id="screen-signup">
         <div class="auth-card">
+            <div class="auth-brand">&#9835; Mixtape</div>
             <h2 class="auth-title">Join Mixtape</h2>
             <form id="signupForm" autocomplete="off">
                 <div class="form-group">
@@ -174,6 +194,7 @@
         <div class="onboarding-container onboarding-complete">
             <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
             <p class="progress-label">Step 3 of 3</p>
+            <div class="onboarding-checkmark">&#10003;</div>
             <h2 class="onboarding-title">You're all set!</h2>
             <div class="profile-summary" id="profileSummary"></div>
             <button class="btn-primary btn-full btn-large" id="startListeningBtn">Start Listening</button>
@@ -187,6 +208,7 @@
 
     <!-- Player Bar -->
     <div class="player-bar" id="playerBar">
+        <div class="player-art" id="playerArt"></div>
         <button class="player-play-btn" id="playerPlayBtn">&#9654;</button>
         <div class="player-info">
             <span class="player-track-title" id="playerTrackTitle"></span>
@@ -207,7 +229,7 @@
     <div class="modal-overlay" id="paywallModal">
         <div class="modal-card" id="paywallCard">
             <button class="modal-close" id="paywallClose">&times;</button>
-            <h2 class="modal-title" id="paywallTitle">Go Premium</h2>
+            <h2 class="modal-title" id="paywallTitle">&#10024; Go Premium</h2>
             <p class="modal-subtitle" id="paywallSubtitle">Unlimited music. No ads.</p>
             <div id="paywallSocialProof" class="paywall-social-proof"></div>
             <div id="paywallTestimonial" class="paywall-testimonial"></div>

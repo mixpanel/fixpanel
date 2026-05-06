@@ -1,36 +1,36 @@
 // ── Data ──
 
 var TRACKS = [
-    { id: 1,  title: "Midnight Rain",        artist: "Cloudset",        genre: "lo_fi_ambient",  duration: "3:42", color1: "#1a1a2e", color2: "#4a3f8a" },
-    { id: 2,  title: "Sunday Morning Haze",  artist: "Sleepy Waves",    genre: "lo_fi_ambient",  duration: "4:15", color1: "#2d3436", color2: "#636e72" },
-    { id: 3,  title: "Quiet Hours",          artist: "Driftwood",       genre: "lo_fi_ambient",  duration: "3:58", color1: "#0c1445", color2: "#3c5186" },
-    { id: 4,  title: "Paper Lanterns",       artist: "Yume",            genre: "lo_fi_ambient",  duration: "4:32", color1: "#1b1b3a", color2: "#6b5b95" },
-    { id: 5,  title: "Fog and Moss",         artist: "Terrain",         genre: "lo_fi_ambient",  duration: "5:01", color1: "#1a332e", color2: "#4a8a6e" },
-    { id: 6,  title: "Two AM Coffee",        artist: "Rooftop Sessions", genre: "lo_fi_ambient", duration: "3:27", color1: "#2c1810", color2: "#6b4423" },
-    { id: 7,  title: "Static Lullaby",       artist: "Cloudset",        genre: "lo_fi_ambient",  duration: "4:48", color1: "#1a1a2e", color2: "#5a4f9a" },
-    { id: 8,  title: "Windowsill",           artist: "Sleepy Waves",    genre: "lo_fi_ambient",  duration: "3:33", color1: "#2a2a3e", color2: "#7a6faa" },
-    { id: 9,  title: "Neon Lights",          artist: "Aria Cole",       genre: "pop",            duration: "3:18", color1: "#ff006e", color2: "#ff7eb3" },
-    { id: 10, title: "Summer Drive",         artist: "Luna Park",       genre: "pop",            duration: "3:45", color1: "#ff9a00", color2: "#ffcd38" },
-    { id: 11, title: "Heartbeat City",       artist: "The Echoes",      genre: "pop",            duration: "3:22", color1: "#e63946", color2: "#f4a261" },
-    { id: 12, title: "Golden Hour",          artist: "Aria Cole",       genre: "pop",            duration: "4:01", color1: "#ffd700", color2: "#ffb347" },
-    { id: 13, title: "Satellite",            artist: "Prism",           genre: "pop",            duration: "3:55", color1: "#00b4d8", color2: "#90e0ef" },
-    { id: 14, title: "Thunderstruck Road",   artist: "Iron Coast",      genre: "rock",           duration: "4:33", color1: "#8b0000", color2: "#dc143c" },
-    { id: 15, title: "Burning Bridges",      artist: "Voltage",         genre: "rock",           duration: "3:49", color1: "#1a1a1a", color2: "#555555" },
-    { id: 16, title: "Midnight Engine",      artist: "The Wrecks",      genre: "rock",           duration: "5:12", color1: "#333333", color2: "#888888" },
-    { id: 17, title: "Wildfire",             artist: "Iron Coast",      genre: "rock",           duration: "4:07", color1: "#8b2500", color2: "#cd5c5c" },
-    { id: 18, title: "Block Party",          artist: "K.Nova",          genre: "hip_hop",        duration: "3:28", color1: "#2d132c", color2: "#801336" },
-    { id: 19, title: "Crown",               artist: "DOT.",            genre: "hip_hop",        duration: "3:55", color1: "#0d0d0d", color2: "#4a0e4e" },
-    { id: 20, title: "Late Night Metro",     artist: "SoundWave",       genre: "hip_hop",        duration: "4:12", color1: "#1a0533", color2: "#5b2c8e" },
-    { id: 21, title: "No Signal",            artist: "K.Nova",          genre: "hip_hop",        duration: "3:41", color1: "#2d1b4e", color2: "#7b5ea7" },
-    { id: 22, title: "Pulse",               artist: "Synthwave Dreams", genre: "electronic",     duration: "5:30", color1: "#0f0c29", color2: "#302b63" },
-    { id: 23, title: "Circuit",             artist: "Neon Grid",       genre: "electronic",     duration: "4:45", color1: "#000428", color2: "#004e92" },
-    { id: 24, title: "Binary Sunset",       artist: "CTRL+Z",          genre: "electronic",     duration: "6:12", color1: "#0f2027", color2: "#2c5364" },
-    { id: 25, title: "Datastream",          artist: "Synthwave Dreams", genre: "electronic",     duration: "4:58", color1: "#1a0533", color2: "#3a1c71" },
-    { id: 26, title: "Afterglow",           artist: "Photon",          genre: "electronic",     duration: "5:15", color1: "#11001c", color2: "#3d0066" },
-    { id: 27, title: "Blue Note Evening",    artist: "Miles Apart",     genre: "jazz",           duration: "6:45", color1: "#1b2838", color2: "#2c5f7c" },
-    { id: 28, title: "Smokey Room",          artist: "The Quintet",     genre: "jazz",           duration: "5:33", color1: "#3e2723", color2: "#795548" },
-    { id: 29, title: "Velvet Keys",          artist: "Ivory",           genre: "jazz",           duration: "4:28", color1: "#1a1a2e", color2: "#544179" },
-    { id: 30, title: "Harlem Sunrise",       artist: "Miles Apart",     genre: "jazz",           duration: "5:55", color1: "#2c1810", color2: "#a0522d" },
+    { id: 1,  title: "Midnight Rain",        artist: "Cloudset",        genre: "lo_fi_ambient",  duration: "3:42", color1: "#0a0a1a", color2: "#4a3f8a", color3: "#8B7CC8", angle: 135 },
+    { id: 2,  title: "Sunday Morning Haze",  artist: "Sleepy Waves",    genre: "lo_fi_ambient",  duration: "4:15", color1: "#2d3436", color2: "#636e72", color3: "#a4b0be", angle: 150 },
+    { id: 3,  title: "Quiet Hours",          artist: "Driftwood",       genre: "lo_fi_ambient",  duration: "3:58", color1: "#0c1445", color2: "#3c5186", color3: "#7B8EC8", angle: 120 },
+    { id: 4,  title: "Paper Lanterns",       artist: "Yume",            genre: "lo_fi_ambient",  duration: "4:32", color1: "#1b1b3a", color2: "#6b5b95", color3: "#B8A9D4", angle: 160 },
+    { id: 5,  title: "Fog and Moss",         artist: "Terrain",         genre: "lo_fi_ambient",  duration: "5:01", color1: "#0a1f18", color2: "#2d6b4f", color3: "#6bc4a0", angle: 135 },
+    { id: 6,  title: "Two AM Coffee",        artist: "Rooftop Sessions", genre: "lo_fi_ambient", duration: "3:27", color1: "#1a0e08", color2: "#6b4423", color3: "#C49B6C", angle: 145 },
+    { id: 7,  title: "Static Lullaby",       artist: "Cloudset",        genre: "lo_fi_ambient",  duration: "4:48", color1: "#0d0d1f", color2: "#5a4f9a", color3: "#9B8DD4", angle: 130 },
+    { id: 8,  title: "Windowsill",           artist: "Sleepy Waves",    genre: "lo_fi_ambient",  duration: "3:33", color1: "#1a1a2e", color2: "#5c5180", color3: "#a89ec8", angle: 155 },
+    { id: 9,  title: "Neon Lights",          artist: "Aria Cole",       genre: "pop",            duration: "3:18", color1: "#ff006e", color2: "#ff7eb3", color3: "#ffd6e7", angle: 150 },
+    { id: 10, title: "Summer Drive",         artist: "Luna Park",       genre: "pop",            duration: "3:45", color1: "#ff6b00", color2: "#ffb347", color3: "#fff3c4", angle: 135 },
+    { id: 11, title: "Heartbeat City",       artist: "The Echoes",      genre: "pop",            duration: "3:22", color1: "#e63946", color2: "#f4845f", color3: "#ffd6a5", angle: 120 },
+    { id: 12, title: "Golden Hour",          artist: "Aria Cole",       genre: "pop",            duration: "4:01", color1: "#d4a017", color2: "#ffd700", color3: "#fff8dc", angle: 160 },
+    { id: 13, title: "Satellite",            artist: "Prism",           genre: "pop",            duration: "3:55", color1: "#0077b6", color2: "#00b4d8", color3: "#caf0f8", angle: 45 },
+    { id: 14, title: "Thunderstruck Road",   artist: "Iron Coast",      genre: "rock",           duration: "4:33", color1: "#2d0000", color2: "#8b0000", color3: "#dc143c", angle: 135 },
+    { id: 15, title: "Burning Bridges",      artist: "Voltage",         genre: "rock",           duration: "3:49", color1: "#0d0d0d", color2: "#3d3d3d", color3: "#8a8a8a", angle: 150 },
+    { id: 16, title: "Midnight Engine",      artist: "The Wrecks",      genre: "rock",           duration: "5:12", color1: "#1a1a1a", color2: "#4a3728", color3: "#c87533", angle: 120 },
+    { id: 17, title: "Wildfire",             artist: "Iron Coast",      genre: "rock",           duration: "4:07", color1: "#1a0800", color2: "#8b2500", color3: "#e87040", angle: 145 },
+    { id: 18, title: "Block Party",          artist: "K.Nova",          genre: "hip_hop",        duration: "3:28", color1: "#1a0a1a", color2: "#801336", color3: "#d4497a", angle: 135 },
+    { id: 19, title: "Crown",               artist: "DOT.",            genre: "hip_hop",        duration: "3:55", color1: "#050005", color2: "#4a0e4e", color3: "#9b2fa0", angle: 160 },
+    { id: 20, title: "Late Night Metro",     artist: "SoundWave",       genre: "hip_hop",        duration: "4:12", color1: "#0a0118", color2: "#3d1a6e", color3: "#7b4fb8", angle: 150 },
+    { id: 21, title: "No Signal",            artist: "K.Nova",          genre: "hip_hop",        duration: "3:41", color1: "#15082e", color2: "#5b3d8a", color3: "#a78bcc", angle: 120 },
+    { id: 22, title: "Pulse",               artist: "Synthwave Dreams", genre: "electronic",     duration: "5:30", color1: "#050318", color2: "#1a1550", color3: "#4840a0", angle: 135 },
+    { id: 23, title: "Circuit",             artist: "Neon Grid",       genre: "electronic",     duration: "4:45", color1: "#000218", color2: "#003580", color3: "#0080cc", angle: 150 },
+    { id: 24, title: "Binary Sunset",       artist: "CTRL+Z",          genre: "electronic",     duration: "6:12", color1: "#0a1418", color2: "#1a4050", color3: "#3a8090", angle: 45 },
+    { id: 25, title: "Datastream",          artist: "Synthwave Dreams", genre: "electronic",     duration: "4:58", color1: "#0d0320", color2: "#2a1060", color3: "#5a30b0", angle: 120 },
+    { id: 26, title: "Afterglow",           artist: "Photon",          genre: "electronic",     duration: "5:15", color1: "#08000e", color2: "#2a0050", color3: "#6a20b0", angle: 160 },
+    { id: 27, title: "Blue Note Evening",    artist: "Miles Apart",     genre: "jazz",           duration: "6:45", color1: "#0e1820", color2: "#2c5f7c", color3: "#5a9ab5", angle: 135 },
+    { id: 28, title: "Smokey Room",          artist: "The Quintet",     genre: "jazz",           duration: "5:33", color1: "#1a1008", color2: "#6b4423", color3: "#c49b6c", angle: 150 },
+    { id: 29, title: "Velvet Keys",          artist: "Ivory",           genre: "jazz",           duration: "4:28", color1: "#0d0d1a", color2: "#3a2860", color3: "#7b60b0", angle: 120 },
+    { id: 30, title: "Harlem Sunrise",       artist: "Miles Apart",     genre: "jazz",           duration: "5:55", color1: "#1a0c05", color2: "#8b5a2b", color3: "#d4a060", angle: 145 },
 ];
 
 var GENRE_DISPLAY = {
@@ -145,7 +145,7 @@ function createTrackCard(track) {
     card.setAttribute("data-track-id", track.id);
 
     card.innerHTML =
-        '<div class="track-card-art" style="background:linear-gradient(135deg,' + track.color1 + ',' + track.color2 + ')">' +
+        '<div class="track-card-art" style="background:linear-gradient(' + track.angle + 'deg,' + track.color1 + ',' + track.color2 + ',' + track.color3 + ')">' +
             '<div class="play-overlay">&#9654;</div>' +
         '</div>' +
         '<div class="track-card-info">' +
@@ -271,8 +271,11 @@ function playTrack(track) {
         window.mixtapeState.playbackTimer = null;
     }
 
+    trackPlayerOpened(track);
+
     window.mixtapeState.currentTrack = track;
     window.mixtapeState.isPlaying = true;
+    document.getElementById("playerArt").style.background = "linear-gradient(" + track.angle + "deg," + track.color1 + "," + track.color2 + "," + track.color3 + ")";
     playerTrackTitleEl.textContent = track.title;
     playerTrackArtistEl.textContent = track.artist;
     playerDurationEl.textContent = track.duration;
@@ -303,7 +306,7 @@ function playTrack(track) {
     } else {
         trackTrackPlayed(track);
 
-        playbackDuration = 8000 + Math.random() * 2000;
+        playbackDuration = 5000;
         startPlaybackTimer(track);
     }
 }
@@ -404,7 +407,8 @@ function showPaywall(triggerReason) {
 
     if (v === "b") {
         var test = document.getElementById("paywallTestimonial");
-        test.innerHTML = '"I switched to annual and haven\'t looked back. The offline mode alone is worth it." &mdash; Maya, listener since 2023';
+        test.innerHTML = '<img src="baz.png" style="width:28px;height:28px;border-radius:50%;vertical-align:middle;margin-right:8px;">' +
+            '"I switched to annual and haven\'t looked back. The offline mode alone is worth it." &mdash; Maya, listener since 2023';
         test.style.display = "block";
 
         var prog = document.getElementById("paywallProgressIndicator");
@@ -502,7 +506,9 @@ function updateHeaderForAuth() {
     var email = window.mixtapeState.userEmail || "";
     headerRight.innerHTML =
         '<div class="header-user-menu">' +
-            '<button class="header-user-btn" id="userMenuBtn">' + email + ' &#9662;</button>' +
+            '<button class="header-user-btn" id="userMenuBtn">' +
+                '<img src="foo.png" style="width:22px;height:22px;border-radius:50%;margin-right:6px;">' +
+                email + ' &#9662;</button>' +
             '<div class="header-dropdown" id="userDropdown">' +
                 '<button class="dropdown-item" id="dropdownLibrary">My Library</button>' +
                 '<button class="dropdown-item" id="dropdownSubscription">Manage Subscription' +
@@ -715,15 +721,19 @@ function renderArtistList(query) {
         return true;
     });
 
-    filtered.forEach(function (artist) {
+    var avatars = ["bar.png", "foo.png", "baz.png"];
+    filtered.forEach(function (artist, index) {
         var item = document.createElement("div");
         item.className = "artist-item";
         if (window.mixtapeState.selectedArtists.indexOf(artist.name) !== -1) {
             item.classList.add("selected");
         }
+        var avatarSrc = avatars[index % 3];
         item.innerHTML =
+            '<div style="display:flex;align-items:center;gap:10px;">' +
+            '<img src="' + avatarSrc + '" style="width:28px;height:28px;border-radius:50%;">' +
             '<div><div class="artist-item-name">' + artist.name + '</div>' +
-            '<div class="artist-item-genre">' + GENRE_DISPLAY[artist.genre] + '</div></div>' +
+            '<div class="artist-item-genre">' + GENRE_DISPLAY[artist.genre] + '</div></div></div>' +
             '<span class="artist-item-check">&#10003;</span>';
 
         item.addEventListener("click", function () {
@@ -882,7 +892,25 @@ document.getElementById("landingCtaBottom").addEventListener("click", function (
 
 // ── Init ──
 
+function renderLandingHero() {
+    var grid = document.querySelector(".landing-album-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    var previewTracks = [TRACKS[0], TRACKS[8], TRACKS[13], TRACKS[21], TRACKS[26], TRACKS[9]];
+    var offsets = [0, 20, -10, 15, -20, 10];
+    previewTracks.forEach(function (track, i) {
+        var card = document.createElement("div");
+        card.className = "landing-track-card";
+        card.style.background = "linear-gradient(" + track.angle + "deg," + track.color1 + "," + track.color2 + "," + track.color3 + ")";
+        card.style.transform = "translateY(" + offsets[i] + "px)";
+        card.innerHTML = '<div class="landing-track-title">' + track.title + '</div>' +
+            '<div class="landing-track-artist">' + track.artist + '</div>';
+        grid.appendChild(card);
+    });
+}
+
 function init() {
+    renderLandingHero();
     renderBrowseScreen();
     trackPageViewed("landing");
 
