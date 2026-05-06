@@ -112,20 +112,20 @@ mixpanel.init(MIXPANEL_TOKEN, {
 
     loaded: async function (mp) {
         mp.start_session_recording();
-        mixpanel.register({ platform: "web" });
+        mp.register({ platform: "web" });
 
         await loadExperiment();
 
         if (window.mixtapeState.bugMode) {
-            mixpanel.register({
+            mp.register({
                 $browser: "Chrome",
                 $browser_version: 124
             });
         }
 
         if (preIdentifyUser) {
-            mixpanel.identify(preIdentifyUser);
-            mixpanel.people.set({ $email: preIdentifyUser });
+            mp.identify(preIdentifyUser);
+            mp.people.set({ $email: preIdentifyUser });
             window.mixtapeState.isAnonymous = false;
             window.mixtapeState.userEmail = preIdentifyUser;
             window.mixtapeState.trackLimit = 8;
