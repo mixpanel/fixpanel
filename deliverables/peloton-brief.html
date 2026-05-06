@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peloton + Mixpanel: Solution Brief</title>
+<style>
+@font-face {
+  font-family: 'Garnett';
+  src: local('Garnett-Regular'), local('Garnett Regular'),
+       url('./assets/fonts/Garnett-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Garnett';
+  src: local('Garnett-Medium'), local('Garnett Medium'),
+       url('./assets/fonts/Garnett-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Apercu Mono Pro';
+  src: local('Apercu Mono Pro'), local('ApercuMonoPro'),
+       local('Apercu Mono Pro Regular'),
+       url('./assets/fonts/apercu-mono-regular-pro.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --purple-01: #F2EEFF;
+  --purple-02: #DAD0FF;
+  --purple-03: #C1B1FF;
+  --purple-06: #7856FF;
+  --purple-07: #5F41CF;
+  --purple-09: #2E1670;
+  --purple-10: #150040;
+  --gray-01: #FAFAFA;
+  --gray-02: #F4F4F4;
+  --gray-03: #EAEAEA;
+  --gray-04: #DFDFDF;
+  --gray-07: #A2A2A2;
+  --gray-08: #797979;
+  --gray-09: #515151;
+  --gray-10: #1F2023;
+  --mint-01: #F2FCFB;
+  --mint-06: #7FE1D8;
+  --mint-07: #5FB6AC;
+  --mint-09: #205F56;
+  --pool-01: #F0F9FE;
+  --pool-06: #72BEF4;
+  --pool-09: #1D4B6D;
+  --lava-01: #FFF0ED;
+  --lava-06: #FF7557;
+  --lava-09: #661D2D;
+  --peach-01: #FFF7F2;
+  --peach-06: #FFB27A;
+  --peach-09: #664126;
+  --mustard-01: #FEF8EB;
+  --mustard-06: #F8BC3C;
+  --mustard-09: #6E4319;
+  --grass-06: #3BA974;
+  --black-70pct: rgba(0,0,0,0.70);
+  --white-70pct: rgba(255,255,255,0.70);
+  --white-10pct: rgba(255,255,255,0.10);
+  --font-sans: 'Garnett', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'Apercu Mono Pro', 'Apercu Mono', 'SF Mono', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  color: var(--black-70pct);
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--purple-10);
+  padding: 48px 48px 56px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  right: -60px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120,86,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-logo { width: 120px; height: auto; margin-bottom: 48px; opacity: 0.85; }
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--purple-03);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--purple-03);
+  max-width: 80%;
+  margin-bottom: 24px;
+}
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--white-70pct);
+  max-width: 70%;
+}
+.hero-meta {
+  margin-top: 40px;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-meta-item {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--white-70pct);
+  letter-spacing: 0.02em;
+}
+.hero-meta-item span { color: var(--purple-03); display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: 0.20em; text-transform: uppercase; }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 80%; margin: 0 auto; padding: 0 24px; }
+section { padding: 64px 0; }
+section + section { border-top: 1px solid var(--gray-03); }
+
+/* ─── SECTION HEADERS ─── */
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--purple-06);
+  margin-bottom: 12px;
+}
+h2 {
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--gray-10);
+  margin-bottom: 24px;
+}
+h3 {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--gray-10);
+  margin-bottom: 16px;
+  margin-top: 40px;
+}
+h3:first-of-type { margin-top: 0; }
+
+p { margin-bottom: 16px; }
+p:last-child { margin-bottom: 0; }
+
+/* ─── TLDR BOX ─── */
+.tldr-section {
+  background: var(--purple-01);
+  border-radius: 8px;
+  padding: 32px 40px;
+  margin-top: -40px;
+  position: relative;
+  z-index: 2;
+}
+.tldr-section h2 { color: var(--purple-09); font-size: 28px; margin-bottom: 20px; }
+.tldr-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+.tldr-item:last-child { margin-bottom: 0; }
+.tldr-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+}
+.tldr-icon svg { width: 17px; height: 17px; }
+.tldr-text { color: var(--black-70pct); font-size: 16px; line-height: 1.6; }
+
+/* ─── STAT CARDS ─── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+}
+.stat-card {
+  background: var(--gray-02);
+  border: 1px solid var(--gray-03);
+  border-radius: 8px;
+  padding: 24px;
+}
+.stat-number {
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--gray-10);
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 14px;
+  line-height: 1.68;
+  color: var(--gray-08);
+}
+
+/* ─── DATA TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+.data-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--gray-08);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--gray-10);
+  font-weight: 400;
+}
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-03);
+  color: var(--black-70pct);
+  line-height: 1.68;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-10);
+  font-weight: 400;
+}
+
+/* ─── CALLOUT CARDS ─── */
+.callout {
+  border-radius: 8px;
+  padding: 24px 32px;
+  margin: 24px 0;
+}
+.callout-purple { background: var(--purple-01); }
+.callout-purple h4 { color: var(--purple-09); }
+.callout-mint { background: var(--mint-01); }
+.callout-mint h4 { color: var(--mint-09); }
+.callout-pool { background: var(--pool-01); }
+.callout-pool h4 { color: var(--pool-09); }
+.callout-peach { background: var(--peach-01); }
+.callout-peach h4 { color: var(--peach-09); }
+.callout-lava { background: var(--lava-01); }
+.callout-lava h4 { color: var(--lava-09); }
+.callout-mustard { background: var(--mustard-01); }
+.callout-mustard h4 { color: var(--mustard-09); }
+
+.callout h4 {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.callout p { font-size: 14px; line-height: 1.68; color: var(--black-70pct); margin-bottom: 0; }
+
+/* ─── FINDING CARDS (schema quality) ─── */
+.finding-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+.finding-card {
+  background: var(--gray-02);
+  border: 1px solid var(--gray-03);
+  border-radius: 8px;
+  padding: 24px;
+}
+.finding-card h4 {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--gray-10);
+  margin-bottom: 8px;
+}
+.finding-card p {
+  font-size: 14px;
+  line-height: 1.68;
+  color: var(--black-70pct);
+  margin-bottom: 0;
+}
+.finding-card .mono-example {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gray-08);
+  margin-top: 8px;
+  word-break: break-all;
+}
+
+/* ─── PERSONA CARDS ─── */
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+.persona-card {
+  border-radius: 8px;
+  padding: 20px;
+}
+.persona-card .pct {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+.persona-card .name {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.persona-card .desc {
+  font-size: 12px;
+  line-height: 1.68;
+}
+.pc-purple { background: var(--purple-01); }
+.pc-purple .pct, .pc-purple .name { color: var(--purple-09); }
+.pc-purple .desc { color: var(--black-70pct); }
+.pc-mint { background: var(--mint-01); }
+.pc-mint .pct, .pc-mint .name { color: var(--mint-09); }
+.pc-mint .desc { color: var(--black-70pct); }
+.pc-pool { background: var(--pool-01); }
+.pc-pool .pct, .pc-pool .name { color: var(--pool-09); }
+.pc-pool .desc { color: var(--black-70pct); }
+.pc-peach { background: var(--peach-01); }
+.pc-peach .pct, .pc-peach .name { color: var(--peach-09); }
+.pc-peach .desc { color: var(--black-70pct); }
+.pc-mustard { background: var(--mustard-01); }
+.pc-mustard .pct, .pc-mustard .name { color: var(--mustard-09); }
+.pc-mustard .desc { color: var(--black-70pct); }
+.pc-lava { background: var(--lava-01); }
+.pc-lava .pct, .pc-lava .name { color: var(--lava-09); }
+.pc-lava .desc { color: var(--black-70pct); }
+
+/* ─── FUNNEL LIST ─── */
+.funnel-list {
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.funnel-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--gray-02);
+  border: 1px solid var(--gray-03);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+.funnel-bar {
+  flex-shrink: 0;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--purple-06);
+}
+.funnel-name {
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--gray-10);
+  flex: 1;
+}
+.funnel-rate {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-08);
+  flex-shrink: 0;
+}
+
+/* ─── ICON INLINE ─── */
+.inline-icon {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  vertical-align: middle;
+  margin-right: 8px;
+  position: relative;
+  top: -1px;
+}
+.inline-icon svg { width: 17px; height: 17px; }
+
+/* ─── SECTION ICON HEADER ─── */
+.icon-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  margin-top: 40px;
+}
+.icon-header:first-of-type { margin-top: 0; }
+.icon-header .icon-box {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--purple-01);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.icon-header .icon-box svg { width: 17px; height: 17px; }
+.icon-header h3 { margin: 0; }
+
+/* ─── NEXT STEPS ─── */
+.next-steps-section {
+  background: var(--purple-10);
+  padding: 64px 0;
+  margin-top: 0;
+  border-top: none;
+}
+.next-steps-section h2 { color: var(--purple-03); }
+.next-steps-section p { color: var(--white-70pct); }
+.next-steps-section .team-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin: 32px 0;
+}
+.team-card {
+  background: var(--white-10pct);
+  border-radius: 8px;
+  padding: 20px 16px;
+  text-align: center;
+}
+.team-name {
+  font-weight: 500;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.team-role {
+  font-size: 12px;
+  line-height: 1.68;
+  color: var(--white-70pct);
+}
+
+.contact-line {
+  margin-top: 32px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--purple-03);
+}
+
+/* ─── TAG ─── */
+.tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  background: var(--purple-01);
+  color: var(--purple-06);
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+.tag-dark {
+  background: var(--white-10pct);
+  color: #fff;
+}
+
+/* ─── DIVIDER ─── */
+.section-divider {
+  width: 40px;
+  height: 3px;
+  background: var(--purple-06);
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .hero { padding: 40px 24px 48px; }
+  .hero h1 { font-size: 32px; }
+  .container { padding: 0 24px; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .finding-grid { grid-template-columns: 1fr; }
+  .persona-grid { grid-template-columns: repeat(2, 1fr); }
+  .next-steps-section .team-grid { grid-template-columns: repeat(2, 1fr); }
+  h2 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero">
+  <svg class="hero-logo" viewBox="0 0 400 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 73.4194H23.9775V70.8713H22.1769C18.6724 70.8713 17.8284 69.9148 17.8284 66.4183V34.8047C20.2719 30.6651 23.5595 28.0125 27.6991 28.0125C32.8997 28.0125 36.0827 31.8306 36.0827 39.0488V66.4263C36.0827 69.9309 35.2307 70.8794 31.8386 70.8794H29.9256V73.4274H53.3725V70.8794H51.6765C48.1719 70.8794 47.3279 69.9228 47.3279 66.4263V37.8752C47.3279 36.9187 47.3279 35.9622 47.2234 35.0137C49.5545 30.7696 53.0591 28.0125 57.1986 28.0125C62.3993 28.0125 65.5823 31.8306 65.5823 39.0488V66.4263C65.5823 69.9309 64.7303 70.8794 61.3382 70.8794H59.4252V73.4274H82.8721V70.8794H81.2806C77.6715 70.8794 76.8275 69.9228 76.8275 66.4263V37.8752C76.8275 27.1605 70.7829 21.2204 61.9732 21.2204C55.3981 21.2204 49.667 24.8295 46.5884 32.0396C44.7879 25.0385 39.4828 21.2204 32.4737 21.2204C26.212 21.2204 20.8024 24.6125 17.8284 31.4046V22.4904H0V25.0385H2.12204C5.73112 25.0385 6.57511 25.995 6.57511 29.4915V66.4183C6.57511 69.9228 5.72308 70.8713 2.12204 70.8713H0V73.4194ZM96.9789 14.0023C100.797 14.0023 103.98 10.8192 103.98 7.00113C103.98 3.18306 100.797 0 96.9789 0C93.1608 0 89.9777 3.18306 89.9777 7.00113C89.9777 10.8192 93.1608 14.0023 96.9789 14.0023ZM85.0987 73.4194H108.65V70.8713H107.059C103.554 70.8713 102.71 69.9148 102.71 66.4183V22.4904H84.8816V25.0385H87.0037C90.6127 25.0385 91.4567 25.995 91.4567 29.4915V66.4183C91.4567 69.9228 90.6047 70.8713 87.0037 70.8713H85.0906V73.4194H85.0987ZM125.843 43.5018H132.636C130.94 42.4408 130.305 40.9538 129.453 38.1967L126.904 28.752C125.739 24.508 124.782 22.4904 120.112 22.4904H110.354V25.0385H111.737C114.598 25.0385 114.92 26.0995 115.772 29.2826L117.998 37.5617C119.164 41.5968 120.972 43.5018 125.851 43.5018H125.843ZM141.55 43.5018H148.342C153.221 43.5018 154.917 41.5888 156.091 37.5617L158.317 29.2826C159.169 26.0995 159.587 25.0385 162.352 25.0385H163.735V22.4904H154.081C149.306 22.4904 148.35 24.4035 147.289 28.752L144.741 38.1967C143.889 41.0583 143.246 42.4408 141.55 43.5018ZM132.636 52.416H141.55V43.5018H132.636V52.416ZM110.354 73.4274H120.112C124.782 73.4274 125.739 71.4099 126.904 67.1658L129.453 57.7211C130.305 54.9641 130.94 53.477 132.636 52.416H125.843C120.964 52.416 119.156 54.3291 117.99 58.3561L115.764 66.6353C114.912 69.8184 114.598 70.8794 111.729 70.8794H110.346V73.4274H110.354ZM154.065 73.4274H163.719V70.8794H162.336C159.579 70.8794 159.153 69.8184 158.301 66.6353L156.074 58.3561C154.909 54.321 153.213 52.416 148.326 52.416H141.55C143.246 53.477 143.865 54.8596 144.717 57.7211L147.265 67.1658C148.326 71.5144 149.282 73.4274 154.057 73.4274H154.065ZM165.101 94.6478H189.714V92.0998H187.166C183.774 92.0998 182.922 91.1432 182.922 87.6467V67.3828C186 71.9484 191.201 74.7055 197.35 74.7055C208.917 74.7055 218.144 64.5213 218.144 46.91C218.144 30.9947 209.447 21.2365 198.194 21.2365C191.619 21.2365 186.097 25.0545 182.913 31.8467V22.5065H165.085V25.0545H167.207C170.712 25.0545 171.66 26.0111 171.66 29.5076V87.6387C171.66 91.1432 170.704 92.0917 167.207 92.0917H165.085V94.6398L165.101 94.6478ZM194.175 27.8036C201.071 27.8036 206.698 34.2742 206.698 47.1109C206.698 61.1132 201.497 68.7573 194.392 68.7573C189.826 68.7573 185.799 66.3138 182.93 62.0697V35.7532C185.687 30.5526 189.617 27.7955 194.175 27.7955V27.8036ZM234.92 74.4885C241.816 74.4885 247.33 71.2009 251.47 63.7737V64.9393C251.47 71.3054 255.505 74.0624 262.185 74.0624C264.202 74.0624 266.75 73.8535 268.446 73.3229V70.6704C267.594 70.8794 266.959 70.9919 266.324 70.9919C263.672 70.9919 262.82 69.4004 262.82 66.8523V39.6838C262.82 27.1605 255.818 21.2204 244.043 21.2204C236.19 21.2204 228.553 24.8295 223.674 28.6475L225.37 31.6216C230.466 28.117 235.45 26.1075 240.86 26.1075C247.861 26.1075 251.47 29.9256 251.47 38.8398V41.1708L238.416 46.2669C226.536 51.146 222.179 55.7116 222.179 62.6082C222.179 69.5049 227.058 74.4885 234.912 74.4885H234.92ZM233.328 59.8431C233.328 54.538 236.407 50.72 242.668 47.9629L251.478 44.1449V60.6952C248.19 65.2608 244.372 67.9133 240.233 67.9133C236.093 67.9133 233.336 65.0518 233.336 59.8512L233.328 59.8431ZM270.568 73.4274H294.763V70.8794H292.745C289.241 70.8794 288.397 69.9228 288.397 66.4263V34.9092C290.84 30.6651 294.441 28.0125 298.685 28.0125C304.199 28.0125 307.704 31.8306 307.704 39.0488V66.4263C307.704 69.9309 306.852 70.8794 303.46 70.8794H301.442V73.4274H325.524V70.8794H323.402C319.793 70.8794 318.949 69.9228 318.949 66.4263V37.8752C318.949 27.1605 312.583 21.2204 303.564 21.2204C296.989 21.2204 291.467 24.6125 288.389 31.4046V22.4904H270.56V25.0385H272.682C276.291 25.0385 277.135 25.995 277.135 29.4915V66.4183C277.135 69.9228 276.283 70.8713 272.682 70.8713H270.56V73.4194L270.568 73.4274ZM353.111 74.6974C360.112 74.6974 366.695 71.5144 371.47 67.6963L369.878 65.3653C365.634 68.4438 360.859 69.8184 356.406 69.8184C345.587 69.8184 339.221 62.1822 339.221 47.3279V45.4149H372.748C372.539 31.0911 363.729 21.3329 350.892 21.3329C338.056 21.3329 327.759 32.8997 327.759 48.18C327.759 64.9473 337.308 74.7055 353.119 74.7055L353.111 74.6974ZM350.989 23.9775C357.355 23.9775 361.277 30.8741 361.92 42.5453H339.43C340.387 30.7696 344.84 23.9775 350.997 23.9775H350.989ZM375.071 73.4194H399.683V70.8713H397.24C393.735 70.8713 392.891 69.9148 392.891 66.4183V1.27001H375.063V3.81807H377.185C380.689 3.81807 381.638 4.77459 381.638 8.27114V66.4183C381.638 69.9228 380.681 70.8713 377.185 70.8713H375.063V73.4194H375.071Z" fill="white"/>
+  </svg>
+
+  <div class="hero-eyebrow">Solution Brief</div>
+  <h1>Peloton + Mixpanel: a clean POC and a path forward</h1>
+  <p class="hero-sub">Peloton provided the full amplitude schema. we analyzed every event, and built a realistic POC dataset. here's what we found (and what comes next).</p>
+
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span>Prepared by</span>
+      Aaron Krivitzky (AK), Principal SE
+    </div>
+    <div class="hero-meta-item">
+      <span>For</span>
+      Neha &amp; Peloton Evaluation Team
+    </div>
+    <div class="hero-meta-item">
+      <span>Contact</span>
+      ak@mixpanel.com
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ TLDR ═══════════ -->
+<div class="container">
+  <div class="tldr-section">
+    <h2>The short version</h2>
+
+    <div class="tldr-item">
+      <div class="tldr-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 1.5C16 1.22386 15.7761 1 15.5 1H1.5C1.22386 1 1 1.22386 1 1.5V15.5C1 15.7761 1.22386 16 1.5 16H15.5C15.7761 16 16 15.7761 16 15.5V1.5ZM17 15.5C17 16.3284 16.3284 17 15.5 17H1.5C0.671573 17 0 16.3284 0 15.5V1.5C0 0.671573 0.671573 0 1.5 0H15.5C16.3284 0 17 0.671573 17 1.5V15.5Z" fill="#7856FF"/><path d="M12 5.49997C12 5.22383 11.7761 4.99997 11.5 4.99997H1.5C1.22386 4.99997 1 5.22383 1 5.49997V15.5C1 15.7761 1.22386 16 1.5 16L11.5 16C11.7761 16 12 15.7761 12 15.5V5.49997ZM13 15.5C13 16.3284 12.3284 17 11.5 17L1.5 17C0.671573 17 0 16.3284 0 15.5V5.49997C0 4.67154 0.671573 3.99997 1.5 3.99997H11.5C12.3284 3.99997 13 4.67154 13 5.49997V15.5Z" fill="#7856FF"/><path d="M8 9.50005C8 9.2239 7.77614 9.00005 7.5 9.00005H1.5C1.22386 9.00005 1 9.2239 1 9.50005V15.5C1 15.7761 1.22386 16 1.5 16L7.5 16C7.77614 16 8 15.7762 8 15.5V9.50005ZM9 15.5C9 16.3285 8.32843 17 7.5 17L1.5 17C0.671573 17 0 16.3284 0 15.5V9.50005C0 8.67162 0.671573 8.00005 1.5 8.00005H7.5C8.32843 8.00005 9 8.67162 9 9.50005V15.5Z" fill="#7856FF"/></svg></div>
+      <div class="tldr-text"><strong>Peloton exported the full Amplitude governance suite</strong> (75,544 event rows, 3,393 user property rows). your instrumentation has grown organically over years. the schema carries significant noise alongside genuinely strong product telemetry.</div>
+    </div>
+
+    <div class="tldr-item">
+      <div class="tldr-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 1C1.22386 1 1 1.22386 1 1.5L1 15.5C1 15.7761 1.22386 16 1.5 16H3.5C3.77614 16 4 15.7761 4 15.5L4 1.5C4 1.22386 3.77614 1 3.5 1L1.5 1ZM3.5 0C4.32843 0 5 0.671573 5 1.5L5 15.5C5 16.3284 4.32843 17 3.5 17H1.5C0.671574 17 0 16.3284 0 15.5L0 1.5C0 0.671573 0.671573 0 1.5 0L3.5 0Z" fill="#7856FF"/><path d="M7.5 6C7.22386 6 7 6.22386 7 6.5L7 15.5C7 15.7761 7.22386 16 7.5 16H9.5C9.77614 16 10 15.7761 10 15.5L10 6.5C10 6.22386 9.77614 6 9.5 6H7.5ZM9.5 5C10.3284 5 11 5.67157 11 6.5L11 15.5C11 16.3284 10.3284 17 9.5 17H7.5C6.67157 17 6 16.3284 6 15.5L6 6.5C6 5.67157 6.67157 5 7.5 5H9.5Z" fill="#7856FF"/><path d="M13.5 11C13.2239 11 13 11.2239 13 11.5L13 15.5C13 15.7761 13.2239 16 13.5 16H15.5C15.7761 16 16 15.7761 16 15.5V11.5C16 11.2239 15.7761 11 15.5 11H13.5ZM15.5 10C16.3284 10 17 10.6716 17 11.5V15.5C17 16.3284 16.3284 17 15.5 17H13.5C12.6716 17 12 16.3284 12 15.5L12 11.5C12 10.6716 12.6716 10 13.5 10H15.5Z" fill="#7856FF"/></svg></div>
+      <div class="tldr-text"><strong>Mixpanel curated 200 user-facing events from 6,629 active ones</strong> and built a realistic synthetic dataset that mirrors your real funnels, personas, and engagement patterns.</div>
+    </div>
+
+    <div class="tldr-item">
+      <div class="tldr-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 4.91407C0.000121829 3.57785 1.61562 2.90872 2.56055 3.85352L5.56055 6.85352C5.84182 7.13479 5.99996 7.5163 6 7.91407V9.08594C5.99996 9.48371 5.84182 9.86522 5.56055 10.1465L2.56055 13.1465C1.61562 14.0913 0.000121444 13.4222 0 12.0859V4.91407ZM1 12.0859C1.00012 12.5313 1.53856 12.7543 1.85352 12.4395L4.85352 9.43946C4.94725 9.34573 4.99996 9.2185 5 9.08594V7.91407C4.99996 7.78152 4.94725 7.65429 4.85352 7.56055L1.85352 4.56055C1.53856 4.24572 1.00012 4.46875 1 4.91407V12.0859Z" fill="#7856FF"/><path d="M17 4.91407C16.9999 3.57785 15.3844 2.90872 14.4395 3.85352L11.4395 6.85352C11.1582 7.13479 11 7.5163 11 7.91407V9.08594C11 9.48371 11.1582 9.86522 11.4395 10.1465L14.4395 13.1465C15.3844 14.0913 16.9999 13.4222 17 12.0859V4.91407ZM16 12.0859C15.9999 12.5313 15.4614 12.7543 15.1465 12.4395L12.1465 9.43946C12.0528 9.34573 12 9.2185 12 9.08594V7.91407C12 7.78152 12.0528 7.65429 12.1465 7.56055L15.1465 4.56055C15.4614 4.24572 15.9999 4.46875 16 4.91407V12.0859Z" fill="#7856FF"/><path d="M13.0859 0C14.4222 0.000122258 15.0913 1.61562 14.1465 2.56055L11.1465 5.56055C10.8652 5.84182 10.4837 5.99996 10.0859 6L6.91407 6C6.5163 5.99996 6.13479 5.84182 5.85352 5.56055L2.85352 2.56055C1.90872 1.61562 2.57785 0.000121415 3.91407 0L13.0859 0ZM3.91407 1C3.46876 1.00012 3.24572 1.53856 3.56056 1.85352L6.56056 4.85352C6.65429 4.94725 6.78152 4.99996 6.91407 5L10.0859 5C10.2185 4.99996 10.3457 4.94725 10.4395 4.85352L13.4395 1.85352C13.7543 1.53856 13.5313 1.00012 13.0859 1L3.91407 1Z" fill="#7856FF"/><path d="M13.0859 17C14.4222 16.9999 15.0913 15.3844 14.1465 14.4395L11.1465 11.4395C10.8652 11.1582 10.4837 11 10.0859 11H6.91408C6.51631 11 6.1348 11.1582 5.85353 11.4395L2.85353 14.4395C1.90873 15.3844 2.57785 16.9999 3.91407 17H13.0859ZM3.91407 16C3.46876 15.9999 3.24572 15.4614 3.56056 15.1465L6.56056 12.1465C6.65429 12.0528 6.78152 12 6.91407 12H10.0859C10.2185 12 10.3457 12.0528 10.4395 12.1465L13.4395 15.1465C13.7543 15.4614 13.5313 15.9999 13.0859 16H3.91407Z" fill="#7856FF"/></svg></div>
+      <div class="tldr-text"><strong>the POC will prove two things:</strong> Mixpanel handles your existing complexity from day one (no re-instrumentation), and it gives your team self-serve analytical power that's currently bottlenecked through the data team.</div>
+    </div>
+
+    <div class="tldr-item">
+      <div class="tldr-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 15.5V13.5C0 12.6716 0.671573 12 1.5 12H5V15.5C5 16.3284 4.32843 17 3.5 17H1.5C0.671573 17 0 16.3284 0 15.5ZM1 15.5C1 15.7761 1.22386 16 1.5 16H3.5C3.77614 16 4 15.7761 4 15.5V13H1.5C1.22386 13 1 13.2239 1 13.5V15.5Z" fill="#7856FF"/><path d="M4 8.5C4 7.67157 4.67157 7 5.5 7H10V11.5C10 12.3284 9.32843 13 8.5 13H4V8.5ZM5 12H8.5C8.77614 12 9 11.7761 9 11.5V8H5.5C5.22386 8 5 8.22386 5 8.5V12Z" fill="#7856FF"/><path d="M16 1.5C16 1.22386 15.7761 1 15.5 1H10.5C10.2239 1 10 1.22386 10 1.5V7H15.5C15.7761 7 16 6.77614 16 6.5V1.5ZM17 6.5C17 7.32843 16.3284 8 15.5 8H9V1.5C9 0.671573 9.67157 0 10.5 0H15.5C16.3284 0 17 0.671573 17 1.5V6.5Z" fill="#7856FF"/></svg></div>
+      <div class="tldr-text"><strong>this is a beginning, not a conclusion.</strong> we're here to show a credible path, not to pretend we already know your business better than you do.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ WHAT THIS BRIEF IS ═══════════ -->
+<div class="container">
+  <section>
+    <div class="section-eyebrow">Context</div>
+    <h2>What this brief is</h2>
+    <p>this brief is for Neha and the Peloton evaluation team: Becca, Aly, Tahamina, and Greg. it covers what we found when we analyzed your Amplitude schema exports, what we built for the POC evaluation, and what to expect when we kick off.</p>
+    <p>your current stack runs Amplitude as the primary analytics source, Segment for data integration, BigQuery as the warehouse (though not all events land there), and Optimizely for experimentation. this brief is not a competitive teardown of any of those tools. it is a transparent look at what your event data actually looks like today, and a demonstration that Mixpanel can work with it as-is while opening up room to evolve.</p>
+  </section>
+</div>
+
+<!-- ═══════════ SCHEMA FINDINGS ═══════════ -->
+<div class="container">
+  <section>
+    <div class="section-eyebrow">Analysis</div>
+    <h2>What we found in your Amplitude schemas</h2>
+
+    <h3>The scale of the instrumentation</h3>
+    <p>your Amplitude project contains 75,544 rows of event schema data. of those, 6,629 events are marked active and not hidden. that sounds like a lot, and it is, but it's also normal for a platform that spans Bike, Tread, Row, and Guide hardware plus iOS, Android, and web apps across cycling, running, strength, yoga, meditation, rowing, bootcamp, barre, pilates, and stretching.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">6,629</div>
+        <div class="stat-label">active, non-hidden events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">73%</div>
+        <div class="stat-label">zero volume in the last 30 days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~500</div>
+        <div class="stat-label">events with meaningful volume</div>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>What we measured</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>active, non-hidden events</td><td class="num">6,629</td></tr>
+        <tr><td>events with zero volume in last 30 days</td><td class="num">4,865 (73%)</td></tr>
+        <tr><td>events with &gt;100K monthly volume</td><td class="num">532</td></tr>
+        <tr><td>events with &gt;1M monthly volume</td><td class="num">219</td></tr>
+        <tr><td>events with &gt;10M monthly volume</td><td class="num">67</td></tr>
+      </tbody>
+    </table>
+
+    <p>73% of your active events haven't fired in the last month. the live, meaningful instrumentation is concentrated in roughly 500 events with real volume. everything else is abandoned, one-off, or test instrumentation that was never cleaned up.</p>
+
+    <h3>Schema quality</h3>
+    <p>what we're about to describe is common in mature platforms that grew their instrumentation organically over years. it's the natural result of multiple teams, multiple SDKs, and multiple priorities shipping events without centralized governance. we've seen it at nearly every enterprise customer we've worked with.</p>
+
+    <div class="finding-grid">
+      <div class="finding-card">
+        <h4>Property types</h4>
+        <p>94% of event properties are typed as <code>any</code> or left completely untyped. Amplitude's schema tracking flagged 78% as <code>UNEXPECTED</code>, meaning they were never formally declared in a tracking plan.</p>
+      </div>
+      <div class="finding-card">
+        <h4>Corrupted property names</h4>
+        <p>4,391 events contain mojibake or encoding errors. a corrupted client build was never patched.</p>
+        <div class="mono-example">Device Langu㴺 · Cìass Movements · Subscriptioî Type · Product Modeᆀ</div>
+      </div>
+      <div class="finding-card">
+        <h4>Hardware telemetry mixed in</h4>
+        <p>events like <code>ota:NEW</code> (6.4M), <code>Safety Key Plugged</code> (3.5M), and <code>Unlocked Belt</code> (6.7M) sit alongside <code>Started Workout</code> with no separation.</p>
+      </div>
+      <div class="finding-card">
+        <h4>Property sprawl</h4>
+        <p>your <code>left workout</code> event has 337 properties. <code>Started Workout</code> has 271. a clean schema for a workout event needs about 15.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-peach">
+      <h4>Segment metadata on every event</h4>
+      <p>your Segment integration passes 15+ fields related to consent routing and downstream integrations on nearly every event. these are CDP plumbing, not analytics data. useful for Segment's routing logic but noise for anyone trying to analyze user behavior.</p>
+    </div>
+
+    <h3>User properties</h3>
+    <p>your Amplitude project has 3,393 user properties. 74% are already deleted. of the 842 that remain active, the breakdown is telling.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>feature flag toggles <span style="font-family:var(--font-mono);font-size:12px;color:var(--gray-07);">(Toggles.*)</span></td><td class="num">578</td></tr>
+        <tr><td>integer/string/double config params</td><td class="num">161</td></tr>
+        <tr><td>experiment and A/B test assignments</td><td class="num">25</td></tr>
+        <tr><td>consent and integration metadata</td><td class="num">29</td></tr>
+        <tr><td>meaningful analytics properties</td><td class="num">~34</td></tr>
+      </tbody>
+    </table>
+
+    <p>96% of your active user properties are feature flags with food-themed codenames, experiment assignments, or metadata. the 34 properties that carry real analytical weight (subscription type, platform, engagement segment, acquisition source) are buried under configuration noise.</p>
+  </section>
+</div>
+
+<!-- ═══════════ WHAT WE BUILT ═══════════ -->
+<div class="container">
+  <section>
+    <div class="section-eyebrow">POC Dataset</div>
+    <h2>What we built for you</h2>
+    <p>we took your Amplitude governance export and used it to build a synthetic dataset that mirrors your real product. schema-matched synthetic data that preserves the structure and complexity of your instrumentation without touching production. this dataset is running in a Mixpanel project today and will be the foundation for the POC evaluation.</p>
+
+    <h3>Event curation</h3>
+    <p>starting from 6,629 active events, we applied a systematic filter: removed 4,865 zero-volume events, removed events under 100K monthly volume, removed internal/system events (OTA updates, hardware diagnostics, packet errors, sensor pairing, calibration), and consolidated redundant UI micro-events while keeping representative samples.</p>
+
+    <div class="callout callout-purple">
+      <h4>200 user-facing events across 18 categories</h4>
+      <p>covering discovery, workout lifecycle, in-class engagement, social interactions, challenges, search, notifications, subscriptions, and device context. every event name matches your real Amplitude instrumentation. when your team opens Mixpanel, the taxonomy will feel familiar.</p>
+    </div>
+
+    <h3>Behavioral personas</h3>
+    <p>the dataset models 15,000 users over 120 days with eight behavioral personas.</p>
+
+    <div class="persona-grid">
+      <div class="persona-card pc-purple">
+        <div class="pct">8%</div>
+        <div class="name">Daily Rider</div>
+        <div class="desc">High-frequency, low churn. The core.</div>
+      </div>
+      <div class="persona-card pc-pool">
+        <div class="pct">15%</div>
+        <div class="name">Weekend Warrior</div>
+        <div class="desc">Concentrated weekend usage.</div>
+      </div>
+      <div class="persona-card pc-mint">
+        <div class="pct">20%</div>
+        <div class="name">Casual Browser</div>
+        <div class="desc">Browses content, rarely starts workouts.</div>
+      </div>
+      <div class="persona-card pc-peach">
+        <div class="pct">20%</div>
+        <div class="name">New Member</div>
+        <div class="desc">Onboarding-phase behavior.</div>
+      </div>
+      <div class="persona-card pc-mustard">
+        <div class="pct">10%</div>
+        <div class="name">Program Devotee</div>
+        <div class="desc">Follows structured programs.</div>
+      </div>
+      <div class="persona-card pc-purple">
+        <div class="pct">7%</div>
+        <div class="name">Social Butterfly</div>
+        <div class="desc">High-fives, leaderboard engagement.</div>
+      </div>
+      <div class="persona-card pc-pool">
+        <div class="pct">10%</div>
+        <div class="name">Free Trial</div>
+        <div class="desc">Evaluating the platform. High churn risk.</div>
+      </div>
+      <div class="persona-card pc-lava">
+        <div class="pct">10%</div>
+        <div class="name">Churning</div>
+        <div class="desc">Fading engagement, approaching exit.</div>
+      </div>
+    </div>
+
+    <h3>Conversion funnels</h3>
+    <p>the dataset includes six conversion funnels mapped to real Peloton user journeys.</p>
+
+    <div class="funnel-list">
+      <div class="funnel-item">
+        <div class="funnel-bar" style="width:56px;"></div>
+        <div class="funnel-name">Home Feed → Workout</div>
+        <div class="funnel-rate">28% baseline</div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-bar" style="width:44px;"></div>
+        <div class="funnel-name">On-Demand Discovery</div>
+        <div class="funnel-rate">22% baseline</div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-bar" style="width:90px;"></div>
+        <div class="funnel-name">Bookmark → Stack → Ride</div>
+        <div class="funnel-rate">45% baseline</div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-bar" style="width:80px;"></div>
+        <div class="funnel-name">In-Class Engagement</div>
+        <div class="funnel-rate">40% baseline</div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-bar" style="width:70px;"></div>
+        <div class="funnel-name">Challenge Participation</div>
+        <div class="funnel-rate">35% baseline</div>
+      </div>
+      <div class="funnel-item">
+        <div class="funnel-bar" style="width:36px;"></div>
+        <div class="funnel-name">Search → Workout</div>
+        <div class="funnel-rate">18% baseline</div>
+      </div>
+    </div>
+
+    <p>two A/B experiments are baked into the data: a personalized home feed test and a free trial onboarding flow test. both produce measurable lift that your team can discover and validate during the POC using Mixpanel's experiment analysis.</p>
+
+    <div class="callout callout-mint">
+      <h4>Behavioral signals waiting to be found</h4>
+      <p>the dataset encodes 11 behavioral patterns drawn from what we'd expect in a platform like yours. these are the kinds of questions your team should be able to answer without filing a ticket to the data team:</p>
+      <ul style="margin:12px 0 0 20px;font-size:14px;line-height:1.68;color:var(--black-70pct);">
+        <li>search term specificity correlating with workout frequency</li>
+        <li>post-class stacking behavior (members who immediately take another class)</li>
+        <li>the instructor loyalty magic number (2+ classes from same instructor in first 14 days)</li>
+        <li>streak engagement as a retention cliff</li>
+        <li>social interaction in week one predicting long-term retention</li>
+        <li>class length and platform type driving completion rates</li>
+        <li>push notification fatigue thresholds</li>
+        <li>free trial workout count as a churn predictor</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════ WHAT THIS MEANS ═══════════ -->
+<div class="container">
+  <section>
+    <div class="section-eyebrow">POC Framework</div>
+    <h2>What this means for the POC</h2>
+    <p>the POC success criteria (shared separately) are organized around three drivers: cost (Greg's focus on right-sizing the analytics spend), migration lift (Tahamina's concern about engineering capacity and execution timeline), and incremental value over your current setup (Neha's goal of unblocking self-serve for PMs).</p>
+
+    <!-- Day-one schema -->
+    <div class="icon-header">
+      <div class="icon-box"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 1.5C16 1.22386 15.7761 1 15.5 1H1.5C1.22386 1 1 1.22386 1 1.5V15.5C1 15.7761 1.22386 16 1.5 16H15.5C15.7761 16 16 15.7761 16 15.5V1.5ZM17 15.5C17 16.3284 16.3284 17 15.5 17H1.5C0.671573 17 0 16.3284 0 15.5V1.5C0 0.671573 0.671573 0 1.5 0H15.5C16.3284 0 17 0.671573 17 1.5V15.5Z" fill="#7856FF"/><path d="M14.3535 4.85352L8.06055 11.1465C7.47478 11.7322 6.52522 11.7322 5.93945 11.1465L3.14648 8.35352L3.85352 7.64648L6.64648 10.4395C6.84173 10.6346 7.15827 10.6346 7.35352 10.4395L13.6465 4.14648L14.3535 4.85352Z" fill="#7856FF"/></svg></div>
+      <h3>Day-one schema compatibility</h3>
+    </div>
+    <p>every event in the POC dataset uses your exact Amplitude event names and property names. when your team opens Mixpanel, they'll see <code>Started Workout</code>, <code>Viewed Class Details</code>, <code>Finalized Workout</code>, <code>Joined Challenge</code>, not a Mixpanel-invented taxonomy. from our point of view, migration is a configuration exercise, not a re-instrumentation project.</p>
+
+    <!-- Self-serve -->
+    <div class="icon-header">
+      <div class="icon-box"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.5 1C1.22386 1 1 1.22386 1 1.5L1 15.5C1 15.7761 1.22386 16 1.5 16H3.5C3.77614 16 4 15.7761 4 15.5L4 1.5C4 1.22386 3.77614 1 3.5 1L1.5 1ZM3.5 0C4.32843 0 5 0.671573 5 1.5L5 15.5C5 16.3284 4.32843 17 3.5 17H1.5C0.671574 17 0 16.3284 0 15.5L0 1.5C0 0.671573 0.671573 0 1.5 0L3.5 0Z" fill="#7856FF"/><path d="M7.5 6C7.22386 6 7 6.22386 7 6.5L7 15.5C7 15.7761 7.22386 16 7.5 16H9.5C9.77614 16 10 15.7761 10 15.5L10 6.5C10 6.22386 9.77614 6 9.5 6H7.5ZM9.5 5C10.3284 5 11 5.67157 11 6.5L11 15.5C11 16.3284 10.3284 17 9.5 17H7.5C6.67157 17 6 16.3284 6 15.5L6 6.5C6 5.67157 6.67157 5 7.5 5H9.5Z" fill="#7856FF"/><path d="M13.5 11C13.2239 11 13 11.2239 13 11.5L13 15.5C13 15.7761 13.2239 16 13.5 16H15.5C15.7761 16 16 15.7761 16 15.5V11.5C16 11.2239 15.7761 11 15.5 11H13.5ZM15.5 10C16.3284 10 17 10.6716 17 11.5V15.5C17 16.3284 16.3284 17 15.5 17H13.5C12.6716 17 12 16.3284 12 15.5L12 11.5C12 10.6716 12.6716 10 13.5 10H15.5Z" fill="#7856FF"/></svg></div>
+      <h3>Self-serve for PMs</h3>
+    </div>
+    <p>Neha's team is currently a bottleneck for analytical requests from PMs and execs. the POC will test whether Becca, with no prior Mixpanel training, can build a funnel from content recommendation to workout completion, segmented by member tenure, in under 15 minutes.</p>
+    <p>Becca has also raised a specific frustration with Amplitude's retention charts: the re-entry behavior, where a user returning in both week 1 and week 2 gets counted in ways that distort the cohort. Mixpanel's retention uses true calendar bucketing with single-count-per-bucket by default. the POC dataset is designed to let Becca test this directly, including fixed-date cohort locking applied as a filter on retention and reports.</p>
+    <p>feature engagement reports for Peloton IQ, Club Peloton, Teams, and Strength+ should be buildable by a PM without a ticket to the data team. Neha specifically wants to see Metric Trees for mapping KPI hierarchies and Spark AI for natural language queries from non-technical stakeholders.</p>
+
+    <!-- Schema evolution -->
+    <div class="icon-header">
+      <div class="icon-box"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 1.5C7 1.22386 7.22386 1 7.5 1H15.5C15.7761 1 16 1.22386 16 1.5V9.5C16 9.77614 15.7761 10 15.5 10H10V15.5C10 15.7761 9.77614 16 9.5 16H1.5C1.22386 16 1 15.7761 1 15.5V7.5C1 7.22386 1.22386 7 1.5 7H7V1.5ZM6 6H1.5C0.671573 6 0 6.67157 0 7.5V15.5C0 16.3284 0.671573 17 1.5 17H9.5C10.3284 17 11 16.3284 11 15.5V11H15.5C16.3284 11 17 10.3284 17 9.5V1.5C17 0.671573 16.3284 0 15.5 0H7.5C6.67157 0 6 0.671573 6 1.5V6Z" fill="#7856FF"/><path d="M11.0001 7.49995C11.0001 6.67153 10.3286 5.99995 9.50014 5.99995L6 6L6.00014 9.49995C6.00014 10.3284 6.67171 11 7.50014 11L11 11L11.0001 7.49995ZM10 10L7.50014 9.99995C7.224 9.99995 7.00014 9.7761 7.00014 9.49995L7 7L9.50014 6.99995C9.77628 6.99995 10.0001 7.22381 10.0001 7.49995L10 10Z" fill="#7856FF"/></svg></div>
+      <h3>Schema evolution over time</h3>
+    </div>
+    <p>this is where Mixpanel's approach differs. the 200 curated events and the full 6,629 can coexist. Mixpanel's event management lets you hide, merge, and remap events through configuration, not code changes.</p>
+
+    <div class="callout callout-purple">
+      <h4>The evolution path</h4>
+      <ul style="margin:0 0 0 20px;font-size:14px;line-height:1.68;color:var(--black-70pct);list-style:none;padding:0;">
+        <li style="margin-bottom:12px;"><strong>week one:</strong> everything works with your existing event names. no cleanup required.</li>
+        <li style="margin-bottom:12px;"><strong>over time:</strong> hide low-value events, enforce property types through Lexicon, normalize corrupted property names (<code>Device Langu㴺</code> remaps to <code>Device Language</code>), strip Segment metadata that adds noise without adding insight.</li>
+        <li><strong>the cleanup is gradual, non-destructive, and doesn't require engineering capacity.</strong> Tahamina, this means the migration timeline isn't gated on engineering sprints for schema cleanup. the analytics team can evolve the schema on their own schedule while engineering focuses on the Segment destination swap.</li>
+      </ul>
+    </div>
+
+    <!-- Group analytics -->
+    <div class="icon-header">
+      <div class="icon-box"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.501 0C15.8816 0.000116281 17.001 1.11936 17.001 2.5C17.001 3.88064 15.8816 4.99988 14.501 5C13.9913 5 13.5174 4.84688 13.1221 4.58496L11.8525 5.85449C11.9461 6.05021 12 6.26858 12 6.5V10.5C12 10.7311 11.9459 10.949 11.8525 11.1445L13.1221 12.4141C13.5173 12.1523 13.9915 12 14.501 12C15.8816 12.0001 17.001 13.1194 17.001 14.5C17.001 15.8806 15.8816 16.9999 14.501 17C13.1203 17 12.001 15.8807 12.001 14.5C12.001 13.9904 12.1532 13.5163 12.415 13.1211L11.1455 11.8516C10.9498 11.9452 10.7315 12 10.5 12H6.5C6.26863 12 6.05017 11.9461 5.85449 11.8525L4.58496 13.1221C4.84671 13.5173 5 13.9905 5 14.5C5 15.8807 3.88071 17 2.5 17C1.1194 16.9999 0 15.8806 0 14.5C0 13.1194 1.1194 12.0001 2.5 12C3.0095 12 3.48371 12.1523 3.87891 12.4141L5.14746 11.1455C5.05393 10.9498 5 10.7313 5 10.5V6.5C5 6.26834 5.05368 6.04939 5.14746 5.85352L3.87891 4.58496C3.48361 4.84689 3.00972 5 2.5 5C1.1194 4.99987 0 3.88063 0 2.5C0 1.11942 1.11944 0.000131925 2.5 0C3.88067 0 4.99994 1.11934 5 2.5C5 3.0092 4.8464 3.48189 4.58496 3.87695L5.85449 5.14648C6.05007 5.05301 6.26878 5.00004 6.5 5H10.5C10.7313 5 10.9499 5.05396 11.1455 5.14746L12.415 3.87793C12.1535 3.48281 12.001 3.00933 12.001 2.5C12.001 1.11929 13.1203 0 14.501 0ZM2.5 13C1.67169 13.0001 1 13.6717 1 14.5C1 15.3283 1.67169 15.9999 2.5 16C3.32842 16 4 15.3284 4 14.5C4 13.6716 3.32843 13 2.5 13ZM14.501 13C13.6726 13 13.001 13.6716 13.001 14.5C13.001 15.3284 13.6726 16 14.501 16C15.3293 15.9999 16.001 15.3284 16.001 14.5C16.001 13.6716 15.3293 13.0001 14.501 13ZM6.5 6C6.22397 6.00013 6.00001 6.22395 6 6.5V10.5C6 10.7761 6.22397 10.9999 6.5 11H10.5C10.7761 11 11 10.7761 11 10.5V6.5C11 6.22387 10.7761 6 10.5 6H6.5ZM2.5 1C1.67172 1.00013 1.00006 1.6717 1 2.5C1 3.32834 1.67169 3.99987 2.5 4C3.32842 4 4 3.32842 4 2.5C3.99994 1.67162 3.32839 1 2.5 1ZM14.501 1C13.6726 1 13.001 1.67157 13.001 2.5C13.001 3.32843 13.6726 4 14.501 4C15.3293 3.99988 16.001 3.32835 16.001 2.5C16.001 1.67165 15.3293 1.00012 14.501 1Z" fill="#7856FF"/></svg></div>
+      <h3>Group analytics for subscription-level analysis</h3>
+    </div>
+    <p>Peloton's business has a natural hierarchy that most product analytics tools ignore: the subscription. a single Subscription ID can cover multiple users on a family plan. one person pays, two or three people ride. the account-level questions that matter (which family plans retain best? do households where multiple members are active churn less? what's the conversion rate from single-user to family plan?) live at the subscription level, not the user level.</p>
+    <p>in Amplitude, this analysis isn't possible in the product. Subscription ID is a property on events, but Amplitude can't group, funnel, or retain by it. every time your team needs to answer a subscription-level question, the workflow is: export to BigQuery, write SQL, aggregate, and report back. that's a data engineering ticket, a wait, and a one-off deliverable that nobody can iterate on.</p>
+
+    <div class="callout callout-pool">
+      <h4>Example: family plan churn analysis</h4>
+      <p><strong>the question:</strong> of family plan subscriptions where only one member is active in a given month, what percentage churn within 90 days versus subscriptions where two or more members are active?<br><strong>in Amplitude:</strong> BigQuery pipeline, per-member activity counts, survival analysis in a notebook. a week of work, minimum.<br><strong>in Mixpanel:</strong> define Subscription ID as a Group key. build a behavioral cohort. drop it into a retention report. minutes, self-serve, and anyone on the team can modify the query without writing SQL.</p>
+    </div>
+
+    <p>the POC dataset includes subscription-level groupings so your team can test this workflow directly.</p>
+
+    <!-- Experimentation -->
+    <div class="icon-header">
+      <div class="icon-box"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.5C12 1.22386 11.7761 1 11.5 1H5.5C5.22386 1 5 1.22386 5 1.5C5 1.77614 5.22386 2 5.5 2H6.5C6.77614 2 7 2.22386 7 2.5V5.5C7 6.25723 6.75411 6.9938 6.2998 7.59961L1.2002 14.4004C1.07045 14.5735 1 14.7837 1 15C1 15.5523 1.44772 16 2 16H15C15.5523 16 16 15.5523 16 15C16 14.7837 15.9296 14.5735 15.7998 14.4004L10.7002 7.59961C10.2459 6.9938 10 6.25723 10 5.5V2.5C10 2.22386 10.2239 2 10.5 2H11.5C11.7761 2 12 1.77614 12 1.5ZM13 1.5C13 2.32843 12.3284 3 11.5 3H11V5.5C11 6.04093 11.1754 6.56726 11.5 7L16.5996 13.7998C16.8593 14.146 17 14.5673 17 15C17 16.1046 16.1046 17 15 17H2C0.895431 17 0 16.1046 0 15C0 14.5673 0.140746 14.146 0.400391 13.7998L5.5 7C5.82456 6.56726 6 6.04093 6 5.5V3H5.5C4.67157 3 4 2.32843 4 1.5C4 0.671573 4.67157 0 5.5 0H11.5C12.3284 0 13 0.671573 13 1.5Z" fill="#7856FF"/><path d="M12 8V9H9.32812C8.93041 9.00008 8.54881 9.15822 8.26758 9.43945L7.43945 10.2676C6.97068 10.7363 6.33481 10.9999 5.67188 11H3.5V10H5.67188C6.06959 9.99992 6.45119 9.84178 6.73242 9.56055L7.56055 8.73242C8.02932 8.26365 8.66519 8.00008 9.32812 8H12Z" fill="#7856FF"/></svg></div>
+      <h3>Experimentation and data science</h3>
+    </div>
+    <p>your engineering team has a strong preference for Optimizely, and we're not asking you to change that. Mixpanel can ingest Optimizely exposure events and compute lift and statistical significance as the analysis layer, without replacing Optimizely for feature deployment. the POC includes simulated experiment data to test this workflow end to end.</p>
+    <p>Aly, on the statistical rigor question: Mixpanel's experiment reports use sequential testing with false discovery rate controls and display a confidence banner that explicitly tells users not to peek at results before statistical significance is reached. the POC will let you compare this against your current Optimizely analysis workflow. Mixpanel also enforces Lexicon-level governance (event descriptions, property types, visibility controls) that guides non-technical users toward the correct events.</p>
+    <p>Signal Reports will run against the synthetic data to surface behavioral correlations with retention, the kind of analysis that currently requires writing Python scripts from scratch.</p>
+  </section>
+</div>
+
+<!-- ═══════════ NEXT STEPS ═══════════ -->
+<div class="next-steps-section">
+  <div class="container">
+    <div class="section-eyebrow" style="color:var(--purple-03);">Next Steps</div>
+    <h2>Ready to kick off</h2>
+    <p>the POC success criteria document is ready for Neha to review and weight. the synthetic dataset is loaded and waiting.</p>
+    <p>for kickoff, we'd recommend having the full evaluation team in the room.</p>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-name">Neha</div>
+        <div class="team-role">Self-serve champion</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Becca</div>
+        <div class="team-role">Funnels + retention</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Aly</div>
+        <div class="team-role">Rigour + experimentation</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Tahamina</div>
+        <div class="team-role">Migration planning</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">Greg</div>
+        <div class="team-role">Commercial model</div>
+      </div>
+    </div>
+
+    <p>Reuben and i will be hands-on throughout. let's find a time to walk through the criteria together and get this moving.</p>
+
+    <div class="contact-line">ak@mixpanel.com</div>
+  </div>
+</div>
+
+</body>
+</html>

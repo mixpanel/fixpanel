@@ -3,6 +3,7 @@ const path = require('path');
 const generateOneoffsIndex = require('./generate-oneoffs-index');
 
 const ONEOFFS_DIR = path.join(__dirname, '../oneoffs');
+const DELIVERABLES_DIR = path.join(__dirname, '../deliverables');
 const OUT_DIR = path.join(__dirname, '../out');
 
 // Directories and files to exclude from copying
@@ -93,4 +94,52 @@ async function copyOneoffs() {
   }
 }
 
-copyOneoffs();
+async function copyDeliverables() {
+  console.log('\n📦 Copying deliverables to build output...\n');
+
+  if (!fs.existsSync(DELIVERABLES_DIR)) {
+    console.log('⚠️  No deliverables directory found. Skipping...');
+    return;
+  }
+
+  if (!fs.existsSync(OUT_DIR)) {
+    console.error('❌ Build output directory (./out) not found. Run `npm run build` first.');
+    process.exit(1);
+  }
+
+  const destDir = path.join(OUT_DIR, 'deliverables');
+  await fs.ensureDir(destDir);
+
+  const files = fs.readdirSync(DELIVERABLES_DIR).filter(file => {
+    return !EXCLUDE_PATTERNS.includes(file) && file !== '.DS_Store';
+  });
+
+  if (files.length === 0) {
+    console.log('⚠️  No deliverables found in ./deliverables/');
+    return;
+  }
+
+  for (const file of files) {
+    const srcPath = path.join(DELIVERABLES_DIR, file);
+    const destPath = path.join(destDir, file);
+    const stat = fs.statSync(srcPath);
+
+    if (stat.isFile()) {
+      console.log(`  ├─ Copying ${file} → out/deliverables/${file}`);
+      await fs.copy(srcPath, destPath);
+    }
+  }
+
+  console.log('\n✅ Deliverables copied successfully! (no index — direct links only)');
+  console.log(`\n📍 Available at:`);
+  files.filter(f => fs.statSync(path.join(DELIVERABLES_DIR, f)).isFile()).forEach(file => {
+    console.log(`   https://mixpanel.github.io/fixpanel/deliverables/${file}`);
+  });
+}
+
+async function main() {
+  await copyOneoffs();
+  await copyDeliverables();
+}
+
+main();
