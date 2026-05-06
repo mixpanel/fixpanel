@@ -262,6 +262,9 @@ var playerPlayBtn = document.getElementById("playerPlayBtn");
 var playerSaveBtn = document.getElementById("playerSaveBtn");
 var bugModePlaybackStart = null;
 
+var playbackElapsed = 0;
+var playbackDuration = 0;
+
 function playTrack(track) {
     if (window.mixtapeState.playbackTimer) {
         clearInterval(window.mixtapeState.playbackTimer);
@@ -281,6 +284,8 @@ function playTrack(track) {
     playerSaveBtn.classList.remove("saved");
     playerSaveBtn.innerHTML = "&#9825;";
 
+    playbackElapsed = 0;
+
     if (window.mixtapeState.bugMode) {
         playerBarEl.classList.add("loading");
         bugModePlaybackStart = Date.now();
@@ -298,26 +303,30 @@ function playTrack(track) {
     } else {
         trackTrackPlayed(track);
 
-        var playDuration = 8000 + Math.random() * 2000;
-        var startTime = Date.now();
-
-        window.mixtapeState.playbackTimer = setInterval(function () {
-            var elapsed = Date.now() - startTime;
-            var pct = Math.min((elapsed / playDuration) * 100, 100);
-            playerProgressFill.style.width = pct + "%";
-
-            if (pct >= 100) {
-                clearInterval(window.mixtapeState.playbackTimer);
-                window.mixtapeState.playbackTimer = null;
-                window.mixtapeState.isPlaying = false;
-                playerPlayBtn.innerHTML = "&#9654;";
-                var listenDepth = 75 + Math.random() * 25;
-                trackTrackCompleted(track, Math.round(listenDepth));
-
-                checkTrackLimit();
-            }
-        }, 100);
+        playbackDuration = 8000 + Math.random() * 2000;
+        startPlaybackTimer(track);
     }
+}
+
+function startPlaybackTimer(track) {
+    var startTime = Date.now() - playbackElapsed;
+
+    window.mixtapeState.playbackTimer = setInterval(function () {
+        playbackElapsed = Date.now() - startTime;
+        var pct = Math.min((playbackElapsed / playbackDuration) * 100, 100);
+        playerProgressFill.style.width = pct + "%";
+
+        if (pct >= 100) {
+            clearInterval(window.mixtapeState.playbackTimer);
+            window.mixtapeState.playbackTimer = null;
+            window.mixtapeState.isPlaying = false;
+            playerPlayBtn.innerHTML = "&#9654;";
+            var listenDepth = 75 + Math.random() * 25;
+            trackTrackCompleted(track, Math.round(listenDepth));
+
+            checkTrackLimit();
+        }
+    }, 100);
 }
 
 function checkTrackLimit() {
@@ -345,7 +354,9 @@ playerPlayBtn.addEventListener("click", function () {
         trackPlaybackPaused(window.mixtapeState.currentTrack);
     } else {
         trackPlaybackResumed(window.mixtapeState.currentTrack);
-        playTrack(window.mixtapeState.currentTrack);
+        window.mixtapeState.isPlaying = true;
+        playerPlayBtn.innerHTML = "&#9646;&#9646;";
+        startPlaybackTimer(window.mixtapeState.currentTrack);
     }
 });
 
@@ -375,6 +386,11 @@ function showPaywall(triggerReason) {
     paywallTrigger = triggerReason;
     var v = window.mixtapeState.experimentVariant;
     paywallCard.classList.remove("paywall-subscribing", "paywall-subscribed");
+
+    var authSection = document.getElementById("paywallAuth");
+    authSection.style.display = window.mixtapeState.isAnonymous ? "block" : "none";
+    document.getElementById("paywallName").value = "";
+    document.getElementById("paywallEmail").value = "";
 
     document.getElementById("paywallSocialProof").style.display = "none";
     document.getElementById("paywallTestimonial").style.display = "none";
@@ -421,6 +437,23 @@ paywallModal.addEventListener("click", function (e) {
 });
 
 function handleSubscribe(plan) {
+    if (window.mixtapeState.isAnonymous) {
+        var name = document.getElementById("paywallName").value.trim();
+        var email = document.getElementById("paywallEmail").value.trim();
+        if (!name || !email) {
+            document.getElementById("paywallEmail").style.borderColor = !email ? "var(--error)" : "";
+            document.getElementById("paywallName").style.borderColor = !name ? "var(--error)" : "";
+            return;
+        }
+        trackSignUpStarted("paywall_cta");
+        mixpanel.identify(email);
+        mixpanel.people.set({ $name: name, $email: email });
+        trackAccountCreated("paywall_cta");
+        window.mixtapeState.isAnonymous = false;
+        window.mixtapeState.userEmail = email;
+        window.mixtapeState.trackLimit = 8;
+    }
+
     paywallCard.classList.add("paywall-subscribing");
 
     setTimeout(function () {

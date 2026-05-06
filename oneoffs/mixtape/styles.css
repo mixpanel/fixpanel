@@ -992,6 +992,21 @@ body {
     border-radius: 3px;
 }
 
+.paywall-auth { margin-bottom: 16px; }
+.paywall-auth-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+.paywall-auth-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 8px;
+}
+.paywall-auth-input:focus { border-color: var(--accent); }
+
 .paywall-buttons { display: flex; flex-direction: column; gap: 12px; }
 
 .btn-annual {
