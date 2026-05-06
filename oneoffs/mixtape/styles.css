@@ -802,13 +802,15 @@ body {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     transition: background 0.2s;
+    letter-spacing: 2px;
+    line-height: 1;
 }
 
 .player-play-btn:hover { background: var(--accent-hover); }

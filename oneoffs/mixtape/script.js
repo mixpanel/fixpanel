@@ -279,7 +279,7 @@ function playTrack(track) {
     playerProgressFill.style.width = "0%";
     playerBarEl.classList.add("visible");
     playerBarEl.classList.remove("error-state", "loading");
-    playerPlayBtn.innerHTML = "&#9646;&#9646;";
+    playerPlayBtn.innerHTML = "&#10074;&#10074;";
 
     playerSaveBtn.classList.remove("saved");
     playerSaveBtn.innerHTML = "&#9825;";
@@ -355,7 +355,7 @@ playerPlayBtn.addEventListener("click", function () {
     } else {
         trackPlaybackResumed(window.mixtapeState.currentTrack);
         window.mixtapeState.isPlaying = true;
-        playerPlayBtn.innerHTML = "&#9646;&#9646;";
+        playerPlayBtn.innerHTML = "&#10074;&#10074;";
         startPlaybackTimer(window.mixtapeState.currentTrack);
     }
 });
