@@ -77,14 +77,14 @@ mixpanel.init(MIXPANEL_TOKEN, {
     flags: true,
 
     autocapture: {
-        pageview: "full-url",
+        pageview: false,
         click: false,
         dead_click: true,
         rage_click: true,
-        input: true,
-        scroll: true,
-        submit: true,
-        capture_text_content: true,
+        input: false,
+        scroll: false,
+        submit: false,
+        capture_text_content: false,
     },
 
     record_sessions_percent: 100,
