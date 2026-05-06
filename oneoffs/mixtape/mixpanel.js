@@ -75,7 +75,7 @@ mixpanel.init(MIXPANEL_TOKEN, {
     debug: true,
     ignore_dnt: true,
     flags: true,
-
+	track_pageview: false,
     autocapture: {
         pageview: false,
         click: false,
