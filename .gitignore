@@ -2,6 +2,8 @@
 service-acct.json
 plans/*
 !plans/.gitkeep
+tmp/*
+!tmp/.gitkeep
 *node_modules*
 .playwright-mcp*
 # dependencies
