@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HighLevel + Mixpanel: POC Data Plan</title>
+<style>
+  @font-face {
+    font-family: 'Garnett';
+    src: local('Garnett-Regular'), local('Garnett Regular'),
+         url('./assets/fonts/Garnett-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Garnett';
+    src: local('Garnett-Medium'), local('Garnett Medium'),
+         url('./assets/fonts/Garnett-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Apercu Mono Pro';
+    src: local('Apercu Mono Pro'), local('ApercuMonoPro'), local('Apercu Mono Pro Regular'),
+         url('./assets/fonts/apercu-mono-regular-pro.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  :root {
+    --purple-01: #F2EEFF;
+    --purple-02: #DAD0FF;
+    --purple-03: #C1B1FF;
+    --purple-04: #A993FF;
+    --purple-05: #9074FF;
+    --purple-06: #7856FF;
+    --purple-07: #5F41CF;
+    --purple-08: #472BA0;
+    --purple-09: #2E1670;
+    --purple-10: #150040;
+
+    --gray-01: #FAFAFA;
+    --gray-02: #F4F4F4;
+    --gray-03: #EAEAEA;
+    --gray-04: #DFDFDF;
+    --gray-05: #D5D5D5;
+    --gray-07: #A2A2A2;
+    --gray-08: #797979;
+    --gray-09: #515151;
+    --gray-10: #1F2023;
+
+    --mint-01: #F2FCFB;
+    --mint-03: #C4F1ED;
+    --mint-06: #7FE1D8;
+    --mint-07: #5FB6AC;
+    --mint-09: #205F56;
+    --mint-10: #00332A;
+
+    --lava-01: #FFF0ED;
+    --lava-06: #FF7557;
+    --lava-07: #CC5849;
+    --lava-09: #661D2D;
+
+    --pool-01: #F0F9FE;
+    --pool-03: #BEE1FA;
+    --pool-06: #72BEF4;
+    --pool-09: #1D4B6D;
+
+    --mustard-01: #FEF8EB;
+    --mustard-06: #F8BC3C;
+    --mustard-09: #6E4319;
+
+    --grass-01: #EBF6F1;
+    --grass-06: #3BA974;
+    --grass-09: #0F472C;
+
+    --black-70pct: rgba(0, 0, 0, 0.70);
+    --white-70pct: rgba(255, 255, 255, 0.70);
+    --white-10pct: rgba(255, 255, 255, 0.10);
+    --white-5pct: rgba(255, 255, 255, 0.05);
+
+    --font-sans: 'Garnett', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-mono: 'Apercu Mono Pro', 'Apercu Mono', 'SF Mono', monospace;
+
+    --radius-8: 8px;
+    --radius-4: 4px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    color: var(--black-70pct);
+    background: #fff;
+  }
+
+  /* ======================= HERO ======================= */
+  .hero {
+    background: var(--purple-10);
+    padding: 80px 40px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(120,86,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 20%;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,225,216,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-logo {
+    width: 140px;
+    height: auto;
+    margin-bottom: 48px;
+    opacity: 0.9;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--purple-03);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--purple-03);
+    margin-bottom: 24px;
+  }
+  .hero h1 span {
+    color: #fff;
+  }
+  .hero-subtitle {
+    font-size: 22px;
+    line-height: 1.6;
+    color: var(--white-70pct);
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--white-70pct);
+  }
+  .hero-meta-item strong {
+    color: #fff;
+    font-weight: 500;
+    font-family: var(--font-sans);
+  }
+  .hero-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--white-10pct);
+  }
+
+  /* ======================= LAYOUT ======================= */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  section {
+    padding: 80px 0;
+  }
+  section + section {
+    border-top: 1px solid var(--gray-03);
+  }
+
+  /* ======================= TYPOGRAPHY ======================= */
+  h2 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--gray-10);
+    margin-bottom: 16px;
+  }
+  h3 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--gray-10);
+    margin-bottom: 12px;
+  }
+  h4 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--gray-10);
+    margin-bottom: 8px;
+  }
+  p + p { margin-top: 16px; }
+  .section-lead {
+    font-size: 22px;
+    line-height: 1.6;
+    color: var(--black-70pct);
+    max-width: 720px;
+    margin-bottom: 40px;
+  }
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  code, .code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    background: var(--purple-01);
+    color: var(--purple-08);
+    padding: 2px 8px;
+    border-radius: var(--radius-4);
+  }
+  .dark-section code, .dark-section .code {
+    background: var(--white-10pct);
+    color: var(--purple-03);
+  }
+
+  /* ======================= TLDR CARDS ======================= */
+  .tldr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .tldr-card {
+    background: var(--gray-02);
+    border: 1px solid var(--gray-03);
+    border-radius: var(--radius-8);
+    padding: 24px;
+  }
+  .tldr-card .icon-wrap {
+    width: 32px; height: 32px;
+    margin-bottom: 16px;
+    color: var(--purple-06);
+  }
+  .tldr-card .icon-wrap svg {
+    width: 20px; height: 20px;
+  }
+  .tldr-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .tldr-card p {
+    font-size: 14px;
+    line-height: 1.68;
+    color: var(--black-70pct);
+  }
+
+  /* ======================= CALLOUT (TINTED) ======================= */
+  .callout-tinted {
+    background: var(--purple-01);
+    border-radius: var(--radius-8);
+    padding: 32px;
+    margin: 40px 0;
+  }
+  .callout-tinted h3 {
+    color: var(--purple-09);
+    margin-bottom: 12px;
+  }
+  .callout-tinted p {
+    color: var(--black-70pct);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ======================= DARK SECTION ======================= */
+  .dark-section {
+    background: var(--purple-10);
+    padding: 80px 0;
+    border-top: none;
+  }
+  .dark-section + section { border-top: none; }
+  .dark-section h2 { color: var(--purple-03); }
+  .dark-section h3 { color: #fff; }
+  .dark-section h4 { color: var(--purple-03); }
+  .dark-section p, .dark-section li { color: var(--white-70pct); }
+
+  /* ======================= ENTITY DIAGRAM ======================= */
+  .entity-diagram {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    align-items: start;
+    margin: 40px 0;
+  }
+  .entity-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .entity-col-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--gray-07);
+    margin-bottom: 8px;
+  }
+  .dark-section .entity-col-label {
+    color: var(--purple-04);
+  }
+  .entity-node {
+    border-radius: var(--radius-8);
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+  }
+  .entity-node strong {
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .entity-node small {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+  .entity-hl {
+    background: rgba(255,117,87,0.12);
+    border: 1px solid rgba(255,117,87,0.25);
+    color: #fff;
+  }
+  .entity-hl strong { color: #fff; }
+  .entity-mp-purple {
+    background: rgba(120,86,255,0.2);
+    border: 1px solid rgba(120,86,255,0.35);
+    color: #fff;
+  }
+  .entity-mp-purple strong { color: var(--purple-03); }
+  .entity-mp-green {
+    background: rgba(59,169,116,0.15);
+    border: 1px solid rgba(59,169,116,0.3);
+    color: #fff;
+  }
+  .entity-mp-green strong { color: var(--mint-03); }
+  .entity-mp-blue {
+    background: rgba(114,190,244,0.15);
+    border: 1px solid rgba(114,190,244,0.3);
+    color: #fff;
+  }
+  .entity-mp-blue strong { color: var(--pool-03); }
+  .arrows-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding-top: 40px;
+  }
+  .arrow-right {
+    color: var(--purple-04);
+    font-size: 18px;
+    opacity: 0.6;
+  }
+
+  /* ======================= SVG FRAME ======================= */
+  .svg-frame {
+    background: #fff;
+    border-radius: var(--radius-8);
+    padding: 24px;
+    margin: 40px 0;
+    border: 1px solid var(--gray-03);
+  }
+  .dark-section .svg-frame {
+    border-color: var(--white-10pct);
+  }
+  .svg-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ======================= TABLES ======================= */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 32px 0;
+    border-radius: var(--radius-8);
+    border: 1px solid var(--gray-03);
+  }
+  .dark-section .table-wrap {
+    border-color: var(--white-10pct);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    line-height: 1.68;
+  }
+  thead {
+    background: var(--gray-02);
+  }
+  .dark-section thead {
+    background: var(--white-5pct);
+  }
+  th {
+    font-weight: 500;
+    text-align: left;
+    padding: 12px 16px;
+    color: var(--gray-10);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+  .dark-section th {
+    color: var(--purple-03);
+  }
+  td {
+    padding: 12px 16px;
+    border-top: 1px solid var(--gray-03);
+    color: var(--black-70pct);
+    vertical-align: top;
+  }
+  .dark-section td {
+    border-color: var(--white-10pct);
+    color: var(--white-70pct);
+  }
+  td code {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .tag-yes {
+    display: inline-block;
+    background: rgba(59,169,116,0.12);
+    color: var(--grass-09);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .tag-no {
+    display: inline-block;
+    background: var(--gray-02);
+    color: var(--gray-07);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .dark-section .tag-yes {
+    background: rgba(59,169,116,0.2);
+    color: var(--mint-03);
+  }
+  .dark-section .tag-no {
+    background: var(--white-5pct);
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ======================= KEY CALLS ======================= */
+  .key-calls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .key-call {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .key-call-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--white-10pct);
+    color: var(--purple-03);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .key-call p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .key-call strong {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* ======================= IDENTITY SECTION ======================= */
+  .identity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .identity-card {
+    background: var(--gray-02);
+    border: 1px solid var(--gray-03);
+    border-radius: var(--radius-8);
+    padding: 24px;
+  }
+  .identity-card h4 {
+    font-size: 14px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gray-08);
+    margin-bottom: 12px;
+  }
+  .identity-card p {
+    font-size: 14px;
+    line-height: 1.68;
+  }
+  .enum-tag {
+    display: inline-block;
+    background: var(--purple-01);
+    color: var(--purple-08);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin: 2px 4px 2px 0;
+  }
+
+  /* ======================= METRICS TABLE ======================= */
+  .metrics-table td:first-child {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--purple-06);
+    white-space: nowrap;
+    font-size: 13px;
+  }
+  .metrics-table td:nth-child(2) {
+    font-style: italic;
+    color: var(--gray-08);
+    font-size: 13px;
+  }
+
+  /* ======================= LOWER-ENV ======================= */
+  .lower-env-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .lower-env-item {
+    background: var(--gray-02);
+    border: 1px solid var(--gray-03);
+    border-radius: var(--radius-8);
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .lower-env-item .icon-wrap {
+    color: var(--purple-06);
+    padding-top: 2px;
+  }
+  .lower-env-item .icon-wrap svg {
+    width: 20px; height: 20px;
+  }
+  .lower-env-item h4 {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  .lower-env-item p {
+    font-size: 14px;
+    line-height: 1.68;
+  }
+  .lower-env-item .refs {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--gray-07);
+    margin-top: 8px;
+  }
+
+  /* ======================= OPEN QUESTIONS ======================= */
+  .questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 32px 0;
+    counter-reset: q;
+  }
+  .question-item {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    padding: 20px 24px;
+    background: var(--white-5pct);
+    border: 1px solid var(--white-10pct);
+    border-radius: var(--radius-8);
+    counter-increment: q;
+  }
+  .question-num {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--purple-04);
+    padding-top: 2px;
+  }
+  .question-item p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .question-item strong {
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* ======================= FOOTER ======================= */
+  .footer {
+    background: var(--gray-01);
+    padding: 40px;
+    text-align: center;
+    border-top: 1px solid var(--gray-03);
+  }
+  .footer p {
+    font-size: 14px;
+    color: var(--gray-08);
+    line-height: 1.68;
+  }
+  .footer a {
+    color: var(--purple-06);
+    text-decoration: none;
+  }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ======================= LINK STYLES ======================= */
+  a {
+    color: var(--purple-06);
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+  .dark-section a { color: var(--purple-03); }
+
+  /* ======================= RESPONSIVE ======================= */
+  @media (max-width: 720px) {
+    .hero { padding: 48px 24px 56px; }
+    .hero h1 { font-size: 32px; }
+    .hero-subtitle { font-size: 18px; }
+    .container { padding: 0 24px; }
+    section { padding: 56px 0; }
+    h2 { font-size: 28px; }
+    .tldr-grid { grid-template-columns: 1fr; }
+    .entity-diagram { grid-template-columns: 1fr; }
+    .arrows-col { display: none; }
+    .identity-grid { grid-template-columns: 1fr; }
+    .hero-meta { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .hero-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================== HERO ======================== -->
+<header class="hero">
+  <div class="hero-inner">
+    <svg class="hero-logo" viewBox="0 0 400 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 73.4194H23.9775V70.8713H22.1769C18.6724 70.8713 17.8284 69.9148 17.8284 66.4183V34.8047C20.2719 30.6651 23.5595 28.0125 27.6991 28.0125C32.8997 28.0125 36.0827 31.8306 36.0827 39.0488V66.4263C36.0827 69.9309 35.2307 70.8794 31.8386 70.8794H29.9256V73.4274H53.3725V70.8794H51.6765C48.1719 70.8794 47.3279 69.9228 47.3279 66.4263V37.8752C47.3279 36.9187 47.3279 35.9622 47.2234 35.0137C49.5545 30.7696 53.0591 28.0125 57.1986 28.0125C62.3993 28.0125 65.5823 31.8306 65.5823 39.0488V66.4263C65.5823 69.9309 64.7303 70.8794 61.3382 70.8794H59.4252V73.4274H82.8721V70.8794H81.2806C77.6715 70.8794 76.8275 69.9228 76.8275 66.4263V37.8752C76.8275 27.1605 70.7829 21.2204 61.9732 21.2204C55.3981 21.2204 49.667 24.8295 46.5884 32.0396C44.7879 25.0385 39.4828 21.2204 32.4737 21.2204C26.212 21.2204 20.8024 24.6125 17.8284 31.4046V22.4904H0V25.0385H2.12204C5.73112 25.0385 6.57511 25.995 6.57511 29.4915V66.4183C6.57511 69.9228 5.72308 70.8713 2.12204 70.8713H0V73.4194ZM96.9789 14.0023C100.797 14.0023 103.98 10.8192 103.98 7.00113C103.98 3.18306 100.797 0 96.9789 0C93.1608 0 89.9777 3.18306 89.9777 7.00113C89.9777 10.8192 93.1608 14.0023 96.9789 14.0023ZM85.0987 73.4194H108.65V70.8713H107.059C103.554 70.8713 102.71 69.9148 102.71 66.4183V22.4904H84.8816V25.0385H87.0037C90.6127 25.0385 91.4567 25.995 91.4567 29.4915V66.4183C91.4567 69.9228 90.6047 70.8713 87.0037 70.8713H85.0906V73.4194H85.0987ZM125.843 43.5018H132.636C130.94 42.4408 130.305 40.9538 129.453 38.1967L126.904 28.752C125.739 24.508 124.782 22.4904 120.112 22.4904H110.354V25.0385H111.737C114.598 25.0385 114.92 26.0995 115.772 29.2826L117.998 37.5617C119.164 41.5968 120.972 43.5018 125.851 43.5018H125.843ZM141.55 43.5018H148.342C153.221 43.5018 154.917 41.5888 156.091 37.5617L158.317 29.2826C159.169 26.0995 159.587 25.0385 162.352 25.0385H163.735V22.4904H154.081C149.306 22.4904 148.35 24.4035 147.289 28.752L144.741 38.1967C143.889 41.0583 143.246 42.4408 141.55 43.5018ZM132.636 52.416H141.55V43.5018H132.636V52.416ZM110.354 73.4274H120.112C124.782 73.4274 125.739 71.4099 126.904 67.1658L129.453 57.7211C130.305 54.9641 130.94 53.477 132.636 52.416H125.843C120.964 52.416 119.156 54.3291 117.99 58.3561L115.764 66.6353C114.912 69.8184 114.598 70.8794 111.729 70.8794H110.346V73.4274H110.354ZM154.065 73.4274H163.719V70.8794H162.336C159.579 70.8794 159.153 69.8184 158.301 66.6353L156.074 58.3561C154.909 54.321 153.213 52.416 148.326 52.416H141.55C143.246 53.477 143.865 54.8596 144.717 57.7211L147.265 67.1658C148.326 71.5144 149.282 73.4274 154.057 73.4274H154.065ZM165.101 94.6478H189.714V92.0998H187.166C183.774 92.0998 182.922 91.1432 182.922 87.6467V67.3828C186 71.9484 191.201 74.7055 197.35 74.7055C208.917 74.7055 218.144 64.5213 218.144 46.91C218.144 30.9947 209.447 21.2365 198.194 21.2365C191.619 21.2365 186.097 25.0545 182.913 31.8467V22.5065H165.085V25.0545H167.207C170.712 25.0545 171.66 26.0111 171.66 29.5076V87.6387C171.66 91.1432 170.704 92.0917 167.207 92.0917H165.085V94.6398L165.101 94.6478ZM194.175 27.8036C201.071 27.8036 206.698 34.2742 206.698 47.1109C206.698 61.1132 201.497 68.7573 194.392 68.7573C189.826 68.7573 185.799 66.3138 182.93 62.0697V35.7532C185.687 30.5526 189.617 27.7955 194.175 27.7955V27.8036ZM234.92 74.4885C241.816 74.4885 247.33 71.2009 251.47 63.7737V64.9393C251.47 71.3054 255.505 74.0624 262.185 74.0624C264.202 74.0624 266.75 73.8535 268.446 73.3229V70.6704C267.594 70.8794 266.959 70.9919 266.324 70.9919C263.672 70.9919 262.82 69.4004 262.82 66.8523V39.6838C262.82 27.1605 255.818 21.2204 244.043 21.2204C236.19 21.2204 228.553 24.8295 223.674 28.6475L225.37 31.6216C230.466 28.117 235.45 26.1075 240.86 26.1075C247.861 26.1075 251.47 29.9256 251.47 38.8398V41.1708L238.416 46.2669C226.536 51.146 222.179 55.7116 222.179 62.6082C222.179 69.5049 227.058 74.4885 234.912 74.4885H234.92ZM233.328 59.8431C233.328 54.538 236.407 50.72 242.668 47.9629L251.478 44.1449V60.6952C248.19 65.2608 244.372 67.9133 240.233 67.9133C236.093 67.9133 233.336 65.0518 233.336 59.8512L233.328 59.8431ZM270.568 73.4274H294.763V70.8794H292.745C289.241 70.8794 288.397 69.9228 288.397 66.4263V34.9092C290.84 30.6651 294.441 28.0125 298.685 28.0125C304.199 28.0125 307.704 31.8306 307.704 39.0488V66.4263C307.704 69.9309 306.852 70.8794 303.46 70.8794H301.442V73.4274H325.524V70.8794H323.402C319.793 70.8794 318.949 69.9228 318.949 66.4263V37.8752C318.949 27.1605 312.583 21.2204 303.564 21.2204C296.989 21.2204 291.467 24.6125 288.389 31.4046V22.4904H270.56V25.0385H272.682C276.291 25.0385 277.135 25.995 277.135 29.4915V66.4183C277.135 69.9228 276.283 70.8713 272.682 70.8713H270.56V73.4194L270.568 73.4274ZM353.111 74.6974C360.112 74.6974 366.695 71.5144 371.47 67.6963L369.878 65.3653C365.634 68.4438 360.859 69.8184 356.406 69.8184C345.587 69.8184 339.221 62.1822 339.221 47.3279V45.4149H372.748C372.539 31.0911 363.729 21.3329 350.892 21.3329C338.056 21.3329 327.759 32.8997 327.759 48.18C327.759 64.9473 337.308 74.7055 353.119 74.7055L353.111 74.6974ZM350.989 23.9775C357.355 23.9775 361.277 30.8741 361.92 42.5453H339.43C340.387 30.7696 344.84 23.9775 350.997 23.9775H350.989ZM375.071 73.4194H399.683V70.8713H397.24C393.735 70.8713 392.891 69.9148 392.891 66.4183V1.27001H375.063V3.81807H377.185C380.689 3.81807 381.638 4.77459 381.638 8.27114V66.4183C381.638 69.9228 380.681 70.8713 377.185 70.8713H375.063V73.4194H375.071Z" fill="white"/>
+    </svg>
+
+    <div class="hero-eyebrow">Solution Brief</div>
+    <h1>HighLevel + Mixpanel<br><span>POC Data Plan</span></h1>
+    <p class="hero-subtitle">High Level's entity model, event payload contract, and 3-week POC plan, mapped to Mixpanel's group analytics so we go into instrumentation aligned on both the data and the use-cases.</p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Aaron Krivitzky</strong> &middot; Principal, Mixpanel</div>
+      <div class="hero-divider"></div>
+      <div class="hero-meta-item">ak@mixpanel.com</div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================== TL;DR ======================== -->
+<section>
+  <div class="container">
+    <h2>At a glance</h2>
+    <p class="section-lead">Before we have your Pendo data, the most useful step is to share how we model your entities in Mixpanel's <a href="https://docs.mixpanel.com/docs/data-structure/group-analytics">group analytics</a>, so we go into instrumentation aligned.</p>
+
+    <div class="tldr-grid">
+      <div class="tldr-card">
+        <div class="icon-wrap">
+          <!-- multi-layer-fill -->
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.08789 0C6.29194 0 5.64648 0.645459 5.64648 1.44141V5.64746H1.44043C0.644762 5.64761 0.000244141 6.29225 0 7.08789V14.6182C0.000200272 15.4138 0.644736 16.0584 1.44043 16.0586H8.9707C9.76623 16.0582 10.4109 15.4137 10.4111 14.6182V10.4121H14.6172C15.413 10.412 16.0585 9.76654 16.0586 8.9707V1.44141C16.0586 0.645525 15.413 0.000109748 14.6172 0H7.08789ZM8.96973 5.64746C9.76567 5.64746 10.4111 6.29292 10.4111 7.08887V10.4121H7.08789C6.2922 10.412 5.64672 9.76637 5.64648 8.9707V5.64746H8.96973ZM6.64648 6.64746V8.9707C6.64672 9.21408 6.84448 9.41198 7.08789 9.41211H9.41113V7.08887C9.41113 6.8452 9.21339 6.64746 8.96973 6.64746H6.64648Z" fill="currentColor"/></svg>
+        </div>
+        <h4>2 group keys, 1 user collection</h4>
+        <p>4 HighLevel entities: <strong>Parent Accounts, Sub Accounts, Platform Users, and Portal Contacts</strong> map to <code>parent_account</code>, <code>sub_account</code> group keys, plus users split by <code>user_type</code>.</p>
+      </div>
+
+      <div class="tldr-card">
+        <div class="icon-wrap">
+          <!-- multi-merge-fill -->
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 0C9.89585 0 11.025 1.11848 11.7754 2.61914C12.1877 3.44384 12.51 4.42824 12.7207 5.51562C13.5058 4.02436 14.8698 3 16.5 3H17V14H16.5C14.8695 14 13.5058 12.9751 12.7207 11.4834C12.51 12.5712 12.1879 13.5559 11.7754 14.3809C11.025 15.8815 9.89585 17 8.5 17C7.10415 17 5.97504 15.8815 5.22461 14.3809C4.81212 13.5559 4.489 12.5712 4.27832 11.4834C3.49324 12.9749 2.13031 14 0.5 14H0V3H0.5C2.13003 3 3.49317 4.02457 4.27832 5.51562C4.48901 4.42817 4.81223 3.44389 5.22461 2.61914C5.97504 1.11848 7.10415 0 8.5 0Z" fill="currentColor"/></svg>
+        </div>
+        <h4>Native three-level rollup</h4>
+        <p>Every event carries the group IDs needed to roll up. R1's contact → sub-account → parent view is native, no SQL joins.</p>
+      </div>
+
+      <div class="tldr-card">
+        <div class="icon-wrap">
+          <!-- brand-check-fill -->
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 0C16.3284 0 17 0.671573 17 1.5V15.5C17 16.3284 16.3284 17 15.5 17H1.5C0.671573 17 0 16.3284 0 15.5V1.5C0 0.671573 0.671573 0 1.5 0H15.5ZM7.35352 10.4395C7.15827 10.6346 6.84173 10.6346 6.64648 10.4395L3.85352 7.64648L3.14648 8.35352L5.93945 11.1465C6.52522 11.7322 7.47478 11.7322 8.06055 11.1465L14.3535 4.85352L13.6465 4.14648L7.35352 10.4395Z" fill="currentColor"/></svg>
+        </div>
+        <h4>Must-haves are self-serve</h4>
+        <p>Analytics-core (R1, R2, R3, R5, R6) and revenue-ops (R12) become 1-line custom metrics or native group reports.</p>
+      </div>
+
+      <div class="tldr-card">
+        <div class="icon-wrap">
+          <!-- multi-schedule-fill -->
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 0C14.1086 0 14.6286 0.330574 15.042 0.796875C15.4559 1.26376 15.8061 1.91131 16.0898 2.66797C16.6586 4.18494 17 6.247 17 8.5C17 10.753 16.6586 12.8151 16.0898 14.332C15.8061 15.0887 15.4559 15.7362 15.042 16.2031C14.6286 16.6694 14.1086 17 13.5 17C12.8914 17 12.3714 16.6694 11.958 16.2031C11.5441 15.7362 11.1939 15.0887 10.9102 14.332C10.7062 13.788 10.5318 13.1738 10.3916 12.5059C10.3401 12.6541 10.2867 12.7973 10.2295 12.9346C9.98825 13.5136 9.68775 14.0148 9.3291 14.3789C8.96866 14.7448 8.51935 15 8 15C7.48064 15 7.03134 14.7448 6.6709 14.3789C6.31225 14.0148 6.01175 13.5136 5.77051 12.9346C5.58184 12.4817 5.42425 11.9664 5.30078 11.4053C5.26504 11.4693 5.22954 11.5327 5.19141 11.5938C4.68634 12.4016 3.92481 13 3 13C2.07519 13 1.31366 12.4016 0.808594 11.5938C0.299129 10.7786 0 9.68329 0 8.5C0 7.31671 0.299129 6.22139 0.808594 5.40625C1.31366 4.59835 2.07519 4 3 4C3.92481 4 4.68634 4.59835 5.19141 5.40625C5.22939 5.46703 5.26517 5.52994 5.30078 5.59375C5.42423 5.03299 5.58194 4.51806 5.77051 4.06543C6.01175 3.48645 6.31225 2.98521 6.6709 2.62109C7.03134 2.2552 7.48064 2 8 2C8.51935 2 8.96866 2.2552 9.3291 2.62109C9.68775 2.98521 9.98825 3.48645 10.2295 4.06543C10.2865 4.20239 10.3402 4.34528 10.3916 4.49316C10.5318 3.82561 10.7063 3.21175 10.9102 2.66797C11.1939 1.91131 11.5441 1.26376 11.958 0.796875C12.3714 0.330574 12.8914 0 13.5 0Z" fill="currentColor"/></svg>
+        </div>
+        <h4>Parallel lower-env track</h4>
+        <p>Marketing site instrumentation, session replay, and in-product guides run in a non-prod environment alongside the main POC.</p>
+      </div>
+    </div>
+
+    <div class="callout-tinted">
+      <h3>Biggest open question</h3>
+      <p>Will HighLevel provide flat extracts of account metadata? Without it, <a href="https://docs.mixpanel.com/docs/data-structure/group-analytics#group-profiles">group profiles</a> are skeletons and R3 can't be properly evaluated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== THE GAP (quote) ======================== -->
+<section style="background: var(--mint-01); border-top: none;">
+  <div class="container">
+    <h2 style="color: var(--mint-09);">The gap we're closing</h2>
+    <p class="section-lead" style="color: var(--black-70pct); font-size: 22px; max-width: 720px;">For a given parent account (e.g., Boutique Del Fitness), HighLevel needs an aggregated view of all events across all child accounts combined. Pendo cannot produce this view. That's the canonical group analytics use case R2 on your scorecard and gap 1 in your onboarding doc. The model below makes it native.</p>
+  </div>
+</section>
+
+<!-- ======================== ENTITY MODEL (DARK) ======================== -->
+<section class="dark-section">
+  <div class="container">
+    <h2>Entity → Mixpanel primitive</h2>
+    <p style="color: var(--white-70pct); max-width: 640px; margin-bottom: 40px; font-size: 18px;">Your four HighLevel entities map directly to Mixpanel's data model: two group keys for account hierarchy, and the user collection for the people performing actions.</p>
+
+    <div class="svg-frame">
+      <img src="./hl-entities.svg" alt="HighLevel entities mapped to Mixpanel primitives, with identify/auth transitions between anonymous visitors and identified users" />
+    </div>
+
+    <h3 style="margin-top: 48px;">Three calls worth confirming</h3>
+    <div class="key-calls">
+      <div class="key-call">
+        <div class="key-call-num">1</div>
+        <p><strong>Two group keys, not three.</strong> Your <code>location_id</code> is the same row as a sub-account not a third entity. The relation from Parent Account to Sub Account is one-to-many.</p>
+      </div>
+      <div class="key-call">
+        <div class="key-call-num">2</div>
+        <p><strong>No parent → child denormalization needed.</strong> Child events carry both <code>parent_account_id</code> and <code>sub_account_id</code> as group IDs. "All events for Boutique Del Fitness" is one group filter, no cross-join or array maintenance.</p>
+      </div>
+      <div class="key-call">
+        <div class="key-call-num">3</div>
+        <p><strong>Contacts are users, not a group.</strong> They're the actors firing portal events. Promoting them to a group key misses out on <a href="https://docs.mixpanel.com/docs/tracking-methods/id-management">Mixpanel's identity management</a>, which is a key part of the POC.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== EVENT PAYLOAD ======================== -->
+<section>
+  <div class="container">
+    <h2>Event payload contract</h2>
+    <p class="section-lead">Every event that can be attributed to a Parent Account or Sub Account ships the IDs needed for rollup at fire time.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Actor</th>
+            <th>Example Events</th>
+            <th>Parent ID</th>
+            <th>Sub ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>HL dashboard, parent-level</td>
+            <td>Agency staff</td>
+            <td><code>agency_dashboard_view</code>, <code>saas_config_change</code>, <code>sub_account_created</code></td>
+            <td><span class="tag-yes">yes</span></td>
+            <td><span class="tag-no">no</span></td>
+          </tr>
+          <tr>
+            <td>HL dashboard, sub-account-level</td>
+            <td>Platform user</td>
+            <td><code>workflow_built</code>, <code>outgoing_call</code>, <code>funnel_published</code></td>
+            <td><span class="tag-yes">yes</span></td>
+            <td><span class="tag-yes">yes</span></td>
+          </tr>
+          <tr>
+            <td>Client portal</td>
+            <td>Portal contact</td>
+            <td><code>invoice_paid</code>, <code>contract_signed</code>, <code>form_submitted</code></td>
+            <td><span class="tag-yes">yes</span></td>
+            <td><span class="tag-yes">yes</span></td>
+          </tr>
+          <tr>
+            <td>Marketing site</td>
+            <td>Anon → agency staff on signup</td>
+            <td><code>page_view</code>, <code>signup_started</code>, <code>trial_converted</code></td>
+            <td><span class="tag-no">post-signup</span></td>
+            <td><span class="tag-no">no</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="svg-frame">
+      <img src="./hl-movement.svg" alt="Event flow from marketing site, HL dashboard, and client portal into Mixpanel with group_ids attached, rolling up into a parent_account view" />
+    </div>
+
+    <div class="callout-tinted" style="background: var(--grass-01); margin-top: 40px;">
+      <h3 style="color: var(--grass-09);">Rollup in action</h3>
+      <p>For <code>parent_account = Boutique Del Fitness</code>: sum of all events with that group ID = parent-level events + 47 sub-accounts + portal contacts. One group filter. No SQL.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== IDENTITY ======================== -->
+<section style="background: var(--gray-01);">
+  <div class="container">
+    <h2>Identity</h2>
+    <p class="section-lead">Two populations, one project. The <code>user_type</code> property keeps them sortable.</p>
+
+    <div class="identity-grid">
+      <div class="identity-card">
+        <h4>Goal: 3-value enum</h4>
+        <div style="margin-bottom: 8px;">
+          <span class="enum-tag">agency_user</span>
+          <span class="enum-tag">sub_account_operator</span>
+          <span class="enum-tag">portal_contact</span>
+        </div>
+        <p>The ideal state if Pendo's payload carries the agency-vs-operator signal.</p>
+      </div>
+      <div class="identity-card">
+        <h4>Fallback: 2-value enum</h4>
+        <div style="margin-bottom: 8px;">
+          <span class="enum-tag">platform_user</span>
+          <span class="enum-tag">portal_contact</span>
+        </div>
+        <p>Used if the current Pendo stream doesn't distinguish agency staff from sub-account operators.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 40px;">distinct_id strategy</h3>
+    <p>Trust Pendo's existing namespace. Assuming Pendo was instrumented to create anonymous <code>$device_id</code> values and store <code>user_id</code> once contacts log in, preserving that namespace keeps the anonymous → identified merge intact post-migration.</p>
+    <p>Week-1 audit confirms: (a) no collision between contact and platform user IDs, and (b) that the device-to-user merge is actually happening in their current data. Prefix at ETL if either check fails.</p>
+  </div>
+</section>
+
+<!-- ======================== DERIVED METRICS ======================== -->
+<section>
+  <div class="container">
+    <h2>Derived metrics</h2>
+    <p class="section-lead">Your must-haves, expressed as native Mixpanel formulas. Once the payload contract is right, every one of these is self-serve.</p>
+
+    <div class="table-wrap">
+      <table class="metrics-table">
+        <thead>
+          <tr>
+            <th>Req</th>
+            <th>Quote</th>
+            <th>Mixpanel Formula</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>R1</td>
+            <td>"contact → sub-account → parent account"</td>
+            <td>Native: events carry both group IDs, two grouping dimensions on one stream</td>
+          </tr>
+          <tr>
+            <td>R2</td>
+            <td>"for Boutique Del Fitness (47 subs): Total Events, Active Subs, Adoption Rate in one view in &lt; 5 min"</td>
+            <td>Single board scoped to <code>parent_account</code> group filter</td>
+          </tr>
+          <tr>
+            <td>R3</td>
+            <td>"plan_tier, MRR, trial_converted"</td>
+            <td>Board-level filter on <code>parent_account.&lt;property&gt;</code> (requires metadata feed)</td>
+          </tr>
+          <tr>
+            <td>R6</td>
+            <td>"Active Sub-Accounts / Total Sub-Accounts per parent"</td>
+            <td><code>unique sub_account count / parent_account.total_sub_accounts</code></td>
+          </tr>
+          <tr>
+            <td>R12</td>
+            <td>"contact payments → child totals → parent totals (SUM)"</td>
+            <td><code>sum(invoice_paid.amount) grouped by parent_account</code></td>
+          </tr>
+          <tr>
+            <td>R14</td>
+            <td>"trial → converted → churned at parent level"</td>
+            <td>Cohort on <code>parent_account</code> profile, filtered by <code>plan_tier</code> and <code>trial_converted</code></td>
+          </tr>
+          <tr>
+            <td>R15</td>
+            <td>"declining child usage"</td>
+            <td>Rolling-window comparison of event volume grouped by <code>parent_account</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== LOWER-ENV POC ======================== -->
+<section style="background: var(--gray-01);">
+  <div class="container">
+    <h2>Lower-env POC items</h2>
+    <p class="section-lead">Three workstreams should run in a non-prod environment alongside the main POC, because the 3-week window won't accommodate full prod integration.</p>
+
+    <div class="lower-env-grid">
+      <div class="lower-env-item">
+        <div class="icon-wrap">
+          <!-- brand-web-fill -->
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.08887 8.5293C7.33236 8.52943 7.53017 8.72721 7.53027 8.9707V16.0586H1.44141C0.645613 16.0586 0.000252522 15.4139 0 14.6182V8.5293H7.08887Z" fill="currentColor"/><path d="M10.8545 4.76465C11.0978 4.76503 11.2949 4.96262 11.2949 5.20605V16.0586H8.53027V8.9707C8.53017 8.17492 7.88464 7.52943 7.08887 7.5293H0V4.76465H10.8545Z" fill="currentColor"/><path d="M14.6182 0C15.414 0.000153072 16.0586 0.645553 16.0586 1.44141V14.6182C16.0583 15.4138 15.4138 16.0584 14.6182 16.0586H12.2949V5.20605C12.2949 4.41034 11.6501 3.76503 10.8545 3.76465H0V1.44141C0 0.645457 0.645459 0 1.44141 0H14.6182Z" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <h4>Marketing site instrumentation</h4>
+          <p>HL doesn't track UTM or page views on the main site today. Install the <a href="https://docs.mixpanel.com/docs/tracking-methods/sdks/javascript">Mixpanel JS SDK with autocapture + session replay + identify-on-login</a> on a staging build to demonstrate visitor → parent stitching. Full prod marketing analytics = post-POC.</p>
+          <div class="refs">R4, R20</div>
+        </div>
+      </div>
+
+      <div class="lower-env-item">
+        <div class="icon-wrap">
+          <!-- brand-lock-fill -->
+          <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.36653 6.31836V2.92383C8.36629 1.86129 7.50432 1 6.44173 1C5.37933 1.00024 4.51814 1.86143 4.5179 2.92383V6.31836C4.51784 6.59445 4.294 6.81836 4.0179 6.81836C3.7418 6.81836 3.51796 6.59445 3.5179 6.31836V2.92383C3.51814 1.30915 4.82705 0.000237554 6.44173 0C8.05661 0 9.36629 1.309 9.36653 2.92383V6.31836C9.36647 6.59442 9.14259 6.81831 8.86653 6.81836C8.59043 6.81836 8.36659 6.59445 8.36653 6.31836Z" fill="currentColor"/><path d="M11.167 5.81866C11.9786 5.8188 12.6367 6.47678 12.6367 7.28839V15.0462C12.6364 15.8576 11.9784 16.5158 11.167 16.5159H1.46973C0.658213 16.5159 0.000296402 15.8576 0 15.0462V7.28839C0 6.47669 0.65803 5.81866 1.46973 5.81866H11.167ZM5.81836 9.52277V12.4319H6.81836V9.52277H5.81836Z" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <h4>Session replay on client portal</h4>
+          <p>Legal and privacy review needed before enabling on real contact payment flows. Demo in a synthetic portal first.</p>
+        </div>
+      </div>
+
+      <div class="lower-env-item">
+        <div class="icon-wrap">
+          <!-- multi-pulse-fill -->
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 0C14.1086 0 14.6286 0.330574 15.042 0.796875C15.4559 1.26376 15.8061 1.91131 16.0898 2.66797C16.6586 4.18494 17 6.247 17 8.5C17 10.753 16.6586 12.8151 16.0898 14.332C15.8061 15.0887 15.4559 15.7362 15.042 16.2031C14.6286 16.6694 14.1086 17 13.5 17C12.8914 17 12.3714 16.6694 11.958 16.2031C11.5441 15.7362 11.1939 15.0887 10.9102 14.332C10.7062 13.788 10.5318 13.1738 10.3916 12.5059C10.3401 12.6541 10.2867 12.7973 10.2295 12.9346C9.98825 13.5136 9.68775 14.0148 9.3291 14.3789C8.96866 14.7448 8.51935 15 8 15C7.48064 15 7.03134 14.7448 6.6709 14.3789C6.31225 14.0148 6.01175 13.5136 5.77051 12.9346C5.58184 12.4817 5.42425 11.9664 5.30078 11.4053C5.26504 11.4693 5.22954 11.5327 5.19141 11.5938C4.68634 12.4016 3.92481 13 3 13C2.07519 13 1.31366 12.4016 0.808594 11.5938C0.299129 10.7786 0 9.68329 0 8.5C0 7.31671 0.299129 6.22139 0.808594 5.40625C1.31366 4.59835 2.07519 4 3 4C3.92481 4 4.68634 4.59835 5.19141 5.40625C5.22939 5.46703 5.26517 5.52994 5.30078 5.59375C5.42423 5.03299 5.58194 4.51806 5.77051 4.06543C6.01175 3.48645 6.31225 2.98521 6.6709 2.62109C7.03134 2.2552 7.48064 2 8 2C8.51935 2 8.96866 2.2552 9.3291 2.62109C9.68775 2.98521 9.98825 3.48645 10.2295 4.06543C10.2865 4.20239 10.3402 4.34528 10.3916 4.49316C10.5318 3.82561 10.7063 3.21175 10.9102 2.66797C11.1939 1.91131 11.5441 1.26376 11.958 0.796875C12.3714 0.330574 12.8914 0 13.5 0Z" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <h4>In-product guides and surveys</h4>
+          <p>Your requirements list ~$250k (R16 line) and your task tracker references ~$150k/yr for Chameleon-with-Mixpanel vs Amplitude native. Recommend evaluating Chameleon (or alternatives) on a sandbox with a small set of guides; cost and integration evaluation is independent of the core group analytics POC.</p>
+          <div class="refs">R16</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== OPEN QUESTIONS (DARK) ======================== -->
+<section class="dark-section">
+  <div class="container">
+    <h2>Open questions for HighLevel</h2>
+    <p style="color: var(--white-70pct); max-width: 640px; margin-bottom: 40px; font-size: 18px;">These are the items we need HL to answer in order to finalize the instrumentation spec and run a successful POC.</p>
+
+    <div class="questions-list">
+      <div class="question-item">
+        <div class="question-num">01</div>
+        <p><strong>Metadata feed</strong> Will HL provide flat extracts (CSV, JSON, or warehouse table) of parent and sub_account properties? Required for R3. Without it, group profiles are event-derived only.</p>
+      </div>
+      <div class="question-item">
+        <div class="question-num">02</div>
+        <p><strong>user_type signal in Pendo payload</strong> Does the current stream distinguish agency staff from sub-account operators? Determines 3-value vs 2-value enum.</p>
+      </div>
+      <div class="question-item">
+        <div class="question-num">03</div>
+        <p><strong>distinct_id collision audit</strong> Any overlap between contact_id and platform user_id namespaces?</p>
+      </div>
+      <div class="question-item">
+        <div class="question-num">04</div>
+        <p><strong>sub_account.contact_count</strong> Post-POC, want this synced to sub_account profile for churn-risk analysis.</p>
+      </div>
+      <div class="question-item">
+        <div class="question-num">05</div>
+        <p><strong>child_account_ids[] on parent</strong> Not needed for query, useful for UI directory lookup. Defer for production.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== NEXT STEPS ======================== -->
+<section>
+  <div class="container" style="text-align: center; max-width: 640px;">
+    <h2>What's next</h2>
+    <p style="font-size: 22px; line-height: 1.6; color: var(--black-70pct); margin-bottom: 24px;">This is the entity → primitive map, not yet the full instrumentation spec. That's the week-1 deliverable of the POC, once we've reviewed sample Pendo data.</p>
+    <p style="font-size: 18px; color: var(--gray-08);">We're ready to review the Pendo data and finalize the open items.</p>
+    <p style="margin-top: 32px;">
+      <a href="https://calendar.app.google/LvMUy83MHY7viN8n6" style="display: inline-block; background: var(--gray-10); color: #fff; font-family: var(--font-sans); font-weight: 500; font-size: 16px; padding: 12px 32px; border-radius: 40px; text-decoration: none;">
+        Book time with AK
+        <svg style="display: inline-block; vertical-align: middle; margin-left: 8px;" width="6.504" height="9.912" viewBox="0 0 6.504 9.912" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.504 4.968L1.176 9.912L0 8.76L3.216 5.88L4.176 4.957L3.216 4.032L0 1.176L1.176 0L6.504 4.968Z" fill="currentColor"/></svg>
+      </a>
+    </p>
+  </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="footer">
+  <p>Aaron Krivitzky &middot; Principal, Mixpanel &middot; <a href="mailto:ak@mixpanel.com">ak@mixpanel.com</a></p>
+</footer>
+
+</body>
+</html>
