@@ -26,8 +26,12 @@ npm run dev              # Start development server
 npm run build            # Build for production (includes copying oneoffs)
 npm start                # Start production server
 npm run lint             # Run ESLint
+npm run typecheck        # Run TypeScript type checking
 
-npm run hello-world      # Serve standalone hello-world demo
+npm run test:app         # Core-app Playwright smoke tests (REQUIRED to merge)
+npm run test:oneoffs     # Oneoff load tests (advisory)
+npm run test             # Run the full Playwright suite
+
 npm run sanity           # Serve dev build locally
 npm run sanity:prod      # Serve production build locally
 npm run oneoffs          # Serve oneoffs directory standalone
@@ -125,10 +129,41 @@ fixpanel/
 - `/dev/` - Developer demo
 - `/hud/` - HUD interface demo
 - `/metube/` - Video platform demo
+- `/mixstake/` - iGaming casino & sportsbook demo (+ `/mixstake/admin.html` event generator)
+- ...and more — see [the full auto-generated index](https://mixpanel.github.io/fixpanel/oneoffs/)
 
 Oneoffs are automatically copied to the build output during `npm run build` via the postbuild script.
 
 ## Contributing
+
+> **TL;DR for SEs:** most contributions are your own **oneoff** demo. Branch →
+> open a PR → wait for CI green → squash-merge it yourself. Direct pushes to
+> `main` are blocked for everyone.
+
+### Collaboration workflow
+
+`main` is protected. **Nobody pushes to `main` directly** — all changes land
+through a pull request.
+
+1. Branch off `main`: `git checkout -b my-demo`
+2. Make your changes and push the branch.
+3. Open a PR into `main`. CI runs automatically.
+4. Once the **required** checks are green, **squash-merge your own PR** — no
+   second reviewer required (review is welcome, just not enforced).
+
+**What CI checks (and what blocks a merge):**
+
+| Check          | What it runs                          | Blocks merge? |
+| -------------- | ------------------------------------- | ------------- |
+| `verify`       | `npm run typecheck` + `npm run lint`  | ✅ yes        |
+| `build`        | `npm run build` (Next.js + oneoffs)   | ✅ yes        |
+| `test-app`     | `npm run test:smoke` (core app)       | ✅ yes        |
+| `test-oneoffs` | `npm run test:oneoffs` (oneoff loads) | ⚠️ advisory   |
+
+The core FixPanel app is protected hard. Oneoff load tests run for visibility
+but **don't block your merge** — so a hiccup in your own demo won't stop you.
+Run `npm run test:app` and `npm run typecheck` locally before pushing to get
+green fast.
 
 ### Adding a New Vertical
 
@@ -139,10 +174,34 @@ Oneoffs are automatically copied to the build output during `npm run build` via 
 
 ### Adding a New Oneoff Microsite
 
-1. Create a new directory in `./oneoffs/` (e.g., `./oneoffs/mynewdemo/`)
-2. Add an `index.html` file with your demo
-3. Run `npm run build` - the postbuild script automatically copies it to `./out/mynewdemo/`
-4. Access at `/mynewdemo/` in production
+A oneoff is a **self-contained, client-side-only** microsite (vanilla
+HTML/CSS/JS, no build step, no server). Convention:
+
+1. Create a directory in `./oneoffs/` (e.g., `./oneoffs/mynewdemo/`) with an
+   **`index.html`** as the entry point. Extra pages (e.g. an `admin.html`) are
+   fine — see `oneoffs/mixstake/` for a two-page example.
+2. Wire up Mixpanel with the standard snippet, using **your own project token**
+   and the **shared FixPanel proxy** (matches every other oneoff — avoids ad
+   blockers):
+
+   ```js
+   mixpanel.init('YOUR_PROJECT_TOKEN', {
+     api_host: 'https://express-proxy-lmozz6xkha-uc.a.run.app',
+     record_sessions_percent: 100,
+     flags: true,
+   });
+   ```
+
+   > Don't set `remote_settings_mode` — the proxy doesn't serve that route and
+   > it'll throw a `/settings/` 404 in the console.
+3. `npm run build` regenerates the listing at `oneoffs/index.html` and copies
+   your demo to `./out/mynewdemo/` automatically — no manual registration.
+4. (Optional) Link it on the landing page in `app/page.tsx` (the "Additional
+   standalone demos" row) so people can find it.
+5. `npm run test:oneoffs` to confirm it loads with no uncaught JS errors. New
+   oneoffs are auto-discovered by the test — no test edits needed.
+
+Access your demo at `/mynewdemo/` (e.g. `https://mixpanel.github.io/fixpanel/mynewdemo/`).
 
 ### Tracking Custom Events
 

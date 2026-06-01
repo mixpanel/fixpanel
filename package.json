@@ -17,7 +17,9 @@
 		"prune": "rm -rf ./out/*",
 		"test": "playwright test",
 		"test:report": "npx playwright show-report tests/playwright-report",
-		"test:smoke": "playwright test smoke.spec.ts",
+		"test:app": "playwright test --project=chromium",
+		"test:oneoffs": "playwright test --project=oneoffs",
+		"test:smoke": "playwright test smoke.spec.ts --project=chromium",
 		"test:headed": "playwright test --headed",
 		"test:install": "playwright install"
 	},

@@ -37,7 +37,15 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      // Core FixPanel app tests (Next.js dev server on :3000).
+      testIgnore: /oneoffs\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      // Permissive load tests for the standalone oneoffs (static server on :5050).
+      name: 'oneoffs',
+      testMatch: /oneoffs\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'], baseURL: process.env.ONEOFFS_URL || 'http://localhost:5050' },
     },
     // Disabled non-Chrome browsers for faster testing
     // {
@@ -59,11 +67,19 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: true, // Use existing server if already running
-    timeout: 120 * 1000,
-  },
+  /* Run the app dev server (core tests) and a static server for oneoffs */
+  webServer: [
+    {
+      command: 'npm run dev',
+      url: 'http://localhost:3000',
+      reuseExistingServer: true, // Use existing server if already running
+      timeout: 120 * 1000,
+    },
+    {
+      command: 'npx serve ./oneoffs -l 5050 --no-clipboard',
+      url: 'http://localhost:5050',
+      reuseExistingServer: true,
+      timeout: 120 * 1000,
+    },
+  ],
 });
