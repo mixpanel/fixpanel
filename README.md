@@ -153,12 +153,12 @@ through a pull request.
 
 **What CI checks (and what blocks a merge):**
 
-| Check          | What it runs                          | Blocks merge? |
-| -------------- | ------------------------------------- | ------------- |
-| `verify`       | `npm run typecheck` + `npm run lint`  | ✅ yes        |
-| `build`        | `npm run build` (Next.js + oneoffs)   | ✅ yes        |
-| `test-app`     | `npm run test:smoke` (core app)       | ✅ yes        |
-| `test-oneoffs` | `npm run test:oneoffs` (oneoff loads) | ⚠️ advisory   |
+| Check          | What it runs                            | Blocks merge? |
+| -------------- | --------------------------------------- | ------------- |
+| `verify`       | `npm run lint`                          | ✅ yes        |
+| `build`        | `npm run build` (+ `npm run typecheck`) | ✅ yes        |
+| `test-app`     | `npm run test:smoke` (core app)         | ✅ yes        |
+| `test-oneoffs` | `npm run test:oneoffs` (oneoff loads)   | ⚠️ advisory   |
 
 The core FixPanel app is protected hard. Oneoff load tests run for visibility
 but **don't block your merge** — so a hiccup in your own demo won't stop you.

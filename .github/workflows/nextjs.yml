@@ -81,12 +81,16 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
         env:
           NODE_ENV: production
+      - name: Type check
+        # Runs after build so Next.js has generated next-env.d.ts (asset module types)
+        run: npm run typecheck
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9  # v5
         with:
           path: ./out
 
-  # Lint + type check (required gate)
+  # Lint (required gate). Type checking runs in the build job, which first
+  # generates Next.js's next-env.d.ts (needed for asset/image module types).
   verify:
     runs-on: ubuntu-latest
     steps:
@@ -99,8 +103,6 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Type check
-        run: npm run typecheck
       - name: Lint
         run: npm run lint
 
