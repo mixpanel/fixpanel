@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MixStake Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#0A0A0C;color:#F0EDE6;min-height:100vh;padding:2rem;}
+h1{font-size:20px;font-weight:500;color:#C9A84C;margin-bottom:4px;}
+.sub{font-size:13px;color:#4A4858;margin-bottom:2rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;}
+.card{background:#111116;border:1px solid rgba(201,168,76,0.15);border-radius:14px;padding:1.5rem;}
+.card-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#4A4858;margin-bottom:1rem;}
+.stat{font-size:32px;font-weight:500;color:#F0EDE6;margin-bottom:4px;}
+.stat-label{font-size:12px;color:#8A8790;}
+.btn{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;width:100%;margin-bottom:8px;}
+.btn-gold{background:linear-gradient(135deg,#C9A84C,#8B6D2A);color:#fff;}
+.btn-gold:hover{filter:brightness(1.1);}
+.btn-ghost{background:transparent;border:1px solid rgba(201,168,76,0.35);color:#F0EDE6;}
+.btn-ghost:hover{border-color:#C9A84C;color:#C9A84C;}
+.btn-red{background:transparent;border:1px solid rgba(232,75,75,0.4);color:#E84B4B;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+input[type=range]{width:100%;margin:8px 0;accent-color:#C9A84C;}
+.range-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#8A8790;margin-bottom:4px;}
+.range-val{color:#C9A84C;font-weight:500;font-family:'DM Mono',monospace;}
+.log{background:#0A0A0C;border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:1rem;height:200px;overflow-y:auto;font-family:'DM Mono',monospace;font-size:12px;color:#8A8790;}
+.log-entry{padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.log-entry.ok{color:#3DBA6A;}
+.log-entry.info{color:#C9A84C;}
+.log-entry.err{color:#E84B4B;}
+.variant-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vbtn{padding:8px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(201,168,76,.2);background:transparent;color:#8A8790;font-family:'DM Sans',sans-serif;transition:all .2s;text-align:center;}
+.vbtn:hover{border-color:#C9A84C;color:#C9A84C;}
+.vbtn.active{background:rgba(201,168,76,.15);border-color:#C9A84C;color:#C9A84C;}
+.sep{height:1px;background:rgba(255,255,255,.05);margin:1rem 0;}
+.url-box{background:#0A0A0C;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:12px;color:#C9A84C;word-break:break-all;margin-bottom:8px;cursor:pointer;transition:border-color .2s;}
+.url-box:hover{border-color:rgba(201,168,76,.4);}
+.copied{color:#3DBA6A!important;border-color:rgba(61,186,106,.4)!important;}
+.progress-bar{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:8px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#C9A84C,#8B6D2A);border-radius:2px;transition:width .3s;}
+.utm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-bottom:8px;}
+.utm-link{background:#0A0A0C;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 14px;cursor:pointer;transition:border-color .2s;}
+.utm-link:hover{border-color:rgba(201,168,76,.4);}
+.utm-source{font-size:12px;font-weight:600;color:#C9A84C;margin-bottom:2px;}
+.utm-details{font-size:11px;color:#4A4858;font-family:'DM Mono',monospace;}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:500;}
+.badge-green{background:rgba(61,186,106,.15);color:#3DBA6A;}
+.badge-gold{background:rgba(201,168,76,.15);color:#C9A84C;}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+</style>
+</head>
+<body>
+
+<h1>MixStake Admin</h1>
+<p class="sub">Fires events directly from your browser via Mixpanel SDK — no server required</p>
+
+<div class="grid">
+
+  <!-- STATUS -->
+  <div class="card">
+    <div class="card-title">Status</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+      <span class="badge badge-green"><span class="dot"></span>SDK ready</span>
+      <span class="badge badge-gold" id="mp-badge"><span class="dot"></span>Connecting...</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div><div class="stat" id="total-fired">0</div><div class="stat-label">Events fired this session</div></div>
+      <div><div class="stat" id="next-batch">--:--</div><div class="stat-label">Next auto batch</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="timer-bar" style="width:0%"></div></div>
+  </div>
+
+  <!-- FIRE EVENTS -->
+  <div class="card">
+    <div class="card-title">Fire Events Now</div>
+    <div class="range-row">
+      <span>Batch size</span>
+      <span class="range-val" id="batch-display">50 events</span>
+    </div>
+    <input type="range" min="10" max="500" step="10" value="50" id="batch-size" oninput="document.getElementById('batch-display').textContent=this.value+' events'">
+    <button class="btn btn-gold" id="fire-btn" onclick="fireBatch()">Fire Batch Now</button>
+    <button class="btn btn-ghost" onclick="fireBatch(200)">Fire 200 Events</button>
+    <button class="btn btn-ghost" onclick="fireBatch(500)">Fire 500 Events</button>
+  </div>
+
+  <!-- SCHEDULER -->
+  <div class="card">
+    <div class="card-title">Auto Scheduler</div>
+    <div class="range-row"><span>Interval</span><span class="range-val" id="interval-display">30 min</span></div>
+    <input type="range" min="1" max="60" step="1" value="30" id="interval-slider" oninput="updateInterval(this.value)">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+      <button class="btn btn-ghost" style="font-size:12px;padding:8px;" onclick="setIntervalVal(5)">5 min</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:8px;" onclick="setIntervalVal(15)">15 min</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:8px;" onclick="setIntervalVal(30)">30 min</button>
+    </div>
+    <button class="btn btn-gold" id="scheduler-btn" onclick="toggleScheduler()">Start Scheduler</button>
+  </div>
+
+  <!-- VARIANT SWITCHER -->
+  <div class="card">
+    <div class="card-title">Variant Switcher — Demo Links</div>
+    <div style="font-size:12px;color:#8A8790;margin-bottom:12px;">Click a variant to build a demo URL. Copy and open before your demo.</div>
+    <div style="font-size:11px;color:#4A4858;margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;">Hero Banner</div>
+    <div class="variant-btns" id="hero-btns">
+      <div class="vbtn active" onclick="setVariant('hero','control',this)">Control<br><span style="font-size:10px;opacity:.6">Dark gold</span></div>
+      <div class="vbtn" onclick="setVariant('hero','variant_a',this)">Variant A<br><span style="font-size:10px;opacity:.6">Light minimal</span></div>
+      <div class="vbtn" onclick="setVariant('hero','variant_b',this)">Variant B<br><span style="font-size:10px;opacity:.6">Red energy</span></div>
+    </div>
+    <div style="font-size:11px;color:#4A4858;margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;margin-top:12px;">Bonus Offer</div>
+    <div class="two" id="bonus-btns">
+      <div class="vbtn active" onclick="setVariant('bonus','control',this)">Control</div>
+      <div class="vbtn" onclick="setVariant('bonus','variant_a',this)">Variant A</div>
+    </div>
+    <div style="font-size:11px;color:#4A4858;margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase;margin-top:12px;">VIP Lobby</div>
+    <div class="two" id="vip-btns">
+      <div class="vbtn active" onclick="setVariant('vip','control',this)">Off</div>
+      <div class="vbtn" onclick="setVariant('vip','variant_a',this)">On</div>
+    </div>
+    <div class="sep"></div>
+    <div class="url-box" id="demo-url" onclick="copyURL()">Loading...</div>
+    <button class="btn btn-ghost" onclick="copyURL()">Copy Demo URL</button>
+    <button class="btn btn-ghost" onclick="openDemo()">Open in New Tab</button>
+  </div>
+
+  <!-- UTM DEMO LINKS -->
+  <div class="card" style="grid-column:1/-1;">
+    <div class="card-title">UTM Demo Links — Click to open site with campaign attribution</div>
+    <div style="font-size:12px;color:#8A8790;margin-bottom:12px;">Opens MixStake with UTM parameters. The Mixpanel SDK automatically captures them and sets initial_utm_* on the user profile. Open before your demo to generate UTM-attributed session replays.</div>
+    <div class="utm-grid" id="utm-links"></div>
+  </div>
+
+  <!-- EVENT LOG -->
+  <div class="card" style="grid-column:1/-1;">
+    <div class="card-title" style="display:flex;justify-content:space-between;"><span>Event Log</span><span style="cursor:pointer;color:#4A4858;" onclick="clearLog()">Clear</span></div>
+    <div class="log" id="log"></div>
+  </div>
+
+</div>
+
+<!-- MIXPANEL SDK -->
+<script>
+(function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(c){d[c]=function(){call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e].concat(call2))}}for(var d={},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
+mixpanel.init('5d00750a9ec9cec303dc27e371033fa8', {
+  api_host: 'https://express-proxy-lmozz6xkha-uc.a.run.app',
+  record_sessions_percent: 100,
+  flags: true
+});
+</script>
+
+<script>
+const MP_TOKEN = '5d00750a9ec9cec303dc27e371033fa8';
+const BASE = window.location.origin + window.location.pathname.replace('admin.html','');
+
+// ── DATA ──
+const FAKE_USERS = Array.from({length:60},(_,i) => ({
+  id: 'mixstake_user_' + String(i+1).padStart(3,'0'),
+  segment: ['New Player','Regular','VIP','High Roller','Casual','At-Risk'][i%6],
+  country: ['GB','DE','CA','AU','NZ','SE','FI','NO','IE','NL'][i%10],
+  device: ['Desktop','Mobile','Tablet'][i%3],
+  vip: i%8===0,
+}));
+
+const UTM_CHANNELS = [
+  {utm_source:'google',    utm_medium:'cpc',         utm_campaign:'casino_brand_uk',       utm_content:'slots_banner',   utm_term:'online casino'},
+  {utm_source:'google',    utm_medium:'cpc',         utm_campaign:'sportsbook_football',   utm_content:'odds_banner',    utm_term:'sports betting'},
+  {utm_source:'facebook',  utm_medium:'paid_social', utm_campaign:'slots_acquisition_uk',  utm_content:'video_ad_1',     utm_term:null},
+  {utm_source:'facebook',  utm_medium:'paid_social', utm_campaign:'vip_recruitment',       utm_content:'carousel_vip',   utm_term:null},
+  {utm_source:'instagram', utm_medium:'paid_social', utm_campaign:'jackpot_awareness',     utm_content:'story_ad',       utm_term:null},
+  {utm_source:'affiliate', utm_medium:'affiliate',   utm_campaign:'casino_affiliate_uk',   utm_content:'partner_link',   utm_term:null},
+  {utm_source:'email',     utm_medium:'email',       utm_campaign:'weekly_promo_spins',    utm_content:'cta_button',     utm_term:null},
+  {utm_source:'email',     utm_medium:'email',       utm_campaign:'reactivation_30d',      utm_content:'cashback_offer', utm_term:null},
+  {utm_source:'organic',   utm_medium:'organic',     utm_campaign:null,                    utm_content:null,             utm_term:null},
+  {utm_source:'direct',    utm_medium:'none',        utm_campaign:null,                    utm_content:null,             utm_term:null},
+];
+
+const UTM_DEMO_LINKS = [
+  {label:'Google CPC — Casino UK',        source:'google',    medium:'cpc',         campaign:'casino_brand_uk',      content:'slots_banner',    term:'online+casino'},
+  {label:'Google CPC — Sportsbook',       source:'google',    medium:'cpc',         campaign:'sportsbook_football',  content:'odds_banner',     term:'sports+betting'},
+  {label:'Facebook — Slots Acquisition',  source:'facebook',  medium:'paid_social', campaign:'slots_acquisition_uk', content:'video_ad_1',      term:''},
+  {label:'Facebook — VIP Recruitment',    source:'facebook',  medium:'paid_social', campaign:'vip_recruitment',      content:'carousel_vip',    term:''},
+  {label:'Instagram — Jackpot Awareness', source:'instagram', medium:'paid_social', campaign:'jackpot_awareness',    content:'story_ad',        term:''},
+  {label:'Affiliate — Casino UK',         source:'affiliate', medium:'affiliate',   campaign:'casino_affiliate_uk',  content:'partner_link',    term:''},
+  {label:'Email — Weekly Promo',          source:'email',     medium:'email',       campaign:'weekly_promo_spins',   content:'cta_button',      term:''},
+  {label:'Email — Reactivation',          source:'email',     medium:'email',       campaign:'reactivation_30d',     content:'cashback_offer',  term:''},
+  {label:'Twitter — Jackpot Promo',       source:'twitter',   medium:'paid_social', campaign:'jackpot_promo',        content:'promoted_tweet',  term:''},
+  {label:'Referral — Friend Invite',      source:'referral',  medium:'referral',    campaign:'friend_invite',        content:'invite_link',     term:''},
+];
+
+const GAMES = ['Lucky Streak','Book of Dead','Starburst','Mega Moolah',"Gonzo's Quest",'Wolf Gold','Sweet Bonanza','Fire Joker','Immersive Roulette','Infinite Blackjack','Speed Baccarat A','Crazy Time','Lightning Roulette','Power Blackjack'];
+const SPORTS = ['Football','Basketball','Tennis','Ice Hockey','Baseball'];
+const PAYMENT_METHODS = ['Card','PayPal','Crypto','Bank Transfer','Apple Pay'];
+const PROMOS = ['Welcome Bonus','Free Spins Friday','Cashback Monday','Reload Bonus','VIP Reward'];
+const VARIANTS = ['control','variant_a','variant_b'];
+
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function randF(a,b){return parseFloat((Math.random()*(b-a)+a).toFixed(2));}
+
+// ── LOG ──
+function log(msg,type='info'){
+  const el=document.getElementById('log');
+  const d=document.createElement('div');
+  d.className='log-entry '+type;
+  d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
+  el.insertBefore(d,el.firstChild);
+}
+function clearLog(){document.getElementById('log').innerHTML='';}
+
+// ── FIRE BATCH — uses Mixpanel SDK directly from browser ──
+let totalFired=0;
+function fireBatch(size){
+  const batchSize=size||parseInt(document.getElementById('batch-size').value)||50;
+  const btn=document.getElementById('fire-btn');
+  btn.disabled=true;
+  btn.textContent='Firing...';
+  log('Firing batch of '+batchSize+' events from browser SDK...','info');
+
+  let fired=0;
+  for(let i=0;i<batchSize;i++){
+    const user=pick(FAKE_USERS);
+    const utmChannel=pick(UTM_CHANNELS);
+    const heroVariant=pick(VARIANTS);
+    const bonusVariant=pick(['control','variant_a']);
+    const vipVariant=pick(['control','variant_a']);
+
+    const base={
+      distinct_id: user.id,
+      segment: user.segment,
+      country: user.country,
+      device: user.device,
+      vip: user.vip,
+      hero_banner_variant: heroVariant,
+      bonus_offer_variant: bonusVariant,
+      vip_lobby_variant: vipVariant,
+      utm_source: utmChannel.utm_source,
+      utm_medium: utmChannel.utm_medium,
+      utm_campaign: utmChannel.utm_campaign,
+      utm_content: utmChannel.utm_content,
+      utm_term: utmChannel.utm_term,
+      simulated: true,
+    };
+
+    // Set user identity
+    mixpanel.identify(user.id);
+    mixpanel.people.set_once({
+      initial_utm_source:   utmChannel.utm_source,
+      initial_utm_medium:   utmChannel.utm_medium,
+      initial_utm_campaign: utmChannel.utm_campaign,
+    });
+    mixpanel.people.set({
+      '$name': user.id,
+      segment: user.segment,
+      country: user.country,
+      device: user.device,
+      vip: user.vip,
+    });
+
+    // Fire $experiment_started
+    mixpanel.track('$experiment_started',{...base,'$experiment_name':'hero_banner_test','$variant_name':heroVariant});
+    mixpanel.track('$experiment_started',{...base,'$experiment_name':'bonus_offer_test','$variant_name':bonusVariant});
+    mixpanel.track('$experiment_started',{...base,'$experiment_name':'vip_lobby_test',  '$variant_name':vipVariant});
+
+    // Pick a random event
+    const roll=Math.random();
+    if(roll<0.15){
+      mixpanel.track('Session Started',base);
+    } else if(roll<0.28){
+      const game=pick(GAMES);
+      const result=Math.random()>0.45?'win':'loss';
+      mixpanel.track('Game Opened',{...base,game_name:game,game_type:pick(['slot','live_casino','table'])});
+      mixpanel.track('Game Round Completed',{...base,game_name:game,result,amount:randF(0.5,250),game_type:pick(['slot','live_casino','table'])});
+      fired++;
+    } else if(roll<0.40){
+      const amount=pick([10,20,50,100,200,500,1000]);
+      const method=pick(PAYMENT_METHODS);
+      mixpanel.track('Deposit Initiated',{...base,amount,method});
+      if(Math.random()>0.15){
+        mixpanel.track('Deposit Completed',{...base,amount,method});
+      } else {
+        mixpanel.track('Deposit Failed',{...base,amount,method,reason:'Card declined'});
+      }
+      fired++;
+    } else if(roll<0.50){
+      const stake=pick([5,10,20,50,100]);
+      const odds=randF(1.2,8.0);
+      mixpanel.track('Bet Placed',{...base,sport:pick(SPORTS),stake,odds,potential_return:parseFloat((stake*odds).toFixed(2)),bet_type:Math.random()>0.6?'accumulator':'single'});
+    } else if(roll<0.58){
+      const amount=pick([50,100,200,500,1000]);
+      mixpanel.track('Withdrawal Requested',{...base,amount,method:pick(PAYMENT_METHODS)});
+      if(Math.random()>0.1) mixpanel.track('Withdrawal Approved',{...base,amount});
+      fired++;
+    } else if(roll<0.65){
+      const promo=pick(PROMOS);
+      mixpanel.track('Promo Viewed',{...base,promo});
+      if(Math.random()>0.4) mixpanel.track('Promo Claimed',{...base,promo});
+    } else if(roll<0.72){
+      mixpanel.track('Registration Completed',{...base,source:pick(['organic','email','paid_social','referral','affiliate'])});
+    } else if(roll<0.78){
+      mixpanel.track('Session Ended',{...base,duration_minutes:rand(2,90),games_played:rand(1,25),total_wagered:randF(5,500)});
+    } else if(roll<0.84){
+      mixpanel.track('Live Table Joined',{...base,table_name:pick(GAMES.slice(8))});
+    } else {
+      mixpanel.track('Page Viewed',{...base,page:pick(['Casino Home','Live Casino','Sportsbook','Promotions','My Account'])});
+    }
+    fired++;
+  }
+
+  totalFired+=fired;
+  document.getElementById('total-fired').textContent=totalFired.toLocaleString();
+  log('Fired ~'+fired+' events via browser SDK','ok');
+  btn.disabled=false;
+  btn.textContent='Fire Batch Now';
+}
+
+// ── SCHEDULER ──
+let schedulerActive=false;
+let schedulerTimer=null;
+let countdownTimer=null;
+let intervalMinutes=30;
+let nextFireIn=1800;
+
+function toggleScheduler(){
+  const btn=document.getElementById('scheduler-btn');
+  if(schedulerActive){
+    clearInterval(schedulerTimer);
+    clearInterval(countdownTimer);
+    schedulerActive=false;
+    btn.textContent='Start Scheduler';
+    btn.className='btn btn-gold';
+    log('Scheduler stopped','info');
+  } else {
+    schedulerActive=true;
+    btn.textContent='Stop Scheduler';
+    btn.className='btn btn-red';
+    nextFireIn=intervalMinutes*60;
+    log('Scheduler started — firing every '+intervalMinutes+' min','ok');
+    fireBatch(40);
+    schedulerTimer=setInterval(()=>{fireBatch(40);nextFireIn=intervalMinutes*60;},intervalMinutes*60*1000);
+    countdownTimer=setInterval(updateCountdown,1000);
+  }
+}
+
+function updateCountdown(){
+  if(!schedulerActive) return;
+  nextFireIn--;
+  if(nextFireIn<0) nextFireIn=intervalMinutes*60;
+  const m=Math.floor(nextFireIn/60);
+  const s=nextFireIn%60;
+  document.getElementById('next-batch').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('timer-bar').style.width=(100-(nextFireIn/(intervalMinutes*60)*100))+'%';
+}
+
+function updateInterval(val){
+  intervalMinutes=parseInt(val);
+  document.getElementById('interval-display').textContent=val+' min';
+}
+function setIntervalVal(val){
+  document.getElementById('interval-slider').value=val;
+  updateInterval(val);
+}
+
+// ── VARIANT SWITCHER ──
+let variants={hero:'control',bonus:'control',vip:'control'};
+function setVariant(type,value,el){
+  variants[type]=value;
+  const groupId=type==='hero'?'hero-btns':type==='bonus'?'bonus-btns':'vip-btns';
+  document.querySelectorAll('#'+groupId+' .vbtn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  updateDemoURL();
+}
+function updateDemoURL(){
+  const params=new URLSearchParams();
+  if(variants.hero!=='control')  params.set('hero',variants.hero);
+  if(variants.bonus!=='control') params.set('bonus',variants.bonus);
+  if(variants.vip!=='control')   params.set('vip',variants.vip);
+  const q=params.toString();
+  document.getElementById('demo-url').textContent=BASE+'index.html'+(q?'?'+q:'');
+}
+function copyURL(){
+  const url=document.getElementById('demo-url').textContent;
+  navigator.clipboard.writeText(url).then(()=>{
+    const el=document.getElementById('demo-url');
+    el.classList.add('copied');
+    setTimeout(()=>el.classList.remove('copied'),2000);
+    log('Copied: '+url,'ok');
+  });
+}
+function openDemo(){window.open(document.getElementById('demo-url').textContent,'_blank');}
+
+// ── UTM LINKS ──
+function renderUTMLinks(){
+  const container=document.getElementById('utm-links');
+  if(!container) return;
+  container.innerHTML=UTM_DEMO_LINKS.map(c=>{
+    let url=BASE+'index.html?utm_source='+c.source+'&utm_medium='+c.medium;
+    if(c.campaign) url+='&utm_campaign='+c.campaign;
+    if(c.content)  url+='&utm_content='+c.content;
+    if(c.term)     url+='&utm_term='+c.term;
+    return '<div class="utm-link" onclick="window.open(\''+url+'\',\'_blank\');log(\'Opened: '+c.label+'\',\'ok\')"><div class="utm-source">'+c.label+'</div><div class="utm-details">'+c.source+' / '+c.medium+'</div></div>';
+  }).join('');
+}
+
+// ── INIT ──
+setTimeout(()=>{
+  document.getElementById('mp-badge').innerHTML='<span class="dot"></span>Mixpanel ready';
+  document.getElementById('mp-badge').style.background='rgba(61,186,106,.15)';
+  document.getElementById('mp-badge').style.color='#3DBA6A';
+},1500);
+
+log('Admin panel loaded — browser SDK mode','ok');
+updateDemoURL();
+renderUTMLinks();
+</script>
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MixStake — Casino & Sportsbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#C9A84C; --gold-light:#E8C97A; --gold-dim:#8B6D2A;
+  --bg-deep:#0A0A0C; --bg-card:#111116; --bg-surface:#18181F; --bg-elevated:#202028;
+  --text-primary:#F0EDE6; --text-secondary:#8A8790; --text-muted:#4A4858;
+  --border:rgba(201,168,76,0.15); --border-hover:rgba(201,168,76,0.35);
+  --accent:#C9A84C; --accent-bg:rgba(201,168,76,0.08);
+  --red:#E84B4B; --green:#3DBA6A; --blue:#4B8DE8;
+  --hero-grad:linear-gradient(135deg,#C9A84C 0%,#8B6D2A 100%);
+  --radius:8px; --radius-lg:14px;
+}
+/* ── VARIANT A: light/minimal ── */
+body.va {
+  --bg-deep:#F5F4F0; --bg-card:#FFFFFF; --bg-surface:#F0EEE8; --bg-elevated:#E8E6DF;
+  --text-primary:#1A1A1A; --text-secondary:#6B6860; --text-muted:#A8A49C;
+  --border:rgba(0,0,0,0.08); --border-hover:rgba(0,0,0,0.2);
+  --accent:#1A1A1A; --accent-bg:rgba(0,0,0,0.05);
+  --gold:#8B6D2A; --gold-light:#C9A84C; --gold-dim:#6B4F1A;
+  --hero-grad:linear-gradient(135deg,#1A1A1A 0%,#3D3D3D 100%);
+}
+/* ── VARIANT B: high-energy red ── */
+body.vb {
+  --bg-deep:#0D0000; --bg-card:#150808; --bg-surface:#1C0E0E; --bg-elevated:#241515;
+  --text-primary:#FFF0F0; --text-secondary:#C49090; --text-muted:#6B3838;
+  --border:rgba(232,75,75,0.2); --border-hover:rgba(232,75,75,0.45);
+  --accent:#E84B4B; --accent-bg:rgba(232,75,75,0.1);
+  --gold:#E84B4B; --gold-light:#FF7070; --gold-dim:#8B2020;
+  --hero-grad:linear-gradient(135deg,#E84B4B 0%,#8B2020 100%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow-x:hidden;transition:background .4s,color .4s;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(201,168,76,.04) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(75,141,232,.03) 0%,transparent 60%);pointer-events:none;z-index:0;}
+body.vb::before{background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(232,75,75,.06) 0%,transparent 60%);}
+body.va::before{background:none;}
+
+/* ── VARIANT BADGE ── */
+#vbadge{position:fixed;bottom:16px;left:16px;z-index:500;background:var(--bg-elevated);border:1px solid var(--border-hover);border-radius:var(--radius);padding:8px 14px;font-size:11px;color:var(--text-secondary);display:flex;align-items:center;gap:8px;backdrop-filter:blur(10px);}
+#vbadge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;background:rgba(10,10,12,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;transition:background .4s,border-color .4s;}
+body.va header{background:rgba(245,244,240,.95);}
+body.vb header{background:rgba(13,0,0,.95);}
+.hi{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:.06em;}
+.logo-icon{width:34px;height:34px;background:var(--hero-grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700;}
+nav{display:flex;gap:4px;}
+.nt{padding:6px 18px;border-radius:var(--radius);border:1px solid transparent;font-size:14px;font-weight:500;cursor:pointer;color:var(--text-secondary);background:transparent;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.nt:hover{color:var(--text-primary);border-color:var(--border);}
+.nt.active{color:var(--accent);background:var(--accent-bg);border-color:var(--border-hover);}
+.ha{display:flex;align-items:center;gap:12px;}
+.bal{display:flex;align-items:center;gap:8px;padding:6px 14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;}
+.bal-val{color:var(--gold);font-weight:500;}
+.btn{padding:8px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-p{background:var(--hero-grad);color:#fff;}
+.btn-p:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn-g{background:transparent;border:1px solid var(--border-hover);color:var(--text-primary);}
+.btn-g:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── MAIN ── */
+main{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:2rem;}
+.sec{display:none;animation:fi .3s ease;}
+.sec.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── VIP LOBBY ── */
+#vip-lobby{display:none;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:1px solid var(--border-hover);border-radius:var(--radius-lg);padding:1.5rem 2rem;margin-bottom:2rem;position:relative;overflow:hidden;}
+#vip-lobby.on{display:block;animation:fi .4s ease;}
+#vip-lobby::before{content:'👑';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:80px;opacity:.08;}
+.vip-title{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:6px;}
+.vip-desc{font-size:14px;color:var(--text-secondary);margin-bottom:16px;}
+.vip-perks{display:flex;gap:12px;flex-wrap:wrap;}
+.vip-perk{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:8px 16px;font-size:13px;color:var(--gold);}
+
+/* ── HERO ── */
+.hero{position:relative;border-radius:var(--radius-lg);background:var(--bg-card);border:1px solid var(--border);padding:3rem 3rem 2.5rem;margin-bottom:2rem;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;right:0;width:400px;height:300px;background:radial-gradient(ellipse at top right,var(--accent-bg),transparent 70%);pointer-events:none;}
+.hero-eye{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500;}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(26px,4vw,46px);font-weight:700;line-height:1.1;margin-bottom:16px;background:var(--hero-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+body.va .hero-title,body.vb .hero-title{-webkit-text-fill-color:var(--text-primary);background:none;}
+.hero-sub{font-size:15px;color:var(--text-secondary);max-width:500px;line-height:1.6;margin-bottom:28px;}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
+.jp-badge{position:absolute;top:2rem;right:2rem;background:var(--bg-elevated);border:1px solid var(--border-hover);border-radius:var(--radius-lg);padding:1rem 1.5rem;text-align:center;}
+.jp-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);}
+.jp-val{font-family:'Cinzel',serif;font-size:26px;color:var(--gold);font-weight:700;}
+.jp-tick{font-size:11px;color:var(--green);margin-top:2px;}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.sc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;position:relative;overflow:hidden;}
+.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.3;}
+.sl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.sv{font-size:22px;font-weight:500;}
+.sd{font-size:12px;color:var(--green);margin-top:4px;}
+
+/* ── GAMES ── */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.st{font-family:'Cinzel',serif;font-size:16px;font-weight:600;letter-spacing:.05em;}
+.sa{font-size:13px;color:var(--gold);cursor:pointer;}
+.sa:hover{text-decoration:underline;}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:2.5rem;}
+.gc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:all .2s;position:relative;}
+.gc:hover{border-color:var(--border-hover);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.4);}
+.gt{height:110px;display:flex;align-items:center;justify-content:center;font-size:42px;position:relative;background:var(--bg-surface);}
+.gb{position:absolute;top:8px;right:8px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;}
+.gb-hot{background:var(--red);color:#fff;}
+.gb-new{background:var(--gold);color:#0A0A0C;}
+.gb-jp{background:var(--gold);color:#0A0A0C;}
+.gi{padding:10px 12px 12px;}
+.gn{font-size:13px;font-weight:500;margin-bottom:3px;}
+.gp{font-size:11px;color:var(--text-muted);}
+.gr{font-size:11px;color:var(--gold-dim);margin-top:4px;}
+.po{position:absolute;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;}
+.gc:hover .po{opacity:1;}
+.pb{background:var(--hero-grad);color:#fff;border:none;border-radius:var(--radius);padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* ── LIVE ── */
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem;}
+.lc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:all .2s;}
+.lc:hover{border-color:var(--border-hover);transform:translateY(-2px);}
+.lt{height:130px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;background:var(--bg-surface);}
+.li{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:5px;background:rgba(232,75,75,.9);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;}
+.ld{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.lp{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.6);font-size:11px;color:var(--text-secondary);padding:3px 8px;border-radius:4px;}
+.linfo{padding:12px 14px;}
+.ln{font-size:14px;font-weight:500;margin-bottom:2px;}
+.lh{font-size:12px;color:var(--text-muted);}
+.ll{font-size:12px;color:var(--gold-dim);margin-top:6px;}
+
+/* ── SPORTS ── */
+.sl2{display:grid;grid-template-columns:220px 1fr;gap:1.5rem;}
+.ssb{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;height:fit-content;}
+.ssbt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+.spi{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius);cursor:pointer;margin-bottom:2px;transition:all .15s;color:var(--text-secondary);font-size:14px;}
+.spi:hover{background:var(--bg-elevated);color:var(--text-primary);}
+.spi.active{background:var(--accent-bg);color:var(--accent);border:1px solid var(--border);}
+.spc{margin-left:auto;font-size:12px;color:var(--text-muted);}
+.el{display:flex;flex-direction:column;gap:1rem;}
+.ec{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;cursor:pointer;transition:all .2s;}
+.ec:hover{border-color:var(--border-hover);}
+.eh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.eleague{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);}
+.etime{font-size:12px;color:var(--text-muted);}
+.elb{background:var(--red);color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;display:flex;align-items:center;gap:4px;}
+.et{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:16px;}
+.team{display:flex;align-items:center;gap:10px;}
+.team.away{flex-direction:row-reverse;text-align:right;}
+.tl{font-size:28px;}
+.tn{font-size:15px;font-weight:500;}
+.tf{font-size:11px;color:var(--text-muted);margin-top:2px;}
+.sb2{text-align:center;background:var(--bg-elevated);border-radius:var(--radius);padding:6px 14px;min-width:60px;}
+.sc2{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
+.sp2{font-size:10px;color:var(--text-muted);margin-top:2px;}
+.or{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.ob{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:8px;text-align:center;cursor:pointer;transition:all .15s;}
+.ob:hover{border-color:var(--accent);background:var(--accent-bg);}
+.ob.sel{border-color:var(--accent);background:var(--accent-bg);}
+.ol{font-size:11px;color:var(--text-muted);margin-bottom:3px;}
+.ov{font-size:15px;font-weight:600;color:var(--gold);}
+
+/* ── BET SLIP ── */
+.bsb{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg-elevated);border-top:1px solid var(--border-hover);padding:12px 2rem;display:flex;align-items:center;gap:1rem;transform:translateY(100%);transition:transform .3s;}
+.bsb.on{transform:translateY(0);}
+.bsi{flex:1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.bc{background:var(--bg-card);border:1px solid var(--border-hover);border-radius:6px;padding:4px 10px;font-size:12px;display:flex;align-items:center;gap:6px;}
+.bx{cursor:pointer;color:var(--text-muted);font-size:14px;}
+.bx:hover{color:var(--red);}
+.si{width:100px;padding:7px 10px;background:var(--bg-card);border:1px solid var(--border-hover);color:var(--text-primary);border-radius:var(--radius);font-size:14px;font-family:'DM Sans',sans-serif;}
+.br{font-size:13px;color:var(--text-secondary);}
+.br span{color:var(--green);font-weight:500;}
+
+/* ── PROMOS ── */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:2rem;}
+.pc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;position:relative;overflow:hidden;cursor:pointer;transition:all .2s;}
+.pc:hover{border-color:var(--border-hover);transform:translateY(-2px);}
+.pc::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,var(--accent-bg),transparent 70%);}
+.pt{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:600;}
+.pti{font-size:18px;font-weight:600;margin-bottom:6px;}
+.pd{font-size:13px;color:var(--text-secondary);line-height:1.5;}
+.pca{margin-top:14px;display:inline-block;color:var(--gold);font-size:13px;font-weight:500;}
+
+/* ── FEED ── */
+.af{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:2rem;}
+.aft{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+.fi{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;animation:si .4s ease;}
+@keyframes si{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.fa{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+.ft{flex:1;color:var(--text-secondary);}
+.ft b{color:var(--text-primary);font-weight:500;}
+.ftm{font-size:11px;color:var(--text-muted);flex-shrink:0;}
+
+/* ── MODAL ── */
+.mo{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.mo.open{opacity:1;pointer-events:all;}
+.md{background:var(--bg-card);border:1px solid var(--border-hover);border-radius:var(--radius-lg);padding:2rem;width:420px;max-width:90vw;transform:scale(.95);transition:transform .2s;position:relative;}
+.mo.open .md{transform:scale(1);}
+.mdt{font-family:'Cinzel',serif;font-size:18px;margin-bottom:1.5rem;color:var(--gold);}
+.fg{margin-bottom:1rem;}
+.fl{font-size:12px;color:var(--text-secondary);margin-bottom:6px;display:block;}
+.fin{width:100%;padding:10px 14px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-primary);border-radius:var(--radius);font-size:14px;font-family:'DM Sans',sans-serif;transition:border-color .15s;}
+.fin:focus{outline:none;border-color:var(--accent);}
+.ma{display:flex;gap:8px;margin-top:1.5rem;}
+
+/* ── TOAST ── */
+.tc{position:fixed;top:80px;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--bg-elevated);border:1px solid var(--border-hover);border-radius:var(--radius);padding:12px 16px;font-size:13px;min-width:260px;transform:translateX(120%);transition:transform .3s;display:flex;align-items:center;gap:10px;}
+.toast.show{transform:translateX(0);}
+
+@media(max-width:768px){
+  main{padding:1rem;}
+  .hero{padding:1.5rem;}
+  .jp-badge{display:none;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .sl2{grid-template-columns:1fr;}
+  .ssb{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="vbadge"><div class="dot"></div><span id="vtext">Initialising…</span></div>
+
+<header>
+  <div class="hi">
+    <a class="logo" href="#" data-mp-track="logo_click">
+      <div class="logo-icon">M</div>MIXSTAKE
+    </a>
+    <nav>
+      <button class="nt active" onclick="switchTab('casino',this)" data-mp-track="nav_casino">🎰 Casino</button>
+      <button class="nt" onclick="switchTab('sports',this)" data-mp-track="nav_sports">⚽ Sportsbook</button>
+      <button class="nt" onclick="switchTab('live',this)" data-mp-track="nav_live">🎬 Live Casino</button>
+      <button class="nt" onclick="switchTab('promos',this)" data-mp-track="nav_promos">🎁 Promos</button>
+    </nav>
+    <div class="ha">
+      <div class="bal">💰 <span class="bal-val" id="bal">$2,450.00</span></div>
+      <button class="btn btn-g" onclick="showModal('login')" data-mp-track="header_login">Log in</button>
+      <button class="btn btn-p" id="reg-btn" onclick="showModal('register')" data-mp-track="header_register">Register</button>
+    </div>
+  </div>
+</header>
+
+<div class="tc" id="tc"></div>
+
+<div class="bsb" id="bsb">
+  <div style="font-size:13px;font-weight:600;white-space:nowrap;">📋 Bet Slip</div>
+  <div class="bsi" id="bchips"></div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <input class="si" type="number" id="stake" value="10" min="1" oninput="updReturn()">
+    <div class="br">Return: <span id="bret">$0.00</span></div>
+  </div>
+  <button class="btn btn-p" onclick="placeBet()" data-mp-track="place_bet">Place Bet</button>
+  <button class="btn btn-g" onclick="clearBets()">Clear</button>
+</div>
+
+<main>
+
+  <!-- CASINO -->
+  <section id="sec-casino" class="sec active">
+    <div id="vip-lobby">
+      <div class="vip-title">👑 VIP Members Lounge</div>
+      <div class="vip-desc">Exclusive access to high-limit tables, priority withdrawals, and a personal account manager.</div>
+      <div class="vip-perks">
+        <div class="vip-perk">⚡ Priority Withdrawals</div>
+        <div class="vip-perk">💎 Dedicated Manager</div>
+        <div class="vip-perk">🎁 15% Weekly Cashback</div>
+        <div class="vip-perk">🃏 Private Tables</div>
+        <div class="vip-perk">✈️ Exclusive Events</div>
+      </div>
+    </div>
+
+    <div class="hero" id="hero">
+      <div class="hero-eye" id="h-eye">⭐ Featured This Week</div>
+      <h1 class="hero-title" id="h-title">Where Fortune<br>Favours the Bold</h1>
+      <p class="hero-sub" id="h-sub">Play 3,000+ premium slots, live tables, and jackpot games. New players get up to $1,000 + 200 Free Spins.</p>
+      <div class="hero-cta">
+        <button class="btn btn-p" style="font-size:15px;padding:12px 28px;" id="h-cta" onclick="heroCTA()" data-mp-track="hero_cta_primary">Claim Bonus</button>
+        <button class="btn btn-g" style="font-size:15px;padding:12px 28px;" onclick="track('CTA Clicked',{cta:'Browse Games',location:'hero'})" data-mp-track="hero_cta_secondary">Browse Games</button>
+      </div>
+      <div class="jp-badge">
+        <div class="jp-label">Mega Jackpot</div>
+        <div class="jp-val" id="jpv">$1,247,830</div>
+        <div class="jp-tick">↑ Growing fast</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="sc"><div class="sl">Active Players</div><div class="sv" id="sp">3,241</div><div class="sd">↑ 12% vs yesterday</div></div>
+      <div class="sc"><div class="sl">Games Played Today</div><div class="sv" id="sg">18,405</div><div class="sd">↑ 8% vs yesterday</div></div>
+      <div class="sc"><div class="sl">Biggest Win Today</div><div class="sv">$84,200</div><div class="sd" style="color:var(--gold)">Lucky Streak Slots</div></div>
+      <div class="sc"><div class="sl">Bonus Offer</div><div class="sv" id="sbonus">200 Spins</div><div class="sd">New player bonus</div></div>
+    </div>
+
+    <div class="af"><div class="aft">🔴 Live Winners</div><div id="feed"></div></div>
+
+    <div class="sh"><div class="st">🔥 Hot Slots</div><span class="sa" onclick="track('See All Clicked',{category:'slots'})" data-mp-track="see_all_slots">See all 500+</span></div>
+    <div class="gg" id="slots-g"></div>
+
+    <div class="sh"><div class="st">🃏 Table Games</div><span class="sa" onclick="track('See All Clicked',{category:'tables'})" data-mp-track="see_all_tables">See all</span></div>
+    <div class="gg" id="tables-g"></div>
+  </section>
+
+  <!-- LIVE -->
+  <section id="sec-live" class="sec">
+    <div class="hero" style="margin-bottom:2rem;">
+      <div class="hero-eye">🔴 LIVE NOW</div>
+      <h1 class="hero-title" style="-webkit-text-fill-color:var(--text-primary);background:none;">Real Dealers.<br>Real Action.</h1>
+      <p class="hero-sub">Join thousands at our HD live tables with professional dealers, 24/7.</p>
+      <div class="hero-cta"><button class="btn btn-p" style="font-size:15px;padding:12px 28px;" onclick="track('CTA Clicked',{cta:'Join Live Table',location:'live_hero'})" data-mp-track="live_hero_cta">Join a Table Now</button></div>
+    </div>
+    <div class="sh"><div class="st">🎰 Live Tables</div><span class="sa">See all 80+ tables</span></div>
+    <div class="lg" id="live-g"></div>
+  </section>
+
+  <!-- SPORTS -->
+  <section id="sec-sports" class="sec">
+    <div class="sl2">
+      <div class="ssb"><div class="ssbt">Sports</div><div id="sport-list"></div></div>
+      <div>
+        <div class="sh"><div class="st" id="ev-title">⚽ Football — Today</div><span class="sa">All markets</span></div>
+        <div class="el" id="ev-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMOS -->
+  <section id="sec-promos" class="sec">
+    <div class="hero" style="margin-bottom:2rem;">
+      <div class="hero-eye">🎁 Exclusive Offers</div>
+      <h1 class="hero-title" style="-webkit-text-fill-color:var(--text-primary);background:none;">Boost Your Bankroll</h1>
+      <p class="hero-sub">Generous bonuses, free spins, and cashback. New deals every week.</p>
+    </div>
+    <div class="pg" id="promo-g"></div>
+  </section>
+
+</main>
+
+<!-- MODAL -->
+<div class="mo" id="modal" onclick="closeModal()">
+  <div class="md" onclick="event.stopPropagation()">
+    <div class="mdt" id="m-title">Register</div>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<!-- MIXPANEL SDK -->
+<script>
+(function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(c){d[c]=function(){call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e].concat(call2))}}for(var d={},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
+
+mixpanel.init('5d00750a9ec9cec303dc27e371033fa8', {
+  api_host: 'https://express-proxy-lmozz6xkha-uc.a.run.app',
+  record_sessions_percent: 100,
+  record_mask_text_selector: '',
+  record_block_selector: '',
+  flags: true
+});
+</script>
+
+<script>
+// ═══════════════════════════════════════════
+// IDENTITY
+// ═══════════════════════════════════════════
+const UID = (() => {
+  let id = localStorage.getItem('ms_uid');
+  if (!id) { id = 'visitor_' + Math.random().toString(36).substr(2,9); localStorage.setItem('ms_uid', id); }
+  return id;
+})();
+
+mixpanel.identify(UID);
+mixpanel.people.set_once({
+  '$name': UID,
+  first_seen: new Date().toISOString(),
+  device: /Mobi/.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
+});
+
+// ═══════════════════════════════════════════
+// EXPERIMENT STATE
+// ═══════════════════════════════════════════
+let EXP = {
+  hero_banner_test: 'control',
+  bonus_offer_test: 'control',
+  vip_lobby_test:   'control',
+};
+
+// Super properties — attached to EVERY event automatically
+function setSuperProps() {
+  mixpanel.register({
+    hero_banner_variant:  EXP.hero_banner_test,
+    bonus_offer_variant:  EXP.bonus_offer_test,
+    vip_lobby_variant:    EXP.vip_lobby_test,
+  });
+}
+
+// NOTE: $experiment_started is now fired automatically by
+// mixpanel.flags.getVariantValue() — no manual firing needed
+
+// ═══════════════════════════════════════════
+// FETCH FLAGS — using Mixpanel SDK directly (most reliable method)
+// ═══════════════════════════════════════════
+function loadFlags() {
+  // ── URL PARAMETER OVERRIDE (for demos) ──
+  // Usage: index.html?hero=variant_b&bonus=variant_a&vip=variant_a
+  const params = new URLSearchParams(window.location.search);
+  const urlHero  = params.get('hero');
+  const urlBonus = params.get('bonus');
+  const urlVip   = params.get('vip');
+
+  if (urlHero || urlBonus || urlVip) {
+    if (urlHero)  EXP.hero_banner_test = urlHero;
+    if (urlBonus) EXP.bonus_offer_test = urlBonus;
+    if (urlVip)   EXP.vip_lobby_test   = urlVip;
+    setSuperProps();
+    applyVariants();
+    return;
+  }
+
+  // Use the async getVariantValue which waits for flags to be ready
+  async function readFlagsAsync() {
+    try {
+      // loadFlags() explicitly fetches flags from Mixpanel servers
+      // required when flags module exists but hasn't auto-loaded yet
+      if (mixpanel.flags && mixpanel.flags.load_flags) {
+        await mixpanel.flags.load_flags();
+      }
+      const hero  = await mixpanel.flags.get_variant_value('hero_banner_test',  'control');
+      const bonus = await mixpanel.flags.get_variant_value('bonus_offer_test',  'control');
+      const vip   = await mixpanel.flags.get_variant_value('vip_lobby_test',    'control');
+
+      EXP.hero_banner_test = hero  || 'control';
+      EXP.bonus_offer_test = bonus || 'control';
+      EXP.vip_lobby_test   = vip   || 'control';
+
+      console.log('Flags loaded from Mixpanel:', EXP);
+    } catch(e) {
+      console.log('Flag SDK error — using random fallback:', e.message);
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+      EXP.hero_banner_test = pick(['control','variant_a','variant_b']);
+      EXP.bonus_offer_test = pick(['control','variant_a']);
+      EXP.vip_lobby_test   = pick(['control','variant_a']);
+    }
+    setSuperProps();
+    applyVariants();
+  }
+
+  readFlagsAsync();
+}
+
+// ═══════════════════════════════════════════
+// APPLY VARIANTS TO UI
+// ═══════════════════════════════════════════
+const HERO_CONTENT = {
+  control: {
+    eye:   '⭐ Featured This Week',
+    title: 'Where Fortune<br>Favours the Bold',
+    sub:   'Play 3,000+ premium slots, live tables, and jackpot games. New players get up to $1,000 + 200 Free Spins.',
+    cta:   'Claim Bonus',
+    cls:   '',
+  },
+  variant_a: {
+    eye:   '✦ Clean. Simple. Winning.',
+    title: 'Your Game,<br>Your Rules.',
+    sub:   'A smarter way to play. Transparent odds, instant withdrawals, and games from the world\'s top providers.',
+    cta:   'Start Playing Free',
+    cls:   'va',
+  },
+  variant_b: {
+    eye:   '🔥 Maximum Action',
+    title: 'Go Big or<br>Go Home.',
+    sub:   'No deposit needed. $50 FREE when you sign up today. High limits, massive jackpots. Are you ready?',
+    cta:   '⚡ Claim $50 FREE Now',
+    cls:   'vb',
+  },
+};
+
+const BONUS_CONTENT = {
+  control:   { label: '200 Spins',   btn: 'Register' },
+  variant_a: { label: '$50 FREE',    btn: 'Get $50 Free' },
+};
+
+function applyVariants() {
+  // hero_banner_test
+  const h = HERO_CONTENT[EXP.hero_banner_test] || HERO_CONTENT.control;
+  document.body.className = h.cls;
+  document.getElementById('h-eye').textContent   = h.eye;
+  document.getElementById('h-title').innerHTML   = h.title;
+  document.getElementById('h-sub').textContent   = h.sub;
+  document.getElementById('h-cta').textContent   = h.cta;
+
+  // bonus_offer_test
+  const b = BONUS_CONTENT[EXP.bonus_offer_test] || BONUS_CONTENT.control;
+  document.getElementById('sbonus').textContent  = b.label;
+  document.getElementById('reg-btn').textContent = b.btn;
+
+  // vip_lobby_test
+  if (EXP.vip_lobby_test === 'variant_a') {
+    document.getElementById('vip-lobby').classList.add('on');
+  }
+
+  // Update debug badge
+  document.getElementById('vtext').textContent =
+    `hero:${EXP.hero_banner_test} · bonus:${EXP.bonus_offer_test} · vip:${EXP.vip_lobby_test}`;
+
+  // Track page view now that variants are known
+  track('Page Viewed', { page: 'Casino Home' });
+}
+
+loadFlags();
+
+// ═══════════════════════════════════════════
+// HEATMAP SUPPORT
+// Click tracker — fires $mp_click on every
+// data-mp-track element for heatmap richness
+// ═══════════════════════════════════════════
+document.addEventListener('click', function(e) {
+  const el = e.target.closest('[data-mp-track]');
+  if (el) {
+    track('$mp_click', {
+      element:    el.getAttribute('data-mp-track'),
+      element_id: el.id || null,
+      text:       el.textContent.trim().slice(0, 50),
+      page:       window.location.pathname,
+    });
+  }
+}, true);
+
+// ═══════════════════════════════════════════
+// TRACKING HELPER — variants auto-attached via super props
+// ═══════════════════════════════════════════
+function track(event, props) {
+  mixpanel.track(event, props || {});
+}
+
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const SLOTS = [
+  {n:'Lucky Streak',   p:'NetEnt',      e:'🍀', r:'96.4%', b:'hot'},
+  {n:'Book of Dead',   p:"Play'n GO",   e:'📖', r:'94.2%', b:'hot'},
+  {n:'Starburst',      p:'NetEnt',      e:'⭐', r:'96.1%'},
+  {n:'Mega Moolah',    p:'Microgaming', e:'🦁', r:'88.1%', b:'jp'},
+  {n:"Gonzo's Quest",  p:'NetEnt',      e:'🗺️', r:'95.9%'},
+  {n:'Wolf Gold',      p:'Pragmatic',   e:'🐺', r:'96.0%', b:'new'},
+  {n:'Sweet Bonanza',  p:'Pragmatic',   e:'🍬', r:'96.5%', b:'hot'},
+  {n:'Fire Joker',     p:"Play'n GO",   e:'🃏', r:'96.2%'},
+];
+const TABLES = [
+  {n:'European Roulette', p:'Evolution',   e:'🎡', r:'97.3%'},
+  {n:'Blackjack Pro',     p:'Microgaming', e:'♠️', r:'99.5%', b:'hot'},
+  {n:'Baccarat',          p:'Evolution',   e:'🎴', r:'98.9%'},
+  {n:"Texas Hold'em",     p:'NetEnt',      e:'🃏', r:'97.8%', b:'new'},
+];
+const LIVE = [
+  {n:'Immersive Roulette', h:'Sofia',    e:'🎡', pl:847,  lim:'$1–$2,500'},
+  {n:'Infinite Blackjack', h:'Carlos',   e:'♠️', pl:1204, lim:'$5–$5,000'},
+  {n:'Speed Baccarat A',   h:'Mei',      e:'🎴', pl:523,  lim:'$10–$10,000'},
+  {n:'Crazy Time',         h:'Multiple', e:'🎪', pl:3892, lim:'$0.10–$1,000'},
+  {n:'Lightning Roulette', h:'James',    e:'⚡', pl:2105, lim:'$0.20–$5,000'},
+  {n:'Power Blackjack',    h:'Anna',     e:'💪', pl:412,  lim:'$1–$2,500'},
+];
+const SPORTS_DATA = [
+  {e:'⚽',n:'Football',c:142},{e:'🏀',n:'Basketball',c:87},
+  {e:'🎾',n:'Tennis',c:65},{e:'🏈',n:'Am. Football',c:34},
+  {e:'🏒',n:'Ice Hockey',c:28},{e:'⚾',n:'Baseball',c:22},
+];
+const EVENTS_DATA = [
+  {h:'Manchester City',a:'Real Madrid',  lg:'UEFA Champions League',ho:2.10,dr:3.40,aw:3.20,he:'🔵',ae:'⚪',sc:'1-0',per:"72'", live:true},
+  {h:'Barcelona',      a:'Bayern Munich',lg:'UEFA Champions League',ho:2.80,dr:3.20,aw:2.50,he:'🔴',ae:'⚫',sc:'0-0',per:"45'",live:true},
+  {h:'Arsenal',        a:'PSG',          lg:'Europa League',        ho:1.95,dr:3.50,aw:3.80,he:'🔴',ae:'🔵',sc:'',  per:'Tomorrow 20:45',live:false},
+  {h:'Liverpool',      a:'Juventus',     lg:'Champions League',     ho:1.75,dr:3.80,aw:4.50,he:'🔴',ae:'⚫',sc:'',  per:'Thu 18:30',live:false},
+];
+const PROMOS_DATA = [
+  {tag:'Welcome Bonus',  title:'100% up to $1,000',   desc:'Double your first deposit + 200 free spins on Book of Dead.',     e:'🎁'},
+  {tag:'Reload Bonus',   title:'50% Every Friday',    desc:'Get 50% extra on every Friday deposit up to $500.',               e:'💰'},
+  {tag:'Cashback',       title:'10% Weekly Cashback', desc:'Get 10% back on net losses every Monday, up to $200.',            e:'🔄'},
+  {tag:'Free Spins',     title:'50 Spins Daily',      desc:'Log in every day and claim 50 free spins on selected slots.',     e:'🌀'},
+  {tag:'VIP Program',    title:'Exclusive VIP Rewards',desc:'Earn points on every bet. Unlock cashback and a personal manager.',e:'👑'},
+  {tag:'Refer a Friend', title:'$100 for Each Friend',desc:'Share your link. Get $100 when your friend makes their first deposit.',e:'👥'},
+];
+const NAMES  = ['Alex K.','Maria S.','John D.','Emma W.','Luca R.','Sofia B.','Max T.','Nina P.'];
+const AVCOLS = ['#C9A84C','#4B8DE8','#3DBA6A','#E84B4B','#9B59B6','#E67E22'];
+const ALL_GAME_NAMES = [...SLOTS,...TABLES,...LIVE].map(g=>g.n);
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function renderGames(arr, id, type) {
+  document.getElementById(id).innerHTML = arr.map(g=>`
+    <div class="gc" onclick="playGame('${g.n}','${type}')" data-mp-track="game_card_${type}">
+      <div class="gt">${g.e}
+        ${g.b==='hot'?'<div class="gb gb-hot">HOT</div>':g.b==='new'?'<div class="gb gb-new">NEW</div>':g.b==='jp'?'<div class="gb gb-jp">JP</div>':''}
+        <div class="po"><button class="pb">▶ Play</button></div>
+      </div>
+      <div class="gi"><div class="gn">${g.n}</div><div class="gp">${g.p}</div><div class="gr">RTP ${g.r}</div></div>
+    </div>`).join('');
+}
+
+function renderLive() {
+  document.getElementById('live-g').innerHTML = LIVE.map(t=>`
+    <div class="lc" onclick="joinLive('${t.n}')" data-mp-track="live_table_card">
+      <div class="lt">${t.e}
+        <div class="li"><div class="ld"></div>LIVE</div>
+        <div class="lp">👤 ${t.pl.toLocaleString()}</div>
+      </div>
+      <div class="linfo"><div class="ln">${t.n}</div><div class="lh">Host: ${t.h}</div><div class="ll">${t.lim}</div></div>
+    </div>`).join('');
+}
+
+function renderSports() {
+  document.getElementById('sport-list').innerHTML = SPORTS_DATA.map((s,i)=>`
+    <div class="spi ${i===0?'active':''}" onclick="selSport(this,'${s.n}','${s.e}')" data-mp-track="sport_item">
+      <span>${s.e}</span><span>${s.n}</span><span class="spc">${s.c}</span>
+    </div>`).join('');
+  renderEvents();
+}
+
+function renderEvents() {
+  document.getElementById('ev-list').innerHTML = EVENTS_DATA.map(ev=>`
+    <div class="ec">
+      <div class="eh">
+        <span class="eleague">${ev.lg}</span>
+        ${ev.live?`<span class="elb"><span class="ld"></span>${ev.sc} · ${ev.per}</span>`:`<span class="etime">🕐 ${ev.per}</span>`}
+      </div>
+      <div class="et">
+        <div class="team"><span class="tl">${ev.he}</span><div><div class="tn">${ev.h}</div><div class="tf">W W D W W</div></div></div>
+        ${ev.live?`<div class="sb2"><div class="sc2">${ev.sc}</div><div class="sp2">Live</div></div>`:'<div style="color:var(--text-muted);font-size:13px">vs</div>'}
+        <div class="team away"><span class="tl">${ev.ae}</span><div><div class="tn">${ev.a}</div><div class="tf">D W W L W</div></div></div>
+      </div>
+      <div class="or">
+        <div class="ob" onclick="addBet('${ev.h}',${ev.ho})" data-mp-track="odds_btn_home"><div class="ol">1 ${ev.h.split(' ')[0]}</div><div class="ov">${ev.ho}</div></div>
+        <div class="ob" onclick="addBet('Draw',${ev.dr})" data-mp-track="odds_btn_draw"><div class="ol">X Draw</div><div class="ov">${ev.dr}</div></div>
+        <div class="ob" onclick="addBet('${ev.a}',${ev.aw})" data-mp-track="odds_btn_away"><div class="ol">2 ${ev.a.split(' ')[0]}</div><div class="ov">${ev.aw}</div></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderPromos() {
+  document.getElementById('promo-g').innerHTML = PROMOS_DATA.map(p=>`
+    <div class="pc" onclick="track('Promo Clicked',{promo:'${p.title}',location:'promos_tab'})" data-mp-track="promo_card">
+      <div class="pt">${p.tag}</div>
+      <div style="font-size:32px;margin-bottom:8px">${p.e}</div>
+      <div class="pti">${p.title}</div>
+      <div class="pd">${p.desc}</div>
+      <div class="pca">Claim now →</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════
+function switchTab(tab, btn) {
+  document.querySelectorAll('.nt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+tab).classList.add('active');
+  track('Tab Switched', { tab });
+}
+
+function heroCTA() {
+  track('CTA Clicked', {
+    cta: document.getElementById('h-cta').textContent,
+    location: 'hero',
+  });
+  showModal('register');
+}
+
+let balance = 2450;
+function updBal(d) {
+  balance = Math.max(0, balance + d);
+  document.getElementById('bal').textContent = '$' + balance.toFixed(2);
+}
+
+function playGame(name, type) {
+  track('Game Opened', { game_name: name, game_type: type });
+  showToast('🎮', `Loading ${name}…`);
+  setTimeout(() => {
+    const win = Math.random() > 0.45;
+    const amt = (Math.random() * (win ? 200 : 50) + 2).toFixed(2);
+    track('Game Round Completed', { game_name: name, result: win?'win':'loss', amount: parseFloat(amt), game_type: type });
+    if (win) { showToast('🏆', `You won $${amt} on ${name}!`, 'green'); updBal(parseFloat(amt)); }
+    else     { showToast('😔', `Better luck next time on ${name}`, 'red'); updBal(-parseFloat(amt)); }
+    addFeed(NAMES[Math.floor(Math.random()*NAMES.length)], amt, name);
+  }, 1200);
+}
+
+function joinLive(name) {
+  track('Live Table Joined', { table_name: name });
+  showToast('🎬', `Joining ${name}…`);
+}
+
+function selSport(el, name, emoji) {
+  document.querySelectorAll('.spi').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('ev-title').textContent = `${emoji} ${name} — Today`;
+  track('Sport Selected', { sport: name });
+}
+
+// BET SLIP
+let bets = [];
+function addBet(sel, odds) {
+  bets.push({ sel, odds });
+  renderBetSlip();
+  track('Bet Added to Slip', { selection: sel, odds });
+}
+function renderBetSlip() {
+  const slip = document.getElementById('bsb');
+  if (!bets.length) { slip.classList.remove('on'); return; }
+  slip.classList.add('on');
+  document.getElementById('bchips').innerHTML = bets.map((b,i)=>`
+    <div class="bc">${b.sel} @ <b style="color:var(--gold)">${b.odds}</b>
+    <span class="bx" onclick="remBet(${i})">×</span></div>`).join('');
+  updReturn();
+}
+function remBet(i) { bets.splice(i,1); renderBetSlip(); }
+function clearBets() { bets=[]; renderBetSlip(); }
+function updReturn() {
+  const stake = parseFloat(document.getElementById('stake').value)||0;
+  const tot = bets.reduce((a,b)=>a*b.odds,1);
+  document.getElementById('bret').textContent = '$'+(stake*tot).toFixed(2);
+}
+function placeBet() {
+  if (!bets.length) return;
+  const stake = parseFloat(document.getElementById('stake').value)||10;
+  const tot = bets.reduce((a,b)=>a*b.odds,1);
+  track('Bet Placed', {
+    num_selections: bets.length,
+    stake,
+    potential_return: parseFloat((stake*tot).toFixed(2)),
+    bet_type: bets.length===1?'single':'accumulator',
+    selections: bets.map(b=>b.sel).join(', '),
+  });
+  updBal(-stake);
+  showToast('✅', `Bet placed! Potential return: $${(stake*tot).toFixed(2)}`, 'green');
+  clearBets();
+}
+
+// FEED
+function addFeed(name, amount, game) {
+  const feed = document.getElementById('feed');
+  if (!feed) return;
+  const c = AVCOLS[Math.floor(Math.random()*AVCOLS.length)];
+  const item = document.createElement('div');
+  item.className = 'fi';
+  item.innerHTML = `<div class="fa" style="background:${c}22;color:${c}">${name[0]}</div><div class="ft"><b>${name}</b> won <span style="color:var(--green)">$${amount}</span> on ${game}</div><div class="ftm">just now</div>`;
+  feed.insertBefore(item, feed.firstChild);
+  if (feed.children.length > 8) feed.removeChild(feed.lastChild);
+}
+
+// MODAL
+function showModal(type) {
+  document.getElementById('m-title').textContent = type==='login' ? 'Welcome Back' : 'Create Account';
+  document.getElementById('m-body').innerHTML = type==='login'
+    ? `<div class="fg"><label class="fl">Email</label><input class="fin" type="email" placeholder="you@example.com"></div><div class="fg"><label class="fl">Password</label><input class="fin" type="password" placeholder="••••••••"></div><div class="ma"><button class="btn btn-p" style="flex:1" onclick="doLogin()">Log in</button><button class="btn btn-g" onclick="closeModal()">Cancel</button></div>`
+    : `<div class="fg"><label class="fl">Full Name</label><input class="fin" type="text" placeholder="John Doe"></div><div class="fg"><label class="fl">Email</label><input class="fin" type="email" placeholder="you@example.com"></div><div class="fg"><label class="fl">Password</label><input class="fin" type="password" placeholder="Min. 8 characters"></div><div class="ma"><button class="btn btn-p" style="flex:1" onclick="doRegister()">Create Account</button><button class="btn btn-g" onclick="closeModal()">Cancel</button></div>`;
+  document.getElementById('modal').classList.add('open');
+  track('Modal Opened', { modal_type: type });
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function doLogin() {
+  track('Login Completed', {});
+  mixpanel.people.set({ last_login: new Date().toISOString() });
+  closeModal(); showToast('✅','Logged in!','green'); updBal(500);
+}
+function doRegister() {
+  track('Registration Completed', {
+    source: 'hero_cta',
+    hero_variant:  EXP.hero_banner_test,
+    bonus_variant: EXP.bonus_offer_test,
+  });
+  mixpanel.people.set({ registered: true, registration_date: new Date().toISOString() });
+  closeModal(); showToast('🎉','Welcome to MixStake! Your bonus is ready.','green'); updBal(1000);
+}
+
+// TOAST
+function showToast(icon, msg, type='') {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  if (type==='green') t.style.borderColor='rgba(61,186,106,0.4)';
+  if (type==='red')   t.style.borderColor='rgba(232,75,75,0.4)';
+  t.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+  document.getElementById('tc').appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 3500);
+}
+
+// ═══════════════════════════════════════════
+// LIVE TICKERS
+// ═══════════════════════════════════════════
+setInterval(()=>{
+  const el=document.getElementById('jpv'); if(!el) return;
+  let v=parseInt(el.textContent.replace(/[$,]/g,''))||1247830;
+  el.textContent='$'+(v+Math.floor(Math.random()*50+10)).toLocaleString();
+},800);
+
+setInterval(()=>{
+  const p=document.getElementById('sp'), g=document.getElementById('sg');
+  if(p){let v=parseInt(p.textContent.replace(',',''))||3241; v+=Math.floor(Math.random()*3-1); p.textContent=v.toLocaleString();}
+  if(g){let v=parseInt(g.textContent.replace(',',''))||18405; v+=Math.floor(Math.random()*5); g.textContent=v.toLocaleString();}
+},3000);
+
+setInterval(()=>{
+  const n=NAMES[Math.floor(Math.random()*NAMES.length)];
+  const gm=ALL_GAME_NAMES[Math.floor(Math.random()*ALL_GAME_NAMES.length)];
+  addFeed(n,(Math.random()*500+5).toFixed(2),gm);
+},3500);
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+renderGames(SLOTS,'slots-g','slot');
+renderGames(TABLES,'tables-g','table');
+renderLive();
+renderSports();
+renderPromos();
+
+// Seed feed
+setTimeout(()=>{
+  ['Lucky Streak','Crazy Time','Mega Moolah'].forEach((g,i)=>
+    setTimeout(()=>addFeed(NAMES[i],(Math.random()*400+20).toFixed(2),g),i*200));
+},500);
+</script>
+</body>
+</html>
