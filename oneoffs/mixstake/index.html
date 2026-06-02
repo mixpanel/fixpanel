@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MixStake — Casino & Sportsbook</title>
+<title>MixStake — iGaming Demo | Fixpanel</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -282,7 +282,7 @@ body.va .hero-title,body.vb .hero-title{-webkit-text-fill-color:var(--text-prima
       <p class="hero-sub" id="h-sub">Play 3,000+ premium slots, live tables, and jackpot games. New players get up to $1,000 + 200 Free Spins.</p>
       <div class="hero-cta">
         <button class="btn btn-p" style="font-size:15px;padding:12px 28px;" id="h-cta" onclick="heroCTA()" data-mp-track="hero_cta_primary">Claim Bonus</button>
-        <button class="btn btn-g" style="font-size:15px;padding:12px 28px;" onclick="track('CTA Clicked',{cta:'Browse Games',location:'hero'})" data-mp-track="hero_cta_secondary">Browse Games</button>
+        <button class="btn btn-g" style="font-size:15px;padding:12px 28px;" onclick="track('CTA Clicked',{cta:'Browse Games',location:'hero'});document.getElementById('slots-g').scrollIntoView({behavior:'smooth'})" data-mp-track="hero_cta_secondary">Browse Games</button>
       </div>
       <div class="jp-badge">
         <div class="jp-label">Mega Jackpot</div>
@@ -354,9 +354,9 @@ body.va .hero-title,body.vb .hero-title{-webkit-text-fill-color:var(--text-prima
 <script>
 (function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(c){d[c]=function(){call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e].concat(call2))}}for(var d={},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
 
-mixpanel.init('5d00750a9ec9cec303dc27e371033fa8', {
-  api_host: 'https://express-proxy-lmozz6xkha-uc.a.run.app',
+mixpanel.init('2a293ea60cc4e8c561adff80398c37d5', {
   record_sessions_percent: 100,
+  remote_settings_mode: 'fallback',
   record_mask_text_selector: '',
   record_block_selector: '',
   flags: true
@@ -379,6 +379,16 @@ mixpanel.people.set_once({
   first_seen: new Date().toISOString(),
   device: /Mobi/.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
 });
+
+// RESET function — Fixpanel convention
+// Clears identity, assigns new user ID, reloads with fresh variant assignment
+window.RESET = function() {
+  mixpanel.reset();
+  localStorage.removeItem('ms_uid');
+  sessionStorage.removeItem('ms_exp_fired');
+  window.location.reload();
+};
+window.mixpanel = mixpanel;
 
 // ═══════════════════════════════════════════
 // EXPERIMENT STATE
@@ -406,7 +416,7 @@ function setSuperProps() {
 // ═══════════════════════════════════════════
 function loadFlags() {
   // ── URL PARAMETER OVERRIDE (for demos) ──
-  // Usage: index.html?hero=variant_b&bonus=variant_a&vip=variant_a
+  // Usage: mixpanel.github.io/fixpanel/mixstake/?hero=variant_b&bonus=variant_a&vip=variant_a
   const params = new URLSearchParams(window.location.search);
   const urlHero  = params.get('hero');
   const urlBonus = params.get('bonus');
@@ -422,34 +432,49 @@ function loadFlags() {
   }
 
   // Use the async getVariantValue which waits for flags to be ready
-  async function readFlagsAsync() {
-    try {
-      // loadFlags() explicitly fetches flags from Mixpanel servers
-      // required when flags module exists but hasn't auto-loaded yet
-      if (mixpanel.flags && mixpanel.flags.load_flags) {
-        await mixpanel.flags.load_flags();
-      }
-      const hero  = await mixpanel.flags.get_variant_value('hero_banner_test',  'control');
-      const bonus = await mixpanel.flags.get_variant_value('bonus_offer_test',  'control');
-      const vip   = await mixpanel.flags.get_variant_value('vip_lobby_test',    'control');
+  // The SDK calls /flags endpoint and gets real variant assignments back (confirmed).
+  // We call the same endpoint directly to read the response since
+  // mixpanel.flags.get_variant_value is not available in the CDN snippet build.
+  function readFlagsFromAPI() {
+    const token = '2a293ea60cc4e8c561adff80398c37d5';
+    const context = encodeURIComponent(JSON.stringify({ distinct_id: UID }));
+    const url = `https://api.mixpanel.com/flags?token=${token}&context=${context}`;
 
-      EXP.hero_banner_test = hero  || 'control';
-      EXP.bonus_offer_test = bonus || 'control';
-      EXP.vip_lobby_test   = vip   || 'control';
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        const flags = data.flags || {};
+        console.log('Flags from Mixpanel:', flags);
 
-      console.log('Flags loaded from Mixpanel:', EXP);
-    } catch(e) {
-      console.log('Flag SDK error — using random fallback:', e.message);
-      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-      EXP.hero_banner_test = pick(['control','variant_a','variant_b']);
-      EXP.bonus_offer_test = pick(['control','variant_a']);
-      EXP.vip_lobby_test   = pick(['control','variant_a']);
-    }
-    setSuperProps();
-    applyVariants();
+        // Each flag has variant_value property
+        if (flags.hero_banner_test) EXP.hero_banner_test = flags.hero_banner_test.variant_value || 'control';
+        if (flags.bonus_offer_test) EXP.bonus_offer_test = flags.bonus_offer_test.variant_value || 'control';
+        if (flags.vip_lobby_test)   EXP.vip_lobby_test   = flags.vip_lobby_test.variant_value   || 'control';
+
+        // Fire $experiment_started for each active experiment
+        ['hero_banner_test','bonus_offer_test','vip_lobby_test'].forEach(exp => {
+          if (flags[exp] && flags[exp].is_experiment_active) {
+            mixpanel.track('$experiment_started', {
+              '$experiment_name': exp,
+              '$variant_name': flags[exp].variant_value
+            });
+          }
+        });
+      })
+      .catch(e => {
+        console.log('Flags fetch failed, using random:', e.message);
+        const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+        EXP.hero_banner_test = pick(['control','variant_a','variant_b']);
+        EXP.bonus_offer_test = pick(['control','variant_a']);
+        EXP.vip_lobby_test   = pick(['control','variant_a']);
+      })
+      .finally(() => {
+        setSuperProps();
+        applyVariants();
+      });
   }
 
-  readFlagsAsync();
+  setTimeout(readFlagsFromAPI, 500);
 }
 
 // ═══════════════════════════════════════════
