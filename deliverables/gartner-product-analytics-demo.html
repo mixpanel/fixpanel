@@ -248,6 +248,14 @@ section[id]{ scroll-margin-top:26px; }
 .story-pillar{ display:inline-block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--purple-07); background:var(--purple-01); border:1px solid var(--purple-02); border-radius:999px; padding:3px 10px; margin:0 0 10px; }
 .story,.diff{ transition:transform .18s ease, box-shadow .18s ease; }
 .story:hover,.diff:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(21,0,64,.08); }
+.story-top{ display:flex; align-items:center; gap:11px; margin-bottom:16px; }
+.story-top .story-ic{ margin-bottom:0; flex:0 0 auto; }
+.story-top .story-pillar{ margin:0; }
+.story-points{ list-style:none; margin:0; padding:0; }
+.story-points li{ position:relative; padding-left:17px; margin-bottom:10px; font-size:13.5px; line-height:1.5; color:var(--gray-09); }
+.story-points li:last-child{ margin-bottom:0; }
+.story-points li::before{ content:""; position:absolute; left:0; top:7px; width:5px; height:5px; border-radius:50%; background:var(--purple-04); }
+.story-points li strong{ color:var(--gray-10); font-weight:500; }
 </style>
 </head>
 <body>
@@ -316,39 +324,57 @@ section[id]{ scroll-margin-top:26px; }
 
 <div class="story-grid">
   <article class="story">
-    <span class="story-ic"><svg fill="currentColor" width="100%" height="100%" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M5 8.5C5 7.47415 4.73911 6.56909 4.34375 5.93652C3.94399 5.29693 3.45574 5 3 5C2.54426 5 2.05601 5.29693 1.65625 5.93652C1.26089 6.56909 1 7.47415 1 8.5C1 9.52585 1.26089 10.4309 1.65625 11.0635C2.05601 11.7031 2.54426 12 3 12C3.45574 12 3.94399 11.7031 4.34375 11.0635C4.73911 10.4309 5 9.52585 5 8.5ZM6 8.5C6 9.68329 5.70087 10.7786 5.19141 11.5938C4.68634 12.4016 3.92481 13 3 13C2.07519 13 1.31366 12.4016 0.808594 11.5938C0.299129 10.7786 0 9.68329 0 8.5C0 7.31671 0.299129 6.22139 0.808594 5.40625C1.31366 4.59835 2.07519 4 3 4C3.92481 4 4.68634 4.59835 5.19141 5.40625C5.70087 6.22139 6 7.31671 6 8.5Z" fill="currentColor"/>
-<path d="M10 8.5C10 6.89266 9.72801 5.46049 9.30664 4.44922C9.09555 3.94265 8.85661 3.56534 8.61719 3.32227C8.37944 3.08092 8.171 3 8 3C7.829 3 7.62056 3.08092 7.38281 3.32227C7.14339 3.56534 6.90445 3.94265 6.69336 4.44922C6.27199 5.46049 6 6.89266 6 8.5C6 10.1073 6.27199 11.5395 6.69336 12.5508C6.90445 13.0573 7.14339 13.4347 7.38281 13.6777C7.62056 13.9191 7.829 14 8 14C8.171 14 8.37944 13.9191 8.61719 13.6777C8.85661 13.4347 9.09555 13.0573 9.30664 12.5508C9.72801 11.5395 10 10.1073 10 8.5ZM11 8.5C11 10.2062 10.7129 11.7743 10.2295 12.9346C9.98825 13.5136 9.68775 14.0148 9.3291 14.3789C8.96866 14.7448 8.51935 15 8 15C7.48064 15 7.03134 14.7448 6.6709 14.3789C6.31225 14.0148 6.01175 13.5136 5.77051 12.9346C5.28715 11.7743 5 10.2062 5 8.5C5 6.79382 5.28715 5.22569 5.77051 4.06543C6.01175 3.48645 6.31225 2.98521 6.6709 2.62109C7.03134 2.2552 7.48064 2 8 2C8.51935 2 8.96866 2.2552 9.3291 2.62109C9.68775 2.98521 9.98825 3.48645 10.2295 4.06543C10.7129 5.22569 11 6.79382 11 8.5Z" fill="currentColor"/>
-<path d="M16 8.5C16 6.33494 15.6702 4.39698 15.1533 3.01855C14.8942 2.32754 14.5978 1.80271 14.2939 1.45996C13.9896 1.11667 13.7199 1 13.5 1C13.2801 1 13.0104 1.11667 12.7061 1.45996C12.4022 1.80271 12.1058 2.32754 11.8467 3.01855C11.3298 4.39698 11 6.33494 11 8.5C11 10.6651 11.3298 12.603 11.8467 13.9814C12.1058 14.6725 12.4022 15.1973 12.7061 15.54C13.0104 15.8833 13.2801 16 13.5 16C13.7199 16 13.9896 15.8833 14.2939 15.54C14.5978 15.1973 14.8942 14.6725 15.1533 13.9814C15.6702 12.603 16 10.6651 16 8.5ZM17 8.5C17 10.753 16.6586 12.8151 16.0898 14.332C15.8061 15.0887 15.4559 15.7362 15.042 16.2031C14.6286 16.6694 14.1086 17 13.5 17C12.8914 17 12.3714 16.6694 11.958 16.2031C11.5441 15.7362 11.1939 15.0887 10.9102 14.332C10.3414 12.8151 10 10.753 10 8.5C10 6.247 10.3414 4.18494 10.9102 2.66797C11.1939 1.91131 11.5441 1.26376 11.958 0.796875C12.3714 0.330574 12.8914 0 13.5 0C14.1086 0 14.6286 0.330574 15.042 0.796875C15.4559 1.26376 15.8061 1.91131 16.0898 2.66797C16.6586 4.18494 17 6.247 17 8.5Z" fill="currentColor"/>
-</svg>
-</span>
-    <span class="story-pillar">mixpanel agent</span>
+    <div class="story-top">
+      <span class="story-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%">
+<circle cx="8" cy="6.5" r="1.6"/>
+<circle cx="15.5" cy="6" r="1.6"/>
+<circle cx="4.5" cy="11" r="1.6"/>
+<circle cx="19" cy="11" r="1.6"/>
+<path d="M12 11c-2.6 0-4.7 2.1-4.7 4.4 0 1.7 1.3 2.9 2.9 2.9.7 0 1.1-.3 1.8-.3s1.1.3 1.8.3c1.6 0 2.9-1.2 2.9-2.9C16.7 13.1 14.6 11 12 11Z"/>
+</svg></span>
+      <span class="story-pillar">mixpanel agent</span>
+    </div>
     <h4 class="story-title">a publicly-traded pet e-commerce leader.</h4>
-    <p>$12B in revenue, ~18,000 employees, running on a fragmented BI stack (a warehouse plus several visualization tools). a team member asked mixpanel agent a plain-language question and surfaced a critical gap in their acquisition costs that the old stack could not answer quickly. the same friction analysis that took ~25 hours in their warehouse now returns near-instantly, with zero added warehouse compute. their ceo uses mixpanel as the tool of record for strategic questions. this is agent for the person who does not want to run queries, they just want the answer.</p>
+    <ul class="story-points">
+      <li>$12B in revenue, ~18,000 employees, on a fragmented BI stack (a warehouse plus several visualization tools).</li>
+      <li>a plain-language question to <strong>mixpanel agent</strong> surfaced a critical gap in their acquisition costs the old stack could not answer.</li>
+      <li>a friction analysis that ran ~25 hours in their warehouse now returns near-instantly, with zero added compute.</li>
+      <li>their ceo uses mixpanel as the tool of record. agent is for people who just want the answer.</li>
+    </ul>
   </article>
   <article class="story">
-    <span class="story-ic"><svg fill="currentColor" width="100%" height="100%" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M16.5 5C16.7761 5 17 5.22386 17 5.5V7.5C17 7.77614 16.7761 8 16.5 8H0.5C0.223858 8 0 7.77614 0 7.5V5.5C0 5.22386 0.223858 5 0.5 5H16.5ZM1 7H16V6H1V7Z" fill="currentColor"/>
-<path d="M15.5 7C15.6517 7 15.7947 7.0692 15.8896 7.1875C15.9845 7.30577 16.0211 7.4604 15.9883 7.6084L14.1621 15.8252C14.0096 16.5114 13.4011 16.9998 12.6982 17H4.30175C3.59888 16.9998 2.99037 16.5114 2.83788 15.8252L1.01171 7.6084C0.978856 7.4604 1.01549 7.30577 1.11035 7.1875C1.20524 7.0692 1.34833 7 1.49999 7H15.5ZM3.81445 15.6084C3.86526 15.837 4.06758 15.9998 4.30175 16H12.6982C12.9324 15.9998 13.1347 15.837 13.1855 15.6084L14.8769 8H2.12304L3.81445 15.6084Z" fill="currentColor"/>
-<path d="M6 9.5V14.5H5V9.5H6Z" fill="currentColor"/>
-<path d="M9 9.5V14.5H8V9.5H9Z" fill="currentColor"/>
-<path d="M12 9.5V14.5H11V9.5H12Z" fill="currentColor"/>
-<path d="M9.5 0C9.70445 0 9.88794 0.124624 9.96387 0.314453L11.9639 5.31445L11.0361 5.68555L9.16211 1H7.83789L5.96387 5.68555L5.03613 5.31445L7.03613 0.314453L7.06934 0.246094C7.15822 0.0952389 7.3212 0 7.5 0H9.5Z" fill="currentColor"/>
-</svg>
-</span>
-    <span class="story-pillar">mixpanel MCP</span>
+    <div class="story-top">
+      <span class="story-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%">
+<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+<circle cx="7" cy="17" r="2"/>
+<path d="M9 17h6"/>
+<circle cx="17" cy="17" r="2"/>
+</svg></span>
+      <span class="story-pillar">mixpanel MCP</span>
+    </div>
     <h4 class="story-title">a global ride-sharing company.</h4>
-    <p>their teams already live inside AI tools, working across many data sources at once. with mixpanel&rsquo;s MCP server, they pull behavioral ground truth (user journeys, funnel structure, what &ldquo;activation&rdquo; means for them) straight into their own AI stack, alongside everything else they have connected, without learning a separate UI. this is MCP for people who use a lot of AI and want mixpanel&rsquo;s data where they already work.</p>
+    <ul class="story-points">
+      <li>their teams live inside AI tools, working across many data sources at once.</li>
+      <li><strong>mixpanel MCP</strong> pulls behavioral ground truth (journeys, funnels, what &ldquo;activation&rdquo; means) into their own AI stack.</li>
+      <li>it sits alongside everything else they have connected, with no separate UI to learn.</li>
+      <li>MCP is for people who use a lot of AI and want mixpanel&rsquo;s data where they already work.</li>
+    </ul>
   </article>
   <article class="story">
-    <span class="story-ic"><svg fill="currentColor" width="100%" height="100%" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 3.5C4 3.22386 3.77614 3 3.5 3C3.22386 3 3 3.22386 3 3.5C3 3.77614 3.22386 4 3.5 4C3.77614 4 4 3.77614 4 3.5ZM5 3.5C5 4.32843 4.32843 5 3.5 5C2.67157 5 2 4.32843 2 3.5C2 2.67157 2.67157 2 3.5 2C4.32843 2 5 2.67157 5 3.5Z" fill="currentColor"/>
-<path d="M8.08594 0C8.48371 3.91419e-05 8.86522 0.158187 9.14648 0.439453L16.1465 7.43945C16.7322 8.02523 16.7322 8.97477 16.1465 9.56055L9.56055 16.1465C8.97476 16.7321 8.0252 16.7322 7.43945 16.1465L0.439453 9.14648C0.158181 8.86522 4.091e-05 8.48371 0 8.08594V1.5C0 0.671573 0.671573 0 1.5 0H8.08594ZM1 8.08594C1.00004 8.21849 1.05275 8.34572 1.14648 8.43945L8.14648 15.4395C8.34171 15.6346 8.65825 15.6346 8.85352 15.4395L15.4395 8.85352C15.6347 8.65826 15.6347 8.34174 15.4395 8.14648L8.43945 1.14648C8.34572 1.05275 8.21849 1.00004 8.08594 1H1.5C1.22386 1 1 1.22386 1 1.5V8.08594Z" fill="currentColor"/>
-</svg>
-</span>
-    <span class="story-pillar">mixpanel headless</span>
+    <div class="story-top">
+      <span class="story-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%">
+<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+<circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>
+</svg></span>
+      <span class="story-pillar">mixpanel headless</span>
+    </div>
     <h4 class="story-title">a uk fashion e-commerce platform.</h4>
-    <p>~&pound;4B in revenue, mid rip-and-replace of a legacy enterprise web analytics suite, with ~15TB compressed (~35 billion events) backfilled so they lose no history. the hard part of any migration is metric continuity: making the new numbers reconcile with the old definitions. they used mixpanel headless, our typed python SDK, to reconcile and validate that continuity from code, so the cutover did not break a single executive&rsquo;s trusted metric. this is headless for the team that builds its own loops.</p>
+    <ul class="story-points">
+      <li>~&pound;4B in revenue, mid rip-and-replace of a legacy enterprise web analytics suite.</li>
+      <li>~15TB compressed (~35 billion events) backfilled, so they lose no history.</li>
+      <li>used <strong>mixpanel headless</strong> (typed python SDK) to reconcile and validate metric continuity from code.</li>
+      <li>the cutover did not break a single executive&rsquo;s trusted metric. headless is for teams that build their own loops.</li>
+    </ul>
   </article>
 </div>
 
