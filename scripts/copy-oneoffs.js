@@ -122,18 +122,20 @@ async function copyDeliverables() {
   for (const file of files) {
     const srcPath = path.join(DELIVERABLES_DIR, file);
     const destPath = path.join(destDir, file);
-    const stat = fs.statSync(srcPath);
+    const isDir = fs.statSync(srcPath).isDirectory();
+    const label = isDir ? `${file}/` : file;
 
-    if (stat.isFile()) {
-      console.log(`  ├─ Copying ${file} → out/deliverables/${file}`);
-      await fs.copy(srcPath, destPath);
-    }
+    // Copy both files and subdirectories (e.g. deliverables/gartner/ with its
+    // images). fs.copy recurses into directories; skip macOS .DS_Store cruft.
+    console.log(`  ├─ Copying ${label} → out/deliverables/${label}`);
+    await fs.copy(srcPath, destPath, { filter: (s) => path.basename(s) !== '.DS_Store' });
   }
 
   console.log('\n✅ Deliverables copied successfully! (no index — direct links only)');
   console.log(`\n📍 Available at:`);
-  files.filter(f => fs.statSync(path.join(DELIVERABLES_DIR, f)).isFile()).forEach(file => {
-    console.log(`   https://mixpanel.github.io/fixpanel/deliverables/${file}`);
+  files.forEach(file => {
+    const isDir = fs.statSync(path.join(DELIVERABLES_DIR, file)).isDirectory();
+    console.log(`   https://mixpanel.github.io/fixpanel/deliverables/${file}${isDir ? '/' : ''}`);
   });
 }
 
