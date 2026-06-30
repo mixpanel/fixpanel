@@ -45,7 +45,19 @@ The platform includes multiple industry-specific microsites:
 - `npm run test:ui` - Run tests in interactive UI mode
 
 ### Build Process
-The build command (`npm run build`) uses Next.js static export and includes a post-build step (`postbuild` script) that automatically copies all oneoff microsites from `./oneoffs/` to `./out/` for deployment alongside the main app. The script excludes build artifacts like `node_modules/`, `package.json`, and `package-lock.json`.
+The build command (`npm run build`) uses Next.js static export and includes a post-build step (`postbuild` script) that automatically copies all oneoff microsites from `./oneoffs/` to `./out/` for deployment alongside the main app. The script excludes build artifacts like `node_modules/`, `package.json`, and `package-lock.json`. `copy-oneoffs.js` also copies `./deliverables/` (including subdirectories, e.g. `deliverables/gartner/` and its images) to `out/`. Pages serves the uploaded artifact directly (no Jekyll), so subfolders/images/fonts ship as-is.
+
+## Deliverables (large self-contained HTML decks)
+
+`./deliverables/*.html` are big, standalone client decks (often **300KB–500KB**) with brand fonts embedded as base64 `data:` URIs. Treat them carefully:
+
+- **Don't read/echo the whole file** — the base64 blobs will blow up context. Inspect with targeted greps and truncate base64, e.g. `grep -oE "@font-face[^}]*\}" f.html | sed -E 's/(base64,)[A-Za-z0-9+/=]+/\1.../g'`, or just count (`grep -o "local(" f | wc -l`). Note `@font-face` may be multi-line (use `node`/`grep -z` if so).
+- **Fonts must be embedded + fallback-safe.** Garnett and Apercu Mono Pro are **proprietary Mixpanel brand fonts — not on any public CDN**, so inline woff2 `data:` URIs are the delivery mechanism. Each `@font-face` should be `src: url('data:font/woff2;base64,…') format('woff2')` **only**.
+  - **No `local()`** in `src`: a viewer's broken/mismatched locally-installed font silently overrides the embed and renders garbled glyphs — with **no console error** (this caused a real "broken fonts" report). `local()` also gives nothing here since the font is already inline.
+  - **No external refs** like `url('./assets/fonts/…woff2')` — those files aren't in the repo and 404.
+  - Keep generic fallbacks in the family stacks/vars: `'Garnett',…,Arial,sans-serif` and `'Apercu Mono Pro',…,monospace`.
+- **Porting embedded fonts between decks:** the `data:` URI contains `;base64`, so a naive non-greedy regex stopping at the first `;` truncates it. Capture the full token (`url\('[^']*'\)\s*format\([^)]*\)`); the single-quoted data URI has no `'` inside, so `[^']*` is safe.
+- **Verify rendering** before shipping: serve `./deliverables` and load in a browser (use a non-blocked port — Chromium rejects 5060/6000); check `document.fonts` shows each face `loaded` and a heading's computed `font-family` resolves to the brand font, not Times.
 
 ## Code Architecture
 
