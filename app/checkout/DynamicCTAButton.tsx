@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, X, Gift, Zap, Rocket, AlertCircle } from "lucide-react";
-import { initMixpanelOnce } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 
 // @ts-ignore
 declare global {
@@ -52,59 +52,54 @@ export function DynamicCTAButton() {
   useEffect(() => {
     initMixpanelOnce();
 
-    // Fetch feature flag configuration
-    if (window.mixpanel?.flags) {
-      window.mixpanel.flags
-        .get_variant_value('we_buy_custom_cta', null)
-        .then((value: any) => {
-          console.log('[MIXPANEL]: Got CTA config:', value);
+    // Fetch feature flag configuration.
+    // The analytics proxy holds this call until the Mixpanel lib loads,
+    // so we no longer need a "is Mixpanel there yet" guard. The .catch
+    // below still applies the fallback if the read fails.
+    mixpanel.flags
+      .get_variant_value('we_buy_custom_cta', null)
+      .then((value: any) => {
+        console.log('[MIXPANEL]: Got CTA config:', value);
 
-          if (value && typeof value === 'object' && 'cta' in value) {
-            setConfig(value as CTAConfig);
-            // Try to determine variant key for tracking
-            Object.entries(defaultConfigs).forEach(([key, cfg]) => {
-              if (cfg.cta === value.cta) {
-                setVariantKey(key);
-              }
-            });
+        if (value && typeof value === 'object' && 'cta' in value) {
+          setConfig(value as CTAConfig);
+          // Try to determine variant key for tracking
+          Object.entries(defaultConfigs).forEach(([key, cfg]) => {
+            if (cfg.cta === value.cta) {
+              setVariantKey(key);
+            }
+          });
 
-            window.mixpanel.track('Dynamic CTA Loaded', {
-              variant: variantKey || 'custom',
-              cta_text: value.cta,
-              color: value.color
-            });
-          } else {
-            // Fallback to a random default for demo purposes
-            const keys = Object.keys(defaultConfigs);
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
-            setConfig(defaultConfigs[randomKey]);
-            setVariantKey(randomKey);
+          window.mixpanel.track('Dynamic CTA Loaded', {
+            variant: variantKey || 'custom',
+            cta_text: value.cta,
+            color: value.color
+          });
+        } else {
+          // Fallback to a random default for demo purposes
+          const keys = Object.keys(defaultConfigs);
+          const randomKey = keys[Math.floor(Math.random() * keys.length)];
+          setConfig(defaultConfigs[randomKey]);
+          setVariantKey(randomKey);
 
-            console.log('[MIXPANEL]: Using fallback CTA config:', randomKey);
-            window.mixpanel.track('Dynamic CTA Loaded', {
-              variant: randomKey,
-              cta_text: defaultConfigs[randomKey].cta,
-              color: defaultConfigs[randomKey].color,
-              is_fallback: true
-            });
-          }
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          console.error('[MIXPANEL]: Error fetching CTA config:', error);
-          // Use fallback on error
-          const fallbackKey = 'snag';
-          setConfig(defaultConfigs[fallbackKey]);
-          setVariantKey(fallbackKey);
-          setIsLoading(false);
-        });
-    } else {
-      // No Mixpanel, use fallback
-      const fallbackKey = 'snag';
-      setConfig(defaultConfigs[fallbackKey]);
-      setVariantKey(fallbackKey);
-      setIsLoading(false);
-    }
+          console.log('[MIXPANEL]: Using fallback CTA config:', randomKey);
+          window.mixpanel.track('Dynamic CTA Loaded', {
+            variant: randomKey,
+            cta_text: defaultConfigs[randomKey].cta,
+            color: defaultConfigs[randomKey].color,
+            is_fallback: true
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((error: any) => {
+        console.error('[MIXPANEL]: Error fetching CTA config:', error);
+        // Use fallback on error
+        const fallbackKey = 'snag';
+        setConfig(defaultConfigs[fallbackKey]);
+        setVariantKey(fallbackKey);
+        setIsLoading(false);
+      });
   }, []);
 
   const handleClick = () => {

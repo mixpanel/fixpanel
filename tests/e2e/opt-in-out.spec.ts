@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { ConsoleLogTracker } from './utils/test-helpers';
+import { ConsoleLogTracker, isMixpanelInitialized } from './utils/test-helpers';
 
 /**
  * Tracking lifecycle tests (formerly opt-in/opt-out)
@@ -28,9 +28,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     expect(hasLoaded).toBeTruthy();
 
     // Verify Mixpanel exists
-    const mixpanelExists = await page.evaluate(() => {
-      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-    });
+    const mixpanelExists = await isMixpanelInitialized(page);
 
     expect(mixpanelExists).toBeTruthy();
 
@@ -49,9 +47,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForTimeout(2000);
 
     // Verify Mixpanel exists on microsite
-    let mixpanelExists = await page.evaluate(() => {
-      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-    });
+    let mixpanelExists = await isMixpanelInitialized(page);
     expect(mixpanelExists).toBeTruthy();
 
     consoleTracker.clearLogs();
@@ -67,9 +63,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     expect(hasCleanup).toBeTruthy();
 
     // Verify Mixpanel is NOT initialized on landing
-    mixpanelExists = await page.evaluate(() => {
-      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-    });
+    mixpanelExists = await isMixpanelInitialized(page);
 
     expect(mixpanelExists).toBeFalsy();
   });
@@ -132,9 +126,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     expect(hasLoaded2).toBeTruthy();
 
     // Verify tracking works
-    const mixpanelExists = await page.evaluate(() => {
-      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-    });
+    const mixpanelExists = await isMixpanelInitialized(page);
 
     console.log('Step 3 - Mixpanel exists:', mixpanelExists);
     expect(mixpanelExists).toBeTruthy();
@@ -193,9 +185,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
       expect(hasLoaded).toBeTruthy();
 
       // Verify Mixpanel exists
-      const mixpanelExists = await page.evaluate(() => {
-        return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-      });
+      const mixpanelExists = await isMixpanelInitialized(page);
 
       expect(mixpanelExists).toBeTruthy();
     }
@@ -218,9 +208,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     expect(optOutCookie).toBeFalsy();
 
     // Verify Mixpanel is initialized
-    const mixpanelExists = await page.evaluate(() => {
-      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-    });
+    const mixpanelExists = await isMixpanelInitialized(page);
 
     expect(mixpanelExists).toBeTruthy();
   });
@@ -270,9 +258,7 @@ test.describe('Opt-in/Opt-out Flow Tests', () => {
     await page.waitForTimeout(2000);
 
     // Verify Mixpanel exists
-    const mixpanelExists = await page.evaluate(() => {
-      return window.mixpanel !== null && typeof window.mixpanel !== 'undefined';
-    });
+    const mixpanelExists = await isMixpanelInitialized(page);
     expect(mixpanelExists).toBeTruthy();
 
     consoleTracker.clearLogs();

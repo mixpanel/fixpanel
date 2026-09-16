@@ -66,7 +66,11 @@ The build command (`npm run build`) uses Next.js static export and includes a po
 **Client-Side Only App**: This is a Next.js app configured for static export (`output: "export"`) with all components marked as `"use client"`. Server-side rendering is minimal - only the root layout runs on server. The app is configured for GitHub Pages deployment with appropriate basePath and assetPrefix settings.
 
 **Mixpanel Integration**:
-- Initialization happens in `app/ClientLayout.tsx` via `initMixpanel()` from `lib/analytics.ts`
+- The library loads from the **snippet**, not the bundled `mixpanel-browser` npm module. `lib/mixpanel-snippet.ts` holds the official loader plus `MIXPANEL_CUSTOM_LIB_URL`, and `app/layout.tsx` injects it with `next/script` `strategy="beforeInteractive"`. Only the snippet honors a custom lib URL, which is how we pin the visual-experiments build. `mixpanel-browser` stays in `package.json` for its TypeScript types.
+- `lib/analytics.ts` exports `mixpanel` as a **Proxy over `window.mixpanel`**, so every call reaches the snippet-loaded instance. Do not re-add a module import.
+- Init happens in `app/ClientLayout.tsx` via `initMixpanelOnce()` from `lib/analytics.ts`. The landing page (`/`) deliberately never initializes.
+- **Never test `window.mixpanel` to detect readiness or init state** — the snippet defines that global on every page before our code runs. Use `isMixpanelInitialized()` for init state, `waitForMixpanel()` to init-and-wait, and `whenMixpanelLoaded()` to wait passively (read-only observers like the Header/Footer device-ID badge, which also render on the untracked landing page). Both waiters resolve from `init()`'s own `loaded` callback; nothing polls.
+- The snippet stub queues plain tracking calls but has **no `flags` namespace**. The analytics Proxy substitutes a deferred `flags` that forwards once the library loads, so `mixpanel.flags.get_variant_value(...)` is safe to call immediately.
 - Mixpanel is configured with comprehensive auto-capture settings:
   - Page views, clicks, form inputs, scrolling, and form submissions
   - Session recording enabled at 100% capture rate
