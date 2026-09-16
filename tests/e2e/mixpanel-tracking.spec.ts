@@ -19,7 +19,7 @@ test.describe('Mixpanel Tracking Tests', () => {
     // Check that Mixpanel instance is destroyed on landing page
     const mixpanelState = await page.evaluate(() => {
       return {
-        exists: typeof window.mixpanel !== 'undefined' && window.mixpanel !== null,
+        exists: typeof window.mixpanel?.get_distinct_id === 'function',
         resetExists: typeof window.RESET === 'function'
       };
     });
@@ -222,7 +222,7 @@ test.describe('Mixpanel Tracking Tests', () => {
         local: localStorage.length,
         session: sessionStorage.length,
         mixpanelKeys: mixpanelKeys,
-        mixpanelExists: window.mixpanel !== null && typeof window.mixpanel !== 'undefined'
+        mixpanelExists: typeof window.mixpanel?.get_distinct_id === 'function'
       };
     });
 

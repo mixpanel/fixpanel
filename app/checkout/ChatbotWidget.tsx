@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, User } from "lucide-react";
-import { initMixpanelOnce } from "@/lib/analytics";
+import { initMixpanelOnce, mixpanel } from "@/lib/analytics";
 import { products } from "./products";
 
 // @ts-ignore
@@ -122,21 +122,21 @@ export function ChatbotWidget() {
   useEffect(() => {
     initMixpanelOnce();
 
-    // Check if feature flag is enabled
-    if (window.mixpanel?.flags) {
-      window.mixpanel.flags
-        .is_enabled('we_buy_chatbot', false)
-        .then((enabled: boolean) => {
-          setShouldShow(enabled);
-          if (enabled) {
-            console.log('[MIXPANEL]: Chatbot feature flag enabled');
-            window.mixpanel.track('Chatbot Loaded');
-          }
-        })
-        .catch((error: any) => {
-          console.error('[MIXPANEL]: Error checking chatbot flag:', error);
-        });
-    }
+    // Check if feature flag is enabled.
+    // The analytics proxy holds this call until the Mixpanel lib loads, so we
+    // must not gate on window.mixpanel?.flags - the snippet stub has no flags.
+    mixpanel.flags
+      .is_enabled('we_buy_chatbot', false)
+      .then((enabled: boolean) => {
+        setShouldShow(enabled);
+        if (enabled) {
+          console.log('[MIXPANEL]: Chatbot feature flag enabled');
+          mixpanel.track('Chatbot Loaded');
+        }
+      })
+      .catch((error: any) => {
+        console.error('[MIXPANEL]: Error checking chatbot flag:', error);
+      });
   }, []);
 
   // Auto-scroll to bottom when new messages arrive

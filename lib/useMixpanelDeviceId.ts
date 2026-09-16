@@ -1,65 +1,48 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { whenMixpanelLoaded } from "./analytics";
 
 /**
- * Custom hook to poll for Mixpanel device ID with retry logic
- * Polls up to 10 times with 500ms intervals
- * Returns device ID once found, or null if not available after max attempts
+ * Custom hook that reads the Mixpanel device ID.
+ * It waits for the library's own `loaded` callback, so it never touches the
+ * snippet stub. The stub has no get_property() and would throw.
+ *
+ * This is a read-only observer: it must NOT initialize Mixpanel. The Header
+ * and Footer use it on the landing page, where we deliberately do not track.
+ *
+ * Returns the device ID once available, or null if Mixpanel never initializes.
  */
 export function useMixpanelDeviceId() {
   const [deviceId, setDeviceId] = useState<string | null>(null);
   const [isPolling, setIsPolling] = useState(true);
 
   useEffect(() => {
-    let attempts = 0;
-    const maxAttempts = 10;
-    const pollInterval = 500; // 500ms between attempts
+    let cancelled = false;
 
-    const checkDeviceId = () => {
-      attempts++;
-
-      if (typeof window !== "undefined" && window.mixpanel) {
-        try {
-          // Try to get device ID from Mixpanel
-          const id = window.mixpanel.get_property("$device_id");
-
-          if (id && id !== "undefined" && id !== "null") {
-            console.log(`[DEVICE ID]: Found device ID on attempt ${attempts}: ${id}`);
-            setDeviceId(id);
-            setIsPolling(false);
-            return true;
-          }
-        } catch (e) {
-          console.log(`[DEVICE ID]: Error getting device ID on attempt ${attempts}:`, e);
+    // 5s matches the old poll budget, so the badge spinner does not linger.
+    whenMixpanelLoaded(5000)
+      .then((mp) => {
+        if (cancelled) return;
+        const id = mp.get_property("$device_id");
+        if (id) {
+          console.log(`[DEVICE ID]: Found device ID: ${id}`);
+          setDeviceId(id);
+        } else {
+          console.log("[DEVICE ID]: Mixpanel loaded but no $device_id present");
         }
-      }
-
-      // Stop polling after max attempts
-      if (attempts >= maxAttempts) {
-        console.log(`[DEVICE ID]: Max attempts (${maxAttempts}) reached, no device ID found`);
         setIsPolling(false);
-        return true;
-      }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        // Expected on the landing page, which never initializes Mixpanel.
+        console.log("[DEVICE ID]: Mixpanel not initialized, no device ID to show");
+        setIsPolling(false);
+      });
 
-      return false;
+    return () => {
+      cancelled = true;
     };
-
-    // Check immediately
-    const foundImmediately = checkDeviceId();
-
-    if (!foundImmediately) {
-      // Set up polling interval
-      const intervalId = setInterval(() => {
-        const found = checkDeviceId();
-        if (found) {
-          clearInterval(intervalId);
-        }
-      }, pollInterval);
-
-      // Cleanup
-      return () => clearInterval(intervalId);
-    }
   }, []);
 
   return { deviceId, isPolling };

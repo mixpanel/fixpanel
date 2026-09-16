@@ -4,7 +4,65 @@
 
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import mixpanel from "mixpanel-browser";
+import { MIXPANEL_PROXY } from "./mixpanel-snippet";
+
+/**
+ * Stand-in for `mixpanel.flags` while only the snippet stub is present.
+ * The stub buffers tracking calls but not flag reads, so we hold flag calls
+ * until the library fires its `loaded` callback, then forward them.
+ * Every flags method the app uses returns a promise, so the delay is invisible.
+ *
+ * We wait with a timeout, never forever. Callers show fallback content from
+ * their .catch(), so a library that never loads must reject, not hang.
+ */
+const deferredFlags: any = new Proxy(
+  {},
+  {
+    get(_target, method) {
+      if (typeof method !== "string") return undefined;
+      return (...args: any[]) => whenMixpanelLoaded().then((mp: any) => mp.flags[method](...args));
+    },
+  }
+);
+
+/**
+ * Live handle to the Mixpanel instance the snippet installs on `window`.
+ *
+ * We no longer import the bundled `mixpanel-browser` module: only the snippet
+ * loader honors MIXPANEL_CUSTOM_LIB_URL, which points at the visual-experiments
+ * build. See lib/mixpanel-snippet.ts and app/layout.tsx.
+ *
+ * The snippet installs a queuing stub synchronously, so calls made before the
+ * real library finishes downloading are buffered, not dropped.
+ */
+const mixpanel: any = new Proxy(
+  {},
+  {
+    get(_target, prop) {
+      // Nothing to talk to during static prerender.
+      if (typeof window === "undefined") return undefined;
+      const mp: any = window.mixpanel;
+      if (!mp) {
+        // Symbol probes (React, promise unwrapping) must stay quiet.
+        if (typeof prop !== "string") return undefined;
+        throw new Error(`[SDK]: window.mixpanel is missing - the Mixpanel snippet did not run (read "${prop}")`);
+      }
+      // The snippet stub queues plain tracking calls but has no `flags` namespace.
+      if (prop === "flags" && !mp.flags) return deferredFlags;
+      const value = mp[prop];
+      return typeof value === "function" ? value.bind(mp) : value;
+    },
+    set(_target, prop, value) {
+      if (typeof window === "undefined") return true;
+      const mp: any = window.mixpanel;
+      if (!mp) {
+        throw new Error(`[SDK]: window.mixpanel is missing - the Mixpanel snippet did not run (write "${String(prop)}")`);
+      }
+      mp[prop] = value;
+      return true;
+    },
+  }
+);
 
 // Get token from URL or use default
 function getMixpanelToken(): string {
@@ -22,9 +80,17 @@ function getMixpanelToken(): string {
 }
 
 const MIXPANEL_TOKEN = getMixpanelToken();
-const MIXPANEL_PROXY = `https://express-proxy-lmozz6xkha-uc.a.run.app`;
 
 let initialized = false;
+
+/**
+ * Has initMixpanelOnce() run for this page load?
+ * Callers must not test `window.mixpanel` for this: the snippet defines that
+ * global on every page, before any of our code runs.
+ */
+export function isMixpanelInitialized(): boolean {
+  return initialized;
+}
 
 // Reset the initialized flag to allow re-initialization
 export function resetInitialized() {
@@ -32,31 +98,38 @@ export function resetInitialized() {
   console.log("[SDK]: RESET INITIALIZED FLAG");
 }
 
-// Helper function to wait for Mixpanel to be ready
-export function waitForMixpanel(maxAttempts = 20, interval = 100): Promise<any> {
-  return new Promise((resolve, reject) => {
-    let attempts = 0;
+/**
+ * Resolved by the `loaded` callback of mixpanel.init().
+ * That callback is the library's own "I am ready" signal, so we do not poll.
+ */
+let signalMixpanelLoaded: (mp: any) => void;
+const mixpanelLoaded: Promise<any> = new Promise((resolve) => {
+  signalMixpanelLoaded = resolve;
+});
 
-    const checkMixpanel = () => {
-      attempts++;
-
-      if (typeof window !== 'undefined' && window.mixpanel) {
-        console.log(`[SDK]: MIXPANEL READY Found after ${attempts} attempts`);
-        resolve(window.mixpanel);
-        return;
-      }
-
-      if (attempts >= maxAttempts) {
-        console.error(`[SDK]: MIXPANEL UN-READY Not found after ${maxAttempts} attempts`);
-        reject(new Error('Mixpanel not loaded'));
-        return;
-      }
-
-      setTimeout(checkMixpanel, interval);
-    };
-
-    checkMixpanel();
+/**
+ * Wait for the `loaded` callback WITHOUT triggering init.
+ * Read-only observers (the Header and Footer device-ID badge) must use this.
+ * They render on the landing page, where we deliberately never initialize.
+ */
+export function whenMixpanelLoaded(timeoutMs = 10000): Promise<any> {
+  let timer: ReturnType<typeof setTimeout>;
+  const timeout = new Promise<never>((_resolve, reject) => {
+    timer = setTimeout(() => {
+      reject(new Error(`Mixpanel did not load within ${timeoutMs}ms`));
+    }, timeoutMs);
   });
+
+  // Cancel the timer once the library reports in, so it cannot fire a false alarm.
+  return Promise.race([mixpanelLoaded, timeout]).finally(() => clearTimeout(timer));
+}
+
+// Helper function to wait for Mixpanel to be ready
+export function waitForMixpanel(timeoutMs = 10000): Promise<any> {
+  // The snippet buffers calls, so init is safe to request before the lib lands.
+  // This also guarantees init runs before any caller starts tracking.
+  initMixpanelOnce();
+  return whenMixpanelLoaded(timeoutMs);
 }
 
 /**
@@ -111,10 +184,19 @@ const { user = "" } = PARAMS;
 export function initMixpanelOnce() {
   if (initialized) return mixpanel;
 
+  // One explicit guard at the entry point. If the inline snippet never ran
+  // (a CSP that blocks inline scripts, for example) we say so once and give up
+  // on analytics. We do not let a missing SDK white-screen the demo site.
+  if (typeof window === "undefined" || !window.mixpanel) {
+    console.error("[SDK]: MIXPANEL SNIPPET DID NOT RUN - analytics disabled for this page load");
+    return mixpanel;
+  }
+
   mixpanel.init(MIXPANEL_TOKEN, {
     // your existing options ↓
     //@ts-ignore
     flags: {}, // ! turn on Mixpanel's feature flags
+    visual_experiments: true, // ! turn on Mixpanel's visual experiments
 
     autocapture: {
       pageview: "full-url",
@@ -167,6 +249,9 @@ export function initMixpanelOnce() {
     loaded: (mp: any) => {
       console.log("[SDK]: MIXPANEL LOADED");
 
+      // Release every waitForMixpanel() caller.
+      signalMixpanelLoaded(mp);
+
       // Note: Session tracking is handled by trackMicrositeSession()
       // which is called by each microsite landing page
       // We don't track session here because the loaded callback only fires once
@@ -177,10 +262,11 @@ export function initMixpanelOnce() {
         console.log("[SDK]: EXPOSED GLOBALLY");
 
         // Start session recording
-        mixpanel.start_session_recording();
+        mp.start_session_recording();
         console.log("[SDK]: START SESSION RECORDING");
 
-        // Expose for debugging
+        // The snippet already put the instance on window; keep this explicit
+        // so the debugging contract stays obvious.
         // @ts-ignore
         window.mixpanel = mp;
 
@@ -250,10 +336,9 @@ export function cleanupEverything(): void {
         console.log("[CLEANUP]: ✓ Mixpanel instance reset");
       }
 
-      // Destroy the instance
-      // @ts-ignore
-      window.mixpanel = null;
-      console.log("[CLEANUP]: ✓ Mixpanel instance destroyed");
+      // We leave window.mixpanel in place. The snippet owns that global now,
+      // and a hard reload always follows this cleanup, which rebuilds it.
+      console.log("[CLEANUP]: ✓ Mixpanel torn down (global left to the snippet)");
     } catch (error) {
       console.error("[CLEANUP]: error destroying Mixpanel:", error);
     }
@@ -332,18 +417,7 @@ export function cleanupEverything(): void {
 
   console.log("[CLEANUP]: ✓ ALL STORAGE CLEARED");
 
-  // 8. DESTROY Mixpanel instance (after storage cleared)
-  if (typeof window !== "undefined" && window.mixpanel) {
-    try {
-      // @ts-ignore
-      window.mixpanel = null;
-      console.log("[CLEANUP]: ✓ Mixpanel instance destroyed (set to null)");
-    } catch (error) {
-      console.error("[CLEANUP]: error destroying mixpanel:", error);
-    }
-  }
-
-  // 9. Reset the initialized flag
+  // 8. Reset the initialized flag
   resetInitialized();
   console.log("[CLEANUP]: ✓ Initialization flag reset");
 

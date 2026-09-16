@@ -209,7 +209,12 @@ export async function getConsoleMessages(page: Page): Promise<string[]> {
 }
 
 /**
- * Check if Mixpanel is properly initialized
+ * Check if Mixpanel is properly initialized.
+ *
+ * Do NOT test `window.mixpanel` alone for this. The loader snippet in
+ * `lib/mixpanel-snippet.ts` defines that global on EVERY page, including the
+ * landing page where we deliberately never initialize. Before init it is a
+ * bare queuing stub with none of these methods on it.
  */
 export async function isMixpanelInitialized(page: Page): Promise<boolean> {
   return await page.evaluate(() => {

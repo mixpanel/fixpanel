@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { initMixpanelOnce, cleanupEverything } from "../lib/analytics";
+import { initMixpanelOnce, cleanupEverything, isMixpanelInitialized } from "../lib/analytics";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -10,9 +10,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   useEffect(() => {
     // LANDING PAGE: Clean everything and force hard refresh
     if (pathname === "/") {
-      // If Mixpanel exists, we client-side navigated here from a microsite
-      // Clean everything, then force a hard reload for a fresh start
-      if (typeof window !== 'undefined' && window.mixpanel) {
+      // If Mixpanel was initialized, we client-side navigated here from a microsite.
+      // Clean everything, then force a hard reload for a fresh start.
+      // Do not test window.mixpanel here: the snippet defines it on every page.
+      if (isMixpanelInitialized()) {
         console.log("[CLIENT LAYOUT]: Client-side navigation to landing detected - cleaning and reloading");
         cleanupEverything();
 
