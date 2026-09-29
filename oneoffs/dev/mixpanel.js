@@ -17,3 +17,4 @@ mixpanel.init(MIXPANEL_TOKEN, {
 		// debugger;
 	},
 });
+mixpanel.register({ $mp_user_agent: navigator.userAgent });

@@ -307,6 +307,9 @@ export function initMixpanelOnce() {
     },
   });
 
+  // Register right after init so the snippet replays it before any queued tracking call.
+  mixpanel.register({ $mp_user_agent: navigator.userAgent });
+
   initialized = true;
   return mixpanel;
 }

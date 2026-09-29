@@ -852,6 +852,7 @@ mixpanel.init(MIXPANEL_TOKEN, {
     }
   }
 });
+mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
 // Dynamically enable runtime targeting
 await mixpanel.flags.update_context({

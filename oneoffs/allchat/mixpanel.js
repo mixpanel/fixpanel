@@ -140,6 +140,7 @@ async function initMixpanel() {
         resolve();
       }
     });
+    mixpanel.register({ $mp_user_agent: navigator.userAgent });
   });
 }
 

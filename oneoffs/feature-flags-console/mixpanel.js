@@ -271,6 +271,7 @@ mixpanel.init(MIXPANEL_TOKEN, {
 		window.dispatchEvent(event);
 	}
 });
+mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
 // ==========================
 // UI UPDATE HELPERS
