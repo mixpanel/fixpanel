@@ -253,6 +253,7 @@
                 checkFlag();
             }
         });
+        mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
         // Reset function - clear all storage and reload
         function resetUser() {

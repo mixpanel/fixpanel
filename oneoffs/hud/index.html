@@ -612,6 +612,7 @@
                 };
 
                 mixpanel.init(token, config);
+                mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
             } catch (error) {
                 updateStatus(`Initialization failed: ${error.message}`, 'error');

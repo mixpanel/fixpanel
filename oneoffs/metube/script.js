@@ -242,6 +242,7 @@ async function initMixpanel() {
 			};
 		}
 	});
+	window.mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
 }
 

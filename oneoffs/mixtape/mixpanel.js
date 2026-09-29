@@ -152,6 +152,7 @@ mixpanel.init(MIXPANEL_TOKEN, {
         }
     },
 });
+mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
 // ── Event Helpers ──
 

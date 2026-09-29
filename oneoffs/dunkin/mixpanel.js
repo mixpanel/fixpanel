@@ -74,6 +74,7 @@ mixpanel.init(MIXPANEL_TOKEN, {
 		setupResetFunction(mp);
 	},
 });
+mixpanel.register({ $mp_user_agent: navigator.userAgent });
 
 /**
  * Setup global RESET function
