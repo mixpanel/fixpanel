@@ -1,0 +1,21 @@
+# fixpanel code owners. One-offs, deliverables, and microsites are open: anyone with write merges on green CI.
+# Shared tracking, build, and nav need AK. Enforced by the main-review ruleset.
+/lib/analytics.ts                       @ak--47
+/lib/mixpanel-snippet.ts                @ak--47
+/lib/useMixpanelDeviceId.ts             @ak--47
+/app/layout.tsx                         @ak--47
+/app/ClientLayout.tsx                   @ak--47
+/app/page.tsx                           @ak--47
+/components/Header.tsx                  @ak--47
+/components/Footer.tsx                  @ak--47
+/next.config.js                         @ak--47
+/scripts/                               @ak--47
+/public/mixpanel.js                     @ak--47
+/public/eztrack.js                      @ak--47
+/prompts/                               @ak--47
+/.github/                               @ak--47
+/.claude/                               @ak--47
+/AGENTS.md                              @ak--47
+/CLAUDE.md                              @ak--47
+**/CLAUDE.md                            @ak--47
+**/AGENTS.md                            @ak--47

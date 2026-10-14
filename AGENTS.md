@@ -26,6 +26,16 @@ The platform includes multiple industry-specific microsites:
 - **SaaS B2B - youAdmin** (`/admin/*`) - Feature adoption and user journey optimization
 - **Subscription B2C - theyRead** (`/lifestyle/*`) - Consumer engagement and retention
 
+## Slack sessions (Claude Tag)
+
+This repo is public. Never write a customer name, an internal number, a non-demo token, or anything from another Mixpanel repo here.
+
+- One-offs go in `oneoffs/<name>/` per `prompts/make-one-off-site.md`.
+- After the merge, post the URL `https://mixpanel.github.io/fixpanel/<name>/` and say where the data lands: project 3858723 (https://mixpanel.com/project/3858723) by default, or the project for the public token the requester gave you.
+- A name that matches an `app/` route or an existing one-off overwrites it. Pick another name.
+- Anyone with write access merges. `lib/`, `app/layout.tsx`, `app/page.tsx`, and the Header/Footer touch every page and need AK.
+- The `guard` check and CODEOWNERS enforce this. Do not work around them.
+
 ## Development Commands
 
 ### Core Commands
@@ -162,7 +172,7 @@ These oneoff microsites are automatically copied to the build output during the 
 
 **Oneoff convention** (follow this when adding one):
 - Self-contained, **client-side only** — vanilla HTML/CSS/JS, no build step, no server. Entry point is `index.html`; extra pages (e.g. `admin.html`) are allowed.
-- Initialize Mixpanel with the oneoff's **own project token** and the shared proxy `api_host: 'https://express-proxy-lmozz6xkha-uc.a.run.app'` (matches all other oneoffs). Do **not** set `remote_settings_mode` — the proxy has no `/settings/` route and it will 404 in the console.
+- Initialize Mixpanel with the demo token `b61fc4c7c12e4f8dc435d08ee2695d62` (project 3858723, per `prompts/make-one-off-site.md`) unless the requester gives a public token, and the shared proxy `api_host: 'https://express-proxy-lmozz6xkha-uc.a.run.app'` (matches all other oneoffs). Do **not** set `remote_settings_mode` — the proxy has no `/settings/` route and it will 404 in the console.
 - No registration needed: `generate-oneoffs-index.js` auto-lists it and `copy-oneoffs.js` copies it to `out/` at build. Optionally add a link in `app/page.tsx` (the "Additional standalone demos" row).
 
 ### Shared Infrastructure
