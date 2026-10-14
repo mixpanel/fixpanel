@@ -1,0 +1,29 @@
+name: Guard
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+      - name: Run guard from the base branch
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if git cat-file -e "$BASE_SHA:.github/scripts/guard.sh" 2>/dev/null; then
+            git show "$BASE_SHA:.github/scripts/guard.sh" > "$RUNNER_TEMP/guard.sh"
+          else
+            echo "::warning::guard.sh is not on the base branch yet (bootstrap PR). Running the PR copy."
+            cp .github/scripts/guard.sh "$RUNNER_TEMP/guard.sh"
+          fi
+          bash "$RUNNER_TEMP/guard.sh"
