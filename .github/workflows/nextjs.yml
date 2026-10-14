@@ -181,19 +181,23 @@ jobs:
             exit 1
           fi
           esc() { sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g'; }
-          PR=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq '.[0].number // empty')
-          if [ -n "$PR" ]; then
-            J=$(gh api "repos/$REPO/pulls/$PR")
+          # The lookups below only add context. A rate limit or API error must not stop the post.
+          PR=$(gh api "repos/$REPO/commits/$SHA/pulls" --jq '.[0].number // empty') || PR=""
+          J=""
+          if [ -n "$PR" ]; then J=$(gh api "repos/$REPO/pulls/$PR") || J=""; fi
+          if [ -n "$J" ]; then
             TITLE=$(jq -r '.title' <<<"$J" | esc)
             AUTHOR=$(jq -r '.user.login' <<<"$J")
             MERGER=$(jq -r '.merged_by.login // "unknown"' <<<"$J")
             REQ=$(jq -r '.body // ""' <<<"$J" | sed -n 's/.*Requested by \*\*\([^*]*\)\*\*.*/\1/p' | head -1 | esc)
             if [ -n "$REQ" ]; then WHO="requested by $REQ (claude)"; else WHO="opened by $AUTHOR"; fi
             LINE2="PR #$PR \"$TITLE\" · $WHO · merged by $MERGER"
+          elif [ -n "$PR" ]; then
+            LINE2="PR #$PR · commit ${SHA:0:7} (PR details unavailable)"
           else
             LINE2="commit ${SHA:0:7} (no PR found)"
           fi
-          FAILED=$(gh api "repos/$REPO/actions/runs/$RUN_ID/jobs" --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
+          FAILED=$(gh api "repos/$REPO/actions/runs/$RUN_ID/jobs" --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")') || FAILED=""
           TEXT=$(printf ':rotating_light: *%s* · deploy failed on main\n%s\nfailed: %s · <%s|run>\n%s' \
             "${REPO#*/}" "$LINE2" "${FAILED:-unknown}" "$RUN_URL" "$MENTION")
           jq -n --arg t "$TEXT" '{text: $t}' | curl -fsS -X POST -H 'Content-Type: application/json' --data @- "$WEBHOOK"
