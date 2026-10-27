@@ -7,7 +7,7 @@
 // `mixpanel-browser` stays in package.json for its TypeScript types.
 
 export const MIXPANEL_PROXY = `https://express-proxy-lmozz6xkha-uc.a.run.app`;
-export const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/libs/mixpanel-2.83.0-ve-alpha-1.min.js`;
+export const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/libs/mixpanel-2.84.0-ve-alpha-2.min.js`;
 
 export const MIXPANEL_SNIPPET = `
 window.MIXPANEL_CUSTOM_LIB_URL = ${JSON.stringify(MIXPANEL_CUSTOM_LIB_URL)};
