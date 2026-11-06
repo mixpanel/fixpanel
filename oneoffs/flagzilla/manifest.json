@@ -40,7 +40,7 @@
     "account_age_days": "integer 0-2000",
     "tier_score": "integer 0-100",
     "is_employee": "boolean",
-    "signup_ts": "epoch ms on a whole second, 2024-2026",
+    "signup_ts": "RFC3339 string, 2024-2026 (flag Date conditions match only RFC3339 runtime values)",
     "merchant_id": "m-0001 … m-0500"
   },
   "qaUsers": [
@@ -65073,7 +65073,7 @@
         "account_age_days": 1218,
         "tier_score": 76,
         "is_employee": false,
-        "signup_ts": 1756080000000,
+        "signup_ts": "2025-08-25T00:00:00Z",
         "merchant_id": "m-0011"
       }
     },
@@ -65091,7 +65091,7 @@
         "account_age_days": 111,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1779062400000,
+        "signup_ts": "2026-05-18T00:00:00Z",
         "merchant_id": "m-0146"
       }
     },
@@ -65107,7 +65107,7 @@
         "account_age_days": 1691,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1714176000000,
+        "signup_ts": "2024-04-27T00:00:00Z",
         "merchant_id": "m-0478"
       }
     },
@@ -65126,7 +65126,7 @@
         "account_age_days": 1656,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1725580800000,
+        "signup_ts": "2024-09-06T00:00:00Z",
         "merchant_id": "m-0022"
       }
     },
@@ -65144,7 +65144,7 @@
         "account_age_days": 1853,
         "tier_score": 66,
         "is_employee": false,
-        "signup_ts": 1771632000000,
+        "signup_ts": "2026-02-21T00:00:00Z",
         "merchant_id": "m-0491"
       }
     },
@@ -65165,7 +65165,7 @@
         "account_age_days": 273,
         "tier_score": 91,
         "is_employee": false,
-        "signup_ts": 1746144000000,
+        "signup_ts": "2025-05-02T00:00:00Z",
         "merchant_id": "m-0199"
       }
     },
@@ -65183,7 +65183,7 @@
         "account_age_days": 337,
         "tier_score": 27,
         "is_employee": false,
-        "signup_ts": 1712361600000,
+        "signup_ts": "2024-04-06T00:00:00Z",
         "merchant_id": "m-0154"
       }
     },
@@ -65202,7 +65202,7 @@
         "account_age_days": 1238,
         "tier_score": 45,
         "is_employee": false,
-        "signup_ts": 1762560000000,
+        "signup_ts": "2025-11-08T00:00:00Z",
         "merchant_id": "m-0042"
       }
     },
@@ -65221,7 +65221,7 @@
         "account_age_days": 287,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1735257600000,
+        "signup_ts": "2024-12-27T00:00:00Z",
         "merchant_id": "m-0207"
       }
     },
@@ -65241,7 +65241,7 @@
         "account_age_days": 1891,
         "tier_score": 4,
         "is_employee": true,
-        "signup_ts": 1712361600000,
+        "signup_ts": "2024-04-06T00:00:00Z",
         "merchant_id": "m-0193"
       }
     },
@@ -65257,7 +65257,7 @@
         "account_age_days": 417,
         "tier_score": 85,
         "is_employee": false,
-        "signup_ts": 1776470400000,
+        "signup_ts": "2026-04-18T00:00:00Z",
         "merchant_id": "m-0226"
       }
     },
@@ -65273,7 +65273,7 @@
         "account_age_days": 1651,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1746662400000,
+        "signup_ts": "2025-05-08T00:00:00Z",
         "merchant_id": "m-0404"
       }
     },
@@ -65292,7 +65292,7 @@
         "account_age_days": 1088,
         "tier_score": 79,
         "is_employee": false,
-        "signup_ts": 1789948800000,
+        "signup_ts": "2026-09-21T00:00:00Z",
         "merchant_id": "m-0176"
       }
     },
@@ -65310,7 +65310,7 @@
         "account_age_days": 1989,
         "tier_score": 60,
         "is_employee": false,
-        "signup_ts": 1731369600000,
+        "signup_ts": "2024-11-12T00:00:00Z",
         "merchant_id": "m-0092"
       }
     },
@@ -65328,7 +65328,7 @@
         "account_age_days": 482,
         "tier_score": 18,
         "is_employee": false,
-        "signup_ts": 1707091200000,
+        "signup_ts": "2024-02-05T00:00:00Z",
         "merchant_id": "m-0458"
       }
     },
@@ -65346,7 +65346,7 @@
         "account_age_days": 1244,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1750464000000,
+        "signup_ts": "2025-06-21T00:00:00Z",
         "merchant_id": "m-0136"
       }
     },
@@ -65364,7 +65364,7 @@
         "account_age_days": 213,
         "tier_score": 53,
         "is_employee": false,
-        "signup_ts": 1749168000000,
+        "signup_ts": "2025-06-06T00:00:00Z",
         "merchant_id": "m-0285"
       }
     },
@@ -65380,7 +65380,7 @@
         "account_age_days": 497,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1718582400000,
+        "signup_ts": "2024-06-17T00:00:00Z",
         "merchant_id": "m-0081"
       }
     },
@@ -65400,7 +65400,7 @@
         "account_age_days": 1053,
         "tier_score": 80,
         "is_employee": false,
-        "signup_ts": 1722902400000,
+        "signup_ts": "2024-08-06T00:00:00Z",
         "merchant_id": "m-0400"
       }
     },
@@ -65418,7 +65418,7 @@
         "account_age_days": 832,
         "tier_score": 2,
         "is_employee": false,
-        "signup_ts": 1706486400000,
+        "signup_ts": "2024-01-29T00:00:00Z",
         "merchant_id": "m-0254"
       }
     },
@@ -65436,7 +65436,7 @@
         "account_age_days": 1741,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1779840000000,
+        "signup_ts": "2026-05-27T00:00:00Z",
         "merchant_id": "m-0064"
       }
     },
@@ -65455,7 +65455,7 @@
         "account_age_days": 1945,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1711411200000,
+        "signup_ts": "2024-03-26T00:00:00Z",
         "merchant_id": "m-0100"
       }
     },
@@ -65473,7 +65473,7 @@
         "account_age_days": 295,
         "tier_score": 36,
         "is_employee": false,
-        "signup_ts": 1746403200000,
+        "signup_ts": "2025-05-05T00:00:00Z",
         "merchant_id": "m-0166"
       }
     },
@@ -65492,7 +65492,7 @@
         "account_age_days": 570,
         "tier_score": 51,
         "is_employee": false,
-        "signup_ts": 1732492800000,
+        "signup_ts": "2024-11-25T00:00:00Z",
         "merchant_id": "m-0211"
       }
     },
@@ -65512,7 +65512,7 @@
         "account_age_days": 1467,
         "tier_score": 53,
         "is_employee": false,
-        "signup_ts": 1771200000000,
+        "signup_ts": "2026-02-16T00:00:00Z",
         "merchant_id": "m-0480"
       }
     },
@@ -65530,7 +65530,7 @@
         "account_age_days": 1022,
         "tier_score": 42,
         "is_employee": false,
-        "signup_ts": 1727308800000,
+        "signup_ts": "2024-09-26T00:00:00Z",
         "merchant_id": "m-0004"
       }
     },
@@ -65549,7 +65549,7 @@
         "account_age_days": 1355,
         "tier_score": 89,
         "is_employee": false,
-        "signup_ts": 1757116800000,
+        "signup_ts": "2025-09-06T00:00:00Z",
         "merchant_id": "m-0340"
       }
     },
@@ -65568,7 +65568,7 @@
         "account_age_days": 1047,
         "tier_score": 81,
         "is_employee": false,
-        "signup_ts": 1748390400000,
+        "signup_ts": "2025-05-28T00:00:00Z",
         "merchant_id": "m-0089"
       }
     },
@@ -65587,7 +65587,7 @@
         "account_age_days": 1805,
         "tier_score": 85,
         "is_employee": false,
-        "signup_ts": 1726531200000,
+        "signup_ts": "2024-09-17T00:00:00Z",
         "merchant_id": "m-0173"
       }
     },
@@ -65606,7 +65606,7 @@
         "account_age_days": 223,
         "tier_score": 67,
         "is_employee": false,
-        "signup_ts": 1710892800000,
+        "signup_ts": "2024-03-20T00:00:00Z",
         "merchant_id": "m-0372"
       }
     },
@@ -65622,7 +65622,7 @@
         "account_age_days": 572,
         "tier_score": 57,
         "is_employee": false,
-        "signup_ts": 1764806400000,
+        "signup_ts": "2025-12-04T00:00:00Z",
         "merchant_id": "m-0101"
       }
     },
@@ -65641,7 +65641,7 @@
         "account_age_days": 661,
         "tier_score": 79,
         "is_employee": false,
-        "signup_ts": 1736380800000,
+        "signup_ts": "2025-01-09T00:00:00Z",
         "merchant_id": "m-0481"
       }
     },
@@ -65660,7 +65660,7 @@
         "account_age_days": 35,
         "tier_score": 86,
         "is_employee": false,
-        "signup_ts": 1746662400000,
+        "signup_ts": "2025-05-08T00:00:00Z",
         "merchant_id": "m-0338"
       }
     },
@@ -65681,7 +65681,7 @@
         "account_age_days": 134,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1776988800000,
+        "signup_ts": "2026-04-24T00:00:00Z",
         "merchant_id": "m-0380"
       }
     },
@@ -65699,7 +65699,7 @@
         "account_age_days": 1534,
         "tier_score": 11,
         "is_employee": false,
-        "signup_ts": 1750377600000,
+        "signup_ts": "2025-06-20T00:00:00Z",
         "merchant_id": "m-0249"
       }
     },
@@ -65717,7 +65717,7 @@
         "account_age_days": 1211,
         "tier_score": 18,
         "is_employee": false,
-        "signup_ts": 1748476800000,
+        "signup_ts": "2025-05-29T00:00:00Z",
         "merchant_id": "m-0354"
       }
     },
@@ -65737,7 +65737,7 @@
         "account_age_days": 995,
         "tier_score": 43,
         "is_employee": false,
-        "signup_ts": 1737936000000,
+        "signup_ts": "2025-01-27T00:00:00Z",
         "merchant_id": "m-0262"
       }
     },
@@ -65755,7 +65755,7 @@
         "account_age_days": 420,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1750204800000,
+        "signup_ts": "2025-06-18T00:00:00Z",
         "merchant_id": "m-0264"
       }
     },
@@ -65777,7 +65777,7 @@
         "account_age_days": 1015,
         "tier_score": 91,
         "is_employee": false,
-        "signup_ts": 1740960000000,
+        "signup_ts": "2025-03-03T00:00:00Z",
         "merchant_id": "m-0264"
       }
     },
@@ -65795,7 +65795,7 @@
         "account_age_days": 491,
         "tier_score": 91,
         "is_employee": false,
-        "signup_ts": 1737676800000,
+        "signup_ts": "2025-01-24T00:00:00Z",
         "merchant_id": "m-0482"
       }
     },
@@ -65811,7 +65811,7 @@
         "account_age_days": 428,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1746489600000,
+        "signup_ts": "2025-05-06T00:00:00Z",
         "merchant_id": "m-0330"
       }
     },
@@ -65831,7 +65831,7 @@
         "account_age_days": 1900,
         "tier_score": 18,
         "is_employee": false,
-        "signup_ts": 1710806400000,
+        "signup_ts": "2024-03-19T00:00:00Z",
         "merchant_id": "m-0426"
       }
     },
@@ -65849,7 +65849,7 @@
         "account_age_days": 1373,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1765411200000,
+        "signup_ts": "2025-12-11T00:00:00Z",
         "merchant_id": "m-0145"
       }
     },
@@ -65868,7 +65868,7 @@
         "account_age_days": 633,
         "tier_score": 1,
         "is_employee": false,
-        "signup_ts": 1707177600000,
+        "signup_ts": "2024-02-06T00:00:00Z",
         "merchant_id": "m-0134"
       }
     },
@@ -65886,7 +65886,7 @@
         "account_age_days": 1468,
         "tier_score": 20,
         "is_employee": false,
-        "signup_ts": 1788220800000,
+        "signup_ts": "2026-09-01T00:00:00Z",
         "merchant_id": "m-0340"
       }
     },
@@ -65905,7 +65905,7 @@
         "account_age_days": 106,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1724112000000,
+        "signup_ts": "2024-08-20T00:00:00Z",
         "merchant_id": "m-0249"
       }
     },
@@ -65925,7 +65925,7 @@
         "account_age_days": 881,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1789948800000,
+        "signup_ts": "2026-09-21T00:00:00Z",
         "merchant_id": "m-0025"
       }
     },
@@ -65944,7 +65944,7 @@
         "account_age_days": 137,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1776816000000,
+        "signup_ts": "2026-04-22T00:00:00Z",
         "merchant_id": "m-0357"
       }
     },
@@ -65962,7 +65962,7 @@
         "account_age_days": 1534,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1744156800000,
+        "signup_ts": "2025-04-09T00:00:00Z",
         "merchant_id": "m-0411"
       }
     },
@@ -65978,7 +65978,7 @@
         "account_age_days": 250,
         "tier_score": 8,
         "is_employee": false,
-        "signup_ts": 1723939200000,
+        "signup_ts": "2024-08-18T00:00:00Z",
         "merchant_id": "m-0187"
       }
     },
@@ -65998,7 +65998,7 @@
         "account_age_days": 1025,
         "tier_score": 51,
         "is_employee": false,
-        "signup_ts": 1704412800000,
+        "signup_ts": "2024-01-05T00:00:00Z",
         "merchant_id": "m-0253"
       }
     },
@@ -66016,7 +66016,7 @@
         "account_age_days": 146,
         "tier_score": 80,
         "is_employee": false,
-        "signup_ts": 1706572800000,
+        "signup_ts": "2024-01-30T00:00:00Z",
         "merchant_id": "m-0321"
       }
     },
@@ -66035,7 +66035,7 @@
         "account_age_days": 1069,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1707177600000,
+        "signup_ts": "2024-02-06T00:00:00Z",
         "merchant_id": "m-0491"
       }
     },
@@ -66054,7 +66054,7 @@
         "account_age_days": 607,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1781049600000,
+        "signup_ts": "2026-06-10T00:00:00Z",
         "merchant_id": "m-0186"
       }
     },
@@ -66073,7 +66073,7 @@
         "account_age_days": 1955,
         "tier_score": 57,
         "is_employee": false,
-        "signup_ts": 1739404800000,
+        "signup_ts": "2025-02-13T00:00:00Z",
         "merchant_id": "m-0488"
       }
     },
@@ -66089,7 +66089,7 @@
         "account_age_days": 1504,
         "tier_score": 28,
         "is_employee": false,
-        "signup_ts": 1739750400000,
+        "signup_ts": "2025-02-17T00:00:00Z",
         "merchant_id": "m-0142"
       }
     },
@@ -66108,7 +66108,7 @@
         "account_age_days": 793,
         "tier_score": 47,
         "is_employee": true,
-        "signup_ts": 1762905600000,
+        "signup_ts": "2025-11-12T00:00:00Z",
         "merchant_id": "m-0112"
       }
     },
@@ -66127,7 +66127,7 @@
         "account_age_days": 281,
         "tier_score": 21,
         "is_employee": false,
-        "signup_ts": 1776297600000,
+        "signup_ts": "2026-04-16T00:00:00Z",
         "merchant_id": "m-0076"
       }
     },
@@ -66147,7 +66147,7 @@
         "account_age_days": 388,
         "tier_score": 60,
         "is_employee": false,
-        "signup_ts": 1760486400000,
+        "signup_ts": "2025-10-15T00:00:00Z",
         "merchant_id": "m-0363"
       }
     },
@@ -66163,7 +66163,7 @@
         "account_age_days": 917,
         "tier_score": 19,
         "is_employee": false,
-        "signup_ts": 1752364800000,
+        "signup_ts": "2025-07-13T00:00:00Z",
         "merchant_id": "m-0315"
       }
     },
@@ -66182,7 +66182,7 @@
         "account_age_days": 1233,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1719792000000,
+        "signup_ts": "2024-07-01T00:00:00Z",
         "merchant_id": "m-0416"
       }
     },
@@ -66202,7 +66202,7 @@
         "account_age_days": 430,
         "tier_score": 85,
         "is_employee": false,
-        "signup_ts": 1787443200000,
+        "signup_ts": "2026-08-23T00:00:00Z",
         "merchant_id": "m-0202"
       }
     },
@@ -66221,7 +66221,7 @@
         "account_age_days": 1024,
         "tier_score": 70,
         "is_employee": false,
-        "signup_ts": 1709164800000,
+        "signup_ts": "2024-02-29T00:00:00Z",
         "merchant_id": "m-0196"
       }
     },
@@ -66239,7 +66239,7 @@
         "account_age_days": 850,
         "tier_score": 38,
         "is_employee": true,
-        "signup_ts": 1714608000000,
+        "signup_ts": "2024-05-02T00:00:00Z",
         "merchant_id": "m-0007"
       }
     },
@@ -66257,7 +66257,7 @@
         "account_age_days": 1558,
         "tier_score": 6,
         "is_employee": false,
-        "signup_ts": 1785542400000,
+        "signup_ts": "2026-08-01T00:00:00Z",
         "merchant_id": "m-0171"
       }
     },
@@ -66276,7 +66276,7 @@
         "account_age_days": 1163,
         "tier_score": 69,
         "is_employee": false,
-        "signup_ts": 1750636800000,
+        "signup_ts": "2025-06-23T00:00:00Z",
         "merchant_id": "m-0291"
       }
     },
@@ -66294,7 +66294,7 @@
         "account_age_days": 1873,
         "tier_score": 34,
         "is_employee": false,
-        "signup_ts": 1712966400000,
+        "signup_ts": "2024-04-13T00:00:00Z",
         "merchant_id": "m-0304"
       }
     },
@@ -66314,7 +66314,7 @@
         "account_age_days": 1062,
         "tier_score": 12,
         "is_employee": false,
-        "signup_ts": 1725321600000,
+        "signup_ts": "2024-09-03T00:00:00Z",
         "merchant_id": "m-0159"
       }
     },
@@ -66333,7 +66333,7 @@
         "account_age_days": 730,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1731974400000,
+        "signup_ts": "2024-11-19T00:00:00Z",
         "merchant_id": "m-0453"
       }
     },
@@ -66349,7 +66349,7 @@
         "account_age_days": 879,
         "tier_score": 67,
         "is_employee": false,
-        "signup_ts": 1708819200000,
+        "signup_ts": "2024-02-25T00:00:00Z",
         "merchant_id": "m-0113"
       }
     },
@@ -66367,7 +66367,7 @@
         "account_age_days": 1032,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1781222400000,
+        "signup_ts": "2026-06-12T00:00:00Z",
         "merchant_id": "m-0324"
       }
     },
@@ -66385,7 +66385,7 @@
         "account_age_days": 805,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1716768000000,
+        "signup_ts": "2024-05-27T00:00:00Z",
         "merchant_id": "m-0053"
       }
     },
@@ -66403,7 +66403,7 @@
         "account_age_days": 1311,
         "tier_score": 53,
         "is_employee": false,
-        "signup_ts": 1717804800000,
+        "signup_ts": "2024-06-08T00:00:00Z",
         "merchant_id": "m-0183"
       }
     },
@@ -66421,7 +66421,7 @@
         "account_age_days": 1796,
         "tier_score": 84,
         "is_employee": false,
-        "signup_ts": 1750982400000,
+        "signup_ts": "2025-06-27T00:00:00Z",
         "merchant_id": "m-0261"
       }
     },
@@ -66439,7 +66439,7 @@
         "account_age_days": 1444,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1747353600000,
+        "signup_ts": "2025-05-16T00:00:00Z",
         "merchant_id": "m-0011"
       }
     },
@@ -66455,7 +66455,7 @@
         "account_age_days": 1492,
         "tier_score": 56,
         "is_employee": false,
-        "signup_ts": 1716595200000,
+        "signup_ts": "2024-05-25T00:00:00Z",
         "merchant_id": "m-0448"
       }
     },
@@ -66471,7 +66471,7 @@
         "account_age_days": 1195,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1753142400000,
+        "signup_ts": "2025-07-22T00:00:00Z",
         "merchant_id": "m-0265"
       }
     },
@@ -66489,7 +66489,7 @@
         "account_age_days": 465,
         "tier_score": 89,
         "is_employee": false,
-        "signup_ts": 1763251200000,
+        "signup_ts": "2025-11-16T00:00:00Z",
         "merchant_id": "m-0268"
       }
     },
@@ -66509,7 +66509,7 @@
         "account_age_days": 1744,
         "tier_score": 74,
         "is_employee": false,
-        "signup_ts": 1749168000000,
+        "signup_ts": "2025-06-06T00:00:00Z",
         "merchant_id": "m-0323"
       }
     },
@@ -66525,7 +66525,7 @@
         "account_age_days": 1379,
         "tier_score": 17,
         "is_employee": false,
-        "signup_ts": 1727136000000,
+        "signup_ts": "2024-09-24T00:00:00Z",
         "merchant_id": "m-0175"
       }
     },
@@ -66541,7 +66541,7 @@
         "account_age_days": 281,
         "tier_score": 2,
         "is_employee": false,
-        "signup_ts": 1769817600000,
+        "signup_ts": "2026-01-31T00:00:00Z",
         "merchant_id": "m-0352"
       }
     },
@@ -66557,7 +66557,7 @@
         "account_age_days": 1331,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1747440000000,
+        "signup_ts": "2025-05-17T00:00:00Z",
         "merchant_id": "m-0417"
       }
     },
@@ -66575,7 +66575,7 @@
         "account_age_days": 1218,
         "tier_score": 5,
         "is_employee": false,
-        "signup_ts": 1784937600000,
+        "signup_ts": "2026-07-25T00:00:00Z",
         "merchant_id": "m-0396"
       }
     },
@@ -66591,7 +66591,7 @@
         "account_age_days": 790,
         "tier_score": 47,
         "is_employee": false,
-        "signup_ts": 1776729600000,
+        "signup_ts": "2026-04-21T00:00:00Z",
         "merchant_id": "m-0221"
       }
     },
@@ -66609,7 +66609,7 @@
         "account_age_days": 394,
         "tier_score": 6,
         "is_employee": false,
-        "signup_ts": 1786492800000,
+        "signup_ts": "2026-08-12T00:00:00Z",
         "merchant_id": "m-0129"
       }
     },
@@ -66628,7 +66628,7 @@
         "account_age_days": 1491,
         "tier_score": 69,
         "is_employee": false,
-        "signup_ts": 1782086400000,
+        "signup_ts": "2026-06-22T00:00:00Z",
         "merchant_id": "m-0354"
       }
     },
@@ -66648,7 +66648,7 @@
         "account_age_days": 251,
         "tier_score": 47,
         "is_employee": false,
-        "signup_ts": 1789776000000,
+        "signup_ts": "2026-09-19T00:00:00Z",
         "merchant_id": "m-0106"
       }
     },
@@ -66666,7 +66666,7 @@
         "account_age_days": 1039,
         "tier_score": 53,
         "is_employee": false,
-        "signup_ts": 1723939200000,
+        "signup_ts": "2024-08-18T00:00:00Z",
         "merchant_id": "m-0161"
       }
     },
@@ -66686,7 +66686,7 @@
         "account_age_days": 876,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1789603200000,
+        "signup_ts": "2026-09-17T00:00:00Z",
         "merchant_id": "m-0432"
       }
     },
@@ -66704,7 +66704,7 @@
         "account_age_days": 1525,
         "tier_score": 19,
         "is_employee": false,
-        "signup_ts": 1763596800000,
+        "signup_ts": "2025-11-20T00:00:00Z",
         "merchant_id": "m-0480"
       }
     },
@@ -66724,7 +66724,7 @@
         "account_age_days": 1881,
         "tier_score": 78,
         "is_employee": false,
-        "signup_ts": 1720569600000,
+        "signup_ts": "2024-07-10T00:00:00Z",
         "merchant_id": "m-0230"
       }
     },
@@ -66742,7 +66742,7 @@
         "account_age_days": 987,
         "tier_score": 31,
         "is_employee": false,
-        "signup_ts": 1704153600000,
+        "signup_ts": "2024-01-02T00:00:00Z",
         "merchant_id": "m-0223"
       }
     },
@@ -66762,7 +66762,7 @@
         "account_age_days": 1371,
         "tier_score": 21,
         "is_employee": false,
-        "signup_ts": 1745625600000,
+        "signup_ts": "2025-04-26T00:00:00Z",
         "merchant_id": "m-0215"
       }
     },
@@ -66780,7 +66780,7 @@
         "account_age_days": 944,
         "tier_score": 25,
         "is_employee": false,
-        "signup_ts": 1775779200000,
+        "signup_ts": "2026-04-10T00:00:00Z",
         "merchant_id": "m-0420"
       }
     },
@@ -66796,7 +66796,7 @@
         "account_age_days": 1391,
         "tier_score": 89,
         "is_employee": false,
-        "signup_ts": 1777680000000,
+        "signup_ts": "2026-05-02T00:00:00Z",
         "merchant_id": "m-0103"
       }
     },
@@ -66812,7 +66812,7 @@
         "account_age_days": 895,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1765929600000,
+        "signup_ts": "2025-12-17T00:00:00Z",
         "merchant_id": "m-0239"
       }
     },
@@ -66832,7 +66832,7 @@
         "account_age_days": 1604,
         "tier_score": 87,
         "is_employee": false,
-        "signup_ts": 1738195200000,
+        "signup_ts": "2025-01-30T00:00:00Z",
         "merchant_id": "m-0142"
       }
     },
@@ -66851,7 +66851,7 @@
         "account_age_days": 1156,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1729123200000,
+        "signup_ts": "2024-10-17T00:00:00Z",
         "merchant_id": "m-0238"
       }
     },
@@ -66870,7 +66870,7 @@
         "account_age_days": 7,
         "tier_score": 64,
         "is_employee": false,
-        "signup_ts": 1722297600000,
+        "signup_ts": "2024-07-30T00:00:00Z",
         "merchant_id": "m-0492"
       }
     },
@@ -66889,7 +66889,7 @@
         "account_age_days": 618,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1738540800000,
+        "signup_ts": "2025-02-03T00:00:00Z",
         "merchant_id": "m-0111"
       }
     },
@@ -66908,7 +66908,7 @@
         "account_age_days": 1044,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1746403200000,
+        "signup_ts": "2025-05-05T00:00:00Z",
         "merchant_id": "m-0004"
       }
     },
@@ -66926,7 +66926,7 @@
         "account_age_days": 389,
         "tier_score": 8,
         "is_employee": false,
-        "signup_ts": 1736899200000,
+        "signup_ts": "2025-01-15T00:00:00Z",
         "merchant_id": "m-0321"
       }
     },
@@ -66945,7 +66945,7 @@
         "account_age_days": 576,
         "tier_score": 43,
         "is_employee": false,
-        "signup_ts": 1731628800000,
+        "signup_ts": "2024-11-15T00:00:00Z",
         "merchant_id": "m-0033"
       }
     },
@@ -66963,7 +66963,7 @@
         "account_age_days": 460,
         "tier_score": 31,
         "is_employee": true,
-        "signup_ts": 1742860800000,
+        "signup_ts": "2025-03-25T00:00:00Z",
         "merchant_id": "m-0002"
       }
     },
@@ -66981,7 +66981,7 @@
         "account_age_days": 1320,
         "tier_score": 51,
         "is_employee": false,
-        "signup_ts": 1728259200000,
+        "signup_ts": "2024-10-07T00:00:00Z",
         "merchant_id": "m-0459"
       }
     },
@@ -67001,7 +67001,7 @@
         "account_age_days": 1734,
         "tier_score": 30,
         "is_employee": false,
-        "signup_ts": 1767484800000,
+        "signup_ts": "2026-01-04T00:00:00Z",
         "merchant_id": "m-0462"
       }
     },
@@ -67021,7 +67021,7 @@
         "account_age_days": 1952,
         "tier_score": 95,
         "is_employee": true,
-        "signup_ts": 1733443200000,
+        "signup_ts": "2024-12-06T00:00:00Z",
         "merchant_id": "m-0340"
       }
     },
@@ -67039,7 +67039,7 @@
         "account_age_days": 1623,
         "tier_score": 37,
         "is_employee": false,
-        "signup_ts": 1766793600000,
+        "signup_ts": "2025-12-27T00:00:00Z",
         "merchant_id": "m-0215"
       }
     },
@@ -67058,7 +67058,7 @@
         "account_age_days": 337,
         "tier_score": 43,
         "is_employee": false,
-        "signup_ts": 1724457600000,
+        "signup_ts": "2024-08-24T00:00:00Z",
         "merchant_id": "m-0467"
       }
     },
@@ -67077,7 +67077,7 @@
         "account_age_days": 698,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1770336000000,
+        "signup_ts": "2026-02-06T00:00:00Z",
         "merchant_id": "m-0109"
       }
     },
@@ -67096,7 +67096,7 @@
         "account_age_days": 1845,
         "tier_score": 31,
         "is_employee": false,
-        "signup_ts": 1722816000000,
+        "signup_ts": "2024-08-05T00:00:00Z",
         "merchant_id": "m-0297"
       }
     },
@@ -67115,7 +67115,7 @@
         "account_age_days": 168,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1734307200000,
+        "signup_ts": "2024-12-16T00:00:00Z",
         "merchant_id": "m-0387"
       }
     },
@@ -67131,7 +67131,7 @@
         "account_age_days": 3,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1784073600000,
+        "signup_ts": "2026-07-15T00:00:00Z",
         "merchant_id": "m-0041"
       }
     },
@@ -67147,7 +67147,7 @@
         "account_age_days": 768,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1727136000000,
+        "signup_ts": "2024-09-24T00:00:00Z",
         "merchant_id": "m-0388"
       }
     },
@@ -67163,7 +67163,7 @@
         "account_age_days": 1042,
         "tier_score": 16,
         "is_employee": false,
-        "signup_ts": 1778803200000,
+        "signup_ts": "2026-05-15T00:00:00Z",
         "merchant_id": "m-0072"
       }
     },
@@ -67182,7 +67182,7 @@
         "account_age_days": 654,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1745712000000,
+        "signup_ts": "2025-04-27T00:00:00Z",
         "merchant_id": "m-0195"
       }
     },
@@ -67202,7 +67202,7 @@
         "account_age_days": 1943,
         "tier_score": 11,
         "is_employee": false,
-        "signup_ts": 1748390400000,
+        "signup_ts": "2025-05-28T00:00:00Z",
         "merchant_id": "m-0393"
       }
     },
@@ -67220,7 +67220,7 @@
         "account_age_days": 422,
         "tier_score": 97,
         "is_employee": false,
-        "signup_ts": 1704499200000,
+        "signup_ts": "2024-01-06T00:00:00Z",
         "merchant_id": "m-0117"
       }
     },
@@ -67239,7 +67239,7 @@
         "account_age_days": 516,
         "tier_score": 68,
         "is_employee": false,
-        "signup_ts": 1726876800000,
+        "signup_ts": "2024-09-21T00:00:00Z",
         "merchant_id": "m-0076"
       }
     },
@@ -67258,7 +67258,7 @@
         "account_age_days": 1871,
         "tier_score": 70,
         "is_employee": false,
-        "signup_ts": 1716595200000,
+        "signup_ts": "2024-05-25T00:00:00Z",
         "merchant_id": "m-0439"
       }
     },
@@ -67276,7 +67276,7 @@
         "account_age_days": 271,
         "tier_score": 62,
         "is_employee": false,
-        "signup_ts": 1743033600000,
+        "signup_ts": "2025-03-27T00:00:00Z",
         "merchant_id": "m-0496"
       }
     },
@@ -67294,7 +67294,7 @@
         "account_age_days": 808,
         "tier_score": 68,
         "is_employee": false,
-        "signup_ts": 1724976000000,
+        "signup_ts": "2024-08-30T00:00:00Z",
         "merchant_id": "m-0104"
       }
     },
@@ -67312,7 +67312,7 @@
         "account_age_days": 1473,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1712448000000,
+        "signup_ts": "2024-04-07T00:00:00Z",
         "merchant_id": "m-0380"
       }
     },
@@ -67330,7 +67330,7 @@
         "account_age_days": 856,
         "tier_score": 44,
         "is_employee": false,
-        "signup_ts": 1717372800000,
+        "signup_ts": "2024-06-03T00:00:00Z",
         "merchant_id": "m-0011"
       }
     },
@@ -67348,7 +67348,7 @@
         "account_age_days": 432,
         "tier_score": 64,
         "is_employee": false,
-        "signup_ts": 1754092800000,
+        "signup_ts": "2025-08-02T00:00:00Z",
         "merchant_id": "m-0480"
       }
     },
@@ -67368,7 +67368,7 @@
         "account_age_days": 403,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1707350400000,
+        "signup_ts": "2024-02-08T00:00:00Z",
         "merchant_id": "m-0491"
       }
     },
@@ -67388,7 +67388,7 @@
         "account_age_days": 762,
         "tier_score": 49,
         "is_employee": false,
-        "signup_ts": 1734134400000,
+        "signup_ts": "2024-12-14T00:00:00Z",
         "merchant_id": "m-0414"
       }
     },
@@ -67409,7 +67409,7 @@
         "account_age_days": 677,
         "tier_score": 53,
         "is_employee": false,
-        "signup_ts": 1723593600000,
+        "signup_ts": "2024-08-14T00:00:00Z",
         "merchant_id": "m-0018"
       }
     },
@@ -67428,7 +67428,7 @@
         "account_age_days": 248,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1778371200000,
+        "signup_ts": "2026-05-10T00:00:00Z",
         "merchant_id": "m-0310"
       }
     },
@@ -67448,7 +67448,7 @@
         "account_age_days": 180,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1778630400000,
+        "signup_ts": "2026-05-13T00:00:00Z",
         "merchant_id": "m-0459"
       }
     },
@@ -67467,7 +67467,7 @@
         "account_age_days": 1772,
         "tier_score": 62,
         "is_employee": false,
-        "signup_ts": 1751241600000,
+        "signup_ts": "2025-06-30T00:00:00Z",
         "merchant_id": "m-0346"
       }
     },
@@ -67486,7 +67486,7 @@
         "account_age_days": 1522,
         "tier_score": 76,
         "is_employee": false,
-        "signup_ts": 1713916800000,
+        "signup_ts": "2024-04-24T00:00:00Z",
         "merchant_id": "m-0302"
       }
     },
@@ -67505,7 +67505,7 @@
         "account_age_days": 727,
         "tier_score": 30,
         "is_employee": true,
-        "signup_ts": 1729900800000,
+        "signup_ts": "2024-10-26T00:00:00Z",
         "merchant_id": "m-0251"
       }
     },
@@ -67521,7 +67521,7 @@
         "account_age_days": 1152,
         "tier_score": 56,
         "is_employee": true,
-        "signup_ts": 1752624000000,
+        "signup_ts": "2025-07-16T00:00:00Z",
         "merchant_id": "m-0048"
       }
     },
@@ -67539,7 +67539,7 @@
         "account_age_days": 1228,
         "tier_score": 23,
         "is_employee": false,
-        "signup_ts": 1782259200000,
+        "signup_ts": "2026-06-24T00:00:00Z",
         "merchant_id": "m-0176"
       }
     },
@@ -67557,7 +67557,7 @@
         "account_age_days": 570,
         "tier_score": 69,
         "is_employee": true,
-        "signup_ts": 1760227200000,
+        "signup_ts": "2025-10-12T00:00:00Z",
         "merchant_id": "m-0401"
       }
     },
@@ -67577,7 +67577,7 @@
         "account_age_days": 649,
         "tier_score": 75,
         "is_employee": false,
-        "signup_ts": 1727654400000,
+        "signup_ts": "2024-09-30T00:00:00Z",
         "merchant_id": "m-0312"
       }
     },
@@ -67597,7 +67597,7 @@
         "account_age_days": 1983,
         "tier_score": 1,
         "is_employee": false,
-        "signup_ts": 1768780800000,
+        "signup_ts": "2026-01-19T00:00:00Z",
         "merchant_id": "m-0457"
       }
     },
@@ -67613,7 +67613,7 @@
         "account_age_days": 103,
         "tier_score": 94,
         "is_employee": false,
-        "signup_ts": 1729555200000,
+        "signup_ts": "2024-10-22T00:00:00Z",
         "merchant_id": "m-0092"
       }
     },
@@ -67631,7 +67631,7 @@
         "account_age_days": 161,
         "tier_score": 62,
         "is_employee": false,
-        "signup_ts": 1722643200000,
+        "signup_ts": "2024-08-03T00:00:00Z",
         "merchant_id": "m-0331"
       }
     },
@@ -67650,7 +67650,7 @@
         "account_age_days": 1533,
         "tier_score": 68,
         "is_employee": false,
-        "signup_ts": 1776816000000,
+        "signup_ts": "2026-04-22T00:00:00Z",
         "merchant_id": "m-0294"
       }
     },
@@ -67669,7 +67669,7 @@
         "account_age_days": 1947,
         "tier_score": 76,
         "is_employee": false,
-        "signup_ts": 1717804800000,
+        "signup_ts": "2024-06-08T00:00:00Z",
         "merchant_id": "m-0092"
       }
     },
@@ -67685,7 +67685,7 @@
         "account_age_days": 1624,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1781913600000,
+        "signup_ts": "2026-06-20T00:00:00Z",
         "merchant_id": "m-0227"
       }
     },
@@ -67703,7 +67703,7 @@
         "account_age_days": 453,
         "tier_score": 21,
         "is_employee": false,
-        "signup_ts": 1741046400000,
+        "signup_ts": "2025-03-04T00:00:00Z",
         "merchant_id": "m-0078"
       }
     },
@@ -67721,7 +67721,7 @@
         "account_age_days": 1223,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1719014400000,
+        "signup_ts": "2024-06-22T00:00:00Z",
         "merchant_id": "m-0479"
       }
     },
@@ -67739,7 +67739,7 @@
         "account_age_days": 18,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1758067200000,
+        "signup_ts": "2025-09-17T00:00:00Z",
         "merchant_id": "m-0407"
       }
     },
@@ -67758,7 +67758,7 @@
         "account_age_days": 304,
         "tier_score": 36,
         "is_employee": false,
-        "signup_ts": 1724716800000,
+        "signup_ts": "2024-08-27T00:00:00Z",
         "merchant_id": "m-0172"
       }
     },
@@ -67777,7 +67777,7 @@
         "account_age_days": 752,
         "tier_score": 53,
         "is_employee": true,
-        "signup_ts": 1781827200000,
+        "signup_ts": "2026-06-19T00:00:00Z",
         "merchant_id": "m-0490"
       }
     },
@@ -67795,7 +67795,7 @@
         "account_age_days": 1947,
         "tier_score": 2,
         "is_employee": false,
-        "signup_ts": 1759017600000,
+        "signup_ts": "2025-09-28T00:00:00Z",
         "merchant_id": "m-0096"
       }
     },
@@ -67814,7 +67814,7 @@
         "account_age_days": 853,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1755475200000,
+        "signup_ts": "2025-08-18T00:00:00Z",
         "merchant_id": "m-0346"
       }
     },
@@ -67832,7 +67832,7 @@
         "account_age_days": 1688,
         "tier_score": 5,
         "is_employee": true,
-        "signup_ts": 1743811200000,
+        "signup_ts": "2025-04-05T00:00:00Z",
         "merchant_id": "m-0061"
       }
     },
@@ -67850,7 +67850,7 @@
         "account_age_days": 1429,
         "tier_score": 45,
         "is_employee": false,
-        "signup_ts": 1784851200000,
+        "signup_ts": "2026-07-24T00:00:00Z",
         "merchant_id": "m-0382"
       }
     },
@@ -67868,7 +67868,7 @@
         "account_age_days": 386,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1779148800000,
+        "signup_ts": "2026-05-19T00:00:00Z",
         "merchant_id": "m-0103"
       }
     },
@@ -67887,7 +67887,7 @@
         "account_age_days": 1081,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1782086400000,
+        "signup_ts": "2026-06-22T00:00:00Z",
         "merchant_id": "m-0264"
       }
     },
@@ -67905,7 +67905,7 @@
         "account_age_days": 26,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1745280000000,
+        "signup_ts": "2025-04-22T00:00:00Z",
         "merchant_id": "m-0445"
       }
     },
@@ -67923,7 +67923,7 @@
         "account_age_days": 1756,
         "tier_score": 56,
         "is_employee": false,
-        "signup_ts": 1781827200000,
+        "signup_ts": "2026-06-19T00:00:00Z",
         "merchant_id": "m-0460"
       }
     },
@@ -67941,7 +67941,7 @@
         "account_age_days": 363,
         "tier_score": 93,
         "is_employee": false,
-        "signup_ts": 1749686400000,
+        "signup_ts": "2025-06-12T00:00:00Z",
         "merchant_id": "m-0316"
       }
     },
@@ -67960,7 +67960,7 @@
         "account_age_days": 72,
         "tier_score": 29,
         "is_employee": false,
-        "signup_ts": 1729555200000,
+        "signup_ts": "2024-10-22T00:00:00Z",
         "merchant_id": "m-0313"
       }
     },
@@ -67978,7 +67978,7 @@
         "account_age_days": 1778,
         "tier_score": 22,
         "is_employee": false,
-        "signup_ts": 1750550400000,
+        "signup_ts": "2025-06-22T00:00:00Z",
         "merchant_id": "m-0026"
       }
     },
@@ -67994,7 +67994,7 @@
         "account_age_days": 1616,
         "tier_score": 31,
         "is_employee": false,
-        "signup_ts": 1712016000000,
+        "signup_ts": "2024-04-02T00:00:00Z",
         "merchant_id": "m-0036"
       }
     },
@@ -68010,7 +68010,7 @@
         "account_age_days": 1116,
         "tier_score": 4,
         "is_employee": false,
-        "signup_ts": 1722816000000,
+        "signup_ts": "2024-08-05T00:00:00Z",
         "merchant_id": "m-0285"
       }
     },
@@ -68028,7 +68028,7 @@
         "account_age_days": 1170,
         "tier_score": 57,
         "is_employee": false,
-        "signup_ts": 1743552000000,
+        "signup_ts": "2025-04-02T00:00:00Z",
         "merchant_id": "m-0154"
       }
     },
@@ -68048,7 +68048,7 @@
         "account_age_days": 496,
         "tier_score": 34,
         "is_employee": false,
-        "signup_ts": 1766880000000,
+        "signup_ts": "2025-12-28T00:00:00Z",
         "merchant_id": "m-0296"
       }
     },
@@ -68067,7 +68067,7 @@
         "account_age_days": 503,
         "tier_score": 32,
         "is_employee": false,
-        "signup_ts": 1774483200000,
+        "signup_ts": "2026-03-26T00:00:00Z",
         "merchant_id": "m-0293"
       }
     },
@@ -68086,7 +68086,7 @@
         "account_age_days": 1598,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1752710400000,
+        "signup_ts": "2025-07-17T00:00:00Z",
         "merchant_id": "m-0199"
       }
     },
@@ -68104,7 +68104,7 @@
         "account_age_days": 1638,
         "tier_score": 8,
         "is_employee": false,
-        "signup_ts": 1762992000000,
+        "signup_ts": "2025-11-13T00:00:00Z",
         "merchant_id": "m-0150"
       }
     },
@@ -68120,7 +68120,7 @@
         "account_age_days": 1606,
         "tier_score": 74,
         "is_employee": false,
-        "signup_ts": 1784246400000,
+        "signup_ts": "2026-07-17T00:00:00Z",
         "merchant_id": "m-0154"
       }
     },
@@ -68139,7 +68139,7 @@
         "account_age_days": 1268,
         "tier_score": 38,
         "is_employee": true,
-        "signup_ts": 1768867200000,
+        "signup_ts": "2026-01-20T00:00:00Z",
         "merchant_id": "m-0283"
       }
     },
@@ -68158,7 +68158,7 @@
         "account_age_days": 891,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1745798400000,
+        "signup_ts": "2025-04-28T00:00:00Z",
         "merchant_id": "m-0269"
       }
     },
@@ -68177,7 +68177,7 @@
         "account_age_days": 345,
         "tier_score": 76,
         "is_employee": false,
-        "signup_ts": 1727654400000,
+        "signup_ts": "2024-09-30T00:00:00Z",
         "merchant_id": "m-0212"
       }
     },
@@ -68195,7 +68195,7 @@
         "account_age_days": 449,
         "tier_score": 81,
         "is_employee": false,
-        "signup_ts": 1771632000000,
+        "signup_ts": "2026-02-21T00:00:00Z",
         "merchant_id": "m-0243"
       }
     },
@@ -68213,7 +68213,7 @@
         "account_age_days": 349,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1776124800000,
+        "signup_ts": "2026-04-14T00:00:00Z",
         "merchant_id": "m-0168"
       }
     },
@@ -68232,7 +68232,7 @@
         "account_age_days": 1455,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1772236800000,
+        "signup_ts": "2026-02-28T00:00:00Z",
         "merchant_id": "m-0121"
       }
     },
@@ -68248,7 +68248,7 @@
         "account_age_days": 1239,
         "tier_score": 98,
         "is_employee": false,
-        "signup_ts": 1756857600000,
+        "signup_ts": "2025-09-03T00:00:00Z",
         "merchant_id": "m-0189"
       }
     },
@@ -68266,7 +68266,7 @@
         "account_age_days": 225,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1776556800000,
+        "signup_ts": "2026-04-19T00:00:00Z",
         "merchant_id": "m-0266"
       }
     },
@@ -68284,7 +68284,7 @@
         "account_age_days": 154,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1743811200000,
+        "signup_ts": "2025-04-05T00:00:00Z",
         "merchant_id": "m-0180"
       }
     },
@@ -68302,7 +68302,7 @@
         "account_age_days": 421,
         "tier_score": 9,
         "is_employee": false,
-        "signup_ts": 1769644800000,
+        "signup_ts": "2026-01-29T00:00:00Z",
         "merchant_id": "m-0306"
       }
     },
@@ -68321,7 +68321,7 @@
         "account_age_days": 1735,
         "tier_score": 15,
         "is_employee": false,
-        "signup_ts": 1714089600000,
+        "signup_ts": "2024-04-26T00:00:00Z",
         "merchant_id": "m-0346"
       }
     },
@@ -68339,7 +68339,7 @@
         "account_age_days": 664,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1751587200000,
+        "signup_ts": "2025-07-04T00:00:00Z",
         "merchant_id": "m-0264"
       }
     },
@@ -68359,7 +68359,7 @@
         "account_age_days": 213,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1734220800000,
+        "signup_ts": "2024-12-15T00:00:00Z",
         "merchant_id": "m-0016"
       }
     },
@@ -68375,7 +68375,7 @@
         "account_age_days": 767,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1719792000000,
+        "signup_ts": "2024-07-01T00:00:00Z",
         "merchant_id": "m-0396"
       }
     },
@@ -68395,7 +68395,7 @@
         "account_age_days": 399,
         "tier_score": 16,
         "is_employee": false,
-        "signup_ts": 1736121600000,
+        "signup_ts": "2025-01-06T00:00:00Z",
         "merchant_id": "m-0439"
       }
     },
@@ -68414,7 +68414,7 @@
         "account_age_days": 1859,
         "tier_score": 79,
         "is_employee": false,
-        "signup_ts": 1752883200000,
+        "signup_ts": "2025-07-19T00:00:00Z",
         "merchant_id": "m-0117"
       }
     },
@@ -68433,7 +68433,7 @@
         "account_age_days": 1729,
         "tier_score": 41,
         "is_employee": false,
-        "signup_ts": 1743292800000,
+        "signup_ts": "2025-03-30T00:00:00Z",
         "merchant_id": "m-0452"
       }
     },
@@ -68454,7 +68454,7 @@
         "account_age_days": 1249,
         "tier_score": 64,
         "is_employee": false,
-        "signup_ts": 1721952000000,
+        "signup_ts": "2024-07-26T00:00:00Z",
         "merchant_id": "m-0004"
       }
     },
@@ -68473,7 +68473,7 @@
         "account_age_days": 1024,
         "tier_score": 67,
         "is_employee": false,
-        "signup_ts": 1719014400000,
+        "signup_ts": "2024-06-22T00:00:00Z",
         "merchant_id": "m-0304"
       }
     },
@@ -68492,7 +68492,7 @@
         "account_age_days": 97,
         "tier_score": 63,
         "is_employee": false,
-        "signup_ts": 1776038400000,
+        "signup_ts": "2026-04-13T00:00:00Z",
         "merchant_id": "m-0378"
       }
     },
@@ -68510,7 +68510,7 @@
         "account_age_days": 347,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1757894400000,
+        "signup_ts": "2025-09-15T00:00:00Z",
         "merchant_id": "m-0040"
       }
     },
@@ -68530,7 +68530,7 @@
         "account_age_days": 1800,
         "tier_score": 66,
         "is_employee": false,
-        "signup_ts": 1723507200000,
+        "signup_ts": "2024-08-13T00:00:00Z",
         "merchant_id": "m-0281"
       }
     },
@@ -68549,7 +68549,7 @@
         "account_age_days": 34,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1781049600000,
+        "signup_ts": "2026-06-10T00:00:00Z",
         "merchant_id": "m-0391"
       }
     },
@@ -68567,7 +68567,7 @@
         "account_age_days": 1124,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1790294400000,
+        "signup_ts": "2026-09-25T00:00:00Z",
         "merchant_id": "m-0487"
       }
     },
@@ -68586,7 +68586,7 @@
         "account_age_days": 810,
         "tier_score": 21,
         "is_employee": false,
-        "signup_ts": 1771372800000,
+        "signup_ts": "2026-02-18T00:00:00Z",
         "merchant_id": "m-0185"
       }
     },
@@ -68605,7 +68605,7 @@
         "account_age_days": 1761,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1724976000000,
+        "signup_ts": "2024-08-30T00:00:00Z",
         "merchant_id": "m-0291"
       }
     },
@@ -68621,7 +68621,7 @@
         "account_age_days": 1963,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1732665600000,
+        "signup_ts": "2024-11-27T00:00:00Z",
         "merchant_id": "m-0294"
       }
     },
@@ -68639,7 +68639,7 @@
         "account_age_days": 1119,
         "tier_score": 1,
         "is_employee": false,
-        "signup_ts": 1772496000000,
+        "signup_ts": "2026-03-03T00:00:00Z",
         "merchant_id": "m-0155"
       }
     },
@@ -68658,7 +68658,7 @@
         "account_age_days": 504,
         "tier_score": 20,
         "is_employee": false,
-        "signup_ts": 1704153600000,
+        "signup_ts": "2024-01-02T00:00:00Z",
         "merchant_id": "m-0457"
       }
     },
@@ -68676,7 +68676,7 @@
         "account_age_days": 813,
         "tier_score": 79,
         "is_employee": false,
-        "signup_ts": 1738281600000,
+        "signup_ts": "2025-01-31T00:00:00Z",
         "merchant_id": "m-0379"
       }
     },
@@ -68695,7 +68695,7 @@
         "account_age_days": 68,
         "tier_score": 67,
         "is_employee": false,
-        "signup_ts": 1788566400000,
+        "signup_ts": "2026-09-05T00:00:00Z",
         "merchant_id": "m-0347"
       }
     },
@@ -68713,7 +68713,7 @@
         "account_age_days": 708,
         "tier_score": 93,
         "is_employee": false,
-        "signup_ts": 1727913600000,
+        "signup_ts": "2024-10-03T00:00:00Z",
         "merchant_id": "m-0171"
       }
     },
@@ -68731,7 +68731,7 @@
         "account_age_days": 220,
         "tier_score": 3,
         "is_employee": false,
-        "signup_ts": 1744329600000,
+        "signup_ts": "2025-04-11T00:00:00Z",
         "merchant_id": "m-0251"
       }
     },
@@ -68750,7 +68750,7 @@
         "account_age_days": 653,
         "tier_score": 33,
         "is_employee": false,
-        "signup_ts": 1746144000000,
+        "signup_ts": "2025-05-02T00:00:00Z",
         "merchant_id": "m-0291"
       }
     },
@@ -68768,7 +68768,7 @@
         "account_age_days": 1155,
         "tier_score": 5,
         "is_employee": false,
-        "signup_ts": 1750464000000,
+        "signup_ts": "2025-06-21T00:00:00Z",
         "merchant_id": "m-0299"
       }
     },
@@ -68786,7 +68786,7 @@
         "account_age_days": 910,
         "tier_score": 27,
         "is_employee": false,
-        "signup_ts": 1735516800000,
+        "signup_ts": "2024-12-30T00:00:00Z",
         "merchant_id": "m-0277"
       }
     },
@@ -68804,7 +68804,7 @@
         "account_age_days": 541,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1765238400000,
+        "signup_ts": "2025-12-09T00:00:00Z",
         "merchant_id": "m-0074"
       }
     },
@@ -68822,7 +68822,7 @@
         "account_age_days": 170,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1743984000000,
+        "signup_ts": "2025-04-07T00:00:00Z",
         "merchant_id": "m-0378"
       }
     },
@@ -68842,7 +68842,7 @@
         "account_age_days": 938,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1760227200000,
+        "signup_ts": "2025-10-12T00:00:00Z",
         "merchant_id": "m-0363"
       }
     },
@@ -68861,7 +68861,7 @@
         "account_age_days": 427,
         "tier_score": 49,
         "is_employee": false,
-        "signup_ts": 1760054400000,
+        "signup_ts": "2025-10-10T00:00:00Z",
         "merchant_id": "m-0071"
       }
     },
@@ -68881,7 +68881,7 @@
         "account_age_days": 1277,
         "tier_score": 2,
         "is_employee": false,
-        "signup_ts": 1777766400000,
+        "signup_ts": "2026-05-03T00:00:00Z",
         "merchant_id": "m-0172"
       }
     },
@@ -68897,7 +68897,7 @@
         "account_age_days": 1172,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1749254400000,
+        "signup_ts": "2025-06-07T00:00:00Z",
         "merchant_id": "m-0290"
       }
     },
@@ -68913,7 +68913,7 @@
         "account_age_days": 1920,
         "tier_score": 99,
         "is_employee": false,
-        "signup_ts": 1783382400000,
+        "signup_ts": "2026-07-07T00:00:00Z",
         "merchant_id": "m-0370"
       }
     },
@@ -68932,7 +68932,7 @@
         "account_age_days": 1688,
         "tier_score": 60,
         "is_employee": false,
-        "signup_ts": 1743552000000,
+        "signup_ts": "2025-04-02T00:00:00Z",
         "merchant_id": "m-0455"
       }
     },
@@ -68951,7 +68951,7 @@
         "account_age_days": 1174,
         "tier_score": 78,
         "is_employee": false,
-        "signup_ts": 1731542400000,
+        "signup_ts": "2024-11-14T00:00:00Z",
         "merchant_id": "m-0301"
       }
     },
@@ -68971,7 +68971,7 @@
         "account_age_days": 136,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1762387200000,
+        "signup_ts": "2025-11-06T00:00:00Z",
         "merchant_id": "m-0119"
       }
     },
@@ -68990,7 +68990,7 @@
         "account_age_days": 1963,
         "tier_score": 76,
         "is_employee": false,
-        "signup_ts": 1728345600000,
+        "signup_ts": "2024-10-08T00:00:00Z",
         "merchant_id": "m-0083"
       }
     },
@@ -69008,7 +69008,7 @@
         "account_age_days": 615,
         "tier_score": 76,
         "is_employee": false,
-        "signup_ts": 1731024000000,
+        "signup_ts": "2024-11-08T00:00:00Z",
         "merchant_id": "m-0067"
       }
     },
@@ -69027,7 +69027,7 @@
         "account_age_days": 1959,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1752019200000,
+        "signup_ts": "2025-07-09T00:00:00Z",
         "merchant_id": "m-0245"
       }
     },
@@ -69046,7 +69046,7 @@
         "account_age_days": 346,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1735776000000,
+        "signup_ts": "2025-01-02T00:00:00Z",
         "merchant_id": "m-0085"
       }
     },
@@ -69062,7 +69062,7 @@
         "account_age_days": 1946,
         "tier_score": 31,
         "is_employee": true,
-        "signup_ts": 1713139200000,
+        "signup_ts": "2024-04-15T00:00:00Z",
         "merchant_id": "m-0285"
       }
     },
@@ -69080,7 +69080,7 @@
         "account_age_days": 1336,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1761523200000,
+        "signup_ts": "2025-10-27T00:00:00Z",
         "merchant_id": "m-0360"
       }
     },
@@ -69099,7 +69099,7 @@
         "account_age_days": 1923,
         "tier_score": 66,
         "is_employee": false,
-        "signup_ts": 1762819200000,
+        "signup_ts": "2025-11-11T00:00:00Z",
         "merchant_id": "m-0250"
       }
     },
@@ -69118,7 +69118,7 @@
         "account_age_days": 1606,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1709251200000,
+        "signup_ts": "2024-03-01T00:00:00Z",
         "merchant_id": "m-0491"
       }
     },
@@ -69138,7 +69138,7 @@
         "account_age_days": 1890,
         "tier_score": 75,
         "is_employee": false,
-        "signup_ts": 1785024000000,
+        "signup_ts": "2026-07-26T00:00:00Z",
         "merchant_id": "m-0388"
       }
     },
@@ -69158,7 +69158,7 @@
         "account_age_days": 1008,
         "tier_score": 88,
         "is_employee": false,
-        "signup_ts": 1709424000000,
+        "signup_ts": "2024-03-03T00:00:00Z",
         "merchant_id": "m-0419"
       }
     },
@@ -69176,7 +69176,7 @@
         "account_age_days": 886,
         "tier_score": 61,
         "is_employee": false,
-        "signup_ts": 1741651200000,
+        "signup_ts": "2025-03-11T00:00:00Z",
         "merchant_id": "m-0483"
       }
     },
@@ -69194,7 +69194,7 @@
         "account_age_days": 1061,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1716768000000,
+        "signup_ts": "2024-05-27T00:00:00Z",
         "merchant_id": "m-0438"
       }
     },
@@ -69212,7 +69212,7 @@
         "account_age_days": 1747,
         "tier_score": 45,
         "is_employee": false,
-        "signup_ts": 1752364800000,
+        "signup_ts": "2025-07-13T00:00:00Z",
         "merchant_id": "m-0302"
       }
     },
@@ -69230,7 +69230,7 @@
         "account_age_days": 1132,
         "tier_score": 65,
         "is_employee": false,
-        "signup_ts": 1776902400000,
+        "signup_ts": "2026-04-23T00:00:00Z",
         "merchant_id": "m-0440"
       }
     },
@@ -69248,7 +69248,7 @@
         "account_age_days": 697,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1764460800000,
+        "signup_ts": "2025-11-30T00:00:00Z",
         "merchant_id": "m-0294"
       }
     },
@@ -69266,7 +69266,7 @@
         "account_age_days": 311,
         "tier_score": 6,
         "is_employee": false,
-        "signup_ts": 1733788800000,
+        "signup_ts": "2024-12-10T00:00:00Z",
         "merchant_id": "m-0193"
       }
     },
@@ -69285,7 +69285,7 @@
         "account_age_days": 518,
         "tier_score": 2,
         "is_employee": false,
-        "signup_ts": 1776470400000,
+        "signup_ts": "2026-04-18T00:00:00Z",
         "merchant_id": "m-0013"
       }
     },
@@ -69304,7 +69304,7 @@
         "account_age_days": 1046,
         "tier_score": 86,
         "is_employee": true,
-        "signup_ts": 1751932800000,
+        "signup_ts": "2025-07-08T00:00:00Z",
         "merchant_id": "m-0322"
       }
     },
@@ -69322,7 +69322,7 @@
         "account_age_days": 891,
         "tier_score": 25,
         "is_employee": false,
-        "signup_ts": 1734912000000,
+        "signup_ts": "2024-12-23T00:00:00Z",
         "merchant_id": "m-0098"
       }
     },
@@ -69341,7 +69341,7 @@
         "account_age_days": 586,
         "tier_score": 41,
         "is_employee": false,
-        "signup_ts": 1728000000000,
+        "signup_ts": "2024-10-04T00:00:00Z",
         "merchant_id": "m-0192"
       }
     },
@@ -69359,7 +69359,7 @@
         "account_age_days": 1415,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1780272000000,
+        "signup_ts": "2026-06-01T00:00:00Z",
         "merchant_id": "m-0495"
       }
     },
@@ -69378,7 +69378,7 @@
         "account_age_days": 1419,
         "tier_score": 71,
         "is_employee": false,
-        "signup_ts": 1767916800000,
+        "signup_ts": "2026-01-09T00:00:00Z",
         "merchant_id": "m-0394"
       }
     },
@@ -69397,7 +69397,7 @@
         "account_age_days": 1153,
         "tier_score": 39,
         "is_employee": false,
-        "signup_ts": 1774483200000,
+        "signup_ts": "2026-03-26T00:00:00Z",
         "merchant_id": "m-0085"
       }
     },
@@ -69413,7 +69413,7 @@
         "account_age_days": 417,
         "tier_score": 44,
         "is_employee": false,
-        "signup_ts": 1771891200000,
+        "signup_ts": "2026-02-24T00:00:00Z",
         "merchant_id": "m-0424"
       }
     },
@@ -69431,7 +69431,7 @@
         "account_age_days": 63,
         "tier_score": 53,
         "is_employee": false,
-        "signup_ts": 1745625600000,
+        "signup_ts": "2025-04-26T00:00:00Z",
         "merchant_id": "m-0048"
       }
     },
@@ -69447,7 +69447,7 @@
         "account_age_days": 757,
         "tier_score": 19,
         "is_employee": false,
-        "signup_ts": 1753315200000,
+        "signup_ts": "2025-07-24T00:00:00Z",
         "merchant_id": "m-0314"
       }
     },
@@ -69466,7 +69466,7 @@
         "account_age_days": 1764,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1717718400000,
+        "signup_ts": "2024-06-07T00:00:00Z",
         "merchant_id": "m-0210"
       }
     },
@@ -69484,7 +69484,7 @@
         "account_age_days": 849,
         "tier_score": 65,
         "is_employee": false,
-        "signup_ts": 1720915200000,
+        "signup_ts": "2024-07-14T00:00:00Z",
         "merchant_id": "m-0343"
       }
     },
@@ -69500,7 +69500,7 @@
         "account_age_days": 1013,
         "tier_score": 10,
         "is_employee": true,
-        "signup_ts": 1747008000000,
+        "signup_ts": "2025-05-12T00:00:00Z",
         "merchant_id": "m-0017"
       }
     },
@@ -69518,7 +69518,7 @@
         "account_age_days": 54,
         "tier_score": 74,
         "is_employee": true,
-        "signup_ts": 1763942400000,
+        "signup_ts": "2025-11-24T00:00:00Z",
         "merchant_id": "m-0149"
       }
     },
@@ -69536,7 +69536,7 @@
         "account_age_days": 1007,
         "tier_score": 24,
         "is_employee": true,
-        "signup_ts": 1719532800000,
+        "signup_ts": "2024-06-28T00:00:00Z",
         "merchant_id": "m-0191"
       }
     },
@@ -69555,7 +69555,7 @@
         "account_age_days": 1009,
         "tier_score": 75,
         "is_employee": false,
-        "signup_ts": 1742947200000,
+        "signup_ts": "2025-03-26T00:00:00Z",
         "merchant_id": "m-0410"
       }
     },
@@ -69574,7 +69574,7 @@
         "account_age_days": 1104,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1724284800000,
+        "signup_ts": "2024-08-22T00:00:00Z",
         "merchant_id": "m-0473"
       }
     },
@@ -69593,7 +69593,7 @@
         "account_age_days": 1784,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1718236800000,
+        "signup_ts": "2024-06-13T00:00:00Z",
         "merchant_id": "m-0428"
       }
     },
@@ -69612,7 +69612,7 @@
         "account_age_days": 1156,
         "tier_score": 99,
         "is_employee": false,
-        "signup_ts": 1708992000000,
+        "signup_ts": "2024-02-27T00:00:00Z",
         "merchant_id": "m-0088"
       }
     },
@@ -69628,7 +69628,7 @@
         "account_age_days": 972,
         "tier_score": 1,
         "is_employee": false,
-        "signup_ts": 1731628800000,
+        "signup_ts": "2024-11-15T00:00:00Z",
         "merchant_id": "m-0101"
       }
     },
@@ -69646,7 +69646,7 @@
         "account_age_days": 1229,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1707264000000,
+        "signup_ts": "2024-02-07T00:00:00Z",
         "merchant_id": "m-0337"
       }
     },
@@ -69666,7 +69666,7 @@
         "account_age_days": 1969,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1750464000000,
+        "signup_ts": "2025-06-21T00:00:00Z",
         "merchant_id": "m-0235"
       }
     },
@@ -69685,7 +69685,7 @@
         "account_age_days": 1255,
         "tier_score": 34,
         "is_employee": true,
-        "signup_ts": 1753920000000,
+        "signup_ts": "2025-07-31T00:00:00Z",
         "merchant_id": "m-0386"
       }
     },
@@ -69705,7 +69705,7 @@
         "account_age_days": 1462,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1731628800000,
+        "signup_ts": "2024-11-15T00:00:00Z",
         "merchant_id": "m-0401"
       }
     },
@@ -69724,7 +69724,7 @@
         "account_age_days": 704,
         "tier_score": 94,
         "is_employee": false,
-        "signup_ts": 1776124800000,
+        "signup_ts": "2026-04-14T00:00:00Z",
         "merchant_id": "m-0340"
       }
     },
@@ -69743,7 +69743,7 @@
         "account_age_days": 176,
         "tier_score": 20,
         "is_employee": false,
-        "signup_ts": 1789171200000,
+        "signup_ts": "2026-09-12T00:00:00Z",
         "merchant_id": "m-0191"
       }
     },
@@ -69759,7 +69759,7 @@
         "account_age_days": 1292,
         "tier_score": 72,
         "is_employee": false,
-        "signup_ts": 1726963200000,
+        "signup_ts": "2024-09-22T00:00:00Z",
         "merchant_id": "m-0006"
       }
     },
@@ -69780,7 +69780,7 @@
         "account_age_days": 1464,
         "tier_score": 4,
         "is_employee": false,
-        "signup_ts": 1708041600000,
+        "signup_ts": "2024-02-16T00:00:00Z",
         "merchant_id": "m-0138"
       }
     },
@@ -69799,7 +69799,7 @@
         "account_age_days": 653,
         "tier_score": 58,
         "is_employee": false,
-        "signup_ts": 1752278400000,
+        "signup_ts": "2025-07-12T00:00:00Z",
         "merchant_id": "m-0040"
       }
     },
@@ -69815,7 +69815,7 @@
         "account_age_days": 608,
         "tier_score": 23,
         "is_employee": false,
-        "signup_ts": 1704585600000,
+        "signup_ts": "2024-01-07T00:00:00Z",
         "merchant_id": "m-0018"
       }
     },
@@ -69833,7 +69833,7 @@
         "account_age_days": 1284,
         "tier_score": 66,
         "is_employee": false,
-        "signup_ts": 1704585600000,
+        "signup_ts": "2024-01-07T00:00:00Z",
         "merchant_id": "m-0239"
       }
     },
@@ -69851,7 +69851,7 @@
         "account_age_days": 561,
         "tier_score": 81,
         "is_employee": false,
-        "signup_ts": 1740355200000,
+        "signup_ts": "2025-02-24T00:00:00Z",
         "merchant_id": "m-0400"
       }
     },
@@ -69867,7 +69867,7 @@
         "account_age_days": 1380,
         "tier_score": 86,
         "is_employee": false,
-        "signup_ts": 1761523200000,
+        "signup_ts": "2025-10-27T00:00:00Z",
         "merchant_id": "m-0424"
       }
     },
@@ -69885,7 +69885,7 @@
         "account_age_days": 1127,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1766966400000,
+        "signup_ts": "2025-12-29T00:00:00Z",
         "merchant_id": "m-0150"
       }
     },
@@ -69903,7 +69903,7 @@
         "account_age_days": 574,
         "tier_score": 45,
         "is_employee": false,
-        "signup_ts": 1779753600000,
+        "signup_ts": "2026-05-26T00:00:00Z",
         "merchant_id": "m-0438"
       }
     },
@@ -69921,7 +69921,7 @@
         "account_age_days": 1957,
         "tier_score": 11,
         "is_employee": false,
-        "signup_ts": 1750291200000,
+        "signup_ts": "2025-06-19T00:00:00Z",
         "merchant_id": "m-0288"
       }
     },
@@ -69939,7 +69939,7 @@
         "account_age_days": 278,
         "tier_score": 35,
         "is_employee": false,
-        "signup_ts": 1767225600000,
+        "signup_ts": "2026-01-01T00:00:00Z",
         "merchant_id": "m-0240"
       }
     },
@@ -69957,7 +69957,7 @@
         "account_age_days": 667,
         "tier_score": 45,
         "is_employee": true,
-        "signup_ts": 1734220800000,
+        "signup_ts": "2024-12-15T00:00:00Z",
         "merchant_id": "m-0005"
       }
     },
@@ -69975,7 +69975,7 @@
         "account_age_days": 469,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1719964800000,
+        "signup_ts": "2024-07-03T00:00:00Z",
         "merchant_id": "m-0229"
       }
     },
@@ -69995,7 +69995,7 @@
         "account_age_days": 360,
         "tier_score": 3,
         "is_employee": false,
-        "signup_ts": 1782864000000,
+        "signup_ts": "2026-07-01T00:00:00Z",
         "merchant_id": "m-0305"
       }
     },
@@ -70013,7 +70013,7 @@
         "account_age_days": 1809,
         "tier_score": 19,
         "is_employee": false,
-        "signup_ts": 1735862400000,
+        "signup_ts": "2025-01-03T00:00:00Z",
         "merchant_id": "m-0039"
       }
     },
@@ -70032,7 +70032,7 @@
         "account_age_days": 738,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1781913600000,
+        "signup_ts": "2026-06-20T00:00:00Z",
         "merchant_id": "m-0162"
       }
     },
@@ -70050,7 +70050,7 @@
         "account_age_days": 1772,
         "tier_score": 22,
         "is_employee": false,
-        "signup_ts": 1757376000000,
+        "signup_ts": "2025-09-09T00:00:00Z",
         "merchant_id": "m-0268"
       }
     },
@@ -70070,7 +70070,7 @@
         "account_age_days": 441,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1787011200000,
+        "signup_ts": "2026-08-18T00:00:00Z",
         "merchant_id": "m-0130"
       }
     },
@@ -70088,7 +70088,7 @@
         "account_age_days": 1961,
         "tier_score": 37,
         "is_employee": false,
-        "signup_ts": 1743897600000,
+        "signup_ts": "2025-04-06T00:00:00Z",
         "merchant_id": "m-0473"
       }
     },
@@ -70106,7 +70106,7 @@
         "account_age_days": 686,
         "tier_score": 4,
         "is_employee": false,
-        "signup_ts": 1771286400000,
+        "signup_ts": "2026-02-17T00:00:00Z",
         "merchant_id": "m-0036"
       }
     },
@@ -70125,7 +70125,7 @@
         "account_age_days": 399,
         "tier_score": 46,
         "is_employee": false,
-        "signup_ts": 1722297600000,
+        "signup_ts": "2024-07-30T00:00:00Z",
         "merchant_id": "m-0351"
       }
     },
@@ -70144,7 +70144,7 @@
         "account_age_days": 1533,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1761091200000,
+        "signup_ts": "2025-10-22T00:00:00Z",
         "merchant_id": "m-0370"
       }
     },
@@ -70163,7 +70163,7 @@
         "account_age_days": 1332,
         "tier_score": 74,
         "is_employee": false,
-        "signup_ts": 1706313600000,
+        "signup_ts": "2024-01-27T00:00:00Z",
         "merchant_id": "m-0238"
       }
     },
@@ -70182,7 +70182,7 @@
         "account_age_days": 668,
         "tier_score": 43,
         "is_employee": false,
-        "signup_ts": 1719532800000,
+        "signup_ts": "2024-06-28T00:00:00Z",
         "merchant_id": "m-0104"
       }
     },
@@ -70202,7 +70202,7 @@
         "account_age_days": 451,
         "tier_score": 9,
         "is_employee": false,
-        "signup_ts": 1705017600000,
+        "signup_ts": "2024-01-12T00:00:00Z",
         "merchant_id": "m-0265"
       }
     },
@@ -70220,7 +70220,7 @@
         "account_age_days": 1897,
         "tier_score": 22,
         "is_employee": false,
-        "signup_ts": 1789862400000,
+        "signup_ts": "2026-09-20T00:00:00Z",
         "merchant_id": "m-0229"
       }
     },
@@ -70240,7 +70240,7 @@
         "account_age_days": 1546,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1789171200000,
+        "signup_ts": "2026-09-12T00:00:00Z",
         "merchant_id": "m-0245"
       }
     },
@@ -70258,7 +70258,7 @@
         "account_age_days": 1128,
         "tier_score": 59,
         "is_employee": false,
-        "signup_ts": 1710547200000,
+        "signup_ts": "2024-03-16T00:00:00Z",
         "merchant_id": "m-0140"
       }
     },
@@ -70276,7 +70276,7 @@
         "account_age_days": 1172,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1761350400000,
+        "signup_ts": "2025-10-25T00:00:00Z",
         "merchant_id": "m-0015"
       }
     },
@@ -70294,7 +70294,7 @@
         "account_age_days": 1425,
         "tier_score": 15,
         "is_employee": false,
-        "signup_ts": 1786060800000,
+        "signup_ts": "2026-08-07T00:00:00Z",
         "merchant_id": "m-0331"
       }
     },
@@ -70313,7 +70313,7 @@
         "account_age_days": 1213,
         "tier_score": 79,
         "is_employee": false,
-        "signup_ts": 1704067200000,
+        "signup_ts": "2024-01-01T00:00:00Z",
         "merchant_id": "m-0449"
       }
     },
@@ -70332,7 +70332,7 @@
         "account_age_days": 1714,
         "tier_score": 75,
         "is_employee": false,
-        "signup_ts": 1732579200000,
+        "signup_ts": "2024-11-26T00:00:00Z",
         "merchant_id": "m-0179"
       }
     },
@@ -70351,7 +70351,7 @@
         "account_age_days": 1333,
         "tier_score": 65,
         "is_employee": false,
-        "signup_ts": 1771372800000,
+        "signup_ts": "2026-02-18T00:00:00Z",
         "merchant_id": "m-0389"
       }
     },
@@ -70371,7 +70371,7 @@
         "account_age_days": 757,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1773187200000,
+        "signup_ts": "2026-03-11T00:00:00Z",
         "merchant_id": "m-0339"
       }
     },
@@ -70390,7 +70390,7 @@
         "account_age_days": 1083,
         "tier_score": 41,
         "is_employee": false,
-        "signup_ts": 1771545600000,
+        "signup_ts": "2026-02-20T00:00:00Z",
         "merchant_id": "m-0094"
       }
     },
@@ -70406,7 +70406,7 @@
         "account_age_days": 1849,
         "tier_score": 62,
         "is_employee": false,
-        "signup_ts": 1734048000000,
+        "signup_ts": "2024-12-13T00:00:00Z",
         "merchant_id": "m-0436"
       }
     },
@@ -70426,7 +70426,7 @@
         "account_age_days": 868,
         "tier_score": 49,
         "is_employee": false,
-        "signup_ts": 1768780800000,
+        "signup_ts": "2026-01-19T00:00:00Z",
         "merchant_id": "m-0064"
       }
     },
@@ -70444,7 +70444,7 @@
         "account_age_days": 1243,
         "tier_score": 43,
         "is_employee": false,
-        "signup_ts": 1788134400000,
+        "signup_ts": "2026-08-31T00:00:00Z",
         "merchant_id": "m-0159"
       }
     },
@@ -70462,7 +70462,7 @@
         "account_age_days": 467,
         "tier_score": 30,
         "is_employee": false,
-        "signup_ts": 1725753600000,
+        "signup_ts": "2024-09-08T00:00:00Z",
         "merchant_id": "m-0355"
       }
     },
@@ -70480,7 +70480,7 @@
         "account_age_days": 743,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1743724800000,
+        "signup_ts": "2025-04-04T00:00:00Z",
         "merchant_id": "m-0101"
       }
     },
@@ -70499,7 +70499,7 @@
         "account_age_days": 292,
         "tier_score": 16,
         "is_employee": false,
-        "signup_ts": 1751932800000,
+        "signup_ts": "2025-07-08T00:00:00Z",
         "merchant_id": "m-0500"
       }
     },
@@ -70520,7 +70520,7 @@
         "account_age_days": 503,
         "tier_score": 0,
         "is_employee": false,
-        "signup_ts": 1778544000000,
+        "signup_ts": "2026-05-12T00:00:00Z",
         "merchant_id": "m-0415"
       }
     },
@@ -70538,7 +70538,7 @@
         "account_age_days": 1448,
         "tier_score": 89,
         "is_employee": false,
-        "signup_ts": 1775606400000,
+        "signup_ts": "2026-04-08T00:00:00Z",
         "merchant_id": "m-0212"
       }
     },
@@ -70557,7 +70557,7 @@
         "account_age_days": 221,
         "tier_score": 82,
         "is_employee": false,
-        "signup_ts": 1731110400000,
+        "signup_ts": "2024-11-09T00:00:00Z",
         "merchant_id": "m-0092"
       }
     },
@@ -70575,7 +70575,7 @@
         "account_age_days": 654,
         "tier_score": 78,
         "is_employee": false,
-        "signup_ts": 1788393600000,
+        "signup_ts": "2026-09-03T00:00:00Z",
         "merchant_id": "m-0244"
       }
     },
@@ -70591,7 +70591,7 @@
         "account_age_days": 1348,
         "tier_score": 17,
         "is_employee": false,
-        "signup_ts": 1760832000000,
+        "signup_ts": "2025-10-19T00:00:00Z",
         "merchant_id": "m-0326"
       }
     },
@@ -70609,7 +70609,7 @@
         "account_age_days": 37,
         "tier_score": 31,
         "is_employee": false,
-        "signup_ts": 1745193600000,
+        "signup_ts": "2025-04-21T00:00:00Z",
         "merchant_id": "m-0459"
       }
     },
@@ -70628,7 +70628,7 @@
         "account_age_days": 640,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1727222400000,
+        "signup_ts": "2024-09-25T00:00:00Z",
         "merchant_id": "m-0493"
       }
     },
@@ -70646,7 +70646,7 @@
         "account_age_days": 564,
         "tier_score": 32,
         "is_employee": false,
-        "signup_ts": 1726099200000,
+        "signup_ts": "2024-09-12T00:00:00Z",
         "merchant_id": "m-0241"
       }
     },
@@ -70664,7 +70664,7 @@
         "account_age_days": 681,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1746662400000,
+        "signup_ts": "2025-05-08T00:00:00Z",
         "merchant_id": "m-0345"
       }
     },
@@ -70682,7 +70682,7 @@
         "account_age_days": 1444,
         "tier_score": 27,
         "is_employee": false,
-        "signup_ts": 1728000000000,
+        "signup_ts": "2024-10-04T00:00:00Z",
         "merchant_id": "m-0235"
       }
     },
@@ -70700,7 +70700,7 @@
         "account_age_days": 596,
         "tier_score": 36,
         "is_employee": false,
-        "signup_ts": 1741219200000,
+        "signup_ts": "2025-03-06T00:00:00Z",
         "merchant_id": "m-0173"
       }
     },
@@ -70718,7 +70718,7 @@
         "account_age_days": 1067,
         "tier_score": 12,
         "is_employee": false,
-        "signup_ts": 1783036800000,
+        "signup_ts": "2026-07-03T00:00:00Z",
         "merchant_id": "m-0244"
       }
     },
@@ -70737,7 +70737,7 @@
         "account_age_days": 941,
         "tier_score": 15,
         "is_employee": false,
-        "signup_ts": 1712620800000,
+        "signup_ts": "2024-04-09T00:00:00Z",
         "merchant_id": "m-0249"
       }
     },
@@ -70757,7 +70757,7 @@
         "account_age_days": 191,
         "tier_score": 70,
         "is_employee": true,
-        "signup_ts": 1746576000000,
+        "signup_ts": "2025-05-07T00:00:00Z",
         "merchant_id": "m-0028"
       }
     },
@@ -70776,7 +70776,7 @@
         "account_age_days": 1959,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1724198400000,
+        "signup_ts": "2024-08-21T00:00:00Z",
         "merchant_id": "m-0048"
       }
     },
@@ -70794,7 +70794,7 @@
         "account_age_days": 1433,
         "tier_score": 98,
         "is_employee": false,
-        "signup_ts": 1713398400000,
+        "signup_ts": "2024-04-18T00:00:00Z",
         "merchant_id": "m-0220"
       }
     },
@@ -70810,7 +70810,7 @@
         "account_age_days": 156,
         "tier_score": 37,
         "is_employee": false,
-        "signup_ts": 1731715200000,
+        "signup_ts": "2024-11-16T00:00:00Z",
         "merchant_id": "m-0402"
       }
     },
@@ -70829,7 +70829,7 @@
         "account_age_days": 1617,
         "tier_score": 8,
         "is_employee": false,
-        "signup_ts": 1748995200000,
+        "signup_ts": "2025-06-04T00:00:00Z",
         "merchant_id": "m-0319"
       }
     },
@@ -70849,7 +70849,7 @@
         "account_age_days": 870,
         "tier_score": 97,
         "is_employee": false,
-        "signup_ts": 1740614400000,
+        "signup_ts": "2025-02-27T00:00:00Z",
         "merchant_id": "m-0113"
       }
     },
@@ -70867,7 +70867,7 @@
         "account_age_days": 1019,
         "tier_score": 27,
         "is_employee": false,
-        "signup_ts": 1762473600000,
+        "signup_ts": "2025-11-07T00:00:00Z",
         "merchant_id": "m-0248"
       }
     },
@@ -70883,7 +70883,7 @@
         "account_age_days": 774,
         "tier_score": 9,
         "is_employee": false,
-        "signup_ts": 1742083200000,
+        "signup_ts": "2025-03-16T00:00:00Z",
         "merchant_id": "m-0436"
       }
     },
@@ -70903,7 +70903,7 @@
         "account_age_days": 254,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1768348800000,
+        "signup_ts": "2026-01-14T00:00:00Z",
         "merchant_id": "m-0016"
       }
     },
@@ -70919,7 +70919,7 @@
         "account_age_days": 1378,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1777507200000,
+        "signup_ts": "2026-04-30T00:00:00Z",
         "merchant_id": "m-0005"
       }
     },
@@ -70937,7 +70937,7 @@
         "account_age_days": 1856,
         "tier_score": 79,
         "is_employee": false,
-        "signup_ts": 1751241600000,
+        "signup_ts": "2025-06-30T00:00:00Z",
         "merchant_id": "m-0026"
       }
     },
@@ -70955,7 +70955,7 @@
         "account_age_days": 604,
         "tier_score": 88,
         "is_employee": false,
-        "signup_ts": 1714262400000,
+        "signup_ts": "2024-04-28T00:00:00Z",
         "merchant_id": "m-0224"
       }
     },
@@ -70974,7 +70974,7 @@
         "account_age_days": 1298,
         "tier_score": 82,
         "is_employee": false,
-        "signup_ts": 1711324800000,
+        "signup_ts": "2024-03-25T00:00:00Z",
         "merchant_id": "m-0060"
       }
     },
@@ -70992,7 +70992,7 @@
         "account_age_days": 951,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1757116800000,
+        "signup_ts": "2025-09-06T00:00:00Z",
         "merchant_id": "m-0082"
       }
     },
@@ -71008,7 +71008,7 @@
         "account_age_days": 846,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1721088000000,
+        "signup_ts": "2024-07-16T00:00:00Z",
         "merchant_id": "m-0084"
       }
     },
@@ -71026,7 +71026,7 @@
         "account_age_days": 751,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1734480000000,
+        "signup_ts": "2024-12-18T00:00:00Z",
         "merchant_id": "m-0211"
       }
     },
@@ -71045,7 +71045,7 @@
         "account_age_days": 1324,
         "tier_score": 22,
         "is_employee": false,
-        "signup_ts": 1763424000000,
+        "signup_ts": "2025-11-18T00:00:00Z",
         "merchant_id": "m-0054"
       }
     },
@@ -71063,7 +71063,7 @@
         "account_age_days": 1219,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1789862400000,
+        "signup_ts": "2026-09-20T00:00:00Z",
         "merchant_id": "m-0275"
       }
     },
@@ -71081,7 +71081,7 @@
         "account_age_days": 1922,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1715817600000,
+        "signup_ts": "2024-05-16T00:00:00Z",
         "merchant_id": "m-0493"
       }
     },
@@ -71099,7 +71099,7 @@
         "account_age_days": 1239,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1780444800000,
+        "signup_ts": "2026-06-03T00:00:00Z",
         "merchant_id": "m-0476"
       }
     },
@@ -71117,7 +71117,7 @@
         "account_age_days": 620,
         "tier_score": 32,
         "is_employee": false,
-        "signup_ts": 1715990400000,
+        "signup_ts": "2024-05-18T00:00:00Z",
         "merchant_id": "m-0327"
       }
     },
@@ -71135,7 +71135,7 @@
         "account_age_days": 1230,
         "tier_score": 69,
         "is_employee": false,
-        "signup_ts": 1749513600000,
+        "signup_ts": "2025-06-10T00:00:00Z",
         "merchant_id": "m-0026"
       }
     },
@@ -71153,7 +71153,7 @@
         "account_age_days": 1006,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1704672000000,
+        "signup_ts": "2024-01-08T00:00:00Z",
         "merchant_id": "m-0291"
       }
     },
@@ -71172,7 +71172,7 @@
         "account_age_days": 252,
         "tier_score": 38,
         "is_employee": false,
-        "signup_ts": 1776816000000,
+        "signup_ts": "2026-04-22T00:00:00Z",
         "merchant_id": "m-0034"
       }
     },
@@ -71190,7 +71190,7 @@
         "account_age_days": 1716,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1740700800000,
+        "signup_ts": "2025-02-28T00:00:00Z",
         "merchant_id": "m-0379"
       }
     },
@@ -71209,7 +71209,7 @@
         "account_age_days": 600,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1728086400000,
+        "signup_ts": "2024-10-05T00:00:00Z",
         "merchant_id": "m-0007"
       }
     },
@@ -71228,7 +71228,7 @@
         "account_age_days": 1422,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1777939200000,
+        "signup_ts": "2026-05-05T00:00:00Z",
         "merchant_id": "m-0093"
       }
     },
@@ -71246,7 +71246,7 @@
         "account_age_days": 1607,
         "tier_score": 94,
         "is_employee": false,
-        "signup_ts": 1740441600000,
+        "signup_ts": "2025-02-25T00:00:00Z",
         "merchant_id": "m-0353"
       }
     },
@@ -71264,7 +71264,7 @@
         "account_age_days": 115,
         "tier_score": 4,
         "is_employee": false,
-        "signup_ts": 1722038400000,
+        "signup_ts": "2024-07-27T00:00:00Z",
         "merchant_id": "m-0231"
       }
     },
@@ -71280,7 +71280,7 @@
         "account_age_days": 363,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1772236800000,
+        "signup_ts": "2026-02-28T00:00:00Z",
         "merchant_id": "m-0220"
       }
     },
@@ -71299,7 +71299,7 @@
         "account_age_days": 90,
         "tier_score": 48,
         "is_employee": false,
-        "signup_ts": 1728345600000,
+        "signup_ts": "2024-10-08T00:00:00Z",
         "merchant_id": "m-0123"
       }
     },
@@ -71317,7 +71317,7 @@
         "account_age_days": 1095,
         "tier_score": 57,
         "is_employee": false,
-        "signup_ts": 1738022400000,
+        "signup_ts": "2025-01-28T00:00:00Z",
         "merchant_id": "m-0404"
       }
     },
@@ -71335,7 +71335,7 @@
         "account_age_days": 1458,
         "tier_score": 69,
         "is_employee": false,
-        "signup_ts": 1769299200000,
+        "signup_ts": "2026-01-25T00:00:00Z",
         "merchant_id": "m-0353"
       }
     },
@@ -71353,7 +71353,7 @@
         "account_age_days": 1255,
         "tier_score": 12,
         "is_employee": false,
-        "signup_ts": 1738368000000,
+        "signup_ts": "2025-02-01T00:00:00Z",
         "merchant_id": "m-0109"
       }
     },
@@ -71372,7 +71372,7 @@
         "account_age_days": 1785,
         "tier_score": 87,
         "is_employee": false,
-        "signup_ts": 1719705600000,
+        "signup_ts": "2024-06-30T00:00:00Z",
         "merchant_id": "m-0313"
       }
     },
@@ -71388,7 +71388,7 @@
         "account_age_days": 1104,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1781222400000,
+        "signup_ts": "2026-06-12T00:00:00Z",
         "merchant_id": "m-0127"
       }
     },
@@ -71404,7 +71404,7 @@
         "account_age_days": 509,
         "tier_score": 18,
         "is_employee": false,
-        "signup_ts": 1708732800000,
+        "signup_ts": "2024-02-24T00:00:00Z",
         "merchant_id": "m-0275"
       }
     },
@@ -71420,7 +71420,7 @@
         "account_age_days": 1119,
         "tier_score": 79,
         "is_employee": true,
-        "signup_ts": 1740268800000,
+        "signup_ts": "2025-02-23T00:00:00Z",
         "merchant_id": "m-0066"
       }
     },
@@ -71439,7 +71439,7 @@
         "account_age_days": 762,
         "tier_score": 82,
         "is_employee": false,
-        "signup_ts": 1709510400000,
+        "signup_ts": "2024-03-04T00:00:00Z",
         "merchant_id": "m-0407"
       }
     },
@@ -71457,7 +71457,7 @@
         "account_age_days": 921,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1762128000000,
+        "signup_ts": "2025-11-03T00:00:00Z",
         "merchant_id": "m-0149"
       }
     },
@@ -71477,7 +71477,7 @@
         "account_age_days": 1599,
         "tier_score": 2,
         "is_employee": false,
-        "signup_ts": 1707350400000,
+        "signup_ts": "2024-02-08T00:00:00Z",
         "merchant_id": "m-0377"
       }
     },
@@ -71493,7 +71493,7 @@
         "account_age_days": 206,
         "tier_score": 14,
         "is_employee": false,
-        "signup_ts": 1705795200000,
+        "signup_ts": "2024-01-21T00:00:00Z",
         "merchant_id": "m-0343"
       }
     },
@@ -71512,7 +71512,7 @@
         "account_age_days": 21,
         "tier_score": 65,
         "is_employee": false,
-        "signup_ts": 1753401600000,
+        "signup_ts": "2025-07-25T00:00:00Z",
         "merchant_id": "m-0482"
       }
     },
@@ -71531,7 +71531,7 @@
         "account_age_days": 1022,
         "tier_score": 5,
         "is_employee": false,
-        "signup_ts": 1763164800000,
+        "signup_ts": "2025-11-15T00:00:00Z",
         "merchant_id": "m-0341"
       }
     },
@@ -71549,7 +71549,7 @@
         "account_age_days": 366,
         "tier_score": 87,
         "is_employee": false,
-        "signup_ts": 1772928000000,
+        "signup_ts": "2026-03-08T00:00:00Z",
         "merchant_id": "m-0027"
       }
     },
@@ -71567,7 +71567,7 @@
         "account_age_days": 1934,
         "tier_score": 68,
         "is_employee": false,
-        "signup_ts": 1719014400000,
+        "signup_ts": "2024-06-22T00:00:00Z",
         "merchant_id": "m-0293"
       }
     },
@@ -71587,7 +71587,7 @@
         "account_age_days": 539,
         "tier_score": 42,
         "is_employee": false,
-        "signup_ts": 1777075200000,
+        "signup_ts": "2026-04-25T00:00:00Z",
         "merchant_id": "m-0078"
       }
     },
@@ -71607,7 +71607,7 @@
         "account_age_days": 259,
         "tier_score": 25,
         "is_employee": false,
-        "signup_ts": 1707782400000,
+        "signup_ts": "2024-02-13T00:00:00Z",
         "merchant_id": "m-0407"
       }
     },
@@ -71626,7 +71626,7 @@
         "account_age_days": 1627,
         "tier_score": 80,
         "is_employee": false,
-        "signup_ts": 1776816000000,
+        "signup_ts": "2026-04-22T00:00:00Z",
         "merchant_id": "m-0346"
       }
     },
@@ -71646,7 +71646,7 @@
         "account_age_days": 1846,
         "tier_score": 34,
         "is_employee": false,
-        "signup_ts": 1783900800000,
+        "signup_ts": "2026-07-13T00:00:00Z",
         "merchant_id": "m-0363"
       }
     },
@@ -71664,7 +71664,7 @@
         "account_age_days": 1552,
         "tier_score": 16,
         "is_employee": true,
-        "signup_ts": 1773360000000,
+        "signup_ts": "2026-03-13T00:00:00Z",
         "merchant_id": "m-0495"
       }
     },
@@ -71684,7 +71684,7 @@
         "account_age_days": 1983,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1780963200000,
+        "signup_ts": "2026-06-09T00:00:00Z",
         "merchant_id": "m-0340"
       }
     },
@@ -71702,7 +71702,7 @@
         "account_age_days": 1782,
         "tier_score": 59,
         "is_employee": false,
-        "signup_ts": 1745107200000,
+        "signup_ts": "2025-04-20T00:00:00Z",
         "merchant_id": "m-0421"
       }
     },
@@ -71722,7 +71722,7 @@
         "account_age_days": 15,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1720742400000,
+        "signup_ts": "2024-07-12T00:00:00Z",
         "merchant_id": "m-0499"
       }
     },
@@ -71742,7 +71742,7 @@
         "account_age_days": 1436,
         "tier_score": 42,
         "is_employee": false,
-        "signup_ts": 1760659200000,
+        "signup_ts": "2025-10-17T00:00:00Z",
         "merchant_id": "m-0452"
       }
     },
@@ -71761,7 +71761,7 @@
         "account_age_days": 1695,
         "tier_score": 90,
         "is_employee": false,
-        "signup_ts": 1781395200000,
+        "signup_ts": "2026-06-14T00:00:00Z",
         "merchant_id": "m-0076"
       }
     },
@@ -71780,7 +71780,7 @@
         "account_age_days": 647,
         "tier_score": 91,
         "is_employee": false,
-        "signup_ts": 1720915200000,
+        "signup_ts": "2024-07-14T00:00:00Z",
         "merchant_id": "m-0314"
       }
     },
@@ -71800,7 +71800,7 @@
         "account_age_days": 927,
         "tier_score": 71,
         "is_employee": false,
-        "signup_ts": 1706313600000,
+        "signup_ts": "2024-01-27T00:00:00Z",
         "merchant_id": "m-0280"
       }
     },
@@ -71818,7 +71818,7 @@
         "account_age_days": 1209,
         "tier_score": 41,
         "is_employee": false,
-        "signup_ts": 1757894400000,
+        "signup_ts": "2025-09-15T00:00:00Z",
         "merchant_id": "m-0148"
       }
     },
@@ -71836,7 +71836,7 @@
         "account_age_days": 906,
         "tier_score": 60,
         "is_employee": false,
-        "signup_ts": 1704412800000,
+        "signup_ts": "2024-01-05T00:00:00Z",
         "merchant_id": "m-0460"
       }
     },
@@ -71855,7 +71855,7 @@
         "account_age_days": 864,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1737590400000,
+        "signup_ts": "2025-01-23T00:00:00Z",
         "merchant_id": "m-0305"
       }
     },
@@ -71873,7 +71873,7 @@
         "account_age_days": 228,
         "tier_score": 61,
         "is_employee": true,
-        "signup_ts": 1733788800000,
+        "signup_ts": "2024-12-10T00:00:00Z",
         "merchant_id": "m-0022"
       }
     },
@@ -71891,7 +71891,7 @@
         "account_age_days": 903,
         "tier_score": 28,
         "is_employee": false,
-        "signup_ts": 1782432000000,
+        "signup_ts": "2026-06-26T00:00:00Z",
         "merchant_id": "m-0259"
       }
     },
@@ -71911,7 +71911,7 @@
         "account_age_days": 0,
         "tier_score": 12,
         "is_employee": false,
-        "signup_ts": 1718150400000,
+        "signup_ts": "2024-06-12T00:00:00Z",
         "merchant_id": "m-0452"
       }
     },
@@ -71927,7 +71927,7 @@
         "account_age_days": 871,
         "tier_score": 0,
         "is_employee": false,
-        "signup_ts": 1752019200000,
+        "signup_ts": "2025-07-09T00:00:00Z",
         "merchant_id": "m-0302"
       }
     },
@@ -71946,7 +71946,7 @@
         "account_age_days": 1068,
         "tier_score": 91,
         "is_employee": false,
-        "signup_ts": 1721088000000,
+        "signup_ts": "2024-07-16T00:00:00Z",
         "merchant_id": "m-0055"
       }
     },
@@ -71964,7 +71964,7 @@
         "account_age_days": 136,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1723939200000,
+        "signup_ts": "2024-08-18T00:00:00Z",
         "merchant_id": "m-0440"
       }
     },
@@ -71982,7 +71982,7 @@
         "account_age_days": 102,
         "tier_score": 82,
         "is_employee": false,
-        "signup_ts": 1706832000000,
+        "signup_ts": "2024-02-02T00:00:00Z",
         "merchant_id": "m-0427"
       }
     },
@@ -72001,7 +72001,7 @@
         "account_age_days": 1962,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1731974400000,
+        "signup_ts": "2024-11-19T00:00:00Z",
         "merchant_id": "m-0353"
       }
     },
@@ -72017,7 +72017,7 @@
         "account_age_days": 1869,
         "tier_score": 47,
         "is_employee": false,
-        "signup_ts": 1786147200000,
+        "signup_ts": "2026-08-08T00:00:00Z",
         "merchant_id": "m-0477"
       }
     },
@@ -72036,7 +72036,7 @@
         "account_age_days": 1486,
         "tier_score": 88,
         "is_employee": false,
-        "signup_ts": 1783382400000,
+        "signup_ts": "2026-07-07T00:00:00Z",
         "merchant_id": "m-0017"
       }
     },
@@ -72052,7 +72052,7 @@
         "account_age_days": 1204,
         "tier_score": 78,
         "is_employee": false,
-        "signup_ts": 1741478400000,
+        "signup_ts": "2025-03-09T00:00:00Z",
         "merchant_id": "m-0018"
       }
     },
@@ -72073,7 +72073,7 @@
         "account_age_days": 408,
         "tier_score": 16,
         "is_employee": false,
-        "signup_ts": 1736467200000,
+        "signup_ts": "2025-01-10T00:00:00Z",
         "merchant_id": "m-0268"
       }
     },
@@ -72093,7 +72093,7 @@
         "account_age_days": 972,
         "tier_score": 60,
         "is_employee": false,
-        "signup_ts": 1774828800000,
+        "signup_ts": "2026-03-30T00:00:00Z",
         "merchant_id": "m-0431"
       }
     },
@@ -72112,7 +72112,7 @@
         "account_age_days": 1361,
         "tier_score": 33,
         "is_employee": false,
-        "signup_ts": 1713398400000,
+        "signup_ts": "2024-04-18T00:00:00Z",
         "merchant_id": "m-0025"
       }
     },
@@ -72131,7 +72131,7 @@
         "account_age_days": 1279,
         "tier_score": 26,
         "is_employee": false,
-        "signup_ts": 1743120000000,
+        "signup_ts": "2025-03-28T00:00:00Z",
         "merchant_id": "m-0303"
       }
     },
@@ -72151,7 +72151,7 @@
         "account_age_days": 1170,
         "tier_score": 71,
         "is_employee": false,
-        "signup_ts": 1745193600000,
+        "signup_ts": "2025-04-21T00:00:00Z",
         "merchant_id": "m-0287"
       }
     },
@@ -72167,7 +72167,7 @@
         "account_age_days": 1740,
         "tier_score": 87,
         "is_employee": false,
-        "signup_ts": 1734480000000,
+        "signup_ts": "2024-12-18T00:00:00Z",
         "merchant_id": "m-0227"
       }
     },
@@ -72188,7 +72188,7 @@
         "account_age_days": 777,
         "tier_score": 48,
         "is_employee": false,
-        "signup_ts": 1777680000000,
+        "signup_ts": "2026-05-02T00:00:00Z",
         "merchant_id": "m-0399"
       }
     },
@@ -72206,7 +72206,7 @@
         "account_age_days": 1043,
         "tier_score": 12,
         "is_employee": false,
-        "signup_ts": 1717891200000,
+        "signup_ts": "2024-06-09T00:00:00Z",
         "merchant_id": "m-0380"
       }
     },
@@ -72224,7 +72224,7 @@
         "account_age_days": 532,
         "tier_score": 94,
         "is_employee": false,
-        "signup_ts": 1759708800000,
+        "signup_ts": "2025-10-06T00:00:00Z",
         "merchant_id": "m-0071"
       }
     },
@@ -72243,7 +72243,7 @@
         "account_age_days": 1620,
         "tier_score": 34,
         "is_employee": false,
-        "signup_ts": 1750377600000,
+        "signup_ts": "2025-06-20T00:00:00Z",
         "merchant_id": "m-0346"
       }
     },
@@ -72259,7 +72259,7 @@
         "account_age_days": 104,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1786752000000,
+        "signup_ts": "2026-08-15T00:00:00Z",
         "merchant_id": "m-0035"
       }
     },
@@ -72278,7 +72278,7 @@
         "account_age_days": 973,
         "tier_score": 25,
         "is_employee": false,
-        "signup_ts": 1731542400000,
+        "signup_ts": "2024-11-14T00:00:00Z",
         "merchant_id": "m-0342"
       }
     },
@@ -72297,7 +72297,7 @@
         "account_age_days": 176,
         "tier_score": 87,
         "is_employee": false,
-        "signup_ts": 1732320000000,
+        "signup_ts": "2024-11-23T00:00:00Z",
         "merchant_id": "m-0032"
       }
     },
@@ -72315,7 +72315,7 @@
         "account_age_days": 677,
         "tier_score": 4,
         "is_employee": false,
-        "signup_ts": 1754179200000,
+        "signup_ts": "2025-08-03T00:00:00Z",
         "merchant_id": "m-0421"
       }
     },
@@ -72335,7 +72335,7 @@
         "account_age_days": 1682,
         "tier_score": 45,
         "is_employee": false,
-        "signup_ts": 1770595200000,
+        "signup_ts": "2026-02-09T00:00:00Z",
         "merchant_id": "m-0156"
       }
     },
@@ -72354,7 +72354,7 @@
         "account_age_days": 475,
         "tier_score": 70,
         "is_employee": false,
-        "signup_ts": 1721174400000,
+        "signup_ts": "2024-07-17T00:00:00Z",
         "merchant_id": "m-0363"
       }
     },
@@ -72372,7 +72372,7 @@
         "account_age_days": 1121,
         "tier_score": 51,
         "is_employee": false,
-        "signup_ts": 1708819200000,
+        "signup_ts": "2024-02-25T00:00:00Z",
         "merchant_id": "m-0498"
       }
     },
@@ -72390,7 +72390,7 @@
         "account_age_days": 991,
         "tier_score": 32,
         "is_employee": false,
-        "signup_ts": 1723852800000,
+        "signup_ts": "2024-08-17T00:00:00Z",
         "merchant_id": "m-0500"
       }
     },
@@ -72408,7 +72408,7 @@
         "account_age_days": 1756,
         "tier_score": 60,
         "is_employee": false,
-        "signup_ts": 1762819200000,
+        "signup_ts": "2025-11-11T00:00:00Z",
         "merchant_id": "m-0007"
       }
     },
@@ -72424,7 +72424,7 @@
         "account_age_days": 57,
         "tier_score": 95,
         "is_employee": true,
-        "signup_ts": 1730160000000,
+        "signup_ts": "2024-10-29T00:00:00Z",
         "merchant_id": "m-0441"
       }
     },
@@ -72440,7 +72440,7 @@
         "account_age_days": 1586,
         "tier_score": 88,
         "is_employee": false,
-        "signup_ts": 1767398400000,
+        "signup_ts": "2026-01-03T00:00:00Z",
         "merchant_id": "m-0423"
       }
     },
@@ -72459,7 +72459,7 @@
         "account_age_days": 376,
         "tier_score": 48,
         "is_employee": false,
-        "signup_ts": 1758240000000,
+        "signup_ts": "2025-09-19T00:00:00Z",
         "merchant_id": "m-0168"
       }
     },
@@ -72475,7 +72475,7 @@
         "account_age_days": 1757,
         "tier_score": 21,
         "is_employee": false,
-        "signup_ts": 1761868800000,
+        "signup_ts": "2025-10-31T00:00:00Z",
         "merchant_id": "m-0061"
       }
     },
@@ -72491,7 +72491,7 @@
         "account_age_days": 1194,
         "tier_score": 46,
         "is_employee": false,
-        "signup_ts": 1732665600000,
+        "signup_ts": "2024-11-27T00:00:00Z",
         "merchant_id": "m-0194"
       }
     },
@@ -72510,7 +72510,7 @@
         "account_age_days": 1977,
         "tier_score": 85,
         "is_employee": false,
-        "signup_ts": 1757894400000,
+        "signup_ts": "2025-09-15T00:00:00Z",
         "merchant_id": "m-0480"
       }
     },
@@ -72530,7 +72530,7 @@
         "account_age_days": 931,
         "tier_score": 37,
         "is_employee": false,
-        "signup_ts": 1768089600000,
+        "signup_ts": "2026-01-11T00:00:00Z",
         "merchant_id": "m-0410"
       }
     },
@@ -72548,7 +72548,7 @@
         "account_age_days": 1828,
         "tier_score": 45,
         "is_employee": false,
-        "signup_ts": 1708214400000,
+        "signup_ts": "2024-02-18T00:00:00Z",
         "merchant_id": "m-0081"
       }
     },
@@ -72568,7 +72568,7 @@
         "account_age_days": 1475,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1718236800000,
+        "signup_ts": "2024-06-13T00:00:00Z",
         "merchant_id": "m-0053"
       }
     },
@@ -72584,7 +72584,7 @@
         "account_age_days": 1478,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1778025600000,
+        "signup_ts": "2026-05-06T00:00:00Z",
         "merchant_id": "m-0266"
       }
     },
@@ -72602,7 +72602,7 @@
         "account_age_days": 1658,
         "tier_score": 74,
         "is_employee": false,
-        "signup_ts": 1773619200000,
+        "signup_ts": "2026-03-16T00:00:00Z",
         "merchant_id": "m-0028"
       }
     },
@@ -72620,7 +72620,7 @@
         "account_age_days": 1025,
         "tier_score": 5,
         "is_employee": false,
-        "signup_ts": 1720915200000,
+        "signup_ts": "2024-07-14T00:00:00Z",
         "merchant_id": "m-0354"
       }
     },
@@ -72640,7 +72640,7 @@
         "account_age_days": 1779,
         "tier_score": 34,
         "is_employee": false,
-        "signup_ts": 1730332800000,
+        "signup_ts": "2024-10-31T00:00:00Z",
         "merchant_id": "m-0224"
       }
     },
@@ -72658,7 +72658,7 @@
         "account_age_days": 1009,
         "tier_score": 37,
         "is_employee": false,
-        "signup_ts": 1787702400000,
+        "signup_ts": "2026-08-26T00:00:00Z",
         "merchant_id": "m-0108"
       }
     },
@@ -72677,7 +72677,7 @@
         "account_age_days": 391,
         "tier_score": 12,
         "is_employee": false,
-        "signup_ts": 1777939200000,
+        "signup_ts": "2026-05-05T00:00:00Z",
         "merchant_id": "m-0464"
       }
     },
@@ -72695,7 +72695,7 @@
         "account_age_days": 192,
         "tier_score": 96,
         "is_employee": false,
-        "signup_ts": 1782950400000,
+        "signup_ts": "2026-07-02T00:00:00Z",
         "merchant_id": "m-0012"
       }
     },
@@ -72714,7 +72714,7 @@
         "account_age_days": 1630,
         "tier_score": 48,
         "is_employee": false,
-        "signup_ts": 1780358400000,
+        "signup_ts": "2026-06-02T00:00:00Z",
         "merchant_id": "m-0111"
       }
     },
@@ -72734,7 +72734,7 @@
         "account_age_days": 962,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1746403200000,
+        "signup_ts": "2025-05-05T00:00:00Z",
         "merchant_id": "m-0009"
       }
     },
@@ -72753,7 +72753,7 @@
         "account_age_days": 454,
         "tier_score": 20,
         "is_employee": false,
-        "signup_ts": 1749340800000,
+        "signup_ts": "2025-06-08T00:00:00Z",
         "merchant_id": "m-0402"
       }
     },
@@ -72771,7 +72771,7 @@
         "account_age_days": 1768,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1755648000000,
+        "signup_ts": "2025-08-20T00:00:00Z",
         "merchant_id": "m-0156"
       }
     },
@@ -72787,7 +72787,7 @@
         "account_age_days": 741,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1743724800000,
+        "signup_ts": "2025-04-04T00:00:00Z",
         "merchant_id": "m-0026"
       }
     },
@@ -72805,7 +72805,7 @@
         "account_age_days": 307,
         "tier_score": 58,
         "is_employee": false,
-        "signup_ts": 1735862400000,
+        "signup_ts": "2025-01-03T00:00:00Z",
         "merchant_id": "m-0296"
       }
     },
@@ -72823,7 +72823,7 @@
         "account_age_days": 1347,
         "tier_score": 43,
         "is_employee": false,
-        "signup_ts": 1742169600000,
+        "signup_ts": "2025-03-17T00:00:00Z",
         "merchant_id": "m-0153"
       }
     },
@@ -72843,7 +72843,7 @@
         "account_age_days": 367,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1750464000000,
+        "signup_ts": "2025-06-21T00:00:00Z",
         "merchant_id": "m-0014"
       }
     },
@@ -72862,7 +72862,7 @@
         "account_age_days": 1491,
         "tier_score": 25,
         "is_employee": false,
-        "signup_ts": 1725753600000,
+        "signup_ts": "2024-09-08T00:00:00Z",
         "merchant_id": "m-0130"
       }
     },
@@ -72880,7 +72880,7 @@
         "account_age_days": 903,
         "tier_score": 63,
         "is_employee": false,
-        "signup_ts": 1717027200000,
+        "signup_ts": "2024-05-30T00:00:00Z",
         "merchant_id": "m-0238"
       }
     },
@@ -72900,7 +72900,7 @@
         "account_age_days": 845,
         "tier_score": 8,
         "is_employee": false,
-        "signup_ts": 1728086400000,
+        "signup_ts": "2024-10-05T00:00:00Z",
         "merchant_id": "m-0395"
       }
     },
@@ -72919,7 +72919,7 @@
         "account_age_days": 1779,
         "tier_score": 31,
         "is_employee": false,
-        "signup_ts": 1704067200000,
+        "signup_ts": "2024-01-01T00:00:00Z",
         "merchant_id": "m-0419"
       }
     },
@@ -72937,7 +72937,7 @@
         "account_age_days": 1924,
         "tier_score": 88,
         "is_employee": false,
-        "signup_ts": 1761609600000,
+        "signup_ts": "2025-10-28T00:00:00Z",
         "merchant_id": "m-0294"
       }
     },
@@ -72956,7 +72956,7 @@
         "account_age_days": 219,
         "tier_score": 48,
         "is_employee": false,
-        "signup_ts": 1776297600000,
+        "signup_ts": "2026-04-16T00:00:00Z",
         "merchant_id": "m-0437"
       }
     },
@@ -72976,7 +72976,7 @@
         "account_age_days": 405,
         "tier_score": 35,
         "is_employee": false,
-        "signup_ts": 1775347200000,
+        "signup_ts": "2026-04-05T00:00:00Z",
         "merchant_id": "m-0008"
       }
     },
@@ -72995,7 +72995,7 @@
         "account_age_days": 737,
         "tier_score": 24,
         "is_employee": false,
-        "signup_ts": 1739577600000,
+        "signup_ts": "2025-02-15T00:00:00Z",
         "merchant_id": "m-0473"
       }
     },
@@ -73014,7 +73014,7 @@
         "account_age_days": 1695,
         "tier_score": 39,
         "is_employee": false,
-        "signup_ts": 1705708800000,
+        "signup_ts": "2024-01-20T00:00:00Z",
         "merchant_id": "m-0344"
       }
     },
@@ -73032,7 +73032,7 @@
         "account_age_days": 1553,
         "tier_score": 86,
         "is_employee": false,
-        "signup_ts": 1788220800000,
+        "signup_ts": "2026-09-01T00:00:00Z",
         "merchant_id": "m-0446"
       }
     },
@@ -73052,7 +73052,7 @@
         "account_age_days": 168,
         "tier_score": 6,
         "is_employee": false,
-        "signup_ts": 1716163200000,
+        "signup_ts": "2024-05-20T00:00:00Z",
         "merchant_id": "m-0232"
       }
     },
@@ -73072,7 +73072,7 @@
         "account_age_days": 1376,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1786060800000,
+        "signup_ts": "2026-08-07T00:00:00Z",
         "merchant_id": "m-0266"
       }
     },
@@ -73088,7 +73088,7 @@
         "account_age_days": 1373,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1757894400000,
+        "signup_ts": "2025-09-15T00:00:00Z",
         "merchant_id": "m-0280"
       }
     },
@@ -73108,7 +73108,7 @@
         "account_age_days": 1282,
         "tier_score": 10,
         "is_employee": false,
-        "signup_ts": 1749859200000,
+        "signup_ts": "2025-06-14T00:00:00Z",
         "merchant_id": "m-0204"
       }
     },
@@ -73126,7 +73126,7 @@
         "account_age_days": 318,
         "tier_score": 6,
         "is_employee": false,
-        "signup_ts": 1759881600000,
+        "signup_ts": "2025-10-08T00:00:00Z",
         "merchant_id": "m-0125"
       }
     },
@@ -73147,7 +73147,7 @@
         "account_age_days": 802,
         "tier_score": 94,
         "is_employee": false,
-        "signup_ts": 1772064000000,
+        "signup_ts": "2026-02-26T00:00:00Z",
         "merchant_id": "m-0479"
       }
     },
@@ -73165,7 +73165,7 @@
         "account_age_days": 132,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1720224000000,
+        "signup_ts": "2024-07-06T00:00:00Z",
         "merchant_id": "m-0150"
       }
     },
@@ -73184,7 +73184,7 @@
         "account_age_days": 336,
         "tier_score": 22,
         "is_employee": false,
-        "signup_ts": 1783641600000,
+        "signup_ts": "2026-07-10T00:00:00Z",
         "merchant_id": "m-0483"
       }
     },
@@ -73203,7 +73203,7 @@
         "account_age_days": 496,
         "tier_score": 75,
         "is_employee": false,
-        "signup_ts": 1724976000000,
+        "signup_ts": "2024-08-30T00:00:00Z",
         "merchant_id": "m-0205"
       }
     },
@@ -73219,7 +73219,7 @@
         "account_age_days": 47,
         "tier_score": 58,
         "is_employee": false,
-        "signup_ts": 1742688000000,
+        "signup_ts": "2025-03-23T00:00:00Z",
         "merchant_id": "m-0176"
       }
     },
@@ -73235,7 +73235,7 @@
         "account_age_days": 1730,
         "tier_score": 39,
         "is_employee": true,
-        "signup_ts": 1706832000000,
+        "signup_ts": "2024-02-02T00:00:00Z",
         "merchant_id": "m-0075"
       }
     },
@@ -73254,7 +73254,7 @@
         "account_age_days": 1367,
         "tier_score": 56,
         "is_employee": false,
-        "signup_ts": 1706918400000,
+        "signup_ts": "2024-02-03T00:00:00Z",
         "merchant_id": "m-0404"
       }
     },
@@ -73273,7 +73273,7 @@
         "account_age_days": 423,
         "tier_score": 98,
         "is_employee": false,
-        "signup_ts": 1782432000000,
+        "signup_ts": "2026-06-26T00:00:00Z",
         "merchant_id": "m-0008"
       }
     },
@@ -73289,7 +73289,7 @@
         "account_age_days": 483,
         "tier_score": 6,
         "is_employee": false,
-        "signup_ts": 1708128000000,
+        "signup_ts": "2024-02-17T00:00:00Z",
         "merchant_id": "m-0403"
       }
     },
@@ -73307,7 +73307,7 @@
         "account_age_days": 880,
         "tier_score": 27,
         "is_employee": false,
-        "signup_ts": 1755648000000,
+        "signup_ts": "2025-08-20T00:00:00Z",
         "merchant_id": "m-0333"
       }
     },
@@ -73328,7 +73328,7 @@
         "account_age_days": 234,
         "tier_score": 8,
         "is_employee": false,
-        "signup_ts": 1736985600000,
+        "signup_ts": "2025-01-16T00:00:00Z",
         "merchant_id": "m-0281"
       }
     },
@@ -73347,7 +73347,7 @@
         "account_age_days": 739,
         "tier_score": 32,
         "is_employee": false,
-        "signup_ts": 1751760000000,
+        "signup_ts": "2025-07-06T00:00:00Z",
         "merchant_id": "m-0394"
       }
     },
@@ -73363,7 +73363,7 @@
         "account_age_days": 1677,
         "tier_score": 91,
         "is_employee": true,
-        "signup_ts": 1768435200000,
+        "signup_ts": "2026-01-15T00:00:00Z",
         "merchant_id": "m-0010"
       }
     },
@@ -73382,7 +73382,7 @@
         "account_age_days": 37,
         "tier_score": 49,
         "is_employee": false,
-        "signup_ts": 1713571200000,
+        "signup_ts": "2024-04-20T00:00:00Z",
         "merchant_id": "m-0356"
       }
     },
@@ -73401,7 +73401,7 @@
         "account_age_days": 1991,
         "tier_score": 4,
         "is_employee": false,
-        "signup_ts": 1721779200000,
+        "signup_ts": "2024-07-24T00:00:00Z",
         "merchant_id": "m-0395"
       }
     },
@@ -73419,7 +73419,7 @@
         "account_age_days": 520,
         "tier_score": 54,
         "is_employee": false,
-        "signup_ts": 1734480000000,
+        "signup_ts": "2024-12-18T00:00:00Z",
         "merchant_id": "m-0035"
       }
     },
@@ -73437,7 +73437,7 @@
         "account_age_days": 197,
         "tier_score": 29,
         "is_employee": false,
-        "signup_ts": 1768176000000,
+        "signup_ts": "2026-01-12T00:00:00Z",
         "merchant_id": "m-0177"
       }
     },
@@ -73455,7 +73455,7 @@
         "account_age_days": 1051,
         "tier_score": 64,
         "is_employee": false,
-        "signup_ts": 1765238400000,
+        "signup_ts": "2025-12-09T00:00:00Z",
         "merchant_id": "m-0220"
       }
     },
@@ -73474,7 +73474,7 @@
         "account_age_days": 1183,
         "tier_score": 48,
         "is_employee": false,
-        "signup_ts": 1738972800000,
+        "signup_ts": "2025-02-08T00:00:00Z",
         "merchant_id": "m-0389"
       }
     },
@@ -73493,7 +73493,7 @@
         "account_age_days": 1155,
         "tier_score": 86,
         "is_employee": true,
-        "signup_ts": 1767312000000,
+        "signup_ts": "2026-01-02T00:00:00Z",
         "merchant_id": "m-0206"
       }
     },
@@ -73512,7 +73512,7 @@
         "account_age_days": 284,
         "tier_score": 41,
         "is_employee": false,
-        "signup_ts": 1712275200000,
+        "signup_ts": "2024-04-05T00:00:00Z",
         "merchant_id": "m-0066"
       }
     },
@@ -73530,7 +73530,7 @@
         "account_age_days": 1742,
         "tier_score": 66,
         "is_employee": false,
-        "signup_ts": 1712880000000,
+        "signup_ts": "2024-04-12T00:00:00Z",
         "merchant_id": "m-0436"
       }
     },
@@ -73548,7 +73548,7 @@
         "account_age_days": 1926,
         "tier_score": 18,
         "is_employee": false,
-        "signup_ts": 1757030400000,
+        "signup_ts": "2025-09-05T00:00:00Z",
         "merchant_id": "m-0184"
       }
     },
@@ -73566,7 +73566,7 @@
         "account_age_days": 518,
         "tier_score": 90,
         "is_employee": false,
-        "signup_ts": 1787011200000,
+        "signup_ts": "2026-08-18T00:00:00Z",
         "merchant_id": "m-0243"
       }
     },
@@ -73586,7 +73586,7 @@
         "account_age_days": 1883,
         "tier_score": 67,
         "is_employee": false,
-        "signup_ts": 1716768000000,
+        "signup_ts": "2024-05-27T00:00:00Z",
         "merchant_id": "m-0490"
       }
     },
@@ -73605,7 +73605,7 @@
         "account_age_days": 1525,
         "tier_score": 83,
         "is_employee": false,
-        "signup_ts": 1714435200000,
+        "signup_ts": "2024-04-30T00:00:00Z",
         "merchant_id": "m-0056"
       }
     },
@@ -73623,7 +73623,7 @@
         "account_age_days": 217,
         "tier_score": 98,
         "is_employee": false,
-        "signup_ts": 1743465600000,
+        "signup_ts": "2025-04-01T00:00:00Z",
         "merchant_id": "m-0392"
       }
     },
@@ -73642,7 +73642,7 @@
         "account_age_days": 1982,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1711324800000,
+        "signup_ts": "2024-03-25T00:00:00Z",
         "merchant_id": "m-0283"
       }
     },
@@ -73661,7 +73661,7 @@
         "account_age_days": 1355,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1758931200000,
+        "signup_ts": "2025-09-27T00:00:00Z",
         "merchant_id": "m-0144"
       }
     },
@@ -73681,7 +73681,7 @@
         "account_age_days": 1519,
         "tier_score": 3,
         "is_employee": false,
-        "signup_ts": 1771027200000,
+        "signup_ts": "2026-02-14T00:00:00Z",
         "merchant_id": "m-0244"
       }
     },
@@ -73699,7 +73699,7 @@
         "account_age_days": 1012,
         "tier_score": 3,
         "is_employee": false,
-        "signup_ts": 1769904000000,
+        "signup_ts": "2026-02-01T00:00:00Z",
         "merchant_id": "m-0157"
       }
     },
@@ -73718,7 +73718,7 @@
         "account_age_days": 502,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1767398400000,
+        "signup_ts": "2026-01-03T00:00:00Z",
         "merchant_id": "m-0197"
       }
     },
@@ -73736,7 +73736,7 @@
         "account_age_days": 1873,
         "tier_score": 19,
         "is_employee": false,
-        "signup_ts": 1750377600000,
+        "signup_ts": "2025-06-20T00:00:00Z",
         "merchant_id": "m-0106"
       }
     },
@@ -73754,7 +73754,7 @@
         "account_age_days": 615,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1719446400000,
+        "signup_ts": "2024-06-27T00:00:00Z",
         "merchant_id": "m-0259"
       }
     },
@@ -73773,7 +73773,7 @@
         "account_age_days": 768,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1787097600000,
+        "signup_ts": "2026-08-19T00:00:00Z",
         "merchant_id": "m-0325"
       }
     },
@@ -73792,7 +73792,7 @@
         "account_age_days": 878,
         "tier_score": 73,
         "is_employee": false,
-        "signup_ts": 1757548800000,
+        "signup_ts": "2025-09-11T00:00:00Z",
         "merchant_id": "m-0453"
       }
     },
@@ -73810,7 +73810,7 @@
         "account_age_days": 571,
         "tier_score": 72,
         "is_employee": true,
-        "signup_ts": 1739059200000,
+        "signup_ts": "2025-02-09T00:00:00Z",
         "merchant_id": "m-0468"
       }
     },
@@ -73830,7 +73830,7 @@
         "account_age_days": 1459,
         "tier_score": 97,
         "is_employee": false,
-        "signup_ts": 1756080000000,
+        "signup_ts": "2025-08-25T00:00:00Z",
         "merchant_id": "m-0098"
       }
     },
@@ -73848,7 +73848,7 @@
         "account_age_days": 121,
         "tier_score": 32,
         "is_employee": false,
-        "signup_ts": 1751414400000,
+        "signup_ts": "2025-07-02T00:00:00Z",
         "merchant_id": "m-0373"
       }
     },
@@ -73869,7 +73869,7 @@
         "account_age_days": 984,
         "tier_score": 44,
         "is_employee": false,
-        "signup_ts": 1760313600000,
+        "signup_ts": "2025-10-13T00:00:00Z",
         "merchant_id": "m-0357"
       }
     },
@@ -73888,7 +73888,7 @@
         "account_age_days": 238,
         "tier_score": 40,
         "is_employee": false,
-        "signup_ts": 1723766400000,
+        "signup_ts": "2024-08-16T00:00:00Z",
         "merchant_id": "m-0074"
       }
     },
@@ -73904,7 +73904,7 @@
         "account_age_days": 1361,
         "tier_score": 52,
         "is_employee": false,
-        "signup_ts": 1782086400000,
+        "signup_ts": "2026-06-22T00:00:00Z",
         "merchant_id": "m-0401"
       }
     },
@@ -73920,7 +73920,7 @@
         "account_age_days": 1020,
         "tier_score": 70,
         "is_employee": false,
-        "signup_ts": 1705276800000,
+        "signup_ts": "2024-01-15T00:00:00Z",
         "merchant_id": "m-0409"
       }
     },
@@ -73939,7 +73939,7 @@
         "account_age_days": 1372,
         "tier_score": 72,
         "is_employee": true,
-        "signup_ts": 1766102400000,
+        "signup_ts": "2025-12-19T00:00:00Z",
         "merchant_id": "m-0061"
       }
     },
@@ -73957,7 +73957,7 @@
         "account_age_days": 24,
         "tier_score": 13,
         "is_employee": false,
-        "signup_ts": 1717286400000,
+        "signup_ts": "2024-06-02T00:00:00Z",
         "merchant_id": "m-0356"
       }
     },
@@ -73975,7 +73975,7 @@
         "account_age_days": 1324,
         "tier_score": 50,
         "is_employee": false,
-        "signup_ts": 1705017600000,
+        "signup_ts": "2024-01-12T00:00:00Z",
         "merchant_id": "m-0355"
       }
     },
@@ -73991,7 +73991,7 @@
         "account_age_days": 372,
         "tier_score": 29,
         "is_employee": false,
-        "signup_ts": 1720137600000,
+        "signup_ts": "2024-07-05T00:00:00Z",
         "merchant_id": "m-0227"
       }
     },
@@ -74011,7 +74011,7 @@
         "account_age_days": 1778,
         "tier_score": 39,
         "is_employee": false,
-        "signup_ts": 1778025600000,
+        "signup_ts": "2026-05-06T00:00:00Z",
         "merchant_id": "m-0258"
       }
     },
@@ -74029,7 +74029,7 @@
         "account_age_days": 694,
         "tier_score": 55,
         "is_employee": false,
-        "signup_ts": 1731888000000,
+        "signup_ts": "2024-11-18T00:00:00Z",
         "merchant_id": "m-0145"
       }
     },
@@ -74045,7 +74045,7 @@
         "account_age_days": 730,
         "tier_score": 7,
         "is_employee": false,
-        "signup_ts": 1779062400000,
+        "signup_ts": "2026-05-18T00:00:00Z",
         "merchant_id": "m-0391"
       }
     },
@@ -74061,7 +74061,7 @@
         "account_age_days": 1748,
         "tier_score": 17,
         "is_employee": false,
-        "signup_ts": 1779840000000,
+        "signup_ts": "2026-05-27T00:00:00Z",
         "merchant_id": "m-0319"
       }
     },
@@ -74080,7 +74080,7 @@
         "account_age_days": 315,
         "tier_score": 17,
         "is_employee": false,
-        "signup_ts": 1776470400000,
+        "signup_ts": "2026-04-18T00:00:00Z",
         "merchant_id": "m-0376"
       }
     },
@@ -74101,7 +74101,7 @@
         "account_age_days": 1809,
         "tier_score": 77,
         "is_employee": true,
-        "signup_ts": 1737417600000,
+        "signup_ts": "2025-01-21T00:00:00Z",
         "merchant_id": "m-0088"
       }
     },
@@ -74120,7 +74120,7 @@
         "account_age_days": 153,
         "tier_score": 95,
         "is_employee": false,
-        "signup_ts": 1752796800000,
+        "signup_ts": "2025-07-18T00:00:00Z",
         "merchant_id": "m-0014"
       }
     },
@@ -74136,7 +74136,7 @@
         "account_age_days": 272,
         "tier_score": 16,
         "is_employee": false,
-        "signup_ts": 1766102400000,
+        "signup_ts": "2025-12-19T00:00:00Z",
         "merchant_id": "m-0139"
       }
     },
@@ -74155,7 +74155,7 @@
         "account_age_days": 1506,
         "tier_score": 33,
         "is_employee": false,
-        "signup_ts": 1786492800000,
+        "signup_ts": "2026-08-12T00:00:00Z",
         "merchant_id": "m-0285"
       }
     },
@@ -74175,7 +74175,7 @@
         "account_age_days": 1182,
         "tier_score": 29,
         "is_employee": false,
-        "signup_ts": 1737244800000,
+        "signup_ts": "2025-01-19T00:00:00Z",
         "merchant_id": "m-0255"
       }
     },
@@ -74191,7 +74191,7 @@
         "account_age_days": 866,
         "tier_score": 92,
         "is_employee": false,
-        "signup_ts": 1767571200000,
+        "signup_ts": "2026-01-05T00:00:00Z",
         "merchant_id": "m-0171"
       }
     },
@@ -74207,7 +74207,7 @@
         "account_age_days": 304,
         "tier_score": 1,
         "is_employee": false,
-        "signup_ts": 1778025600000,
+        "signup_ts": "2026-05-06T00:00:00Z",
         "merchant_id": "m-0316"
       }
     },
@@ -74227,7 +74227,7 @@
         "account_age_days": 1551,
         "tier_score": 25,
         "is_employee": false,
-        "signup_ts": 1712275200000,
+        "signup_ts": "2024-04-05T00:00:00Z",
         "merchant_id": "m-0248"
       }
     },
@@ -74246,7 +74246,7 @@
         "account_age_days": 1844,
         "tier_score": 71,
         "is_employee": true,
-        "signup_ts": 1711238400000,
+        "signup_ts": "2024-03-24T00:00:00Z",
         "merchant_id": "m-0038"
       }
     },
@@ -74266,7 +74266,7 @@
         "account_age_days": 1432,
         "tier_score": 71,
         "is_employee": false,
-        "signup_ts": 1790294400000,
+        "signup_ts": "2026-09-25T00:00:00Z",
         "merchant_id": "m-0212"
       }
     },
@@ -74284,7 +74284,7 @@
         "account_age_days": 980,
         "tier_score": 100,
         "is_employee": false,
-        "signup_ts": 1734825600000,
+        "signup_ts": "2024-12-22T00:00:00Z",
         "merchant_id": "m-0031"
       }
     },
@@ -74300,7 +74300,7 @@
         "account_age_days": 508,
         "tier_score": 16,
         "is_employee": false,
-        "signup_ts": 1717200000000,
+        "signup_ts": "2024-06-01T00:00:00Z",
         "merchant_id": "m-0196"
       }
     },
@@ -74321,7 +74321,7 @@
         "account_age_days": 1301,
         "tier_score": 47,
         "is_employee": false,
-        "signup_ts": 1727222400000,
+        "signup_ts": "2024-09-25T00:00:00Z",
         "merchant_id": "m-0348"
       }
     },
@@ -74340,7 +74340,7 @@
         "account_age_days": 1144,
         "tier_score": 56,
         "is_employee": false,
-        "signup_ts": 1785715200000,
+        "signup_ts": "2026-08-03T00:00:00Z",
         "merchant_id": "m-0206"
       }
     }

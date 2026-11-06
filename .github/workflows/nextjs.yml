@@ -108,7 +108,8 @@ jobs:
 
   # Core FixPanel app smoke tests (required gate)
   test-app:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest is now 26.04, where the installed Playwright cannot install Chromium.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
@@ -126,7 +127,8 @@ jobs:
 
   # Oneoff microsite load tests (advisory — NOT a required gate)
   test-oneoffs:
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest is now 26.04, where the installed Playwright cannot install Chromium.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6
