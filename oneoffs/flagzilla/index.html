@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en" class="wonk" data-pair="metathesis">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagzilla · Feature flag diagnostics</title>
+<script>
+    if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+        window.location.replace(window.location.pathname + '/' + window.location.search);
+    }
+</script>
+<!-- no-flash: applies a saved paper theme before the first paint. keep it above the stylesheets. -->
+<script>try{var t=localStorage.getItem("wonk-theme");if(t==="paper"||(!t&&matchMedia("(prefers-color-scheme: light)").matches))document.documentElement.setAttribute("data-theme","paper")}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='24' font-size='24' text-anchor='middle' fill='%233fc9c9'%3E%E2%9A%91%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="wonk/wonk-fonts.css">
+<link rel="stylesheet" href="wonk/wonk-tokens.css">
+<link rel="stylesheet" href="wonk/wonk.css">
+<link rel="stylesheet" href="wonk/wonk-data.css">
+<link rel="stylesheet" href="wonk/wonk-motion.css">
+<link rel="stylesheet" href="styles.css">
+<script defer src="wonk/vendor/d3/d3.min.js"></script>
+<script defer src="wonk/vendor/plot/plot.umd.min.js"></script>
+<script defer src="wonk/wonk.js"></script>
+<script defer src="wonk/wonk-data.js"></script>
+<script defer src="wonk/wonk-motion.js"></script>
+<script defer src="wonk/wonk-charts.js"></script>
+</head>
+<body>
+<div id="fadeOverlay" class="fz-fade" aria-hidden="true"></div>
+
+<div class="wonk-shell">
+  <nav class="wonk-side" id="app-nav" aria-label="Main">
+    <div class="brand" data-wonk-secret="2,000 flags walk into a bar. 1,451 get served."><button type="button" class="wonk-glyph" aria-label="Cycle symbols"><span data-wonk-glyph data-glyph-idle="0" aria-hidden="true">&#9873;</span></button> Flagzilla</div>
+    <a class="wonk-navlink active" href="#verdict" aria-current="page">Verdict</a>
+    <a class="wonk-navlink" href="#lifecycle">Lifecycle</a>
+    <a class="wonk-navlink" href="#inventory">Served inventory</a>
+    <a class="wonk-navlink" href="#persona">Persona</a>
+    <a class="wonk-navlink" href="#verifier">Verifier</a>
+    <a class="wonk-navlink" href="#sweep">Sweep</a>
+    <a class="wonk-navlink" href="#first-event">First event</a>
+    <a class="wonk-navlink" href="#definitions">Definitions</a>
+    <a class="wonk-navlink" href="#exposure">Exposure load</a>
+  </nav>
+
+  <div>
+    <header class="wonk-topbar">
+      <div class="wonk-row">
+        <button type="button" class="wonk-btn wonk-drawer-btn" data-wonk-drawer aria-controls="app-nav" aria-expanded="false">Menu</button>
+        <div class="wonk-title" role="heading" aria-level="1">Flag diagnostics</div>
+      </div>
+      <div class="wonk-row fz-utility" role="group" aria-label="Utilities">
+        <span class="wonk-label" id="persona-label">persona: loading</span>
+        <a class="wonk-btn wonk-btn--quiet" id="open-source" href="https://github.com/mixpanel/fixpanel/tree/main/oneoffs/flagzilla" target="_blank" rel="noopener" data-tip="Source code for this page on GitHub">Source</a>
+        <a class="wonk-btn wonk-btn--quiet" id="open-project" href="https://mixpanel.com/project/4081152" target="_blank" rel="noopener">Open Mixpanel Project</a>
+        <a class="wonk-btn wonk-btn--quiet" id="open-flags" href="https://mixpanel.com/project/4081152/feature-flags" target="_blank" rel="noopener">Open Flags page</a>
+        <button type="button" class="wonk-btn wonk-btn--danger" id="reset-btn" data-tip="Clear Mixpanel identity and storage, then reload">Reset</button>
+        <button type="button" class="wonk-btn" data-wonk-theme-toggle>Paper</button>
+      </div>
+    </header>
+
+    <main class="wonk-main">
+
+      <!-- 1. Verdict strip -->
+      <section class="wonk-section" id="verdict" aria-labelledby="verdict-title">
+        <h2 id="verdict-title">Does flagging work at 2,000 flags?</h2>
+        <ul class="fz-verdicts" id="verdict-list" aria-live="polite"></ul>
+        <div id="verdict-drill"></div>
+        <p class="wonk-freshness" id="verdict-fresh"><span class="wonk-badge">live</span><span>Project 4081152. Every value on this page comes from requests this page made.</span></p>
+      </section>
+
+      <!-- 2. Lifecycle timeline -->
+      <section class="wonk-section" id="lifecycle" aria-labelledby="lifecycle-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="lifecycle-title">Lifecycle of this page load</h2>
+            <span class="wonk-label" id="lifecycle-status">waiting for the SDK</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p>Milliseconds since navigation start. Each SDK <code>/flags/</code> request shows start, first byte and end. The resource-timing bar comes from the browser.</p>
+            <div id="lifecycle-chart"></div>
+            <div class="fz-two">
+              <dl class="wonk-kv" id="lifecycle-kv"></dl>
+              <div>
+                <h3 class="fz-h3">Latency, three ways</h3>
+                <dl class="wonk-kv" id="latency-kv"></dl>
+                <p class="wonk-help" id="latency-note"></p>
+              </div>
+            </div>
+            <details class="wonk-fold">
+              <summary>Every SDK flags request on this page</summary>
+              <div class="body"><div id="sdk-fetch-table"></div></div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Served inventory -->
+      <section class="wonk-section" id="inventory" aria-labelledby="inventory-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="inventory-title">Served inventory</h2>
+            <output class="wonk-num" id="inventory-count" aria-live="polite">&mdash;</output>
+          </header>
+          <div class="wonk-rack-body">
+            <div class="wonk-toolbar fz-filters" role="group" aria-label="Inventory filters">
+              <div class="wonk-field"><label class="wonk-label" for="f-status">status</label><select class="wonk-select" id="f-status"><option value="served">served</option><option value="absent">not served</option><option value="all">all manifest flags</option></select></div>
+              <div class="wonk-field"><label class="wonk-label" for="f-shape">shape</label><select class="wonk-select" id="f-shape"><option value="">all</option></select></div>
+              <div class="wonk-field"><label class="wonk-label" for="f-team">team</label><select class="wonk-select" id="f-team"><option value="">all</option></select></div>
+              <div class="wonk-field"><label class="wonk-label" for="f-method">serving method</label><select class="wonk-select" id="f-method"><option value="">all</option></select></div>
+              <div class="wonk-field"><label class="wonk-label" for="f-verdict">verdict</label><select class="wonk-select" id="f-verdict"><option value="">all</option></select></div>
+              <div class="wonk-field"><label class="wonk-label" for="f-search">key contains</label><input class="wonk-input" id="f-search" type="search" placeholder="fz-0042"></div>
+            </div>
+            <div id="inventory-table"></div>
+            <div class="fz-pager">
+              <nav class="wonk-pages" id="inventory-pages" aria-label="Inventory pages"></nav>
+              <span class="wonk-help" id="inventory-range"></span>
+            </div>
+            <h3 class="fz-h3">Expected but not served</h3>
+            <p class="wonk-help">Flags the manifest expects for this persona (deterministic, rule match, test user, cohort, 100% rollout) that the response left out.</p>
+            <div class="fz-two">
+              <div id="missing-by-shape"></div>
+              <div id="missing-by-method"></div>
+            </div>
+            <h3 class="fz-h3">Served by serving method</h3>
+            <p class="wonk-help">How each <code>serving_method</code> behaves for a web client using remote evaluation.</p>
+            <div id="by-method"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Persona switcher -->
+      <section class="wonk-section" id="persona" aria-labelledby="persona-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="persona-title">Persona</h2>
+            <span class="wonk-label" id="persona-status">&mdash;</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p>Apply a persona with <code>identify</code> and <code>flags.update_context</code>. The timer runs from the click to the last flags response for that persona.</p>
+            <div class="wonk-toolbar">
+              <div class="wonk-field"><label class="wonk-label" for="persona-select">persona</label><select class="wonk-select" id="persona-select"></select></div>
+              <div class="wonk-field"><label class="wonk-label" for="date-mode" data-tip="A flag Date condition matches only an RFC3339 value. The manifest stores signup_ts as epoch ms. RFC3339 converts it before sending; Mixpanel profiles are not changed.">date properties sent as</label><select class="wonk-select" id="date-mode"><option value="rfc3339">RFC3339 (matches Date rules)</option><option value="epoch">epoch ms (manifest as-is)</option></select></div>
+              <button type="button" class="wonk-btn wonk-btn--primary" id="persona-apply">Apply persona</button>
+            </div>
+            <div class="fz-two">
+              <dl class="wonk-kv" id="persona-props"></dl>
+              <dl class="wonk-kv" id="persona-result"></dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Verifier -->
+      <section class="wonk-section" id="verifier" aria-labelledby="verifier-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="verifier-title">Verifier</h2>
+            <span class="wonk-label" id="verifier-status">&mdash;</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p>Checks every flag served to the active persona against the manifest's <code>expect</code>. Percent rollouts get no per-user verdict; the sweep checks them in aggregate.</p>
+            <div id="verifier-summary"></div>
+            <h3 class="fz-h3">Mismatches</h3>
+            <div id="verifier-mismatches"></div>
+            <details class="wonk-fold">
+              <summary>How each kind is checked</summary>
+              <div class="body">
+                <ul class="fz-rules">
+                  <li><strong>deterministic</strong>: served, with the expected variant. Configs also need <code>variant_value._fz</code> to equal the flag key.</li>
+                  <li><strong>test-users</strong>: a listed QA user gets the pinned variant. Everyone else gets nothing.</li>
+                  <li><strong>rule</strong>: the first group whose rule matches the persona gives the variant. No match means absent. A Date condition matches only an RFC3339 runtime value, as the flags docs state. The app sends <code>signup_ts</code> as RFC3339 unless the persona panel says epoch ms; then those conditions never match.</li>
+                  <li><strong>rule-percent</strong>: no rule match means absent. A match is checked in aggregate by the sweep.</li>
+                  <li><strong>percent</strong>: 0% means absent, 100% means served. Other levels are checked in aggregate.</li>
+                  <li><strong>cohort</strong>: the profile property decides. A mismatch on a project under a day old reads "possible sync lag".</li>
+                  <li><strong>first-event</strong>: absent before the trigger event, <code>On</code> after it. The first-event panel tests the flip.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Sweep -->
+      <section class="wonk-section" id="sweep" aria-labelledby="sweep-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="sweep-title">Sweep</h2>
+            <span class="wonk-label" id="sweep-status">not run</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p>Direct <code>fetch</code> of <code>/flags/</code> for many personas. No SDK, no exposure events.</p>
+            <div class="wonk-toolbar">
+              <div class="wonk-field"><label class="wonk-label" for="sweep-n">personas</label><input class="wonk-input fz-narrow" id="sweep-n" type="number" min="1" max="505" value="100"></div>
+              <div class="wonk-field"><label class="wonk-label" for="sweep-c">concurrency</label><input class="wonk-input fz-narrow" id="sweep-c" type="number" min="1" max="16" value="4"></div>
+              <div class="wonk-field"><label class="wonk-label" for="sweep-host">host</label><select class="wonk-select" id="sweep-host"><option value="proxy">proxy</option><option value="direct">api.mixpanel.com</option></select></div>
+              <button type="button" class="wonk-btn wonk-btn--primary" id="sweep-run">Run sweep</button>
+              <button type="button" class="wonk-btn" id="sweep-stop" disabled>Stop</button>
+            </div>
+            <label class="fz-progress-label" for="sweep-progress" id="sweep-progress-label">Idle.</label>
+            <progress id="sweep-progress" max="100" value="0"></progress>
+            <dl class="wonk-kv" id="sweep-kv"></dl>
+            <div id="sweep-drill"></div>
+            <div class="fz-charts">
+              <div><h3 class="fz-h3">Latency distribution</h3><div id="chart-latency"></div></div>
+              <div><h3 class="fz-h3">Bytes vs served count</h3><div id="chart-bytes"></div></div>
+              <div><h3 class="fz-h3">Rollout: observed vs expected</h3><p class="wonk-help">Each dot is one rollout level. The line is perfect calibration. Bars are 95% Wilson intervals.</p><div id="chart-rollout"></div></div>
+              <div><h3 class="fz-h3">Multivariate arms: observed vs expected</h3><p class="wonk-help">Each dot is one arm of one flag, among personas that got the flag.</p><div id="chart-arms"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. First-event test -->
+      <section class="wonk-section" id="first-event" aria-labelledby="fe-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="fe-title">First-event test</h2>
+            <span class="wonk-label" id="fe-status">not run</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p>Track a trigger event for the active persona, then poll <code>/flags/</code> every 2 s until the dependent flags turn <code>On</code>. Gives up after 5 minutes.</p>
+            <div class="wonk-toolbar">
+              <div class="wonk-field"><label class="wonk-label" for="fe-trigger">trigger event</label><select class="wonk-select" id="fe-trigger"></select></div>
+              <label class="wonk-check"><input type="checkbox" id="fe-source" checked> add <code>source: 'diagnostics'</code></label>
+              <button type="button" class="wonk-btn wonk-btn--primary" id="fe-run">Track and watch</button>
+              <button type="button" class="wonk-btn" id="fe-stop" disabled>Stop</button>
+            </div>
+            <div id="fe-table"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Definitions and propagation -->
+      <section class="wonk-section" id="definitions" aria-labelledby="defs-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="defs-title">Definitions and propagation</h2>
+            <span class="wonk-label" id="defs-status">not fetched</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p><code>/flags/definitions</code> is what local-evaluation SDKs poll. A CDN caches it for up to an hour, and the browser cannot read the <code>age</code> header, so this panel measures staleness by count.</p>
+            <div class="wonk-toolbar">
+              <div class="wonk-field"><label class="wonk-label" for="defs-host">host</label><select class="wonk-select" id="defs-host"><option value="proxy">proxy</option><option value="direct">api.mixpanel.com</option><option value="both">both</option></select></div>
+              <button type="button" class="wonk-btn wonk-btn--primary" id="defs-run">Fetch definitions</button>
+              <label class="wonk-check"><input type="checkbox" id="defs-watch"> watch every 10 s</label>
+            </div>
+            <div id="defs-table"></div>
+            <div id="chart-defs"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Exposure load -->
+      <section class="wonk-section" id="exposure" aria-labelledby="exp-title">
+        <div class="wonk-rack">
+          <header class="wonk-rack-head">
+            <h2 id="exp-title">Exposure load</h2>
+            <span class="wonk-label" id="exp-status">not run</span>
+          </header>
+          <div class="wonk-rack-body">
+            <p>Reads every served flag through <code>get_variant_sync</code>. Each first read of a key on this page tracks one <code>$experiment_started</code> event.</p>
+            <div class="wonk-toolbar" id="exp-controls">
+              <button type="button" class="wonk-btn wonk-btn--danger" id="exp-arm">Read every served flag</button>
+            </div>
+            <div class="wonk-alert wonk-alert--warn" id="exp-confirm" hidden>
+              <span class="ico" aria-hidden="true">&#9651;</span>
+              <span><strong>This sends up to <span id="exp-n">0</span> events</strong> to project 4081152. <button type="button" class="wonk-btn wonk-btn--danger" id="exp-go">Confirm and run</button> <button type="button" class="wonk-btn wonk-btn--quiet" id="exp-cancel">Cancel</button></span>
+            </div>
+            <dl class="wonk-kv" id="exp-kv"></dl>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Mixpanel Stub Loader -->
+<script>
+    const MIXPANEL_TOKEN = "38f00db34b0c014f9b835fc0d87a37ab";
+    const MIXPANEL_PROXY = "https://express-proxy-lmozz6xkha-uc.a.run.app";
+    const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/lib.min.js`;
+
+    (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset init opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove start_session_recording stop_session_recording".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+</script>
+<script src="mixpanel.js"></script>
+<script src="jsonlogic.js"></script>
+<script src="script.js" defer></script>
+</body>
+</html>
