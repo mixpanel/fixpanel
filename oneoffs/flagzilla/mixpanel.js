@@ -102,10 +102,26 @@
 		po.observe({ type: "resource", buffered: true });
 	}
 
-	// ---------- persona: ?persona= → localStorage → fz-qa-01 ----------
-	function pickPersonaId() {
+	// ---------- persona: ?persona= → meeple hash → localStorage → fz-qa-01 ----------
+	// FNV-1a 32-bit: the same MEEPLE_ID always maps to the same persona.
+	function hashIndex(str, n) {
+		let h = 0x811c9dc5;
+		for (let i = 0; i < str.length; i++) {
+			h ^= str.charCodeAt(i);
+			h = Math.imul(h, 0x01000193);
+		}
+		return (h >>> 0) % n;
+	}
+
+	function pickPersonaId(m) {
 		const fromUrl = params.get("persona");
 		if (fromUrl) return fromUrl;
+		// npc-mixpanel meeples start with empty storage; spread them over the fz-user-* personas.
+		const meepleId = params.get("MEEPLE_ID");
+		if (params.get("IS_MEEPLE") === "true" && meepleId) {
+			const users = m.personas.filter((p) => !m.qaUsers.includes(p.distinct_id));
+			if (users.length) return users[hashIndex(meepleId, users.length)].distinct_id;
+		}
 		try { const saved = localStorage.getItem("fz-persona"); if (saved) return saved; } catch (e) { /* storage blocked: use the default */ }
 		return "fz-qa-01";
 	}
@@ -143,7 +159,7 @@
 			FZ.marks.manifestEnd = performance.now();
 			FZ.manifest = m;
 			FZ.dateKeys = Object.entries(m.vocabulary || {}).filter(([, v]) => typeof v === "string" && /epoch ms/.test(v)).map(([k]) => k);
-			const wanted = pickPersonaId();
+			const wanted = pickPersonaId(m);
 			FZ.persona = m.personas.find((p) => p.distinct_id === wanted) || m.personas[0];
 			try { localStorage.setItem("fz-persona", FZ.persona.distinct_id); } catch (e) { /* storage blocked: the choice lasts for this page only */ }
 			initMixpanel();
