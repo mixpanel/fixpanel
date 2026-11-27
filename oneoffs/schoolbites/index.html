@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+	<meta name="theme-color" content="#14866D">
+	<title>SchoolBites</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+	<script>
+		if (!window.location.pathname.endsWith('/') && !window.location.pathname.endsWith('.html')) {
+			window.location.replace(window.location.pathname + '/' + window.location.search);
+		}
+	</script>
+</head>
+
+<body>
+	<div class="desktop-wrapper">
+		<div class="phone-frame" id="phone">
+			<!-- Status bar -->
+			<div class="status-bar">
+				<span class="status-time">8:12</span>
+				<div class="status-notch"></div>
+				<div class="status-icons" aria-hidden="true">
+					<svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="4" width="3" height="8" rx="0.5"/><rect x="9" y="1" width="3" height="11" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="12" rx="0.5" opacity="0.3"/></svg>
+					<svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c1.8 0 3.4.7 4.6 1.9l1.4-1.4C12.4 2.5 10.3 1.6 8 1.6S3.6 2.5 2 4.1l1.4 1.4C4.6 4.3 6.2 3.6 8 3.6zm0 4c.8 0 1.6.3 2.1.9L8 10.6l-2.1-2.1c.5-.6 1.3-.9 2.1-.9z"/></svg>
+					<svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.5" y="1" width="21" height="10" rx="2" stroke="currentColor" stroke-width="1" fill="none"/><rect x="2" y="2.5" width="15" height="7" rx="1" fill="currentColor"/><rect x="22" y="4" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.4"/></svg>
+				</div>
+			</div>
+
+			<div class="screen-container">
+
+				<!-- ============ LANDING ============ -->
+				<section class="screen active" id="screen-landing" data-hero="Control">
+					<div class="screen-scroll">
+						<div class="landing-top">
+							<div class="brand">
+								<span class="brand-mark" aria-hidden="true">&#127822;</span>
+								<span class="brand-name">School<b>Bites</b></span>
+							</div>
+							<button class="link-btn" id="landingLogin">Log in</button>
+						</div>
+
+						<!-- Hero: Control -->
+						<div class="hero hero-control" data-variant="Control">
+							<div class="hero-art" aria-hidden="true">
+								<span class="food-bubble fb1">&#129386;</span>
+								<span class="food-bubble fb2">&#127822;</span>
+								<span class="food-bubble fb3">&#129371;</span>
+								<span class="food-bubble fb4">&#127837;</span>
+								<div class="lunchbox">&#127857;</div>
+							</div>
+							<h1>School lunches,<br>sorted.</h1>
+							<p class="hero-sub">Order canteen meals, snacks and after-school treats for your kids in a few taps.</p>
+							<ul class="hero-points">
+								<li><span>&#9989;</span> Order up to a week ahead</li>
+								<li><span>&#9989;</span> Allergy &amp; dietary flags on every order</li>
+								<li><span>&#9989;</span> Pay from your SchoolBites Wallet</li>
+							</ul>
+							<button class="btn btn-primary btn-block js-get-started">Create a free account</button>
+						</div>
+
+						<!-- Hero: Streamlined Hero A -->
+						<div class="hero hero-streamlined" data-variant="Streamlined Hero A">
+							<h1 class="mega">Lunch ordered<br>in <span class="hl">30 seconds.</span></h1>
+							<p class="hero-sub">Before the school bell. From your phone.</p>
+							<button class="btn btn-primary btn-xl btn-block js-get-started">Get started &rarr;</button>
+							<p class="hero-fine">Free for parents &middot; No card needed</p>
+						</div>
+
+						<!-- Hero: Video Demo Hero B -->
+						<div class="hero hero-video" data-variant="Video Demo Hero B">
+							<h1>See how SchoolBites works</h1>
+							<button class="video-thumb" id="videoThumb" aria-label="Play demo video">
+								<span class="video-food" aria-hidden="true">&#129386; &#127822; &#129475;</span>
+								<span class="play-btn" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+								<span class="video-meta">&#9654; 1:12 &middot; A morning with SchoolBites</span>
+							</button>
+							<p class="hero-sub">Watch a parent order recess and lunch for two kids before school drop-off.</p>
+							<button class="btn btn-primary btn-block js-get-started">Get started</button>
+						</div>
+
+						<div class="school-picker">
+							<p class="picker-label">My child goes to a&hellip;</p>
+							<div class="chip-row" id="schoolTypeChips">
+								<button class="chip active" data-value="primary_school">Primary school</button>
+								<button class="chip" data-value="secondary_college">Secondary college</button>
+								<button class="chip" data-value="k12_grammar">K&ndash;12 school</button>
+							</div>
+						</div>
+
+						<p class="landing-foot">Used by families at hundreds of Aussie schools.</p>
+					</div>
+				</section>
+
+				<!-- ============ SIGN UP ============ -->
+				<section class="screen" id="screen-signup">
+					<div class="nav-bar">
+						<button class="back-btn js-back" aria-label="Back">&#8249;</button>
+						<span class="nav-title">Create account</span>
+						<span class="nav-spacer"></span>
+					</div>
+					<div class="screen-scroll pad">
+						<h2 class="screen-h">Join SchoolBites</h2>
+						<p class="muted">Set up your parent account, then add your kids.</p>
+
+						<button class="btn btn-social btn-apple js-social" data-method="apple_id">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.1zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>
+							Sign in with Apple
+						</button>
+						<button class="btn btn-social btn-google js-social" data-method="google_auth">
+							<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h5.9c-.3 1.4-1 2.5-2.2 3.3v2.7h3.6c2.1-1.9 3.2-4.7 3.2-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.8C3.9 20.6 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.8 14.2c-.2-.7-.4-1.4-.4-2.2s.1-1.5.4-2.2V7H2.1C1.4 8.5 1 10.2 1 12s.4 3.5 1.1 5l3.7-2.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.6l3.2-3.2C17.5 2 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.8c.9-2.6 3.3-4.4 6.2-4.4z"/></svg>
+							Continue with Google
+						</button>
+
+						<div class="divider"><span>or sign up with email</span></div>
+
+						<form id="signupForm" novalidate>
+							<label class="field">
+								<span>Your first name</span>
+								<input type="text" id="parentName" placeholder="e.g. Alex" autocomplete="given-name">
+							</label>
+							<label class="field">
+								<span>Email</span>
+								<input type="email" id="parentEmail" placeholder="alex@example.com" autocomplete="email">
+							</label>
+							<label class="field">
+								<span>Password</span>
+								<input type="password" id="parentPassword" placeholder="At least 8 characters" autocomplete="new-password">
+							</label>
+							<label class="field">
+								<span>Where is your school?</span>
+								<select id="schoolCluster">
+									<option value="sydney_metro">Sydney metro</option>
+									<option value="melbourne_metro">Melbourne metro</option>
+									<option value="brisbane_metro">Brisbane metro</option>
+									<option value="regional_nsw_vic">Regional NSW / VIC</option>
+								</select>
+							</label>
+							<div class="field">
+								<span>How would you like to pay?</span>
+								<div class="seg" id="payPref">
+									<button type="button" class="seg-btn active" data-value="flexi_wallet">&#128091; Wallet</button>
+									<button type="button" class="seg-btn" data-value="apple_pay">&#128241; Apple Pay</button>
+									<button type="button" class="seg-btn" data-value="direct_debit">&#127974; Debit</button>
+								</div>
+							</div>
+							<p class="form-error" id="signupError"></p>
+							<button type="submit" class="btn btn-primary btn-block">Create account</button>
+						</form>
+						<p class="fine-print">By continuing you agree to the SchoolBites terms. This is a demo &mdash; nothing is really sent.</p>
+					</div>
+				</section>
+
+				<!-- ============ ADD CHILD ============ -->
+				<section class="screen" id="screen-child">
+					<div class="nav-bar">
+						<span class="nav-spacer"></span>
+						<span class="nav-title">Your kids</span>
+						<span class="nav-spacer"></span>
+					</div>
+					<div class="screen-scroll pad">
+						<div class="steps"><span class="step done"></span><span class="step active"></span><span class="step"></span></div>
+						<h2 class="screen-h" id="childHeading">Add your child</h2>
+						<p class="muted">We use this to show the right menu and flag dietary needs to the canteen.</p>
+
+						<div class="kid-list" id="kidList"></div>
+
+						<form id="childForm" novalidate>
+							<label class="field">
+								<span>Child's first name</span>
+								<input type="text" id="childName" placeholder="e.g. Sam" autocomplete="off">
+							</label>
+							<div class="field">
+								<span>Year level</span>
+								<div class="chip-grid" id="yearChips">
+									<button type="button" class="chip" data-value="prep_kindy">Prep / Kindy</button>
+									<button type="button" class="chip active" data-value="years_1_to_3">Years 1&ndash;3</button>
+									<button type="button" class="chip" data-value="years_4_to_6">Years 4&ndash;6</button>
+									<button type="button" class="chip" data-value="years_7_to_12">Years 7&ndash;12</button>
+								</div>
+							</div>
+							<div class="toggle-row">
+								<div>
+									<strong>Allergies or dietary needs</strong>
+									<small>e.g. nut-free, gluten-free, halal</small>
+								</div>
+								<label class="switch">
+									<input type="checkbox" id="childDietary">
+									<span class="slider"></span>
+								</label>
+							</div>
+							<p class="form-error" id="childError"></p>
+							<button type="submit" class="btn btn-primary btn-block">Save child</button>
+						</form>
+
+						<div class="kid-actions" id="kidActions">
+							<button class="btn btn-ghost btn-block" id="addAnotherKid">+ Add another child</button>
+							<button class="btn btn-primary btn-block" id="kidsContinue">Continue</button>
+						</div>
+					</div>
+				</section>
+
+				<!-- ============ SUCCESS ============ -->
+				<section class="screen" id="screen-success">
+					<div class="screen-scroll pad center">
+						<div class="steps"><span class="step done"></span><span class="step done"></span><span class="step active"></span></div>
+						<div class="success-burst" aria-hidden="true">&#127881;</div>
+						<h2 class="screen-h">You're all set<span id="successName"></span>!</h2>
+						<p class="muted" id="successKids">Your account is ready.</p>
+						<div class="store-card">
+							<p><strong>Get the SchoolBites app</strong><br><span class="muted">Order in seconds, get cut-off reminders and see what's on the menu.</span></p>
+							<button class="store-badge js-store" data-store="apple_app_store">
+								<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.1zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>
+								<span><small>Download on the</small>App Store</span>
+							</button>
+							<button class="store-badge js-store" data-store="google_play_store">
+								<svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true"><path fill="#34A853" d="M1 1l10 10L1 21c-.4-.2-.6-.6-.6-1.1V2.1C.4 1.6.6 1.2 1 1z"/><path fill="#FBBC05" d="M14.4 7.6L11 11l3.4 3.4 3.9-2.2c1-.6 1-1.8 0-2.4l-3.9-2.2z"/><path fill="#EA4335" d="M1 21l10-10 3.4 3.4L2.6 21.1c-.6.3-1.2.3-1.6-.1z"/><path fill="#4285F4" d="M1 1c.4-.4 1-.4 1.6-.1l11.8 6.7L11 11 1 1z"/></svg>
+								<span><small>GET IT ON</small>Google Play</span>
+							</button>
+						</div>
+						<button class="btn btn-primary btn-block" id="successContinue">Continue to the app</button>
+					</div>
+				</section>
+
+				<!-- ============ LOGIN ============ -->
+				<section class="screen" id="screen-login">
+					<div class="screen-scroll pad login-pad">
+						<div class="login-logo" aria-hidden="true">&#127822;</div>
+						<h2 class="screen-h center-text">Welcome back</h2>
+						<p class="muted center-text" id="loginGreeting">Log in to order for your kids.</p>
+
+						<button class="faceid-btn" id="loginFaceId">
+							<svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 13V8a4 4 0 0 1 4-4h5M31 4h5a4 4 0 0 1 4 4v5M40 31v5a4 4 0 0 1-4 4h-5M13 40H8a4 4 0 0 1-4-4v-5"/><path d="M15 16v3M29 16v3M22 16v8h-2M16 29c3.5 3 8.5 3 12 0"/></svg>
+							<span>Log in with Face ID</span>
+						</button>
+
+						<div class="divider"><span>or</span></div>
+
+						<form id="loginForm" novalidate>
+							<label class="field">
+								<span>Email</span>
+								<input type="email" id="loginEmail" placeholder="alex@example.com" autocomplete="username">
+							</label>
+							<label class="field">
+								<span>Password</span>
+								<input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+							</label>
+							<button type="submit" class="btn btn-primary btn-block">Log in</button>
+						</form>
+						<button class="link-btn center-block" id="loginMagic">&#10024; Email me a magic link instead</button>
+					</div>
+				</section>
+
+				<!-- ============ MENU ============ -->
+				<section class="screen" id="screen-menu">
+					<div class="menu-header">
+						<div class="menu-greet">
+							<div>
+								<small>Ordering for</small>
+								<div class="kid-switch" id="kidSwitch"></div>
+							</div>
+							<div class="wallet-pill" title="Wallet balance">&#128091; $42.50</div>
+						</div>
+						<div class="tabs date-tabs" id="dateTabs" role="tablist">
+							<button class="tab active" data-value="today_same_day">Today</button>
+							<button class="tab" data-value="tomorrow_next_day">Tomorrow</button>
+							<button class="tab" data-value="advance_weekly">This week</button>
+						</div>
+					</div>
+					<div class="screen-scroll menu-scroll">
+						<div class="session-tabs" id="sessionTabs" role="tablist">
+							<button class="pill" data-value="recess_snack">&#127822; Recess</button>
+							<button class="pill active" data-value="lunch_main">&#127837; Lunch</button>
+							<button class="pill" data-value="after_school_care">&#127979; After school</button>
+						</div>
+						<div class="supplier-banner" id="supplierBanner"></div>
+						<div class="menu-list" id="menuList"></div>
+					</div>
+					<button class="cart-fab" id="cartFab" hidden>
+						<span class="cart-count" id="cartCount">0</span>
+						<span>View order</span>
+						<span id="cartFabTotal">$0.00</span>
+					</button>
+					<nav class="tab-bar">
+						<button class="tab-item active" data-tab="menu"><span>&#127869;</span>Menu</button>
+						<button class="tab-item" data-tab="orders"><span>&#129534;</span>Orders</button>
+						<button class="tab-item" data-tab="wallet"><span>&#128091;</span>Wallet</button>
+						<button class="tab-item" data-tab="account"><span>&#128106;</span>Family</button>
+					</nav>
+				</section>
+
+				<!-- ============ CART ============ -->
+				<section class="screen" id="screen-cart">
+					<div class="nav-bar">
+						<button class="back-btn js-back" aria-label="Back">&#8249;</button>
+						<span class="nav-title">Your order</span>
+						<span class="nav-spacer"></span>
+					</div>
+					<div class="screen-scroll pad cart-scroll">
+						<p class="cart-meta" id="cartMeta"></p>
+						<div class="cart-lines" id="cartLines"></div>
+
+						<div class="addons" id="addonSection">
+							<h3 class="addons-h">Add something extra? <span class="muted" id="addonCountLabel"></span></h3>
+							<div id="addonList"></div>
+						</div>
+
+						<div class="pay-box">
+							<h3>Pay with</h3>
+							<label class="pay-opt">
+								<input type="radio" name="payWith" value="cleared_wallet" checked>
+								<span class="pay-ico">&#128091;</span>
+								<span><strong>SchoolBites Wallet</strong><small>Balance $42.50</small></span>
+							</label>
+							<label class="pay-opt">
+								<input type="radio" name="payWith" value="cleared_card">
+								<span class="pay-ico">&#128179;</span>
+								<span><strong>Card</strong><small>Visa ending 4242</small></span>
+							</label>
+						</div>
+
+						<div class="totals">
+							<div><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+							<div><span>Service fee</span><span>$0.00</span></div>
+							<div class="grand"><span>Total</span><span id="cartTotal">$0.00</span></div>
+						</div>
+					</div>
+					<div class="checkout-bar">
+						<button class="btn btn-primary btn-block" id="placeOrder">Place order</button>
+					</div>
+				</section>
+
+				<!-- ============ CONFIRMED ============ -->
+				<section class="screen" id="screen-confirmed">
+					<div class="screen-scroll pad center">
+						<div class="tick" aria-hidden="true"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+						<h2 class="screen-h">Order confirmed</h2>
+						<p class="muted" id="confirmSub"></p>
+						<div class="receipt" id="receipt"></div>
+						<button class="btn btn-primary btn-block" id="orderAgain">Order something else</button>
+					</div>
+				</section>
+
+			</div>
+
+			<!-- Item bottom sheet -->
+			<div class="sheet-backdrop" id="sheetBackdrop"></div>
+			<div class="sheet" id="itemSheet" role="dialog" aria-modal="true" aria-labelledby="sheetName">
+				<div class="sheet-grip"></div>
+				<div class="sheet-hero" id="sheetHero"></div>
+				<div class="sheet-body">
+					<h3 id="sheetName"></h3>
+					<p class="muted" id="sheetDesc"></p>
+					<div class="sheet-tags" id="sheetTags"></div>
+					<h4>Make it your way <span class="muted">(optional)</span></h4>
+					<div id="sheetOptions"></div>
+					<div class="qty-row">
+						<span>Quantity</span>
+						<div class="stepper">
+							<button id="qtyMinus" aria-label="Fewer">&minus;</button>
+							<span id="qtyVal">1</span>
+							<button id="qtyPlus" aria-label="More">+</button>
+						</div>
+					</div>
+					<button class="btn btn-primary btn-block" id="sheetAdd">Add to order</button>
+				</div>
+			</div>
+
+			<!-- Processing overlay -->
+			<div class="processing" id="processing"><div class="spinner"></div><p>Placing your order&hellip;</p></div>
+
+			<!-- Toast -->
+			<div class="toast" id="toast"></div>
+		</div>
+	</div>
+
+	<!-- Utility bar (outside the phone) -->
+	<div class="utility-bar">
+		<button class="util-btn util-reset" id="btnReset">Reset Demo</button>
+		<a href="https://mixpanel.com/project/3858723" target="_blank" class="util-btn util-project">Open Mixpanel Project &rarr;</a>
+	</div>
+
+	<!-- Mixpanel Stub Loader -->
+	<script>
+		const MIXPANEL_TOKEN = "0396150a05057aa65368e567dd551030";
+		const MIXPANEL_PROXY = "https://express-proxy-lmozz6xkha-uc.a.run.app";
+		const MIXPANEL_CUSTOM_LIB_URL = `${MIXPANEL_PROXY}/lib.min.js`;
+
+		(function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset init opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove start_session_recording stop_session_recording".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+	</script>
+	<script src="mixpanel.js"></script>
+	<script src="script.js"></script>
+</body>
+
+</html>
